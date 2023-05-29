@@ -1,0 +1,32 @@
+---
+listing:
+  contents: [posts]
+  sort: "date desc"
+  categories: true
+  fields: [date, title, image, description, categories]
+  feed: true
+  filter-ui: false
+  sort-ui: false
+  date-format: MM-DD-YYYY
+comments: false
+description: Recent posts
+pagetitle: Nerdy Momo Cat
+---
+
+<h1 style="margin-bottom: 2rem !important">
+
+Hi, I'm Nerdy Momo Cat
+
+</h1>
+
+::: me
+![](images/me.png)
+:::
+
+Personal Knowledge Management | Notion, Coding & Automations, Note Taking and Sketchnoting.
+
+## Get in touch
+
+Email me at [nerdymomocat\@gmail.com](mailto:nerdymomocat@gmail.com) or DM me on [Twitter](https://twitter.com/nerdymomocat) if you'd like to chat!
+
+## Posts

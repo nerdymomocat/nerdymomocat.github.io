@@ -1,0 +1,341 @@
+/*-- scss:defaults --*/
+
+$theme: "quarto_mod" !default;
+
+// Colors
+
+$white:    #fff !default;
+$gray-100: #f8f9fa !default;
+$gray-200: #eee !default;
+$gray-300: #dee2e6 !default;
+$gray-400: #ced4da !default;
+$gray-500: #aaa !default;
+$gray-600: #777 !default;
+$gray-700: #495057 !default;
+$gray-800: #333 !default;
+$gray-900: #222 !default;
+$black:    #000 !default;
+
+$coral:    #eb6864 !default;
+$indigo:  #6610f2 !default;
+$purple:  #6f42c1 !default;
+$pink:    #e83e8c !default;
+$red:     #f57a00 !default;
+$orange:  #fd7e14 !default;
+$yellow:  #f5e625 !default;
+$green:   #22b24c !default;
+$teal:    #20c997 !default;
+$cyan:    #d1eef8 !default;
+
+$primary:       $coral !default;
+$secondary:     $gray-500 !default;
+$success:       $green !default;
+$info:          $cyan !default;
+$warning:       $yellow !default;
+$danger:        $red !default;
+$light:         $gray-100 !default;
+$dark:          $gray-900 !default;
+
+$min-contrast-ratio:   1.28 !default;
+
+// Fonts
+
+$font-family-sans-serif: -apple-system,BlinkMacSystemFont,segoe ui,Roboto,Oxygen,Ubuntu,Cantarell,open sans,helvetica neue,sans-serif !default;
+$font-size-root: 16px !default;
+$headings-font-weight: 500 !default;
+$headings-line-height: 1.1 !default;
+
+// Buttons
+
+$input-btn-padding-x: 1rem !default;
+
+// Navbar
+
+$navbar-light-color: rgba($black, .7) !default;
+$navbar-light-hover-color: $black !default;
+$navbar-light-active-color: $black !default;
+
+$navbar-bg: $white !default;
+$navbar-fg: $black !default;
+
+// Pagination
+
+$pagination-hover-color: $white !default;
+$pagination-hover-bg: $primary !default;
+$pagination-hover-border-color: $primary !default;
+
+/*-- scss:rules --*/
+
+// Variables
+
+$web-font-path: "https://fonts.googleapis.com/css2?family=News+Cycle:wght@400;700&display=swap" !default;
+@if $web-font-path {
+  @import url($web-font-path);
+}
+
+// Typography
+
+body {
+  -webkit-font-smoothing: antialiased;
+  color: black;
+}
+
+div.quarto-post a {
+  color: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration-color: $coral;
+  // text-decoration-thickness: 2px;
+  // text-underline-offset: 0.0625em;
+  transition: color .2s;
+  display: inline-block;
+  position: relative;
+}
+a:hover {	
+  color: $coral;	
+}
+
+a sup {
+  color: $coral;
+}
+
+// Navbar
+
+.bg-dark { background-color: $black !important; }
+
+.bg-light {
+  background-color: $white !important;
+  color: $black;
+  border: 1px solid $gray-200;
+  &.navbar-fixed-top { border-width: 0 0 1px; }
+  &.navbar-fixed-bottom { border-width: 1px 0 0; }
+}
+
+.navbar { font-family: $headings-font-family; }
+
+.navbar-brand {
+  padding-top: .5rem;
+  font-size: inherit;
+  font-weight: $headings-font-weight;
+}
+
+// Buttons
+
+.btn {
+  font-family: $headings-font-family;
+  font-weight: $headings-font-weight;
+
+  &-secondary,
+  &-warning { color: $white; }
+}
+
+// Listing
+
+div.quarto-post .thumbnail img { border-radius: .25rem; }
+
+// Navs
+
+.pagination { a:hover { text-decoration: none; } }
+.quarto-figure-center > figure > figcaption { text-align: center; }
+.twitter-tweet { margin: auto; }
+.description { font-size: 18px; }
+.quarto-title-meta { font-size: 14px; }
+.quarto-title .quarto-categories .quarto-category { font-size: 10px; }
+#title-block-header { margin-block-end: 3rem; }
+.quarto-listing-default { margin-top: 2em; }
+
+// Code cells & outputs
+
+.cell {
+  margin-bottom: 1rem;
+}
+.cell > .sourceCode { margin-top: 0; margin-bottom: 0; }
+.cell-output > pre { margin-bottom: 0; }
+
+.cell-output > pre, .cell-output > .sourceCode > pre, .cell-output-stdout > pre {
+  margin-left: 0.8rem;
+  margin-top: 0;
+  background: none;
+  border-left: 2px solid $coral;
+  border-radius: 0;
+}
+
+.cell-output > .sourceCode {
+  border: none;
+}
+
+.cell-output > .sourceCode {
+  background: none;
+  margin-top: 0;
+}
+
+/* show_doc signature */
+blockquote > pre {
+  font-size: 14px;
+}
+
+.table {
+  font-size: 16px;
+  /* disable striped tables */
+  --bs-table-striped-bg: var(--bs-table-bg);
+}
+
+.quarto-figure-center > figure > figcaption {
+  text-align: center;
+}
+
+.figure-caption {
+  font-size: 75%;
+  font-style: italic;
+}
+
+// Text
+
+h1 {
+  margin-bottom: 1rem;
+  font-size: 50px;
+  font-weight: bold;
+}
+
+h1, .h1, h2, .h2 {
+  margin: 0;
+}
+
+#title-block-header.quarto-title-block.default .description, #title-block-header.quarto-title-block.default .abstract {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+h2 {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  border-bottom: none;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+@media (max-width: 991.98px) {
+  #quarto-content section:first-of-type h2:first-of-type, #quarto-content section:first-of-type .h2:first-of-type {
+    margin-top: 2rem;
+  }
+}
+
+h2 img { display: none; }
+
+h3 {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+h4 {
+  font-size: 16px;
+  margin-bottom: 1em;
+}
+
+kbd { padding: 0.1rem; }
+
+nav ul li img, p img { border-radius: 0.25rem; }
+
+// main ol ol, main ul ul, main ol ul, main ul ol { margin-top: 0; margin-bottom: 0; }
+
+$colors: ("coral": $coral,
+          "indigo": $indigo,
+          "purple": $purple,
+          "pink": $pink,
+          "red": $red,
+          "orange": $orange,
+          "yellow": $yellow,
+          "green": $green,
+          "teal": $teal,
+          "cyan": $cyan);
+@each $k, $v in $colors {
+  .hl-#{$k} {
+    background-color: #{$v}7F; // 7F = 50% opacity, via https://stackoverflow.com/a/8254129
+    border-radius: 0.25rem;
+    padding: 2px 0;
+  }
+}
+// Useful to visualise in Quarto:
+// [coral]{.hl-coral}<br>
+// [indigo]{.hl-indigo}<br>
+// [purple]{.hl-purple}<br>
+// [pink]{.hl-pink}<br>
+// [red]{.hl-red}<br>
+// [orange]{.hl-orange}<br>
+// [yellow]{.hl-yellow}<br>
+// [green]{.hl-green}<br>
+// [teal]{.hl-teal}<br>
+// [cyan]{.hl-cyan}<br>
+
+// Other
+
+.me {
+  text-align: center;
+}
+
+.me img {
+  max-width: 200px;
+}
+
+@media(min-width:640px) {
+  .me {
+    float: right;
+    padding-left: 20px;
+  }
+}
+
+.callout.callout-style-default {
+  border-top: none;
+  border-bottom: none;
+  border-right: none;
+}
+
+.callout.callout-style-default:not(.no-icon) div.callout-icon-container {
+  padding-right: 0.5em;
+}
+
+.callout {
+  padding: 0.5em;
+}
+
+.callout.callout-titled>.callout-header {
+  margin-bottom: 1em;
+}
+
+div.callout-note.callout-style-default>.callout-header,
+div.callout-warning.callout-style-default>.callout-header,
+div.callout-important.callout-style-default>.callout-header,
+div.callout-tip.callout-style-default>.callout-header
+{
+  background-color: transparent;
+}
+
+div.callout-note.callout {
+  border-left-color: #{$info}7F; // 7F = 50% opacity, via https://stackoverflow.com/a/8254129
+  background-color: #{$info}19; // 19 = 10% opacity, via https://stackoverflow.com/a/8254129
+}
+
+div.callout-warning.callout {
+  border-left-color: #{$warning}7F; // 7F = 50% opacity, via https://stackoverflow.com/a/8254129
+  background-color: #{$warning}19; // 19 = 10% opacity, via https://stackoverflow.com/a/8254129
+}
+
+div.callout-important.callout {
+  border-left-color: #{$danger}7F; // 7F = 50% opacity, via https://stackoverflow.com/a/8254129
+  background-color: #{$danger}19; // 19 = 10% opacity, via https://stackoverflow.com/a/8254129
+}
+
+div.callout-tip.callout {
+  border-left-color: #{$success}7F; // 7F = 50% opacity, via https://stackoverflow.com/a/8254129
+  background-color: #{$success}19; // 19 = 10% opacity, via https://stackoverflow.com/a/8254129
+}
+
+// Make listings metadata fit content
+div.quarto-post .metadata {
+  flex-basis: auto;
+}
+

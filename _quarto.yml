@@ -1,0 +1,63 @@
+project:
+  type: website
+  preview:
+    port: 4200
+execute:
+  freeze: true
+
+website:
+  open-graph: true
+  twitter-card:
+    creator: "@nerdymomocat"
+    site: "@nerdymomocat"
+  title: "Nerdy Momo Cat"
+  favicon: favicon.ico
+  site-url: https://nerdymomocat.github.io
+  margin-header: '[☕ Please Buy Me A Coffee](https://www.buymeacoffee.com/nerdymomocat)'
+
+  navbar:
+    background: dark
+    pinned: true
+    collapse: true
+    search: true
+    left:
+      - icon: cursor-text
+        href: stream/index.qmd
+    right:
+      - icon: twitter
+        text: Find me on Twitter
+        href: https://twitter.com/nerdymomocat
+      - icon: rss
+        text: Posts
+        href: index.xml
+
+format:
+  html:
+    # theme: sketchy
+    theme: quarto_mod.scss
+    highlight-style: quarto_mod.theme
+    include-in-header: [analytics-head.html, bmc.html]
+    # include-after-body: [analytics-body.html]
+    metadata:
+      pagetitle: "{{< meta title >}}"
+      freeze: true
+      title-block-banner: false
+      author: Nerdy Momo Cat
+      title-block-categories: true
+      toc-depth: 5
+
+comments:
+  giscus: 
+    repo: nerdymomocat/nerdymomocat.github.io
+    repo-id: R_kgDOJoxbeA
+    category: Announcements
+    category-id: DIC_kwDOJoxbeM4CWzrO
+    mapping: pathname
+    loading: lazy
+    input-position: top
+    reactions-enabled: true
+  
+  hypothesis:
+    theme: clean
+    openSidebar: false
+    showHighlights: whenSidebarOpen
