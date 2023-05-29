@@ -1,0 +1,15 @@
+[
+  {
+    "listing": "/stream/index.html",
+    "items": [
+      "/stream/how-to-create-an-ai-profile-picture-from-scratch.html",
+      "/stream/how-to-setup-a-gpu-instance-on-google-cloud-platform.html"
+    ]
+  },
+  {
+    "listing": "/index.html",
+    "items": [
+      "/posts/jupytercon-2023.html"
+    ]
+  }
+]

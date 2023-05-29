@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss  xmlns:atom="http://www.w3.org/2005/Atom" 
+      xmlns:media="http://search.yahoo.com/mrss/" 
+      xmlns:content="http://purl.org/rss/1.0/modules/content/" 
+      xmlns:dc="http://purl.org/dc/elements/1.1/" 
+      version="2.0">
+<channel>
+<title>Nerdy Momo Cat</title>
+<link>https://nerdymomocat.github.io/stream/index.html</link>
+<atom:link href="https://nerdymomocat.github.io/stream/index.xml" rel="self" type="application/rss+xml"/>
+<description>Recent Stream of Thoughts</description>
+<generator>quarto-1.3.361</generator>
+<lastBuildDate>Mon, 06 Mar 2023 00:00:00 GMT</lastBuildDate>
+<item>
+  <title>How to create your own AI avatar using HuggingFace Diffusers and Dreambooth</title>
+  <link>https://nerdymomocat.github.io/stream/how-to-create-an-ai-profile-picture-from-scratch.html</link>
+  <description><![CDATA[ 
+
+
+
+<p>I’m super impressed with the quality of Dreambooth using <a href="https://huggingface.co/docs/diffusers/training/dreambooth">HuggingFace Diffusers</a> 🚀 — with only 14 images of myself! These four images are created by Stable Diffusion using the same fine-tuned model with different prompts:<sup>1</sup></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://nerdymomocat.github.io/stream/images/dreambooth.png" class="img-fluid figure-img" width="600"></p>
+<figcaption class="figure-caption">Four AI-generated pictures of me.</figcaption>
+</figure>
+</div>
+<p>Here are a few details that made the difference for me:</p>
+<ol type="1">
+<li><p><strong>High-quality data:</strong> As always, the most crucial element is data. I got away with very few images, but quality is important. I used:</p>
+<ul>
+<li>14 images</li>
+<li>Captured around the same time, therefore same facial structure, hairstyle, etc</li>
+<li>Cropped to head &amp; shoulders</li>
+<li>I was the only subject</li>
+</ul></li>
+<li><p><strong>Avoid overfitting:</strong> Second most important is to avoid overfitting. I used:</p>
+<ul>
+<li>Prior preservation loss with 90 high quality portraits scraped from Pexel via the <a href="https://huggingface.co/datasets/yuvalkirstain/portrait_dreambooth"><code>yuvalkirstain/portrait_dreambooth</code></a> HuggingFace dataset</li>
+<li>Low learning rate (1e-6)</li>
+<li>Low training step count (300) – adjust this based on how many images you have</li>
+</ul></li>
+<li><p><strong>Train the text encoder:</strong> In addition to the U-Net. I needed to use a few of the supported memory optimization features to run this on a 16GB GPU:</p>
+<ul>
+<li><a href="https://github.com/facebookresearch/xformers">Xformers’</a> efficient attention – had to build from source, prebuilt didn’t work</li>
+<li><a href="https://github.com/huggingface/accelerate">HuggingFace Accelerate’s</a> gradient accumulation</li>
+<li><a href="https://github.com/facebookresearch/bitsandbytes">Bitsandbytes’</a> 8bit adam</li>
+</ul></li>
+<li><p><strong>High-quality prompts:</strong> If you do all of the above perfectly, you still won’t get great results without high quality prompts. I’m not a prompt guru myself, so I took from the excellent prompts curated at <a href="https://publicprompts.art/">PublicPrompts</a> as well as <a href="https://lexica.art">Lexica</a>.</p>
+<p>Even with great prompts, it is a struggle to get it to deviate from the training set. I had to tweak the order of words, and try adding and removing certain words to get it to work. For some reason, adding “Hypnotic illustration” to the start of the prompt worked consistently 🤷🏽‍♂️.</p></li>
+</ol>
+<p>Please don’t hestitate to share any questions or comments in the Twitter thread below or via <a href="mailto:mwlorgat@gmail.com">email</a>:</p>
+<blockquote class="twitter-tweet blockquote">
+<p lang="en" dir="ltr">
+I'm super impressed with the quality of Dreambooth with <a href="https://twitter.com/huggingface?ref_src=twsrc%5Etfw"><span class="citation" data-cites="huggingface">@huggingface</span></a> Diffusers 🚀 using only 14 pics of myself!<br><br>All of these are generated, with different prompts for: plain photo, psy art, anime, toy story<br><br>What worked for me:<br><br>1. As always, the most crucial element is data… <a href="https://t.co/ueZd13AuwR">pic.twitter.com/ueZd13AuwR</a>
+</p>
+— Wasim Lorgat (<span class="citation" data-cites="wasimlorgat">@wasimlorgat</span>) <a href="https://twitter.com/wasimlorgat/status/1632636435722534913?ref_src=twsrc%5Etfw">March 6, 2023</a>
+</blockquote>
+<script async="" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>Here are the exact prompts I used for each of the above images:</p>
+<ul>
+<li><strong>Top-left:</strong> a photo of &lt;dreambooth token&gt;</li>
+<li><strong>Top-right:</strong> Hypnotic illustration of &lt;dreambooth token&gt;, hypnotic psychedelic art by Dan Mumford, pop surrealism, dark glow neon paint, mystical, Behance (<a href="https://publicprompts.art/psychedelic-pop-art/">PublicPrompts source</a>)</li>
+<li><strong>Bottom-left:</strong> Hypnotic illustration of &lt;dreambooth token&gt;, anime illustration by makoto shinkai, stanley artgerm lau, wlop, rossdraws, concept art, digital painting (<a href="https://publicprompts.art/hyper-realistic-anime-portraits/">PublicPrompts source</a>)</li>
+<li><strong>Bottom-right:</strong> Toy Story’s Woody as &lt;dreambooth token&gt;, 4k, artstation, cgsociety, award-winning, masterpiece, stunning, beautiful, glorious, powerful, fantasy art by Greg Rutkowski, octane render, unreal engine, high (<a href="https://lexica.art/prompt/6c0dd61e-3d90-49ac-b32f-07f19b1a7d84">Lexica source</a>)</li>
+</ul>
+↩︎</li>
+</ol>
+</section></div> ]]></description>
+  <category>artificial intelligence</category>
+  <category>common 1</category>
+  <guid>https://nerdymomocat.github.io/stream/how-to-create-an-ai-profile-picture-from-scratch.html</guid>
+  <pubDate>Mon, 06 Mar 2023 00:00:00 GMT</pubDate>
+  <media:content url="https://nerdymomocat.github.io/stream/images/dreambooth.png" medium="image" type="image/png"/>
+</item>
+<item>
+  <title>How to setup a GPU notebook server on Google Cloud Platform (GCP)</title>
+  <link>https://nerdymomocat.github.io/stream/how-to-setup-a-gpu-instance-on-google-cloud-platform.html</link>
+  <description><![CDATA[ 
+
+
+
+<p>GCP is my current preferred cloud provider for GPU servers. I <a href="https://twitter.com/wasimlorgat/status/1524301276179312644?s=20">compared prices last year</a> and found that GCP was the cheapest for lower-end GPUs. The notebook servers offered Vertex AI are very easy to setup. They come with PyTorch and NVIDIA/CUDA drivers already configured. I also prefer options that give me full control over the instance via an SSH connection from my terminal, which this does.</p>
+<p>Depending on when you’re reading this, these instructions may no longer be valid. Please <a href="mailto:mwlorgat@gmail.com">let me know</a> if that’s the case!</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://nerdymomocat.github.io/stream/images/cloud-gpu-prices.jpeg" class="border shadow-sm img-fluid figure-img"></p>
+<figcaption class="figure-caption">Cloud GPU prices as of May 2022 (<a href="https://twitter.com/wasimlorgat/status/1524301276179312644">via</a>).</figcaption>
+</figure>
+</div>
+<section id="setup-a-gcp-account" class="level2">
+<h2 class="anchored" data-anchor-id="setup-a-gcp-account">Setup a GCP account</h2>
+<ol type="1">
+<li>Create a GCP account <a href="https://cloud.google.com/">here</a>.</li>
+<li>Request a GPU quota increase (follow <a href="https://cloud.google.com/ai-platform/training/docs/quotas#requesting_a_quota_increase">the official instructions</a>). This may take up to 48 hours.</li>
+<li>Enable the AI Platform via the left sidebar.</li>
+</ol>
+</section>
+<section id="create-a-notebook-instance-using-vertex-ai" class="level2">
+<h2 class="anchored" data-anchor-id="create-a-notebook-instance-using-vertex-ai">Create a notebook instance using Vertex AI</h2>
+<ol type="1">
+<li>Open the <a href="https://console.cloud.google.com/vertex-ai/workbench">Vertex AI Workbench</a>.</li>
+<li>Click <em>New Notebook</em>, <em>PyTorch 1.12</em>, then <em>With 1 NVIDIA T4</em>.</li>
+<li>Set your <em>Notebook name</em>.</li>
+<li>Choose a <em>Region</em> and <em>Zone</em>. I went with <code>us-central1</code> and <code>us-central-1b</code> (which was the cheapest available at the time). Note that your choice of region and zone may affect GPU availability and does slightly affect pricing.</li>
+<li>By default, you’ll be provided with an <code>n1-standard-4</code> which has 4 vCPUs and 15 GB RAM, and an NVIDIA Tesla T4. If you need more resources, click the edit button next to <em>Notebook properties</em>, then <em>Machine configuration</em>, set your <em>Machine type</em> and <em>GPU type</em>, then click <em>Create</em>.</li>
+<li>Check <em>Install NVIDIA GPU driver automatically for me</em>.</li>
+<li>Wait a few seconds for the notebook server to spin up. Then click <em>OPEN JUPYTERLAB</em>.</li>
+</ol>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Shutdown your server when you’re done working
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You’ll be billed for as long as the server is running. You may also be billed a smaller amount for persistent storage even while the server is shutdown.</p>
+</div>
+</div>
+
+
+</section>
+
+ ]]></description>
+  <category>artificial intelligence</category>
+  <category>common 2</category>
+  <guid>https://nerdymomocat.github.io/stream/how-to-setup-a-gpu-instance-on-google-cloud-platform.html</guid>
+  <pubDate>Mon, 23 Jan 2023 00:00:00 GMT</pubDate>
+</item>
+</channel>
+</rss>
