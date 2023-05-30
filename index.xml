@@ -67,15 +67,15 @@
          margin-top: 0px;
          padding-bottom: 0px;
          ">
-         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" id="button-collapseOne">
          Filter by Themes
          </button>
       </h2>
-      <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample" style="">
+      <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample" style="">
          <div class="accordion-body">
             <div class="grid" style="--bs-columns: 3;">
                <div>
-                  <div class="card mb-3" style="max-width: 20rem;">
+                  <div class="card mb-3" style="max-width: 20rem;" onclick="window.quartoListingCategory('Notion'); document.getElementById('collapseOne').classList.remove('show'); document.getElementById('button-collapseOne').classList.add('collapsed'); return false;">
                      <div class="card-body">
                         <img src="https://nerdymomocat.github.io/posts/theme-images/notion.png" alt="Noion" class="img-fluid card-image">
                      </div>
@@ -83,7 +83,7 @@
                   </div>
                </div>
                <div>
-                  <div class="card mb-3" style="max-width: 20rem;">
+                  <div class="card mb-3" style="max-width: 20rem;" onclick="window.quartoListingCategory('Todoist'); document.getElementById('collapseOne').classList.remove('show'); document.getElementById('button-collapseOne').classList.add('collapsed'); return false;">
                      <div class="card-body">
                         <img src="https://nerdymomocat.github.io/posts/theme-images/todoist.png" alt="Todoist" class="img-fluid card-image">
                      </div>
@@ -91,23 +91,15 @@
                   </div>
                </div>
                <div>
-                  <div class="card mb-3" style="max-width: 20rem;">
+                  <div class="card mb-3" style="max-width: 20rem;" onclick="window.quartoListingCategory('Apple Shortcuts'); document.getElementById('collapseOne').classList.remove('show'); document.getElementById('button-collapseOne').classList.add('collapsed'); return false;">
                      <div class="card-body">
                         <img src="https://nerdymomocat.github.io/posts/theme-images/apple_shortcuts.png" alt="Apple Shortcuts" class="img-fluid card-image">
                      </div>
                      <div class="card-header">Apple Shortcuts</div>
                   </div>
                </div>
-               <!-- <div>
-                  <div class="card mb-3" style="max-width: 20rem;">
-                     <div class="card-body">
-                        <img src="theme-images/twitter.png" alt="Twitter" class="img-fluid card-image">
-                     </div>
-                     <div class="card-header">Twitter</div>
-                  </div>
-               </div> -->
                <div>
-                  <div class="card mb-3" style="max-width: 20rem;">
+                  <div class="card mb-3" style="max-width: 20rem;" onclick="window.quartoListingCategory('Capture'); document.getElementById('collapseOne').classList.remove('show'); document.getElementById('button-collapseOne').classList.add('collapsed'); return false;">
                      <div class="card-body">
                         <img src="https://nerdymomocat.github.io/posts/theme-images/capture.png" alt="Capture" class="img-fluid card-image">
                      </div>
@@ -115,31 +107,31 @@
                   </div>
                </div>
                <div>
-                  <div class="card mb-3" style="max-width: 20rem;">
+                  <div class="card mb-3" style="max-width: 20rem;" onclick="window.quartoListingCategory('Organization'); document.getElementById('collapseOne').classList.remove('show'); document.getElementById('button-collapseOne').classList.add('collapsed'); return false;">
                      <div class="card-body">
-                        <img src="https://nerdymomocat.github.io/posts/theme-images/organization.png" alt="Tools" class="img-fluid card-image">
+                        <img src="https://nerdymomocat.github.io/posts/theme-images/organization.png" alt="Organization" class="img-fluid card-image">
                      </div>
                      <div class="card-header">Organization</div>
                   </div>
                </div>
                <div>
-                  <div class="card mb-3" style="max-width: 20rem;">
+                  <div class="card mb-3" style="max-width: 20rem;" onclick="window.quartoListingCategory('Design'); document.getElementById('collapseOne').classList.remove('show'); document.getElementById('button-collapseOne').classList.add('collapsed'); return false;">
                      <div class="card-body">
-                        <img src="https://nerdymomocat.github.io/posts/theme-images/design.png" alt="Tools" class="img-fluid card-image">
+                        <img src="https://nerdymomocat.github.io/posts/theme-images/design.png" alt="Design" class="img-fluid card-image">
                      </div>
                      <div class="card-header">Design</div>
                   </div>
                </div>
                <div>
-                  <div class="card mb-3" style="max-width: 20rem;">
+                  <div class="card mb-3" style="max-width: 20rem;" onclick="window.quartoListingCategory('Reading'); document.getElementById('collapseOne').classList.remove('show'); document.getElementById('button-collapseOne').classList.add('collapsed'); return false;">
                      <div class="card-body">
-                        <img src="https://nerdymomocat.github.io/posts/theme-images/reading.png" alt="Tools" class="img-fluid card-image">
+                        <img src="https://nerdymomocat.github.io/posts/theme-images/reading.png" alt="Reading" class="img-fluid card-image">
                      </div>
                      <div class="card-header">Reading</div>
                   </div>
                </div>
                 <div>
-                  <div class="card mb-3" style="max-width: 20rem;">
+                  <div class="card mb-3" style="max-width: 20rem;" onclick="window.quartoListingCategory('Tools'); document.getElementById('collapseOne').classList.remove('show'); document.getElementById('button-collapseOne').classList.add('collapsed'); return false;">
                      <div class="card-body">
                         <img src="https://nerdymomocat.github.io/posts/theme-images/tools.png" alt="Tools" class="img-fluid card-image">
                      </div>
@@ -147,23 +139,23 @@
                   </div>
                </div>
                <div>
-                  <div class="card mb-3" style="max-width: 20rem;">
+                  <div class="card mb-3" style="max-width: 20rem;" onclick="window.quartoListingCategory('Tasks'); document.getElementById('collapseOne').classList.remove('show'); document.getElementById('button-collapseOne').classList.add('collapsed'); return false;">
                      <div class="card-body">
-                        <img src="https://nerdymomocat.github.io/posts/theme-images/tasks.png" alt="Tools" class="img-fluid card-image">
+                        <img src="https://nerdymomocat.github.io/posts/theme-images/tasks.png" alt="Tasks" class="img-fluid card-image">
                      </div>
                      <div class="card-header">Tasks</div>
                   </div>
                </div>
                 <div>
-                  <div class="card mb-3" style="max-width: 20rem;">
+                  <div class="card mb-3" style="max-width: 20rem;" onclick="window.quartoListingCategory('Automation'); document.getElementById('collapseOne').classList.remove('show'); document.getElementById('button-collapseOne').classList.add('collapsed'); return false;">
                      <div class="card-body">
-                        <img src="https://nerdymomocat.github.io/posts/theme-images/tasks.png" alt="Automation" class="img-fluid card-image">
+                        <img src="https://nerdymomocat.github.io/posts/theme-images/automation.png" alt="Automation" class="img-fluid card-image">
                      </div>
                      <div class="card-header">Automation</div>
                   </div>
                </div>
               <div>
-                  <div class="card mb-3" style="max-width: 20rem;">
+                  <div class="card mb-3" style="max-width: 20rem;" onclick="window.quartoListingCategory('Research'); document.getElementById('collapseOne').classList.remove('show'); document.getElementById('button-collapseOne').classList.add('collapsed'); return false;">
                      <div class="card-body">
                         <img src="https://nerdymomocat.github.io/posts/theme-images/research.png" alt="Research" class="img-fluid card-image">
                      </div>
@@ -171,7 +163,7 @@
                   </div>
                </div>
                 <div>
-                  <div class="card mb-3" style="max-width: 20rem;">
+                  <div class="card mb-3" style="max-width: 20rem;" onclick="window.quartoListingCategory('Writing'); document.getElementById('collapseOne').classList.remove('show'); document.getElementById('button-collapseOne').classList.add('collapsed'); return false;">
                      <div class="card-body">
                         <img src="https://nerdymomocat.github.io/posts/theme-images/note_taking.png" alt="Writing" class="img-fluid card-image">
                      </div>
@@ -190,7 +182,7 @@
 
 <div class="quarto-listing quarto-listing-container-default" id="listing-listing">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="talk" data-listing-date-sort="1684713600000" data-listing-file-modified-sort="1685444461794" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3">
+<div class="quarto-post image-right" data-index="0" data-categories="talk" data-listing-date-sort="1684713600000" data-listing-file-modified-sort="1685445922238" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3">
 <div class="body">
 <a href="../posts/jupytercon-2023.html">
 <h3 class="no-anchor listing-title">
@@ -225,7 +217,7 @@ No matching items
 </div>
 </div><a onclick="window.scrollTo(0, 0); return false;" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a> ]]></description>
   <guid>https://nerdymomocat.github.io/posts/index.html</guid>
-  <pubDate>Tue, 30 May 2023 11:01:30 GMT</pubDate>
+  <pubDate>Tue, 30 May 2023 11:25:37 GMT</pubDate>
 </item>
 </channel>
 </rss>
