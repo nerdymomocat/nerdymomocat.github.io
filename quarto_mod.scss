@@ -455,12 +455,12 @@ button {
 }
 
 .card {
- transition:  box-shadow .6s ease-out;
+ transition:  box-shadow .4s ease-out;
  border-color: $coral;
 }
 .card:hover{ 
      box-shadow: 1px 8px 20px $coral;
-    transition:  box-shadow .6s ease-in;
+    transition:  box-shadow .4s ease-in;
     border-color: $coraltransparent;
   }
   .card-header{

@@ -8,7 +8,7 @@ I attended [JupyterCon 2023](https://www.jupytercon.com/) in Paris two weeks ago
 
 I think it went well! The room was full and attendees engaged with great questions.
 
-![Screenshot of the [tutorial website](https://fastai.github.io/jupytercon-2023/) [taken with `shot-scraper`](/stream/using-shot-scraper.ipynb).](images/jupytercon-2023-tutorial.png){.shadow-sm .border .preview-image fig-align="center"}
+<!-- ![Screenshot of the [tutorial website](https://fastai.github.io/jupytercon-2023/) [taken with `shot-scraper`](/stream/using-shot-scraper.ipynb).](images/jupytercon-2023-tutorial.png){.shadow-sm .border .preview-image fig-align="center"} -->
 
 Hamel opened by describing the roots of nbdev's programming paradigm: a combination of *literate programming* ([introduced by Donald Knuth](https://en.wikipedia.org/wiki/Literate_programming)) and *exploratory programming* ([beautifully demonstrated by Bret Victor](https://www.youtube.com/watch?v=PUv66718DII)) made possible by [Jupyter](https://jupyter.org/) notebooks. He then took us through both basic and advanced usage of Quarto -- the publishing platform that powers nbdev's documentation generation.
 
@@ -30,4 +30,4 @@ By the way, we wrote the tutorial site using Quarto too! Here is the underlying 
 
 The conference venue was beautiful! On the last day, [David Brochart](https://twitter.com/davidbrochart), [Hamel Husain](https://hamel.dev/), and I took a walk around the [Cité des sciences et de l'industrie](https://www.cite-sciences.fr/en/home) and surrounding area, and David shared some of the fascinating history behind the city.
 
-![[David Brochart](https://twitter.com/davidbrochart), [Hamel Husain](https://hamel.dev/), and myself pictured in front of the [Philharmonie de Paris](https://philharmoniedeparis.fr/en) a short walk away from the JupyterCon 2023 conference hall.](images/david-hamel-wasim-jupytercon-2023.jpeg){fig-align="center"}
+<!-- ![[David Brochart](https://twitter.com/davidbrochart), [Hamel Husain](https://hamel.dev/), and myself pictured in front of the [Philharmonie de Paris](https://philharmoniedeparis.fr/en) a short walk away from the JupyterCon 2023 conference hall.](images/david-hamel-wasim-jupytercon-2023.jpeg){fig-align="center"} -->

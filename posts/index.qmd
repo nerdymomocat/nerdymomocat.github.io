@@ -14,6 +14,7 @@ author: ''
 comments: false
 description: Long Form Posts
 title-block-style: none
+# date: 1950-07-26 18:37
 ---
 ```{=html}
 <div class="accordion">

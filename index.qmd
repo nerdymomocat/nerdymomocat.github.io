@@ -1,13 +1,16 @@
 ---
 listing:
   contents: [posts]
+  max-items: 5
   sort: "date desc"
-  categories: true
+  categories: false
   fields: [date, title, image, description, categories]
-  feed: true
+  feed: false
   filter-ui: false
   sort-ui: false
   date-format: MM-DD-YYYY
+  exclude:
+    title: "Posts"
 comments: false
 description: Recent posts
 pagetitle: Nerdy Momo Cat
