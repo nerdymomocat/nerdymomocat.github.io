@@ -162,6 +162,12 @@ div.quarto-post .thumbnail img { border-radius: .25rem; }
 .quarto-title .quarto-categories .quarto-category { font-size: 10px; }
 #title-block-header { margin-block-end: 3rem; }
 .quarto-listing-default { margin-top: 2em; }
+.listing-title,
+.listing-description
+{
+  font-size: 16px;
+}
+
 
 // Code cells & outputs
 

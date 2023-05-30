@@ -13,11 +13,11 @@ description: Recent posts
 pagetitle: Nerdy Momo Cat
 ---
 
-<h1 style="margin-bottom: 2rem !important">
+<h2 style="margin-bottom: 2rem !important">
 
 Hi, I'm Nerdy Momo Cat
 
-</h1>
+</h2>
 
 ::: me
 ![](images/me.png)
@@ -25,8 +25,8 @@ Hi, I'm Nerdy Momo Cat
 
 Personal Knowledge Management | Notion, Coding & Automations, Note Taking and Sketchnoting.
 
-## Get in touch
+### Get in touch
 
 Email me at [nerdymomocat\@gmail.com](mailto:nerdymomocat@gmail.com) or DM me on [Twitter](https://twitter.com/nerdymomocat) if you'd like to chat!
 
-## Posts
+### Posts
