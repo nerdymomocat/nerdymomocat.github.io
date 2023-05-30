@@ -7,13 +7,23 @@ execute:
 
 website:
   open-graph: true
+  back-to-top-navigation: true
+  page-navigation: true
   twitter-card:
     creator: "@nerdymomocat"
     site: "@nerdymomocat"
   title: "Nerdy Momo Cat"
   favicon: favicon.ico
   site-url: https://nerdymomocat.github.io
-  margin-header: '[☕ Please Buy Me A Coffee](https://www.buymeacoffee.com/nerdymomocat)'
+  # margin-header: '[☕ Please Buy Me A Coffee](https://www.buymeacoffee.com/nerdymomocat){.btn .btn-primary role="button"}'
+  margin-footer: '<br><div id="container" class="buy-coffee-btn"><a href="https://www.buymeacoffee.com/nerdymomocat">
+  <button class="buy-coffee">
+    <span class="circle" aria-hidden="true">
+      <span class="icon arrow"></span>
+    </span>
+    <span class="button-text"><b>Buy me a coffee</b></span>
+  </button></a>
+</div>'
 
   navbar:
     background: dark

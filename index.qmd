@@ -14,9 +14,7 @@ pagetitle: Nerdy Momo Cat
 ---
 
 <h2 style="margin-bottom: 2rem !important">
-
 Hi, I'm Nerdy Momo Cat
-
 </h2>
 
 ::: me
