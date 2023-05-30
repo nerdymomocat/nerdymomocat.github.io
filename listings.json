@@ -9,6 +9,13 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/index.html",
+      "/posts/jupytercon-2023.html"
+    ]
+  },
+  {
+    "listing": "/posts/index.html",
+    "items": [
       "/posts/jupytercon-2023.html"
     ]
   }
