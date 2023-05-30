@@ -31,6 +31,8 @@ website:
     collapse: true
     search: true
     left:
+      - icon: text-indent-left
+        href: posts/index.qmd
       - icon: cursor-text
         href: stream/index.qmd
     right:
@@ -38,8 +40,8 @@ website:
         text: Find me on Twitter
         href: https://twitter.com/nerdymomocat
       - icon: rss
-        text: Posts
-        href: index.xml
+        text: Feed
+        href: posts/index.xml
 
 format:
   html:
