@@ -61,7 +61,7 @@ I'm super impressed with the quality of Dreambooth with <a href="https://twitter
 
 
 
-<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+<a onclick="window.scrollTo(0, 0); return false;" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
 
 <ol>
 <li id="fn1"><p>Here are the exact prompts I used for each of the above images:</p>
@@ -131,7 +131,7 @@ Shutdown your server when you’re done working
 
 </section>
 
- ]]></description>
+<a onclick="window.scrollTo(0, 0); return false;" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a> ]]></description>
   <category>artificial intelligence</category>
   <category>common 2</category>
   <guid>https://nerdymomocat.github.io/stream/how-to-setup-a-gpu-instance-on-google-cloud-platform.html</guid>

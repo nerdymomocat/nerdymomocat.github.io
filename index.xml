@@ -49,7 +49,7 @@
 
 
 
- ]]></description>
+<a onclick="window.scrollTo(0, 0); return false;" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a> ]]></description>
   <category>talk</category>
   <guid>https://nerdymomocat.github.io/posts/jupytercon-2023.html</guid>
   <pubDate>Mon, 22 May 2023 00:00:00 GMT</pubDate>
