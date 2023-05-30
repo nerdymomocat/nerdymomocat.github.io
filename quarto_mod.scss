@@ -453,3 +453,10 @@ button {
   height: 1em;
 }
 
+.card {
+ transition:  box-shadow .6s ease-out;
+}
+.card:hover{ 
+     box-shadow: 1px 8px 20px $coral;
+    transition:  box-shadow .6s ease-in;
+  }

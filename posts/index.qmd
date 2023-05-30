@@ -16,33 +16,57 @@ description: Long Form Posts
 title-block-style: none
 ---
 ```{=html}
-
-
-
-
-<div class="accordion" id="accordionExample">
-  <div class="accordion-item">
-    <h2 class="accordion-header no-anchor" id="headingOne" style="
-    margin-top: 0px;
-    padding-bottom: 0px;
-    ">
-      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-        Accordion Item #1
-      </button>
-    </h2>
-    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample" style="">
-      <div class="accordion-body">
-<div class="grid" style="--bs-columns: 3;">
-  <div>Auto-column</div>
-  <div>Auto-column</div>
-  <div>Auto-column</div>
-    <div>Auto-column</div>
-  <div>Auto-column</div>
-  <div>Auto-column</div>
-</div>
+<div class="accordion">
+   <div class="accordion-item">
+      <h2 class="accordion-header no-anchor" style="
+         margin-top: 0px;
+         padding-bottom: 0px;
+         ">
+         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+         Filter by Themes
+         </button>
+      </h2>
+      <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample" style="">
+         <div class="accordion-body">
+            <div class="grid" style="--bs-columns: 3;">
+               <div>
+                  <div class="card border-dark mb-3" style="max-width: 20rem;">
+                     <div class="card-body">
+                        <img src="theme-images/notion.png" alt="Noion" class="img-fluid card-image">
+                     </div>
+                     <div class="card-header">Notion</div>
+                  </div>
+               </div>
+               <div>
+                  <div class="card border-dark mb-3" style="max-width: 20rem;">
+                     <div class="card-body">
+                        <img src="theme-images/todoist.png" alt="Todoist" class="img-fluid card-image">
+                     </div>
+                     <div class="card-header">Todoist</div>
+                  </div>
+               </div>
+               <div>
+                  <div class="card border-dark mb-3" style="max-width: 20rem;">
+                     <div class="card-body">
+                        <img src="theme-images/apple_shortcuts.png" alt="Apple Shortcuts" class="img-fluid card-image">
+                     </div>
+                     <div class="card-header">Apple Shortcuts</div>
+                  </div>
+               </div>
+               <div>
+                  <div class="card border-dark mb-3" style="max-width: 20rem;">
+                      <div class="card-body">
+                          <img src="theme-images/twitter.png" alt="Twitter" class="img-fluid card-image">
+                      </div>
+                      <div class="card-header">Twitter</div>
+                    </div>
+               </div>
+               <div>Auto-column</div>
+               <div>Auto-column</div>
+            </div>
+         </div>
       </div>
-    </div>
-  </div>
+   </div>
 </div>
 ```
 <br/>
