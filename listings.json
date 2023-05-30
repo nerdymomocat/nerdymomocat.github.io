@@ -9,14 +9,17 @@
   {
     "listing": "/index.html",
     "items": [
-      "/posts/index.html",
-      "/posts/jupytercon-2023.html"
+      "/posts/jupytercon-2023.html",
+      "/posts/tools-wishlist.html",
+      "/posts/hats.html"
     ]
   },
   {
     "listing": "/posts/index.html",
     "items": [
-      "/posts/jupytercon-2023.html"
+      "/posts/jupytercon-2023.html",
+      "/posts/tools-wishlist.html",
+      "/posts/hats.html"
     ]
   }
 ]

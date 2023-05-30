@@ -20,12 +20,7 @@
 
 <p>I attended <a href="https://www.jupytercon.com/">JupyterCon 2023</a> in Paris two weeks ago. On Thursday, <a href="https://hamel.dev/">Hamel Husain</a>, myself, and <a href="https://www.linkedin.com/in/jjallaire">J. J. Allaire</a> (as a teaching assistant) presented a two and a half hour tutorial on Writing, Documenting, Testing, and Distributing Python Packages with <a href="https://nbdev.fast.ai/">nbdev</a> and <a href="https://quarto.org/">Quarto</a>.</p>
 <p>I think it went well! The room was full and attendees engaged with great questions.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="https://nerdymomocat.github.io/posts/images/jupytercon-2023-tutorial.png" class="shadow-sm border preview-image img-fluid figure-img"></p>
-<figcaption class="figure-caption">Screenshot of the <a href="https://fastai.github.io/jupytercon-2023/">tutorial website</a> <a href="../stream/using-shot-scraper.ipynb">taken with <code>shot-scraper</code></a>.</figcaption>
-</figure>
-</div>
+<!-- ![Screenshot of the [tutorial website](https://fastai.github.io/jupytercon-2023/) [taken with `shot-scraper`](/stream/using-shot-scraper.ipynb).](images/jupytercon-2023-tutorial.png){.shadow-sm .border .preview-image fig-align="center"} -->
 <p>Hamel opened by describing the roots of nbdev’s programming paradigm: a combination of <em>literate programming</em> (<a href="https://en.wikipedia.org/wiki/Literate_programming">introduced by Donald Knuth</a>) and <em>exploratory programming</em> (<a href="https://www.youtube.com/watch?v=PUv66718DII">beautifully demonstrated by Bret Victor</a>) made possible by <a href="https://jupyter.org/">Jupyter</a> notebooks. He then took us through both basic and advanced usage of Quarto – the publishing platform that powers nbdev’s documentation generation.</p>
 <p>I followed with a demonstration of my approach to notebook-driven development by live coding the now classic nbdev example: a library for interacting with playing cards based on <a href="https://greenteapress.com/thinkpython2/html/thinkpython2019.html">Chapter 18 of Allen B. Downey’s Think Python</a>. I tried to focus on the thinking process and how it differs from more conventional programming paradigms, rather than focusing on the mechanics of how nbdev works since that is so readily available online.</p>
 <p>My demonstration was largely based on the <a href="https://nbdev.fast.ai/tutorials/tutorial.html">official written nbdev tutorial</a> and <a href="https://nbdev.fast.ai/tutorials/best_practices.html">best practices post</a>. I also used the tutorial as an opportunity to refine these docs. The biggest refinement was that I now recommend JupyterLab instead of the classic notebook. There are two main reasons for this:</p>
@@ -40,12 +35,7 @@
 <p>You can also find an outline of the tutorial as well as the slides for Hamel’s opening section at the tutorial website: <a href="https://fastai.github.io/jupytercon-2023" class="uri">https://fastai.github.io/jupytercon-2023</a>.</p>
 <p>By the way, we wrote the tutorial site using Quarto too! Here is the underlying repo: <a href="https://github.com/fastai/jupytercon-2023" class="uri">https://github.com/fastai/jupytercon-2023</a>.</p>
 <p>The conference venue was beautiful! On the last day, <a href="https://twitter.com/davidbrochart">David Brochart</a>, <a href="https://hamel.dev/">Hamel Husain</a>, and I took a walk around the <a href="https://www.cite-sciences.fr/en/home">Cité des sciences et de l’industrie</a> and surrounding area, and David shared some of the fascinating history behind the city.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="https://nerdymomocat.github.io/posts/images/david-hamel-wasim-jupytercon-2023.jpeg" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption"><a href="https://twitter.com/davidbrochart">David Brochart</a>, <a href="https://hamel.dev/">Hamel Husain</a>, and myself pictured in front of the <a href="https://philharmoniedeparis.fr/en">Philharmonie de Paris</a> a short walk away from the JupyterCon 2023 conference hall.</figcaption>
-</figure>
-</div>
+<!-- ![[David Brochart](https://twitter.com/davidbrochart), [Hamel Husain](https://hamel.dev/), and myself pictured in front of the [Philharmonie de Paris](https://philharmoniedeparis.fr/en) a short walk away from the JupyterCon 2023 conference hall.](images/david-hamel-wasim-jupytercon-2023.jpeg){fig-align="center"} -->
 
 
 
@@ -53,6 +43,60 @@
   <category>talk</category>
   <guid>https://nerdymomocat.github.io/posts/jupytercon-2023.html</guid>
   <pubDate>Mon, 22 May 2023 00:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Tools wishlist</title>
+  <link>https://nerdymomocat.github.io/posts/tools-wishlist.html</link>
+  <description><![CDATA[ 
+
+
+
+<p>I care a lot about the tools I use. You can see this by looking at how much time I’ve spent on <a href="https://github.com/seem/dotfiles">my dotfiles</a>.<sup>1</sup> It’s not about being more “productive”. It’s about how it <em>feels</em> to use them. I just can’t help myself but tinker until it feels right.</p>
+<p>I also try my best to understand more generally what it is I’m getting from each tool in my toolbox. That gives me good grounds to cut through the hype when new tools come along. To that end, here is a list of requirements I currently hold for the tools I use (kind of) in decreasing order of importance:</p>
+<ol type="1">
+<li><p><strong>Data ownership and privacy.</strong> I must own my data. No one else must be able to touch my data without my express permission. Promises, unfortunately, aren’t good enough. I find it incredibly sad that this item rules out many otherwise amazing tools out there.</p></li>
+<li><p><strong>Speed.</strong> There should be minimal lag between action and outcome. The application should never hang unless for a very obviously long-running process. Even then, input and output shouldn’t freeze.</p></li>
+<li><p><strong>Fuzzy finding.</strong> Choosing from a set of commands should always be through an interface that allows me to incrementally narrow the set via fuzzy search. Fuzzy, at the very least, meaning that letters can be left out.</p>
+<p>Ideally, there’d be fuzzy finding all the way down to auto-completing single keywords. Though, weirdly enough, I’ve still not found an auto-completion system that satisfies my speed requirement. They all seem to introduce a sub-second input lag that grinds my gears. PyCharm does a great job, but doesn’t satisfy my other requirements.</p>
+<p>This is sort of a special case of a more general principle that if there’s a repeated action that the computer could guess with very high accuracy, it should do the work for me. For actions that I perform exceedingly often, I’d bind them to a simple keyboard shortcut. I like VIM’s modal editing because it gives me far more keys to bind.</p></li>
+<li><p><strong>No visual clutter.</strong> There must be an option to disable menu bars, tool bars, icons. Because I prefer keyboard-driven and I have fuzzy finding, I often don’t really need menus/toolbars. In cases where information lends itself well to a visual representation, I prefer it to appear as needed, or if persistent, for it to be compact. For example, a bar displaying open tabs could be a single line of text.</p></li>
+<li><p><strong>Keyboard-driven.</strong> I’m not against the mouse at all. I very happily use it all the time. But between emails, Slack messages, documentation, issue descriptions, code reviews, and good ol’ programming, my work involves tons of writing. And when I’m writing, if there’s even a single action that requires changing my hand position every few minutes, it becomes frustrating really quickly.</p>
+<p>Some of the applications I use aren’t fully keyboard-driven. I don’t really mind that when the primary mode of use isn’t typing. For example, creating presentations, managing tasks (I use <a href="https://culturedcode.com/things/">Things</a>), calendars, Slack and Twitter where I’m reading at least as much as I’m writing, and browsing the web.</p>
+<p>Ideally, I should also be able to reconfigure keyboard shortcuts arbitrarily, and for any action. Unfortunately many modern applications fall short here, but there are typically workarounds.</p>
+<p>This is a special case of keeping similar actions that occur in similar contexts “close”. If the context is that I’m already typing a bunch, actions should be a keyboard shortcut or fuzzy find away. If the context requires pointing and clicking, then mouse shortcuts, toolbars, and maybe even <a href="https://en.wikipedia.org/wiki/Pie_menu">pie menus</a> are better. For this reason, I’m also not really a fan of keyboard-driven tiling window managers.</p></li>
+<li><p><strong>Themes.</strong> I’m red-green colour-blind, and not all default colour schemes account for this. I’m also a picky about my colour schemes, fonts, and overall theme. I also like switching them up every now and then. Most tools allow this these days.</p></li>
+</ol>
+
+
+
+
+<a onclick="window.scrollTo(0, 0); return false;" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>Caution: They’re not always up-to-date, or easy to understand, and I’ve made no effort to ensure they work for anyone else.↩︎</p></li>
+</ol>
+</section></div> ]]></description>
+  <category>musing</category>
+  <guid>https://nerdymomocat.github.io/posts/tools-wishlist.html</guid>
+  <pubDate>Mon, 10 Aug 2020 15:10:00 GMT</pubDate>
+</item>
+<item>
+  <title>Hats and productivity</title>
+  <link>https://nerdymomocat.github.io/posts/hats.html</link>
+  <description><![CDATA[ 
+
+
+
+<p>Sometimes I feel like pursuing depth. Scribbling through a difficult problem. Other times it’s about breadth. Searching for existing solutions to my problem. Sometimes it’s about people. Connecting with others, seeing what they’re working on, what they’re thinking about, and how we might help each other. Sometimes it’s about planning, or otherwise separating coulds from shoulds.</p>
+<p>All of these require a different hat, a different set of skills and tools, and there’s a cost to switching. But more subtle than that, there’s a cost to wearing the wrong hat at the wrong time. I understand that it’s unrealistic to expect absolute freedom here. In fact, I’m not sure that’s ideal. Too much freedom is itself a source of pressure. A vacuum. But somewhere in the middle, where there’s just enough pressure to push you forward, together with just enough room to wear the right hat, there’s a sweet spot.</p>
+<p>You might be wondering how anything would get done if we decided what work to do on a whim. I think this is one of the defining factors of a great team. A team with diversity in strengths, weaknesses, backgrounds, and more generally, modes of thought, is like a <a href="https://en.wikipedia.org/wiki/Polyphase_system">polyphase system</a>. It provides constant power transfer, despite its individual conductors peaking at different points in time, ultimately delivering more power than single-phase systems for the same voltage.</p>
+
+
+
+<a onclick="window.scrollTo(0, 0); return false;" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a> ]]></description>
+  <category>musing</category>
+  <guid>https://nerdymomocat.github.io/posts/hats.html</guid>
+  <pubDate>Sun, 26 Jul 2020 18:37:00 GMT</pubDate>
 </item>
 </channel>
 </rss>
