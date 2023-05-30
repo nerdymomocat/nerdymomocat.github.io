@@ -17,6 +17,7 @@ $gray-900: #222 !default;
 $black:    #000 !default;
 
 $coral:    #eb6864 !default;
+$coraltransparent: #eb686430 !default;
 $indigo:  #6610f2 !default;
 $purple:  #6f42c1 !default;
 $pink:    #e83e8c !default;
@@ -426,7 +427,7 @@ button {
       right: 0;
       bottom: 0;
       padding: 0.75rem 0;
-      margin: 0 0 0 1.85rem;
+      margin: 0 0 0 2rem;
       color: $black;
       text-align: center;
     }
@@ -455,8 +456,13 @@ button {
 
 .card {
  transition:  box-shadow .6s ease-out;
+ border-color: $coral;
 }
 .card:hover{ 
      box-shadow: 1px 8px 20px $coral;
     transition:  box-shadow .6s ease-in;
+    border-color: $coraltransparent;
+  }
+  .card-header{
+    background-color: $coraltransparent;
   }

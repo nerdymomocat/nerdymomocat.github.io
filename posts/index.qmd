@@ -30,7 +30,7 @@ title-block-style: none
          <div class="accordion-body">
             <div class="grid" style="--bs-columns: 3;">
                <div>
-                  <div class="card border-dark mb-3" style="max-width: 20rem;">
+                  <div class="card mb-3" style="max-width: 20rem;">
                      <div class="card-body">
                         <img src="theme-images/notion.png" alt="Noion" class="img-fluid card-image">
                      </div>
@@ -38,7 +38,7 @@ title-block-style: none
                   </div>
                </div>
                <div>
-                  <div class="card border-dark mb-3" style="max-width: 20rem;">
+                  <div class="card mb-3" style="max-width: 20rem;">
                      <div class="card-body">
                         <img src="theme-images/todoist.png" alt="Todoist" class="img-fluid card-image">
                      </div>
@@ -46,23 +46,93 @@ title-block-style: none
                   </div>
                </div>
                <div>
-                  <div class="card border-dark mb-3" style="max-width: 20rem;">
+                  <div class="card mb-3" style="max-width: 20rem;">
                      <div class="card-body">
                         <img src="theme-images/apple_shortcuts.png" alt="Apple Shortcuts" class="img-fluid card-image">
                      </div>
                      <div class="card-header">Apple Shortcuts</div>
                   </div>
                </div>
+               <!-- <div>
+                  <div class="card mb-3" style="max-width: 20rem;">
+                     <div class="card-body">
+                        <img src="theme-images/twitter.png" alt="Twitter" class="img-fluid card-image">
+                     </div>
+                     <div class="card-header">Twitter</div>
+                  </div>
+               </div> -->
                <div>
-                  <div class="card border-dark mb-3" style="max-width: 20rem;">
-                      <div class="card-body">
-                          <img src="theme-images/twitter.png" alt="Twitter" class="img-fluid card-image">
-                      </div>
-                      <div class="card-header">Twitter</div>
-                    </div>
+                  <div class="card mb-3" style="max-width: 20rem;">
+                     <div class="card-body">
+                        <img src="theme-images/capture.png" alt="Capture" class="img-fluid card-image">
+                     </div>
+                     <div class="card-header">Capture</div>
+                  </div>
                </div>
-               <div>Auto-column</div>
-               <div>Auto-column</div>
+               <div>
+                  <div class="card mb-3" style="max-width: 20rem;">
+                     <div class="card-body">
+                        <img src="theme-images/organization.png" alt="Tools" class="img-fluid card-image">
+                     </div>
+                     <div class="card-header">Organization</div>
+                  </div>
+               </div>
+               <div>
+                  <div class="card mb-3" style="max-width: 20rem;">
+                     <div class="card-body">
+                        <img src="theme-images/design.png" alt="Tools" class="img-fluid card-image">
+                     </div>
+                     <div class="card-header">Design</div>
+                  </div>
+               </div>
+               <div>
+                  <div class="card mb-3" style="max-width: 20rem;">
+                     <div class="card-body">
+                        <img src="theme-images/reading.png" alt="Tools" class="img-fluid card-image">
+                     </div>
+                     <div class="card-header">Reading</div>
+                  </div>
+               </div>
+                <div>
+                  <div class="card mb-3" style="max-width: 20rem;">
+                     <div class="card-body">
+                        <img src="theme-images/tools.png" alt="Tools" class="img-fluid card-image">
+                     </div>
+                     <div class="card-header">Tools</div>
+                  </div>
+               </div>
+               <div>
+                  <div class="card mb-3" style="max-width: 20rem;">
+                     <div class="card-body">
+                        <img src="theme-images/tasks.png" alt="Tools" class="img-fluid card-image">
+                     </div>
+                     <div class="card-header">Tasks</div>
+                  </div>
+               </div>
+                <div>
+                  <div class="card mb-3" style="max-width: 20rem;">
+                     <div class="card-body">
+                        <img src="theme-images/tasks.png" alt="Automation" class="img-fluid card-image">
+                     </div>
+                     <div class="card-header">Automation</div>
+                  </div>
+               </div>
+              <div>
+                  <div class="card mb-3" style="max-width: 20rem;">
+                     <div class="card-body">
+                        <img src="theme-images/research.png" alt="Research" class="img-fluid card-image">
+                     </div>
+                     <div class="card-header">Research</div>
+                  </div>
+               </div>
+                <div>
+                  <div class="card mb-3" style="max-width: 20rem;">
+                     <div class="card-body">
+                        <img src="theme-images/note_taking.png" alt="Writing" class="img-fluid card-image">
+                     </div>
+                     <div class="card-header">Writing</div>
+                  </div>
+               </div>
             </div>
          </div>
       </div>
