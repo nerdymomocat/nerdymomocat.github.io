@@ -85,7 +85,7 @@ The buttons come with a ton of pre-filled information and pointers of things you
 
 ![Pre-filled information in new information addition buttons](images/notion_latex_resume/image5.jpg)
 
-![Example of newly add information using addition buttons](images/notion_latex_resume/image5.jpg)
+![Example of newly add information using addition buttons](images/notion_latex_resume/image12.jpg)
 
 #### Make Modifications
 The template also includes a modification block.
