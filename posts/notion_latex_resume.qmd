@@ -1,5 +1,5 @@
 ---
-title: Creating an updated resume with Notion and Python
+title: Creating an Updated Resume with Notion and Python
 description: "Make a Notion setup for a LaTex resume using Python and Replit. The template has two databases: resume info and structure. It has pre-filled buttons for easy info input and a modification block for changes. The resume has inline annotations and href for Notion links, no empty sections, and sorted entries."
 date: 2023-05-03 5:00 AM
 categories: [Tutorial, Resume, Resources, Notion, Publishing, Academia, Python, Automation]
