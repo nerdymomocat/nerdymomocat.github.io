@@ -1,0 +1,8 @@
+---
+title: New project launch by Notion
+date: 2023-05-31
+categories: [Notion, Opinion]
+# image: ../posts/theme-images/academia.png
+subtitle: The main concern is that current databases cannot be ported over to this new feature. And I am kinda okay with it?
+---
+I think, it is a new user onboarding feature. It is kinda similar to buying templates from people, just that this one is made by Notion and has some features inbuilt. It isn't meant for people who customize so heavily or people who already have systems in place. One way I have thought about this previously is: Do I want this company to make money and stay alive? If the answer is yes, I just make peace with it. If the answer is, I do not like where this is going, I try to find an alternative. Because otherwise, very often, if companies do not focus on making money, they just shut down (look at me talking, working in research, and choosing to make less money in return for increased misery).
