@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.361">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Nerdy Momo Cat">
+<meta name="dcterms.date" content="2023-05-30">
+<meta name="description" content="If you are looking to create a professional website to showcase your work or promote your business, Quarto is an excellent platform to consider.">
+
+<title>Setting up your own Quarto Website</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../favicon.ico" rel="icon">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script type="application/json" class="js-hypothesis-config">
+{
+  "theme": "clean",
+  "openSidebar": false,
+  "showHighlights": "whenSidebarOpen"
+}
+</script>
+<script async="" src="https://hypothes.is/embed.js"></script>
+<script>
+    
+</script>
+<script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="nerdymomocat" data-description="Support me on Buy me a coffee!" data-message="" data-color="#eb6864" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+
+
+<meta property="og:title" content="Setting up your own Quarto Website">
+<meta property="og:description" content="If you are looking to create a professional website to showcase your work or promote your business, Quarto is an excellent platform to consider.">
+<meta property="og:image" content="https://www.notion.so/icons/search_blue.svg">
+<meta property="og:site-name" content="Nerdy Momo Cat">
+<meta name="twitter:title" content="Setting up your own Quarto Website">
+<meta name="twitter:description" content="If you are looking to create a professional website to showcase your work or promote your business, Quarto is an excellent platform to consider.">
+<meta name="twitter:image" content="https://www.notion.so/icons/search_blue.svg">
+<meta name="twitter:creator" content="@nerdymomocat">
+<meta name="twitter:site" content="@nerdymomocat">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Nerdy Momo Cat</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../posts/index.html" rel="" target=""><i class="bi bi-text-indent-left" role="img">
+</i> 
+ <span class="menu-text">Posts</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../stream/index.html" rel="" target=""><i class="bi bi-cursor-text" role="img">
+</i> 
+ <span class="menu-text">Thought Stream</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://twitter.com/nerdymomocat" rel="" target=""><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text">Find me on Twitter</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../posts/index.xml" rel="" target=""><i class="bi bi-rss" role="img">
+</i> 
+ <span class="menu-text">Feed</span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#personal-website-renewed" id="toc-personal-website-renewed" class="nav-link active" data-scroll-target="#personal-website-renewed">Personal Website Renewed</a></li>
+  </ul>
+</nav>
+    <div class="quarto-margin-footer"><div class="margin-footer-item">
+<br>
+<div id="container" class="buy-coffee-btn">
+<a href="https://www.buymeacoffee.com/nerdymomocat"> <button class="buy-coffee"> <span class="circle" aria-hidden="true"> <span class="icon arrow"></span> </span> <span class="button-text"><b>Buy me a coffee</b></span> </button></a>
+</div>
+</div></div></div>
+<!-- main -->
+<main class="content page-columns page-full" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Setting up your own Quarto Website</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">Tutorial</div>
+    <div class="quarto-category">Blog</div>
+    <div class="quarto-category">Website</div>
+    <div class="quarto-category">Publishing</div>
+    <div class="quarto-category">Writing</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    If you are looking to create a professional website to showcase your work or promote your business, Quarto is an excellent platform to consider.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Nerdy Momo Cat </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">May 30, 2023</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="personal-website-renewed" class="level1 page-columns page-full">
+<h1>Personal Website Renewed</h1>
+<p>Area: Work In Page Content?: No In Page Links: https://thesephist.com/ https://ddimmery.com/ https://quartz.jzhao.xyz/ https://albert-rapp.de/blog.html https://wasimlorgat.com/ https://github.com/jackyzha0/quartz https://quarto.org/ https://mine-cetinkaya-rundel.github.io/quarto-tip-a-day/ https://github.com/binyamin/eleventy-garden https://github.com/maximevaillancourt/digital-garden-jekyll-template https://simply-jekyll.netlify.app/ https://github.com/emoriarty/jekyll-notion https://github.com/foambubble/foam https://github.com/echo724/notion2md https://github.com/tangly1024/NotionNext https://github.com/transitive-bullshit/nextjs-notion-starter-kit https://github.com/morethanmin/morethan-log https://github.com/otoyo/astro-notion-blog https://github.com/craigary/nobelium https://github.com/souvikinator/notion-to-md https://github.com/ivelasq/pipedream/blob/main/custom.ejs https://github.com/nerdymomocat/nerdymomocat.github.io https://marketplace.visualstudio.com/items?itemName=quarto.quarto https://beamilz.com/posts/2022-06-05-creating-a-blog-with-quarto/en/index.html#setting-up-comments Last Edited: May 30, 2023 5:53 AM Status: New Entry Type: Text Material</p>
+<aside>
+<p><img src="https://www.notion.so/icons/search_blue.svg" alt="https://www.notion.so/icons/search_blue.svg" width="40px"> <strong>Searching for options</strong></p>
+<ul>
+<li><p>Examples</p>
+<p><a href="https://thesephist.com/">thesephist.com</a></p>
+<p><a href="https://ddimmery.com/">Drew Dimmery</a></p>
+<p><a href="https://quartz.jzhao.xyz/">🪴 Quartz 3.3</a></p>
+<p><a href="https://albert-rapp.de/blog.html">Albert Rapp – blog</a></p>
+<p><a href="https://wasimlorgat.com/">Wasim Lorgat</a></p></li>
+<li><p>Softwares</p>
+<p><a href="https://github.com/jackyzha0/quartz" class="uri">https://github.com/jackyzha0/quartz</a></p>
+<p><a href="https://quarto.org/">Quarto</a></p>
+<ul>
+<li><p>Resources</p>
+<p><a href="https://mine-cetinkaya-rundel.github.io/quarto-tip-a-day/">A Quarto tip a day</a></p>
+<p><a href="https://github.com/ivelasq/pipedream/blob/main/custom.ejs">pipedream/custom.ejs at main · ivelasq/pipedream</a></p>
+<p><a href="https://github.com/mcanouil/awesome-quarto" class="uri">https://github.com/mcanouil/awesome-quarto</a></p>
+<ul>
+<li><p>Quarto Extensions</p>
+<p><a href="https://github.com/shafayetShafee/material-icons" class="uri">https://github.com/shafayetShafee/material-icons</a></p>
+<p><a href="https://github.com/shafayetShafee/downloadthis" class="uri">https://github.com/shafayetShafee/downloadthis</a></p>
+<p><a href="https://github.com/shafayetShafee/collapse-social-embeds" class="uri">https://github.com/shafayetShafee/collapse-social-embeds</a></p>
+<p><a href="https://github.com/shafayetShafee/collapse-callout" class="uri">https://github.com/shafayetShafee/collapse-callout</a></p>
+<p><a href="https://github.com/sellorm/quarto-social-embeds" class="uri">https://github.com/sellorm/quarto-social-embeds</a></p></li>
+<li><p>Quick References</p>
+<p>Get icons from: <a href="https://icons.getbootstrap.com/" class="uri">https://icons.getbootstrap.com/</a></p></li>
+</ul></li>
+</ul>
+<p><a href="https://github.com/binyamin/eleventy-garden" class="uri">https://github.com/binyamin/eleventy-garden</a></p>
+<p><a href="https://github.com/maximevaillancourt/digital-garden-jekyll-template" class="uri">https://github.com/maximevaillancourt/digital-garden-jekyll-template</a></p>
+<p><a href="https://simply-jekyll.netlify.app/">Simply Jekyll</a></p>
+<ul>
+<li><p>Resources</p>
+<p><a href="https://github.com/emoriarty/jekyll-notion" class="uri">https://github.com/emoriarty/jekyll-notion</a></p></li>
+</ul>
+<p><a href="https://github.com/foambubble/foam" class="uri">https://github.com/foambubble/foam</a></p></li>
+<li><p>Notion to Blog</p>
+<p><a href="https://github.com/echo724/notion2md" class="uri">https://github.com/echo724/notion2md</a></p>
+<p><a href="https://github.com/tangly1024/NotionNext" class="uri">https://github.com/tangly1024/NotionNext</a></p>
+<p><a href="https://github.com/transitive-bullshit/nextjs-notion-starter-kit" class="uri">https://github.com/transitive-bullshit/nextjs-notion-starter-kit</a></p>
+<p><a href="https://github.com/izuolan/notionic" class="uri">https://github.com/izuolan/notionic</a></p>
+<p><a href="https://github.com/morethanmin/morethan-log" class="uri">https://github.com/morethanmin/morethan-log</a></p>
+<p><a href="https://github.com/otoyo/astro-notion-blog" class="uri">https://github.com/otoyo/astro-notion-blog</a></p>
+<p><a href="https://github.com/craigary/nobelium" class="uri">https://github.com/craigary/nobelium</a></p>
+<p><a href="https://github.com/souvikinator/notion-to-md" class="uri">https://github.com/souvikinator/notion-to-md</a></p></li>
+</ul>
+</aside>
+<aside>
+<p><img src="https://www.notion.so/icons/info-alternate_gray.svg" alt="https://www.notion.so/icons/info-alternate_gray.svg" width="40px"> <strong>Setting up blog w/ Quarto using a theme by Wasim</strong></p>
+<p><a href="https://wasimlorgat.com/">Wasim Lorgat</a></p>
+<p><a href="https://github.com/seeM/blog" class="uri">https://github.com/seeM/blog</a></p>
+</aside>
+<ol type="1">
+<li><p>Download the zip and unarchive it to a folder that you want to be remote repo for your website/webpage.</p>
+<p>You can use my modification from:</p>
+<p><a href="https://github.com/nerdymomocat/nerdymomocat.github.io" class="uri">https://github.com/nerdymomocat/nerdymomocat.github.io</a></p>
+<p>The rest of the steps will talk about how to modify this version.</p></li>
+<li><p>Install the quarto extension for VS Code</p>
+<p><a href="https://marketplace.visualstudio.com/items?itemName=quarto.quarto"></a></p></li>
+<li><p>Create a repository in your github account named <code>username.github.io</code></p></li>
+<li><p><code>cd</code> into the directory</p></li>
+<li><p>Perform these starting git commands</p>
+<ol type="1">
+<li><code>git init</code></li>
+<li><code>git add .</code></li>
+<li><code>git commit -m "Initial commit”</code></li>
+<li><code>git remote add origin git@gitsshconfig:username/username.github.io</code></li>
+<li><code>git push -u origin master</code></li>
+</ol></li>
+<li><p>Use <code>code .</code> to open the project in VS Code.</p></li>
+<li><p>Modify basic configuration:</p>
+<ol type="1">
+<li><p>Replace <code>favicon.ico</code> by the icon you want to use for your website.</p></li>
+<li><p>Modify <code>index.qmd</code></p>
+<p>term</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>``` markdown</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>listing:</td>
+</tr>
+<tr class="even">
+<td>contents: [posts]</td>
+</tr>
+<tr class="odd">
+<td>sort: “date desc”</td>
+</tr>
+<tr class="even">
+<td>categories: true</td>
+</tr>
+<tr class="odd">
+<td>fields: [date, title, image, description, categories]</td>
+</tr>
+<tr class="even">
+<td>feed: true</td>
+</tr>
+<tr class="odd">
+<td>filter-ui: false</td>
+</tr>
+<tr class="even">
+<td>sort-ui: false</td>
+</tr>
+<tr class="odd">
+<td>date-format: MM-DD-YYYY #&lt;1&gt;</td>
+</tr>
+<tr class="even">
+<td>comments: false</td>
+</tr>
+<tr class="odd">
+<td>description: Recent posts</td>
+</tr>
+<tr class="even">
+<td>pagetitle: Nerdy Momo Cat #&lt;2&gt;</td>
+</tr>
+</tbody>
+</table>
+<h1 style="margin-bottom: 2rem !important">
+<p>Hi, I’m Nerdy Momo Cat #&lt;3&gt;</p>
+</h1>
+<div class="me">
+<p><img src="images/me.png" class="img-fluid"> #&lt;4&gt;</p>
+</div>
+<p>Personal Knowledge Management | Notion, Coding &amp; Automations, Note Taking and Sketchnoting. #&lt;5&gt;</p>
+<h2 id="get-in-touch" class="anchored" data-anchor-id="personal-website-renewed">Get in touch</h2>
+<p>Email me at <a href="mailto:nerdymomocat@gmail.com">nerdymomocat@gmail.com</a> #&lt;6&gt; or DM me on <a href="https://twitter.com/nerdymomocat">Twitter</a> #&lt;7&gt; if you’d like to chat! ```</p>
+<ol type="1">
+<li>Replace with the date format you want if need be</li>
+<li>Replace with your name</li>
+<li>Replace with your greeting</li>
+<li>Replace with your photo/image in the folder and name it <code>me.png</code></li>
+<li>Replace with description about yourself</li>
+<li>Replace with your email</li>
+<li>Replace with your twitter account</li>
+</ol></li>
+<li><p>Modify <code>_quarto.yml</code></p>
+<div class="sourceCode" id="annotated-cell-1"><pre class="sourceCode yaml code-annotation-code code-with-copy code-annotated"><code class="sourceCode yaml"><span id="annotated-cell-1-1"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">project</span><span class="kw">:</span></span>
+<span id="annotated-cell-1-2"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">type</span><span class="kw">:</span><span class="at"> website</span></span>
+<span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">preview</span><span class="kw">:</span></span>
+<span id="annotated-cell-1-4"><a href="#annotated-cell-1-4" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">port</span><span class="kw">:</span><span class="at"> </span><span class="dv">4200</span></span>
+<span id="annotated-cell-1-5"><a href="#annotated-cell-1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">execute</span><span class="kw">:</span></span>
+<span id="annotated-cell-1-6"><a href="#annotated-cell-1-6" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">freeze</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="annotated-cell-1-7"><a href="#annotated-cell-1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-8"><a href="#annotated-cell-1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">website</span><span class="kw">:</span></span>
+<span id="annotated-cell-1-9"><a href="#annotated-cell-1-9" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">open-graph</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="annotated-cell-1-10"><a href="#annotated-cell-1-10" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">twitter-card</span><span class="kw">:</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-1-11" class="code-annotation-target"><a href="#annotated-cell-1-11" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">creator</span><span class="kw">:</span><span class="at"> </span><span class="st">"@nerdymomocat"</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-1-12" class="code-annotation-target"><a href="#annotated-cell-1-12" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">site</span><span class="kw">:</span><span class="at"> </span><span class="st">"@nerdymomocat"</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-1-13" class="code-annotation-target"><a href="#annotated-cell-1-13" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"Nerdy Momo Cat"</span></span>
+<span id="annotated-cell-1-14"><a href="#annotated-cell-1-14" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">favicon</span><span class="kw">:</span><span class="at"> favicon.ico</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-1-15" class="code-annotation-target"><a href="#annotated-cell-1-15" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">site-url</span><span class="kw">:</span><span class="at"> https://nerdymomocat.github.io</span></span>
+<span id="annotated-cell-1-16"><a href="#annotated-cell-1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-17"><a href="#annotated-cell-1-17" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">navbar</span><span class="kw">:</span></span>
+<span id="annotated-cell-1-18"><a href="#annotated-cell-1-18" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">background</span><span class="kw">:</span><span class="at"> dark</span></span>
+<span id="annotated-cell-1-19"><a href="#annotated-cell-1-19" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">pinned</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="annotated-cell-1-20"><a href="#annotated-cell-1-20" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">collapse</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="annotated-cell-1-21"><a href="#annotated-cell-1-21" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">search</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="annotated-cell-1-22"><a href="#annotated-cell-1-22" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">left</span><span class="kw">:</span></span>
+<span id="annotated-cell-1-23"><a href="#annotated-cell-1-23" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">text</span><span class="kw">:</span><span class="at"> Posts</span></span>
+<span id="annotated-cell-1-24"><a href="#annotated-cell-1-24" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">file</span><span class="kw">:</span><span class="at"> index.qmd</span></span>
+<span id="annotated-cell-1-25"><a href="#annotated-cell-1-25" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> stream/index.qmd</span></span>
+<span id="annotated-cell-1-26"><a href="#annotated-cell-1-26" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">right</span><span class="kw">:</span></span>
+<span id="annotated-cell-1-27"><a href="#annotated-cell-1-27" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">icon</span><span class="kw">:</span><span class="at"> twitter</span></span>
+<span id="annotated-cell-1-28"><a href="#annotated-cell-1-28" aria-hidden="true" tabindex="-1"></a><span class="at">                </span><span class="fu">text</span><span class="kw">:</span><span class="at"> Find me on Twitter</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="annotated-cell-1-29" class="code-annotation-target"><a href="#annotated-cell-1-29" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">href</span><span class="kw">:</span><span class="at"> https://twitter.com/nerdymomocat</span></span>
+<span id="annotated-cell-1-30"><a href="#annotated-cell-1-30" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">icon</span><span class="kw">:</span><span class="at"> rss</span></span>
+<span id="annotated-cell-1-31"><a href="#annotated-cell-1-31" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">text</span><span class="kw">:</span><span class="at"> Posts</span></span>
+<span id="annotated-cell-1-32"><a href="#annotated-cell-1-32" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">href</span><span class="kw">:</span><span class="at"> index.xml</span></span>
+<span id="annotated-cell-1-33"><a href="#annotated-cell-1-33" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">icon</span><span class="kw">:</span><span class="at"> rss</span></span>
+<span id="annotated-cell-1-34"><a href="#annotated-cell-1-34" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">text</span><span class="kw">:</span><span class="at"> Stream</span></span>
+<span id="annotated-cell-1-35"><a href="#annotated-cell-1-35" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">href</span><span class="kw">:</span><span class="at"> stream/index.xml</span></span>
+<span id="annotated-cell-1-36"><a href="#annotated-cell-1-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-37"><a href="#annotated-cell-1-37" aria-hidden="true" tabindex="-1"></a><span class="fu">format</span><span class="kw">:</span></span>
+<span id="annotated-cell-1-38"><a href="#annotated-cell-1-38" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">html</span><span class="kw">:</span></span>
+<span id="annotated-cell-1-39"><a href="#annotated-cell-1-39" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">theme</span><span class="kw">:</span><span class="at"> quarto_mod.scss</span></span>
+<span id="annotated-cell-1-40"><a href="#annotated-cell-1-40" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">highlight-style</span><span class="kw">:</span><span class="at"> quarto_mod.theme</span></span>
+<span id="annotated-cell-1-41"><a href="#annotated-cell-1-41" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">metadata</span><span class="kw">:</span></span>
+<span id="annotated-cell-1-42"><a href="#annotated-cell-1-42" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">pagetitle</span><span class="kw">:</span><span class="at"> </span><span class="st">"Setting up your own Quarto Website"</span></span>
+<span id="annotated-cell-1-43"><a href="#annotated-cell-1-43" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">freeze</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="annotated-cell-1-44"><a href="#annotated-cell-1-44" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">title-block-banner</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="annotated-cell-1-45"><a href="#annotated-cell-1-45" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">author</span><span class="kw">:</span><span class="at"> Nerdy Momo Cat</span></span>
+<span id="annotated-cell-1-46"><a href="#annotated-cell-1-46" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">title-block-categories</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="annotated-cell-1-47"><a href="#annotated-cell-1-47" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">toc-depth</span><span class="kw">:</span><span class="at"> </span><span class="dv">5</span></span>
+<span id="annotated-cell-1-48"><a href="#annotated-cell-1-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-49"><a href="#annotated-cell-1-49" aria-hidden="true" tabindex="-1"></a><span class="fu">comments</span><span class="kw">:</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="7" onclick="event.preventDefault();">7</a><span id="annotated-cell-1-50" class="code-annotation-target"><a href="#annotated-cell-1-50" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">giscus</span><span class="kw">:</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="8" onclick="event.preventDefault();">8</a><span id="annotated-cell-1-51" class="code-annotation-target"><a href="#annotated-cell-1-51" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">repo</span><span class="kw">:</span><span class="at"> nerdymomocat/nerdymomocat.github.io</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="9" onclick="event.preventDefault();">9</a><span id="annotated-cell-1-52" class="code-annotation-target"><a href="#annotated-cell-1-52" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">repo-id</span><span class="kw">:</span><span class="at"> R_kgDOJoxbeA</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="10" onclick="event.preventDefault();">10</a><span id="annotated-cell-1-53" class="code-annotation-target"><a href="#annotated-cell-1-53" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">category</span><span class="kw">:</span><span class="at"> Announcements</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="11" onclick="event.preventDefault();">11</a><span id="annotated-cell-1-54" class="code-annotation-target"><a href="#annotated-cell-1-54" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">category-id</span><span class="kw">:</span><span class="at"> DIC_kwDOJoxbeM4CWzrO</span></span>
+<span id="annotated-cell-1-55"><a href="#annotated-cell-1-55" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">mapping</span><span class="kw">:</span><span class="at"> pathname</span></span>
+<span id="annotated-cell-1-56"><a href="#annotated-cell-1-56" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">loading</span><span class="kw">:</span><span class="at"> lazy</span></span>
+<span id="annotated-cell-1-57"><a href="#annotated-cell-1-57" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">input-position</span><span class="kw">:</span><span class="at"> top</span></span>
+<span id="annotated-cell-1-58"><a href="#annotated-cell-1-58" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">reactions-enabled</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="annotated-cell-1-59"><a href="#annotated-cell-1-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-60"><a href="#annotated-cell-1-60" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">hypothesis</span><span class="kw">:</span></span>
+<span id="annotated-cell-1-61"><a href="#annotated-cell-1-61" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">theme</span><span class="kw">:</span><span class="at"> clean</span></span>
+<span id="annotated-cell-1-62"><a href="#annotated-cell-1-62" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">openSidebar</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="annotated-cell-1-63"><a href="#annotated-cell-1-63" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">showHighlights</span><span class="kw">:</span><span class="at"> whenSidebarOpen</span></span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="11" data-code-annotation="1">Add your twitter handle</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="12" data-code-annotation="2">Add your website handle</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="13" data-code-annotation="3">Add the site title that shows up</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="15" data-code-annotation="4">Change to your <a href="http://github.io">github.io</a> url</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="29" data-code-annotation="5">Add url to your twitter profile</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="7">7</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="50" data-code-annotation="7">Setup giscus from <a href="https://giscus.app/" class="uri">https://giscus.app/</a></span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="8">8</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="51" data-code-annotation="8">Set the name of your repo</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="9">9</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="52" data-code-annotation="9">Obtain the repo-id from giscus page and paste it here</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="10">10</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="53" data-code-annotation="10">Quarto suggests to use Announcements so only giscus can add comments: <a href="https://quarto.org/docs/reference/projects/websites.html#giscus" class="uri">https://quarto.org/docs/reference/projects/websites.html#giscus</a></span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="11">11</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="54,60" data-code-annotation="11">Paste the category-id from giscus</span>
+</dd>
+</dl></li>
+</ol></li>
+</ol>
+
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<script src="https://giscus.app/client.js" data-repo="nerdymomocat/nerdymomocat.github.io" data-repo-id="R_kgDOJoxbeA" data-category="Announcements" data-category-id="DIC_kwDOJoxbeM4CWzrO" data-mapping="pathname" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="en" crossorigin="anonymous" data-loading="lazy" async="">
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

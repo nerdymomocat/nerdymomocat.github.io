@@ -9,6 +9,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/quarto_blog_direct_export.html",
       "/posts/jupytercon-2023.html",
       "/posts/tools-wishlist.html",
       "/posts/hats.html"
@@ -17,6 +18,7 @@
   {
     "listing": "/posts/index.html",
     "items": [
+      "/posts/quarto_blog_direct_export.html",
       "/posts/jupytercon-2023.html",
       "/posts/tools-wishlist.html",
       "/posts/hats.html"
