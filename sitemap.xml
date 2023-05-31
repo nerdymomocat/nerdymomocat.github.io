@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://nerdymomocat.github.io/posts/notion_latex_resume.html</loc>
-    <lastmod>2023-05-31T13:43:00.096Z</lastmod>
-  </url>
-  <url>
-    <loc>https://nerdymomocat.github.io/posts/index.html</loc>
-    <lastmod>2023-05-31T13:43:01.132Z</lastmod>
-  </url>
-  <url>
-    <loc>https://nerdymomocat.github.io/posts/graph_based_notetaking_opinion.html</loc>
-    <lastmod>2023-05-31T13:43:02.272Z</lastmod>
-  </url>
-  <url>
-    <loc>https://nerdymomocat.github.io/posts/self_organizing_bookmarks.html</loc>
-    <lastmod>2023-05-31T13:43:02.760Z</lastmod>
-  </url>
-  <url>
-    <loc>https://nerdymomocat.github.io/index.html</loc>
-    <lastmod>2023-05-31T13:43:03.416Z</lastmod>
-  </url>
-  <url>
     <loc>https://nerdymomocat.github.io/stream/white-boarding.html</loc>
-    <lastmod>2023-05-31T13:43:03.748Z</lastmod>
-  </url>
-  <url>
-    <loc>https://nerdymomocat.github.io/stream/url-shorteners.html</loc>
-    <lastmod>2023-05-31T13:43:04.104Z</lastmod>
+    <lastmod>2023-05-31T13:47:13.821Z</lastmod>
   </url>
   <url>
     <loc>https://nerdymomocat.github.io/stream/index.html</loc>
-    <lastmod>2023-05-31T13:43:04.752Z</lastmod>
+    <lastmod>2023-05-31T13:47:14.581Z</lastmod>
+  </url>
+  <url>
+    <loc>https://nerdymomocat.github.io/stream/url-shorteners.html</loc>
+    <lastmod>2023-05-31T13:47:15.317Z</lastmod>
+  </url>
+  <url>
+    <loc>https://nerdymomocat.github.io/index.html</loc>
+    <lastmod>2023-05-31T13:47:16.061Z</lastmod>
+  </url>
+  <url>
+    <loc>https://nerdymomocat.github.io/posts/self_organizing_bookmarks.html</loc>
+    <lastmod>2023-05-31T13:47:17.117Z</lastmod>
+  </url>
+  <url>
+    <loc>https://nerdymomocat.github.io/posts/index.html</loc>
+    <lastmod>2023-05-31T13:47:18.085Z</lastmod>
+  </url>
+  <url>
+    <loc>https://nerdymomocat.github.io/posts/notion_latex_resume.html</loc>
+    <lastmod>2023-05-31T13:47:18.929Z</lastmod>
+  </url>
+  <url>
+    <loc>https://nerdymomocat.github.io/posts/graph_based_notetaking_opinion.html</loc>
+    <lastmod>2023-05-31T13:47:19.681Z</lastmod>
   </url>
 </urlset>

@@ -1,10 +1,9 @@
 [
   {
-    "listing": "/posts/index.html",
+    "listing": "/stream/index.html",
     "items": [
-      "/posts/notion_latex_resume.html",
-      "/posts/self_organizing_bookmarks.html",
-      "/posts/graph_based_notetaking_opinion.html"
+      "/stream/white-boarding.html",
+      "/stream/url-shorteners.html"
     ]
   },
   {
@@ -16,10 +15,11 @@
     ]
   },
   {
-    "listing": "/stream/index.html",
+    "listing": "/posts/index.html",
     "items": [
-      "/stream/white-boarding.html",
-      "/stream/url-shorteners.html"
+      "/posts/notion_latex_resume.html",
+      "/posts/self_organizing_bookmarks.html",
+      "/posts/graph_based_notetaking_opinion.html"
     ]
   }
 ]
