@@ -10,7 +10,149 @@
 <atom:link href="https://nerdymomocat.github.io/posts/index.xml" rel="self" type="application/rss+xml"/>
 <description>Long Form Posts</description>
 <generator>quarto-1.3.361</generator>
-<lastBuildDate>Wed, 03 May 2023 05:00:00 GMT</lastBuildDate>
+<lastBuildDate>Wed, 31 May 2023 15:16:29 GMT</lastBuildDate>
+<item>
+  <title>Collapse-social-embeds Example</title>
+  <dc:creator>Shafayet Khan Shafee</dc:creator>
+  <link>https://nerdymomocat.github.io/posts/example_collapsible.html</link>
+  <description><![CDATA[ 
+
+
+
+<section id="github-gist" class="level3">
+<h3 class="anchored" data-anchor-id="github-gist">Github Gist</h3>
+<div class="gist">
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<script src="https://gist.github.com/tarleb/852f6ae98764bea56aeeac979f3c17be.js"></script>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="loom" class="level3">
+<h3 class="anchored" data-anchor-id="loom">Loom</h3>
+<div class="loom">
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div style="position: relative; padding-bottom: 56.25%; height: 0;"><iframe src="https://www.loom.com/embed/8619b03224f74282b6d56cbedbcd3fc6" frameborder="0" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen="" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="mastodon" class="level3">
+<h3 class="anchored" data-anchor-id="mastodon">Mastodon</h3>
+<div class="mstd">
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div style="position: relative; padding-bottom: 56.25%; height: 0;"> <iframe src="https://fosstodon.org/@pandoc/109712438144865859/embed" class="mastodon-embed" style="max-width: 100%; border: 0;" width="100%" height="400" allowfullscreen="allowfullscreen"></iframe><script src="https://mastodon.social/embed.js" async="async"></script></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="tweets" class="level3">
+<h3 class="anchored" data-anchor-id="tweets">Tweets</h3>
+<div class="tweet">
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div id="tweet-66134"></div><script>tweet={"url":"https:\/\/twitter.com\/pandoc_tips\/status\/1576105972103516160","author_name":"\uD83D\uDC18 @pandoc@fosstodon.org","author_url":"https:\/\/twitter.com\/pandoc_tips","html":"\u003Cblockquote class=\"twitter-tweet\" align=\"center\"\u003E\u003Cp lang=\"en\" dir=\"ltr\"\u003ECurrent and aspiring authors of Lua filters might benefit from the resources published by \u003Ca href=\"https:\/\/twitter.com\/quarto_pub?ref_src=twsrc%5Etfw\"\u003E@quarto_pub\u003C\/a\u003E, including many links to tutorials and a VS Code extension that supports type checking.\u003Ca href=\"https:\/\/t.co\/WeWzE8V5P2\"\u003Ehttps:\/\/t.co\/WeWzE8V5P2\u003C\/a\u003E\u003C\/p\u003E&mdash; \uD83D\uDC18 @pandoc@fosstodon.org (@pandoc_tips) \u003Ca href=\"https:\/\/twitter.com\/pandoc_tips\/status\/1576105972103516160?ref_src=twsrc%5Etfw\"\u003EOctober 1, 2022\u003C\/a\u003E\u003C\/blockquote\u003E\n\u003Cscript async src=\"https:\/\/platform.twitter.com\/widgets.js\" charset=\"utf-8\"\u003E\u003C\/script\u003E\n","width":550,"height":null,"type":"rich","cache_age":"3153600000","provider_name":"Twitter","provider_url":"https:\/\/twitter.com","version":"1.0"};document.getElementById("tweet-66134").innerHTML = tweet["html"];</script>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="vimeo" class="level3">
+<h3 class="anchored" data-anchor-id="vimeo">Vimeo</h3>
+<div class="vimeo">
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;"> <iframe src="https://player.vimeo.com/video/783455878" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" title="vimeo video" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen=""></iframe> </div> 
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="youtube" class="level3">
+<h3 class="anchored" data-anchor-id="youtube">Youtube</h3>
+<div class="youtube">
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div id="youtube-frame" style="position: relative; padding-bottom: 56.25%; /* 16:9 */ height: 0;"><iframe width="100%" height="" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" src="https://www.youtube.com/embed/mrvhk2XUfWo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+</div>
+</div>
+</div>
+</div>
+
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a> ]]></description>
+  <category>Try</category>
+  <guid>https://nerdymomocat.github.io/posts/example_collapsible.html</guid>
+  <pubDate>Wed, 31 May 2023 15:16:29 GMT</pubDate>
+</item>
 <item>
   <title>Creating an Updated Resume with Notion and Python</title>
   <link>https://nerdymomocat.github.io/posts/notion_latex_resume.html</link>

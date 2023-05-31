@@ -1,35 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://nerdymomocat.github.io/stream/white-boarding.html</loc>
-    <lastmod>2023-05-31T14:14:41.185Z</lastmod>
-  </url>
-  <url>
-    <loc>https://nerdymomocat.github.io/stream/index.html</loc>
-    <lastmod>2023-05-31T14:14:42.097Z</lastmod>
-  </url>
-  <url>
-    <loc>https://nerdymomocat.github.io/stream/url-shorteners.html</loc>
-    <lastmod>2023-05-31T14:14:43.965Z</lastmod>
-  </url>
-  <url>
-    <loc>https://nerdymomocat.github.io/index.html</loc>
-    <lastmod>2023-05-31T14:14:44.833Z</lastmod>
-  </url>
-  <url>
-    <loc>https://nerdymomocat.github.io/posts/self_organizing_bookmarks.html</loc>
-    <lastmod>2023-05-31T14:14:46.021Z</lastmod>
+    <loc>https://nerdymomocat.github.io/posts/notion_latex_resume.html</loc>
+    <lastmod>2023-05-31T15:16:46.941Z</lastmod>
   </url>
   <url>
     <loc>https://nerdymomocat.github.io/posts/index.html</loc>
-    <lastmod>2023-05-31T14:14:47.273Z</lastmod>
+    <lastmod>2023-05-31T15:16:47.953Z</lastmod>
   </url>
   <url>
-    <loc>https://nerdymomocat.github.io/posts/notion_latex_resume.html</loc>
-    <lastmod>2023-05-31T14:14:48.289Z</lastmod>
+    <loc>https://nerdymomocat.github.io/posts/example_collapsible.html</loc>
+    <lastmod>2023-05-31T15:16:48.837Z</lastmod>
   </url>
   <url>
     <loc>https://nerdymomocat.github.io/posts/graph_based_notetaking_opinion.html</loc>
-    <lastmod>2023-05-31T14:14:49.273Z</lastmod>
+    <lastmod>2023-05-31T15:16:49.509Z</lastmod>
+  </url>
+  <url>
+    <loc>https://nerdymomocat.github.io/posts/self_organizing_bookmarks.html</loc>
+    <lastmod>2023-05-31T15:16:49.913Z</lastmod>
+  </url>
+  <url>
+    <loc>https://nerdymomocat.github.io/index.html</loc>
+    <lastmod>2023-05-31T15:16:50.597Z</lastmod>
+  </url>
+  <url>
+    <loc>https://nerdymomocat.github.io/stream/white-boarding.html</loc>
+    <lastmod>2023-05-31T15:16:50.917Z</lastmod>
+  </url>
+  <url>
+    <loc>https://nerdymomocat.github.io/stream/url-shorteners.html</loc>
+    <lastmod>2023-05-31T15:16:51.249Z</lastmod>
+  </url>
+  <url>
+    <loc>https://nerdymomocat.github.io/stream/index.html</loc>
+    <lastmod>2023-05-31T15:16:51.921Z</lastmod>
+  </url>
+  <url>
+    <loc>https://nerdymomocat.github.io/stream/notion_new_project_launch.html</loc>
+    <lastmod>2023-05-31T15:16:52.569Z</lastmod>
   </url>
 </urlset>

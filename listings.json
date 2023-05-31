@@ -1,25 +1,28 @@
 [
   {
-    "listing": "/stream/index.html",
+    "listing": "/posts/index.html",
     "items": [
-      "/stream/white-boarding.html",
-      "/stream/url-shorteners.html"
+      "/posts/example_collapsible.html",
+      "/posts/notion_latex_resume.html",
+      "/posts/self_organizing_bookmarks.html",
+      "/posts/graph_based_notetaking_opinion.html"
     ]
   },
   {
     "listing": "/index.html",
     "items": [
+      "/posts/example_collapsible.html",
       "/posts/notion_latex_resume.html",
       "/posts/self_organizing_bookmarks.html",
       "/posts/graph_based_notetaking_opinion.html"
     ]
   },
   {
-    "listing": "/posts/index.html",
+    "listing": "/stream/index.html",
     "items": [
-      "/posts/notion_latex_resume.html",
-      "/posts/self_organizing_bookmarks.html",
-      "/posts/graph_based_notetaking_opinion.html"
+      "/stream/white-boarding.html",
+      "/stream/notion_new_project_launch.html",
+      "/stream/url-shorteners.html"
     ]
   }
 ]
