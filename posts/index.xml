@@ -161,7 +161,6 @@
 
 <a onclick="window.scrollTo(0, 0); return false;" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a> ]]></description>
   <category>Tutorial</category>
-  <category>Resume</category>
   <category>Resources</category>
   <category>Notion</category>
   <category>Publishing</category>
@@ -170,6 +169,82 @@
   <category>Automation</category>
   <guid>https://nerdymomocat.github.io/posts/notion_latex_resume.html</guid>
   <pubDate>Wed, 03 May 2023 05:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Streamline Your Bookmark Management w/ Notion and AI</title>
+  <link>https://nerdymomocat.github.io/posts/self_organizing_bookmarks.html</link>
+  <description><![CDATA[ 
+
+
+
+<section id="why" class="level4">
+<h4 class="anchored" data-anchor-id="why">Why?</h4>
+<p>I hate having to tag everything in any Bookmark Manager, and an extra step of processing is just too much for my ADHD mind to get to.</p>
+<p>That leads to inbox with 200+ entries.</p>
+<p>And hence, this automation.</p>
+</section>
+<section id="how" class="level4">
+<h4 class="anchored" data-anchor-id="how">How?</h4>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://nerdymomocat.github.io/posts/images/self_organizing_bookmarks/image2.gif" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Example of self-organizing bookmarks working</figcaption>
+</figure>
+</div>
+<p>What does it do?</p>
+<section id="extracts-content-of-the-page" class="level5">
+<h5 class="anchored" data-anchor-id="extracts-content-of-the-page">Extracts content of the page</h5>
+<p>Checks if the content loading is not hindered due to javascript</p>
+</section>
+<section id="takes-screenshot-of-the-page-using-screenia-by-s_badaoui" class="level5">
+<h5 class="anchored" data-anchor-id="takes-screenshot-of-the-page-using-screenia-by-s_badaoui">Takes screenshot of the page using <a href="https://www.screenia.best/">Screenia</a> by <span class="citation" data-cites="s_badaoui">@s_badaoui</span></h5>
+<p>If it could not get the content of the page before, then uses ocr on image</p>
+</section>
+<section id="call-openai-api" class="level5">
+<h5 class="anchored" data-anchor-id="call-openai-api">Call OpenAI API</h5>
+<p>It receives a JSON consisting of summary, tags and categories (chooses from a pre-selected list).</p>
+</section>
+<section id="add-screenshot-to-dropbox" class="level5">
+<h5 class="anchored" data-anchor-id="add-screenshot-to-dropbox">Add screenshot to dropbox</h5>
+<p>And then get URL of the uploaded image.</p>
+</section>
+<section id="parses-the-information" class="level5">
+<h5 class="anchored" data-anchor-id="parses-the-information">Parses the information</h5>
+<p>And adds everything to notion.</p>
+</section>
+</section>
+<section id="run-this-on-your-own" class="level4">
+<h4 class="anchored" data-anchor-id="run-this-on-your-own">Run this on your own</h4>
+<p>If you want to run this on your own, you need:</p>
+<ol type="1">
+<li><p>iOS/MacOS (because this is dependent on shortcuts app)</p></li>
+<li><p><a href="https://www.notion.so/help/create-integrations-with-the-notion-api">Notion Integration Key</a></p></li>
+<li><p>Bookmarks Database duplicated from the link below, shared with integration and then get its database ID</p></li>
+<li><p><a href="https://help.openai.com/en/articles/4936850-where-do-i-find-my-secret-api-key">Open AI API Key</a></p></li>
+<li><p>Free <a href="https://apps.apple.com/us/app/actions/id1586435171">Actions app</a> by <span class="citation" data-cites="sindresorhus">@sindresorhus [On both MacOS and iOS]</span></p></li>
+<li><p>Connect your dropbox account in shortcuts (should hopefully prompt itself)</p></li>
+</ol>
+<p>Issues:</p>
+<ol type="1">
+<li><p>It takes time to run this (and so you will see a spinner if you run this on ios, macos is in background, just don’t add 2 bookmarks in under a minute)</p></li>
+<li><p>Screenia has a rate limit and you can run into it.</p></li>
+<li><p>iOS will ask god-awful permissions each damn time.</p></li>
+</ol>
+<p>And finally, get the Apple Shortcut <a href="https://nerdymomocat-shortened-url.vercel.app/self_organizing_bookmarks_shortcuts">here</a>.</p>
+<p>If you do end up using this, I would really appreciate if you could contribute to my wishlist or buy me a coffee.</p>
+
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a> ]]></description>
+  <category>Tutorial</category>
+  <category>Resources</category>
+  <category>Notion</category>
+  <category>AI</category>
+  <category>Automation</category>
+  <category>Apple Shortcuts</category>
+  <guid>https://nerdymomocat.github.io/posts/self_organizing_bookmarks.html</guid>
+  <pubDate>Tue, 02 May 2023 05:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Is There a Need for Mainstream Graph-Based Note-Taking Tools?</title>
