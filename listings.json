@@ -2,7 +2,6 @@
   {
     "listing": "/posts/index.html",
     "items": [
-      "/posts/example_collapsible.html",
       "/posts/notion_latex_resume.html",
       "/posts/self_organizing_bookmarks.html",
       "/posts/graph_based_notetaking_opinion.html"
@@ -11,7 +10,6 @@
   {
     "listing": "/index.html",
     "items": [
-      "/posts/example_collapsible.html",
       "/posts/notion_latex_resume.html",
       "/posts/self_organizing_bookmarks.html",
       "/posts/graph_based_notetaking_opinion.html"
