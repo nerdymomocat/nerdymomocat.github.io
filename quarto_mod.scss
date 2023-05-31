@@ -95,7 +95,7 @@ a {
   position: relative;
 }
 
-:not(.metadata):not(.card-img-top):not(.buy-coffee-btn).code-annotation-anchor > a::before {
+:not(.metadata):not(.card-img-top):not(.buy-coffee-btn)> a::before {
   content: '';
   position: absolute;
   width: 100%;
@@ -109,7 +109,7 @@ a {
   transition: transform .3s ease-in-out;
 }
 
-:not(.metadata):not(.card-img-top):not(.buy-coffee-btn).code-annotation-anchor > a:hover::before {
+:not(.metadata):not(.card-img-top):not(.buy-coffee-btn)> a:hover::before {
   transform-origin: left;
   transform: scaleX(1);
 }
@@ -467,14 +467,14 @@ button {
   }
 
 /* Set 2 columns for mobile devices */
-@media (max-width: 900px) {
+@media (max-width: 991.98px) {
   .post-filter-grid {
       --bs-columns: 2;
   }
 }
 
 /* Set 3 columns for desktop devices */
-@media (min-width: 901px) {
+@media (min-width: 992px) {
   .post-filter-grid {
       --bs-columns: 3;
   }
