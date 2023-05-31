@@ -8,7 +8,7 @@ categories: [Opinion, PKM, Writing]
 "The Need for Mainstream Graph-Based Note-Taking Tools: A Critical Perspective" - 
 
 Unpopular opinion: I agree with [@fortelabs](https://twitter.com/fortelabs/) here. 
-{{< tweet fortelabs 1616173350778441729 >}}
+<!-- {{< tweet fortelabs 1616173350778441729 >}} -->
 
 Mass adoption of a tool is very different than "niche" critical. As someone who loves organization, I love delving into new apps. I love all the innovation that has been popping up with these apps.
 
