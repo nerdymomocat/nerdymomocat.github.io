@@ -7,9 +7,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Nerdy Momo Cat">
-<meta name="description" content="Recent posts">
+<meta name="dcterms.date" content="2023-04-23">
+<meta name="description" content="Exploring why graph-based note-taking apps lack mainstream appeal despite their popularity among certain niche groups and discussing the features that make a tool mainstream.">
 
-<title>Nerdy Momo Cat</title>
+<title>Automating voice notes in Notion</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -25,24 +26,22 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./favicon.ico" rel="icon">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../favicon.ico" rel="icon">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -63,57 +62,28 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-date','listing-title','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
+<script type="application/json" class="js-hypothesis-config">
+{
+  "theme": "clean",
+  "openSidebar": false,
+  "showHighlights": "whenSidebarOpen"
+}
+</script>
+<script async="" src="https://hypothes.is/embed.js"></script>
 <script>
     
 </script>
 <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="nerdymomocat" data-description="Support me on Buy me a coffee!" data-message="" data-color="#eb6864" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<meta property="og:title" content="Nerdy Momo Cat">
-<meta property="og:description" content="Recent posts">
-<meta property="og:image" content="https://nerdymomocat.github.io/images/me.png">
+<meta property="og:title" content="Automating voice notes in Notion">
+<meta property="og:description" content="Exploring why graph-based note-taking apps lack mainstream appeal despite their popularity among certain niche groups and discussing the features that make a tool mainstream.">
 <meta property="og:site-name" content="Nerdy Momo Cat">
-<meta property="og:image:height" content="512">
-<meta property="og:image:width" content="512">
-<meta name="twitter:title" content="Nerdy Momo Cat">
-<meta name="twitter:description" content="Recent posts">
-<meta name="twitter:image" content="https://nerdymomocat.github.io/images/me.png">
+<meta name="twitter:title" content="Automating voice notes in Notion">
+<meta name="twitter:description" content="Exploring why graph-based note-taking apps lack mainstream appeal despite their popularity among certain niche groups and discussing the features that make a tool mainstream.">
 <meta name="twitter:creator" content="@nerdymomocat">
 <meta name="twitter:site" content="@nerdymomocat">
-<meta name="twitter:image-height" content="512">
-<meta name="twitter:image-width" content="512">
-<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:card" content="summary">
 </head>
 
 <body class="nav-fixed">
@@ -123,7 +93,7 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Nerdy Momo Cat</span>
     </a>
   </div>
@@ -134,12 +104,12 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./posts/index.html" rel="" target=""><i class="bi bi-text-indent-left" role="img">
+    <a class="nav-link" href="../posts/index.html" rel="" target=""><i class="bi bi-text-indent-left" role="img">
 </i> 
  <span class="menu-text">Posts</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./stream/index.html" rel="" target=""><i class="bi bi-cursor-text" role="img">
+    <a class="nav-link" href="../stream/index.html" rel="" target=""><i class="bi bi-cursor-text" role="img">
 </i> 
  <span class="menu-text">Thought Stream</span></a>
   </li>  
@@ -151,7 +121,7 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">Find me on Twitter</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./posts/index.xml" rel="" target=""><i class="bi bi-rss" role="img">
+    <a class="nav-link" href="../posts/index.xml" rel="" target=""><i class="bi bi-rss" role="img">
 </i> 
  <span class="menu-text">Feed</span></a>
   </li>  
@@ -177,170 +147,101 @@ ul.task-list li input[type="checkbox"] {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Automating voice notes in Notion</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">Opinion</div>
+    <div class="quarto-category">PKM</div>
+    <div class="quarto-category">Writing</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    Exploring why graph-based note-taking apps lack mainstream appeal despite their popularity among certain niche groups and discussing the features that make a tool mainstream.
+  </div>
+</div>
 
 
-<h2 style="margin-bottom: 2rem !important" class="anchored">
-Hi, I’m Nerdy Momo Cat
-</h2>
-<div class="me">
-<p><img src="images/me.png" class="img-fluid"></p>
-</div>
-<p>I’m passionate about all things personal knowledge management. I’m all about linking knowledge snippets, coding and automations, note taking and sketchnoting.</p>
-<p>Whether I’m helping others streamline their workflows and optimize their productivity, or experimenting with new tools to improve my own processes, I’m always exploring new ways to get the most out of my digital life.</p>
-<p>My personal tools at the moment are: Notion, Todoist and Goodnotes, but I am always exploring other tools.</p>
-<section id="get-in-touch" class="level3">
-<h3 class="anchored" data-anchor-id="get-in-touch">Get in touch</h3>
-<p>Email me at <a href="mailto:nerdymomocat@gmail.com">nerdymomocat@gmail.com</a> or DM me on <a href="https://twitter.com/nerdymomocat">Twitter</a> if you’d like to chat!</p>
-<p>I can create a personalized PKM (Personal Knowledge Management) system for you on an individual basis. If this is what you’re interested in, feel free to send me a direct message.</p>
-<br>
-<div style="text-align: center;">
-<button class="buttoncta" onclick="window.location.href='/posts/#category=Resources'; return false;">
-  Find All My Resources
-  <div class="buttoncta__horizontal"></div>
-  <div class="buttoncta__vertical"></div>
-</button>
-</div>
-</section>
-<section id="recent-posts" class="level3">
-<h3 class="anchored" data-anchor-id="recent-posts">Recent Posts</h3>
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Nerdy Momo Cat </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">April 23, 2023</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<p>https://typefully.com/nerdymomocat/automating-voice-memos-in-notion-2eejryR</p>
+<p>At this point everyone has their voice to notion system. So, here is mine.</p>
+<p>Why you should read this thread?</p>
+<ol type="1">
+<li>On device whisper</li>
+<li>Uploads the recording to notion too</li>
+<li>Does some cool processing to add to database</li>
+</ol>
+<p>Which gives me the Transcribed Dump Database. How do I do it? Well, a combination of stuff.</p>
+<ol type="1">
+<li>Shortcuts from Apple</li>
+<li>Shortery for recurring shortcut runs on MacOS</li>
+<li>Aiko for on device transcription (it is slow at the moment)</li>
+<li>Terminal</li>
+<li>Python packages: notional, openai [gpt3.5-turbo API], notion I record stuff using “Say something”. That shortcut works everywhere (watch, iphone, macos).</li>
+</ol>
+<p>The process shortcut only works on macos. It runs every 20 minutes using Shortery because I never need immediate processing. Why not process on both iphone and macos?</p>
+<p>Because while I can run any python program on iphone using a-shell mini, I am using a unofficial notion api v3 library that is git dependent.</p>
+<p>Why? Because I need it to upload recording to notion. Why are you running a python script instead of calling everything through shortcuts?</p>
+<p>Because shortcuts is buggy af and I want to move back to Android soon.</p>
+<p>Why not use pipedrive, zapier etc?</p>
+<p>Because I am broke, and cannot afford that or consider them worth the cost. Alright, what does the Say Something shortcut do?</p>
+<p>Oh, it just 1. Records stuff 2. Save the recording and 3. Adds the path to a text file.</p>
+<p>It overwrites the audio file if all paths are processed, otherwise just adds a new one. And what does the Process shortcut do?</p>
+<ol type="1">
+<li>Gets all paths to process from the text file</li>
+<li>Transcribe it (Hides apps that show up because of transcription process)</li>
+<li>Runs the python script</li>
+<li>Update the text file to remove the path that was processed Why not delete the file here?</li>
+</ol>
+<p>Because I can do it through the python script (but cannot later port it to iphone/android).</p>
+<p>Or I can use the shortcuts delete file and every single time it runs, it asks me permission. FTW.</p>
+<p>So, I just overwrite them. Alright, what does that python script do?</p>
+<ol type="1">
+<li>It queries the Transcript Dump Settings Database for all settings.</li>
+</ol>
+<p>The settings database has the prompt, database id, token v2, API key for OpenAI, list of rich text properties, and list of multi-select properties. Why?</p>
+<p>Because I want it to be both:</p>
+<ol type="a">
+<li><p>Portable across devices later, if I do want to process in mobile as a background process, so do not want to store this information in shortcuts</p></li>
+<li><p>Easily shareable, so do not want to store that information in python script.</p></li>
+</ol>
+<ol start="2" type="1">
+<li>It then calls OpenAI API with the given prompt. it returns a particularly formatted json.</li>
+</ol>
+<p>I get a “title”, “summary”, “emotions”, “health”, “habit”, “medicine”, “entities”, “people mentions”, “date or time mentions”, “topics”, “food”, “categories”, “tags” Based on the prompt, tags for example are free ended, while categories are selected from a pre-existing pool.</p>
+<ol start="3" type="1">
+<li>Then, I just parse the json, process it by keys and check whether it is a rich text or a multi select property, and create a new page with relevant properties. Andddd…we are done.</li>
+</ol>
+<p>Use it from iphone lock screen, or menu bar or watch screen, processes when I am on mac and online, and…</p>
+<p>It creates this useful information database with transcript and audio in page.</p>
+<p>This is my voice notes setup.</p>
 
 
 
-</section>
-
-<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
-<div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="Tutorial,Resources,Notion,Publishing,Academia,Python,Automation" data-listing-date-sort="1683090000000" data-listing-file-modified-sort="1685548861589" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3">
-<div class="body">
-<a href="./posts/notion_latex_resume.html">
-<h3 class="no-anchor listing-title">
-Creating an Updated Resume with Notion and Python
-</h3>
-<div class="listing-subtitle">
-
-</div>
-</a>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('Tutorial'); return false;">
-Tutorial
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Resources'); return false;">
-Resources
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Notion'); return false;">
-Notion
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Publishing'); return false;">
-Publishing
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Academia'); return false;">
-Academia
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Python'); return false;">
-Python
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Automation'); return false;">
-Automation
-</div>
-</div>
-<a href="./posts/notion_latex_resume.html">
-<div class="listing-description">
-<p>Make a Notion setup for a LaTex resume using Python and Replit. The template has two databases: resume info and structure. It has pre-filled buttons for easy info input and a modification block for changes. The resume has inline annotations and href for Notion links, no empty sections, and sorted entries.</p>
-</div>
-</a>
-</div>
-<div class="metadata">
-<a href="./posts/notion_latex_resume.html">
-<div class="listing-date">
-05-03-2023
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="1" data-categories="Tutorial,Resources,Notion,AI,Automation,Apple Shortcuts" data-listing-date-sort="1683003600000" data-listing-file-modified-sort="1685548861589" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2">
-<div class="body">
-<a href="./posts/self_organizing_bookmarks.html">
-<h3 class="no-anchor listing-title">
-Streamline Your Bookmark Management w/ Notion and AI
-</h3>
-<div class="listing-subtitle">
-
-</div>
-</a>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('Tutorial'); return false;">
-Tutorial
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Resources'); return false;">
-Resources
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Notion'); return false;">
-Notion
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('AI'); return false;">
-AI
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Automation'); return false;">
-Automation
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Apple Shortcuts'); return false;">
-Apple Shortcuts
-</div>
-</div>
-<a href="./posts/self_organizing_bookmarks.html">
-<div class="listing-description">
-<p>Say goodbye to the hassle of manually tagging bookmarks! This innovative automation combines shortcuts and AI to extract content, categorize and even take screenshots of your bookmarks before organizing them seamlessly in Notion. With a short setup process, this tool is a must-have for those looking to streamline their workflow.</p>
-</div>
-</a>
-</div>
-<div class="metadata">
-<a href="./posts/self_organizing_bookmarks.html">
-<div class="listing-date">
-05-02-2023
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="2" data-categories="Opinion,PKM,Writing" data-listing-date-sort="1675832400000" data-listing-file-modified-sort="1685548861065" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4">
-<div class="body">
-<a href="./posts/graph_based_notetaking_opinion.html">
-<h3 class="no-anchor listing-title">
-Is There a Need for Mainstream Graph-Based Note-Taking Tools?
-</h3>
-<div class="listing-subtitle">
-
-</div>
-</a>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('Opinion'); return false;">
-Opinion
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('PKM'); return false;">
-PKM
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Writing'); return false;">
-Writing
-</div>
-</div>
-<a href="./posts/graph_based_notetaking_opinion.html">
-<div class="listing-description">
-<p>Exploring why graph-based note-taking apps lack mainstream appeal despite their popularity among certain niche groups and discussing the features that make a tool mainstream.</p>
-</div>
-</a>
-</div>
-<div class="metadata">
-<a href="./posts/graph_based_notetaking_opinion.html">
-<div class="listing-date">
-02-08-2023
-</div>
-</a>
-</div>
-</div>
-</div>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div><a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -573,6 +474,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
+</script>
+<script src="https://giscus.app/client.js" data-repo="nerdymomocat/nerdymomocat.github.io" data-repo-id="R_kgDOJoxbeA" data-category="Announcements" data-category-id="DIC_kwDOJoxbeM4CWzrO" data-mapping="pathname" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="en" crossorigin="anonymous" data-loading="lazy" async="">
 </script>
 </div> <!-- /content -->
 
