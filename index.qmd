@@ -4,7 +4,7 @@ listing:
   max-items: 5
   sort: "date desc"
   categories: false
-  fields: [date, title, image, description, categories]
+  fields: [date, title, description, categories]
   feed: false
   filter-ui: false
   sort-ui: false

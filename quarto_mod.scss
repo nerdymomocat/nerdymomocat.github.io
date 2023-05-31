@@ -16,8 +16,7 @@ $gray-800: #333 !default;
 $gray-900: #222 !default;
 $black:    #000 !default;
 
-$coral:    #eb6864 !default;
-$coraltransparent: #eb686430 !default;
+$coral:   #eb6864 !default;
 $indigo:  #6610f2 !default;
 $purple:  #6f42c1 !default;
 $pink:    #e83e8c !default;
@@ -390,7 +389,7 @@ button {
       margin: 0;
       width: 2.9rem;
       height: 2.9rem;
-      background: $coral;
+      background: rgba($coral,0.7);
       border-radius: 1.625rem;
       .icon {
         @include transition(all, 0.45s, cubic-bezier(0.65,0,.076,1));
@@ -461,10 +460,10 @@ button {
 .card:hover{ 
      box-shadow: 1px 8px 20px $coral;
     transition:  box-shadow .4s ease-in;
-    border-color: $coraltransparent;
+    border-color: rgba($coral,0.2);
   }
   .card-header{
-    background-color: $coraltransparent;
+    background-color: rgba($coral,0.2);
   }
 
 /* Set 2 columns for mobile devices */
@@ -479,4 +478,57 @@ button {
   .post-filter-grid {
       --bs-columns: 3;
   }
+}
+
+.listing-category,
+.quarto-category {
+  position: relative;
+  z-index: 0;
+  border-radius: 10px;
+}
+
+.listing-category:before,
+.quarto-category:before {
+  content: '';
+  background: linear-gradient(45deg, rgba(#ff0000,0.2), rgba(#ff7300,0.2), rgba(#fffb00,0.2), rgba(#48ff00,0.2), rgba(#00ffd5,0.2), rgba(#002bff,0.2), rgba(#7a00ff,0.2), rgba(#ff00c8,0.2), rgba(#ff0000,0.2));
+  position: absolute;
+  top: -2px;
+  left:-2px;
+  background-size: 400%;
+  z-index: -1;
+  filter: blur(5px);
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  animation: glowing 20s linear infinite;
+  opacity: 0;
+  transition: opacity .3s ease-in-out;
+  border-radius: 10px;
+}
+
+.listing-category:active:after,
+.quarto-category:active:after {
+  background: transparent;
+}
+
+.listing-category:hover:before,
+.quarto-category:hover:before {
+  opacity: 1;
+}
+
+.listing-category:after,
+.quarto-category:after {
+  z-index: -1;
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  border-radius: 10px;
+}
+
+@keyframes glowing {
+  0% { background-position: 0 0; }
+  50% { background-position: 400% 0; }
+  100% { background-position: 0 0; }
 }
