@@ -3,6 +3,7 @@ title: Setting up your own Quarto Website
 description: "If you are looking to create a professional website to showcase your work or promote your business, Quarto is an excellent platform to consider."
 date: 2023-05-30 5:00 AM
 categories: [Tutorial, Blog, Website, Publishing, Writing]
+draft: true
 ---
 
 # Personal Website Renewed

@@ -95,7 +95,7 @@ a {
   position: relative;
 }
 
-:not(.metadata):not(.card-img-top):not(.buy-coffee-btn)> a::before {
+:not(.metadata):not(.card-img-top):not(.buy-coffee-btn):not(.quarto-category)> a::before {
   content: '';
   position: absolute;
   width: 100%;
@@ -109,7 +109,7 @@ a {
   transition: transform .3s ease-in-out;
 }
 
-:not(.metadata):not(.card-img-top):not(.buy-coffee-btn)> a:hover::before {
+:not(.metadata):not(.card-img-top):not(.buy-coffee-btn):not(.quarto-category)> a:hover::before {
   transform-origin: left;
   transform: scaleX(1);
 }
