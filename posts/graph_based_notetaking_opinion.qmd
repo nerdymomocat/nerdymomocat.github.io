@@ -7,11 +7,9 @@ categories: [Opinion, PKM, Writing]
 
 Unpopular opinion: I agree with [@fortelabs](https://twitter.com/fortelabs/) [here](https://twitter.com/fortelabs/1616173350778441729).
 
+::: {.callout-note title="Tiago Forte talks about graph based PKM apps" collapse="true"}
 {{< tweet fortelabs 1616173350778441729 >}}
-
-<!-- ::: {.callout-note title="Tiago Forte talks about graph based PKM apps" collapse="true"}
-{{< tweet fortelabs 1616173350778441729 >}}
-::: -->
+:::
 
 ### Mass adoption vs niche-critical
 
