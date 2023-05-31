@@ -73,7 +73,7 @@ ul.task-list li input[type="checkbox"] {
     }
 
     const options = {
-      valueNames: ['listing-categories','listing-title','listing-subtitle','listing-date','listing-description',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-date-modified-sort'] },{ data: ['listing-file-modified-sort'] },{ data: ['listing-reading-time-sort'] }],
+      valueNames: ['listing-categories','listing-title','listing-subtitle','listing-date','listing-description','listing-image',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-date-modified-sort'] },{ data: ['listing-file-modified-sort'] },{ data: ['listing-reading-time-sort'] }],
       
       searchColumns: ["listing-project","listing-execute","listing-website","listing-format","listing-comments","listing-language","listing-toc","listing-title","listing-date","listing-categories","listing-subtitle","listing-path","listing-outputHref","listing-date-modified","listing-author","listing-description","listing-filename","listing-file-modified","listing-reading-time","listing-image"],
     };
@@ -102,12 +102,18 @@ ul.task-list li input[type="checkbox"] {
 
 <link rel="alternate" type="application/rss+xml" title="Nerdy Momo Cat" href="index.xml"><meta property="og:title" content="Thought Stream">
 <meta property="og:description" content="Recent Stream of Thoughts">
+<meta property="og:image" content="https://nerdymomocat.github.io/posts/theme-images/academia.png">
 <meta property="og:site-name" content="Nerdy Momo Cat">
+<meta property="og:image:height" content="263">
+<meta property="og:image:width" content="500">
 <meta name="twitter:title" content="Thought Stream">
 <meta name="twitter:description" content="Recent Stream of Thoughts">
+<meta name="twitter:image" content="https://nerdymomocat.github.io/posts/theme-images/academia.png">
 <meta name="twitter:creator" content="@nerdymomocat">
 <meta name="twitter:site" content="@nerdymomocat">
-<meta name="twitter:card" content="summary">
+<meta name="twitter:image-height" content="263">
+<meta name="twitter:image-width" content="500">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-fixed">
@@ -177,6 +183,22 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
+<script>
+for (const div of document.querySelectorAll('.category')) {
+  div.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center');
+}
+for (const div of document.querySelectorAll('.quarto-listing-category.category-default')) {
+  div.classList.add('list-group');
+}
+
+let counts = document.querySelectorAll('.quarto-category-count');
+for (let i = 0; i < counts.length; i++) {
+  let countText = counts[i].textContent;
+  countText = countText.replace(/\(|\)/g, '');
+  counts[i].textContent = countText;
+  counts[i].classList.add('badge', 'bg-primary', 'rounded-pill');
+}
+</script>
 <p>Stream is a fun little side place to gather my random musings, quick reviews, and quotes that catch my eye into a curated collection. It’s nice to have everything in one place instead of scattered across my feed.</p>
 <p><br></p>
 
@@ -184,8 +206,9 @@ ul.task-list li input[type="checkbox"] {
 
 
 <div class="quarto-listing quarto-listing-container-custom" id="listing-listing">
+
 <div class="list quarto-listing-custom">
-  <div class="quarto-post" data-index="0" data-categories="artificial intelligence,common 1" data-listing-date-sort="1678060800000" data-listing-file-modified-sort="1685515553397" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3">
+  <div class="quarto-post" data-index="0" data-categories="artificial intelligence,common 1" data-listing-date-sort="1678060800000" data-listing-file-modified-sort="1685529360555" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3">
     <div class="metadata">
         <div class="listing-date" style="margin-top: 5px;">03-06-2023</div>
       </div>
@@ -193,7 +216,17 @@ ul.task-list li input[type="checkbox"] {
         <!-- <p class="no-anchor listing-title">
       How to create your own AI avatar using HuggingFace Diffusers and Dreambooth</p> -->
       <div class="listing-subtitle">
+        <b>How to create your own AI avatar using HuggingFace Diffusers and Dreambooth</b>
+      </div>
+      <div class="listing-subtitle">
         Low training step count (300) – adjust this based on how many images you have. Low training step count (300) – adjust this based on how many images you have
+      </div>
+        <img src="../posts/theme-images/academia.png" class="card-img-top">
+      <br>
+      <div class="listing-subtitle">
+        I’m super impressed with the quality of Dreambooth using HuggingFace Diffusers 🚀 — with only 14 images of myself! These four images are created by Stable Diffusion using the same fine-tuned model with different prompts:<sup>1</sup>
+        <!-- project,execute,website,format,comments,language,toc,title,date,categories,image,subtitle,path,outputHref,date-modified,author,image-alt,description,filename,file-modified,reading-time,sortableValues -->
+        <!-- project,execute,website,format,comments,language,toc,title,date,categories,image,subtitle,path,outputHref,date-modified,author,image-alt,description,filename,file-modified,reading-time,sortableValues -->
       </div>
       <!-- artificial intelligence,common 1 -->
       <div class="listing-categories">
@@ -202,7 +235,7 @@ ul.task-list li input[type="checkbox"] {
         </div>
     </div>
 </div>
-  <div class="quarto-post" data-index="1" data-categories="artificial intelligence,common 2" data-listing-date-sort="1674432000000" data-listing-file-modified-sort="1685515553397" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2">
+  <div class="quarto-post" data-index="1" data-categories="artificial intelligence,common 2" data-listing-date-sort="1674432000000" data-listing-file-modified-sort="1685529360555" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2">
     <div class="metadata">
         <div class="listing-date" style="margin-top: 5px;">01-23-2023</div>
       </div>
@@ -210,7 +243,15 @@ ul.task-list li input[type="checkbox"] {
         <!-- <p class="no-anchor listing-title">
       How to setup a GPU notebook server on Google Cloud Platform (GCP)</p> -->
       <div class="listing-subtitle">
+        <b>How to setup a GPU notebook server on Google Cloud Platform (GCP)</b>
+      </div>
+      <div class="listing-subtitle">
         The notebook servers offered Vertex AI are very easy to setup. They come with PyTorch and NVIDIA/CUDA drivers already configured. I also prefer options that give me full control over the instance via an SSH connection from my terminal, which this does.
+      </div>
+      <div class="listing-subtitle">
+        GCP is my current preferred cloud provider for GPU servers. I compared prices last year and found that GCP was the cheapest for lower-end GPUs. The notebook servers offered Vertex AI are very easy to setup. They come with PyTorch and NVIDIA/CUDA drivers already configured. I also prefer options that give me full control over the instance via an SSH connection from my terminal, which this does.
+        <!-- project,execute,website,format,comments,language,toc,title,date,categories,subtitle,path,outputHref,date-modified,author,image,image-alt,description,filename,file-modified,reading-time,sortableValues -->
+        <!-- project,execute,website,format,comments,language,toc,title,date,categories,image,subtitle,path,outputHref,date-modified,author,image-alt,description,filename,file-modified,reading-time,sortableValues -->
       </div>
       <!-- artificial intelligence,common 2 -->
       <div class="listing-categories">
