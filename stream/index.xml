@@ -28,5 +28,24 @@
   <guid>https://nerdymomocat.github.io/stream/white-boarding.html</guid>
   <pubDate>Mon, 06 Mar 2023 00:00:00 GMT</pubDate>
 </item>
+<item>
+  <title>Why you should URL shorteners</title>
+  <link>https://nerdymomocat.github.io/stream/url-shorteners.html</link>
+  <description><![CDATA[ 
+
+
+
+<p>Why? Because I wanted to change the workspace where my Notion templates were hosted. And I wanted to change my homepage. Most URL shorteners do not allow you to edit the destination URL for free. So, I found a great <a href="https://github.com/younho9/notion-url-shortener">repo on github</a> built by <a href="https://twitter.com/younho_9"><span class="citation" data-cites="younho_9">@younho_9</span></a>. And now, I can edit the URL in my notion database and still shorten all the URLs. That is awesome!</p>
+
+
+
+<a onclick="window.scrollTo(0, 0); return false;" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a> ]]></description>
+  <category>Notion</category>
+  <category>Vercel</category>
+  <category>Self Hosting</category>
+  <category>Tools</category>
+  <guid>https://nerdymomocat.github.io/stream/url-shorteners.html</guid>
+  <pubDate>Mon, 06 Mar 2023 00:00:00 GMT</pubDate>
+</item>
 </channel>
 </rss>
