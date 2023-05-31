@@ -1,5 +1,5 @@
 ---
-title: Is there a Need for Mainstream Graph-Based Note-Taking Tools
+title: Is There a Need for Mainstream Graph-Based Note-Taking Tools?
 description: "Exploring why graph-based note-taking apps lack mainstream appeal despite their popularity among certain niche groups and discussing the features that make a tool mainstream."
 date: 2023-02-08 5:00 AM
 categories: [Opinion, PKM, Writing]
