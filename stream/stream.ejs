@@ -18,9 +18,24 @@
         <!-- <p class="no-anchor listing-title">
     
       <%= item.title %></p> -->
-    
+      <div class="listing-subtitle">
+        <b><%= item['title'] %></b>
+      </div>
+      
+
       <div class="listing-subtitle">
         <%= item['subtitle'] %>
+      </div>
+
+      <% if (item['image']) { %>
+        <img src="<%= item['image'] %>" class="card-img-top"/>
+      </br>
+      <% } %>
+    
+      <div class="listing-subtitle">
+        <%= item['description'] %>
+        <!-- <%=Object.keys(item)%> -->
+        <!-- project,execute,website,format,comments,language,toc,title,date,categories,image,subtitle,path,outputHref,date-modified,author,image-alt,description,filename,file-modified,reading-time,sortableValues -->
       </div>
       <!-- <%= item['categories'] %> -->
       <div class="listing-categories">

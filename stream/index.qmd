@@ -5,18 +5,36 @@ listing:
   contents: .
   sort: "date desc"
   type: default
-  categories: true
-  fields: [categories, title, subtitle, date, description]
+  categories: numbered
+  fields: [categories, title, subtitle, date, description, image]
   date-format: MM-DD-YYYY
   sort-ui: false
   filter-ui: false
   feed: true
+  max-description-length: 2000
 author: ''
 comments: false
 description: Recent Stream of Thoughts
 title-block-style: none
 ---
+```{=html}
+<script>
+for (const div of document.querySelectorAll('.category')) {
+  div.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center');
+}
+for (const div of document.querySelectorAll('.quarto-listing-category.category-default')) {
+  div.classList.add('list-group');
+}
 
+let counts = document.querySelectorAll('.quarto-category-count');
+for (let i = 0; i < counts.length; i++) {
+  let countText = counts[i].textContent;
+  countText = countText.replace(/\(|\)/g, '');
+  counts[i].textContent = countText;
+  counts[i].classList.add('badge', 'bg-primary', 'rounded-pill');
+}
+</script>
+```
 Stream is a fun little side place to gather my random musings, quick reviews, and quotes that catch my eye into a curated collection. It's nice to have everything in one place instead of scattered across my feed.
 
 <br/>

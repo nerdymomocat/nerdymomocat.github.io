@@ -2,7 +2,7 @@
 title: How to create your own AI avatar using HuggingFace Diffusers and Dreambooth
 date: 2023-03-06
 categories: [artificial intelligence, common 1]
-image: images/dreambooth.png
+image: ../posts/theme-images/academia.png
 subtitle: Low training step count (300) – adjust this based on how many images you have. Low training step count (300) – adjust this based on how many images you have
 ---
 
