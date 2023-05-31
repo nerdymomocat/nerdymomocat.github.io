@@ -9,13 +9,15 @@
   {
     "listing": "/index.html",
     "items": [
-      "/posts/notion_latex_resume.html"
+      "/posts/notion_latex_resume.html",
+      "/posts/graph_based_notetaking_opinion.html"
     ]
   },
   {
     "listing": "/posts/index.html",
     "items": [
-      "/posts/notion_latex_resume.html"
+      "/posts/notion_latex_resume.html",
+      "/posts/graph_based_notetaking_opinion.html"
     ]
   }
 ]
