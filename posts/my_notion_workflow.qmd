@@ -1,0 +1,165 @@
+---
+title: Is There a Need for Mainstream Graph-Based Note-Taking Tools?
+description: "Exploring why graph-based note-taking apps lack mainstream appeal despite their popularity among certain niche groups and discussing the features that make a tool mainstream."
+date: 2022-12-22 5:00 AM
+categories: [Opinion, PKM, Writing]
+draft: true
+---
+https://typefully.com/nerdymomocat/my-notion-workflow-SxTtyPF
+I have talked quite a lot about HAVING my "automation" system in @NotionHQ. While I try a multitude of other apps as a passion project, most of them are not modifiable for my needs.
+
+This a thread about insights into MY (a) needs, (b) system, (c) automation, and, (d) thoughts.
+1. NEEDS
+
+In short, I want a cheap app w/ online, collaborative, all-in-one, UI/UX, integrations, bidirectional linking.
+
+Background: I am a CS AI/ML PhD researcher (moving to a full-time industry research position in mid-2023). I have ADHD & have very specific needs for an app.
+2. SYSTEM
+
+2a. Notion Organization | Workspaces
+
+✨ The biggest change I am making from 2022 to 2023 is using 2 MAIN workspaces.
+
+❓I hate search to be cluttered with database entries that do not need to be pages.
+
+📍Tip: Duplicate templates to another workspace to avoid clutter.
+2b. Notion Organization | Main Workspace Teamspaces
+
+I used to have a separate page for all dashboards. Since notion introduced "teamspaces" for education plans, all my teamspaces are dashboard views of databases.
+2b (Contd.) Tips
+
+📍 Delete all trash (https://github.com/axyyu/notion-clear-trash) is a lifesaver, mine activates using an arc boost when I load a certain page.
+
+📍 All Purpose Inbox to clip anything
+
+📍 Inbox cleanup to frequently clean/tag databases
+2c. Notion Organization | Main Workspace Sidebar
+
+(Click on image to view all)
+
+My main databases are divided into common, personal, work and storage.
+
+✨ I used to have tracking databases here, but now I just have tracking logs as simple tables for each tracked item.
+2c. Contd.
+
+❓I do not use a label database because I need color and I need a fixed set of options per database (relations cannot be filtered).
+
+Tips:
+📍 Attach a symbol to easily distinguish between page and database (e.g. ❏ represents databases)
+2c. Contd.
+
+📍 Use apps w/ integration. I can clip an article into notion and have a subpar reading experience, or I can instead just use Reader or Matter.
+
+📍 Avoid logging to main workspace. When there are 200 pages of "Wake up before 8am", searching "wake up" is useless.
+2d. Notion Organization | Automation Workspace Teamspaces
+
+Other than life tracking, I track uncommon "properties" especially relevant to people w/ ADHD.
+
+ 1. Number of times I reschedule task/event reschedule to keep myself in check.
+2. Missed deadlines & cancelled tasks/events.
+2d. Contd.
+
+❓ Why not use a habit tracker with habits as properties and days as pages? Because I hate having missing data and it is harder to automate. Also, it is harder to have non-daily habits
+
+Tips:
+📍Make tracking easy for yourself. Gather data from apps you already use.
+3. AUTOMATION
+
+3a. Issues w/ Notion:
+
+From the needs section above, Notion does not tick many of those boxes.
+
+The main pain points being:
+(a) quick add w/ tags and relations (mobile-friendly)
+(b) property autofill & duplicates
+(c) task view
+(d) linked content peek/multipanel
+3.1a Todoist
+
+And so, in comes @todoist. Todoist has the best labelling and scheduling system for quick add I have ever seen.
+
+And trust me, I have tried 100+ other apps (not @lazyappHQ though, yet).
+3.1b Todoist Setup
+
+Yes. I have these many projects and I have maintained this with little effort for over 2 years.
+
+Tips:
+📍Indicators. Everything has some form of indicator. I use W,P,L for work, personal, life. Tracking projects have ⠔. Orange person for shared projects.
+3.1c Todoist Labels
+
+Quick Add is awesome using todoist because adding labels requires no clicks, and is fuzzy-ish search.
+
+I use 200+ labels.
+
+✨ I created new relationship labels to add to the most recently edited "in progress" record in a db (papers to a project etc.)
+3.1c Contd.
+
+ℹ️ Notations.
+
+I use ^ to define projects that label can be used in.
+.f are functional labels (sync, relations etc)
+.p are labels that are assigned to a particular property like status
+
+Projects map to a database (usually 1-1)
+Sections map to a select property.
+3.2a Sync & Quick Add
+
+My setup for 2022 used GAS w/ Google Sheets to maintain maps between todoist labels, projects, sections to notion databases, properties & property values.
+
+Cons: Adding a new project/db/label was a hassle.
+
+✨ Using Notion & Shortcuts for Mapping Db w/ GAS
+3.2b Autofill w/ scripts
+
+❓ I don't use zapier/make for automation because (a) One thing I do know in life is to code, and, (b) It is too expensive imo.
+
+I use multiple scripts for autofilling different things, especially, (a) academic papers,
+(b) entertainment,
+(c) library.
+3.2c Auto manage w/ shortcuts
+
+2. I use shortcuts to autofill title (when there is no obvious name for a page (or the name is a combination of properties). and change default icon to blue dot.
+3.3a Page Automations
+
+1. ➕ subpages as mentions to a toggle on top of page or to a subpages property.
+2. ➕ all inline todos to the tasks database & sync their status.
+3. ➕ all mentions as relations if property exists with referencing content as synced block
+3.3c Task View & Context
+
+Now given all tasks are in my tasks db, they sync to todoist. I can access them from todoist, or notion, or through ANY other todoist integration (LIKE Gcal).
+
+They have notion block links attached that are accessible to see task in context.
+3.4 Peeks and Backlinks
+
+Backlinks get content as shown above.
+
+Page peek is one problem I found no solution for. When @NotionHQ introduced peeks, I was hoping they would work for pages too.
+
+I can thankfully peek for database pages now, so adding related inline views works.
+4. THOUGHTS
+
+4a. Schema
+
+I refreshed multiple things for this year. Especially adding desired sync/quick add function as labels instead of a messy GAS script.
+
+My databases are also more specific in their schema now. I can easily shift to Tana/Capacities if I want to.
+4b. Venting
+
+As much as I use notion, I don't love it.
+
+I hate square checkboxes & use CSS extensions to fix them to bootstrapped rounded ones.
+
+I do not like how relations cannot be filtered or not having properties access inside a page, or missing task view, (or pages as tasks)
+4c. External Apps
+
+None of the common apps have canvas that works well with ipad/handwriting. So freeform, goodnotes and @MuseAppHQ it is for the moment.
+
+I export the content and then embed in Notion (or sync file with google drive and embed link to get updates).
+4d. Testing Apps
+
+For notes: @capacitiesHQ, @tana_inc, @wallingapp and maybe @saga_HQ, @cloverappco and @xTilesHQ. None of these fulfill all I want though.
+
+Canvas apps are all the rage now, so hopefully @MuseAppHQ comes up with integrations.
+All in all, I would be lying if I said it was all done quickly. It took me ages to build this system up.
+
+But any system without automation/auto-fill/connections/relations is unfortunately too much of a mental barrier for me to use and I revert to using google docs.

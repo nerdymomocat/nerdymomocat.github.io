@@ -1,0 +1,133 @@
+---
+title: Design tips from a non-designer
+description: "Exploring why graph-based note-taking apps lack mainstream appeal despite their popularity among certain niche groups and discussing the features that make a tool mainstream."
+date: 2023-03-04 5:00 AM
+categories: [Opinion, PKM, Writing]
+draft: true
+---
+https://typefully.com/nerdymomocat/design-for-non-designers-B5BpLEW
+Design tips from a non-designer.
+
+While prepping for NOMs launch, I was trying to figure out the best way to create a non over-engineered MVP, but still good enough for my ADHD brain.
+
+If you have the pesky perfectionism owl looking over you all the time, you'd want to read this.
+It has been a month since I tried to soft-launch the first time around and in this month.
+
+I have not only become way more proficient in some tools, I have also recognized the importance of personal branding. (Initial launch: https://twitter.com/nerdymomocat/status/1621700343854931969)
+
+https://twitter.com/nerdymomocat/status/1623640412652179457
+Nerdy Momo Cat (she/her)
+@nerdymomocat
+Automated Notion Databases Schema Manager is here. My first public template that integrates low-code automation and notion.
+
+The best part: the template is for managing notion workspace, and hence, useful for anyone and everyone!
+
+Get template here: 
+Let's start with the basics.
+
+1. Twitter profile.
+
+This is what my twitter profile looked like before. The dark green and the halo glow made it really hard for the profile to be recognizable. So, I changed it to a clearer profile picture that you see right now.
+This twitter profile went through a series of name changes, from notefun to opinesnotes to finally landing on @nerdymomocat.
+
+For most people, using their real name would be a great idea. For me, I want this passion of mine to be disassociated from my full time work.
+Having a consistent branding might not be a problem if:
+
+(a) you are using your real name, or,
+(b) you do not obsess over making things look and feel consistent.
+
+For me, I was spending time trying to make it consistent everywhere, @NotionHQ, @Twitter, @gumroad.
+This time spent on design gave me fixed guidelines to follow:
+
+a. Colors (orange and green)
+b. Personality (cat, food & code)
+c. Product/series names (cat related acronyms: see NOMs, MEOWs, PAWS)
+d. Style (illustration-like)
+e. Font (Bubbly)
+
+https://twitter.com/nerdymomocat/status/1628379124720107521
+For many people, it might not matter much. I not only respect you, I am jealous of you.
+
+For me, I was spending a significant amount of time looking for the appropriate name for an automation, selecting the perfect icon and the cover to go with it, tying my identity in.
+2. Notion template design
+
+If I was making a google sheets template, maybe this would not matter as much. But given I was making notion templates, design had to be factored in for covers and page icons.
+
+And inconsistent ideas made me flustered, not something I want to repeat.
+
+
+https://twitter.com/nerdymomocat/status/1621700343854931969
+Going back to the finalizations from above, design quickly became easier.
+
+I need a name for a series? Find a cat related word that can be an acronym (look at MEOWs).
+
+I need a page icon? Find an illustrative icon, put the selected cute kawaii icon representing NOMs with it.
+Design though, is about the organization and structure as much as it is about colors/graphics.
+
+So, I standardized it too. Every NOM would now have 3 levels, L1, L2, L3, where L1 would mostly be free, L2 and L3 providing increasingly more value.
+Dividing it as such made feature design a lot more easier too.
+
+I could now easily list the features that I want the best version to have and then pare it down to L1.
+
+And all I needed to do was copy paste it over for each NOM and then replace it with relevant features.
+I decided to launch on both iOS/Android this time around, I initially used input from Automate/Shortcuts.
+
+Automate does not have list input, & I did not want to handle inconsistency.
+
+I would need a generic UI input too.
+
+So, each NOM has a dashboard and a settings page.
+Each NOM needs to have multiple components. I need to include a setup, FAQs, instructions, demo video etc.
+
+And I needed to design it once to be able to repeat it consistently. So, I created a set of blocks, tested them and made sure I liked them.
+
+Then the blocks were reusable.
+3. Personal branding design
+
+Can you believe I launched the first time around without any personal website?
+
+This time around I decided to have a detailed version on @NotionHQ (https://nerdymomocat.notion.site/) and a shorter version on @joinbento (https://bento.me/nerdymomocat)
+Now I knew where to redirect people if they wanted to know more about my tool stack or workflows.
+
+You can see how consistent the promotional material, & the personal profile is too.
+
+It is all in colors of orange, grey, green.
+
+And I did not have to spend time or think about it.
+So now, everything is branded nerdymomocat. My lemon squeezy store at: https://nerdymomocat.lemonsqueezy.com/, my personal profiles, my email, @buymeacoffee, @Reddit etc.
+
+If I need to create a new series, I just find a cat illustration about it.
+4. Tools
+
+Now that is all set and done, how did I get here?
+
+a. I created a side projects database in @NotionHQ and stored all the designs in there related to all the series, profiles, websites etc.
+
+I made sure to keep a track of my newer and older designs.
+b. I tried MANY logo making websites, and eventually decided to use @canva and let me tell you, nothing comes close to the ease of use that canva provides.
+
+No AI tool comes close when you have a fixed set of guidelines and standardizations in your head. No more playing around!
+c. As much as I love to play around with tools, I do like narrowing them down to "go-tos".
+
+I will never be able to play around with tools forever, even though I am open to going back to them.
+
+So, I settled on @AppPika, @screenrunapp, @ScreenFlow for screenshot and demo design.
+Nerdy Momo Cat (she/her)
+@nerdymomocat
+Guys, in case you have not heard about the @screenrunapp, you should. For NOMs in @NotionHQ, I have to make some instruction demos. And while screenshots work for most of it, gifs and videos are the best way to show the long processes. This is what I can make it 5 minutes. 
+Possibly ending on a controversial take, but I know I am blessed to be good at coding, given how much I like personalization, automation and flexibility.
+
+It is not that I can put something together with time. I do AI/ML model design (not just use) as a full time job.
+So, I would not do subscriptions >2$/mo for app that I do not use more than 100 hours a month. As I said before, paying for @GoogleWorkspace, @Spotify, @netflix is fine.
+
+If my "productivity" app costs more than my google subscription and provides me less value, I'm not doing it.
+In summation,
+
+For Repetitive Processes, REFINE:
+
+1. Creation: color, personality, font, style.
+2. Structure: reusable blocks, ordering.
+3. Presentation: screenshots, recording, processing.
+4. Posts: website, writing, scheduling.
+
+Follow @nerdymomocat for more workflow dig ins

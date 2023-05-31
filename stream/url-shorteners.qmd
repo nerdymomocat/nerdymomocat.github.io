@@ -1,8 +1,0 @@
----
-title: I regret not using a URL shortener
-date: 2023-05-28
-categories: [Notion, Vercel, Self Hosting, Tools]
-# image: ../posts/theme-images/academia.png
-subtitle: I have been sharing tips and tricks and templates over the course of past year on Twitter, but now the links are gonna change.
----
-Why? Because I wanted to change the workspace where my Notion templates were hosted. And I wanted to change my homepage. Most URL shorteners do not allow you to edit the destination URL for free. So, I found a great [repo on github](https://github.com/younho9/notion-url-shortener) built by [@younho_9](https://twitter.com/younho_9). And now, I can edit the URL in my notion database and still shorten all the URLs. That is awesome!

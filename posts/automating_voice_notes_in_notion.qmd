@@ -1,0 +1,86 @@
+---
+title: Automating voice notes in Notion
+description: "Exploring why graph-based note-taking apps lack mainstream appeal despite their popularity among certain niche groups and discussing the features that make a tool mainstream."
+date: 2023-04-23 5:00 AM
+categories: [Opinion, PKM, Writing]
+draft: true
+---
+https://typefully.com/nerdymomocat/automating-voice-memos-in-notion-2eejryR
+
+At this point everyone has their voice to notion system. So, here is mine.
+
+Why you should read this thread?
+
+(1) On device whisper
+(2) Uploads the recording to notion too
+(3) Does some cool processing to add to database
+
+Which gives me the Transcribed Dump Database.
+How do I do it? Well, a combination of stuff.
+
+1) Shortcuts from Apple
+2) Shortery for recurring shortcut runs on MacOS
+3) Aiko for on device transcription (it is slow at the moment)
+4) Terminal
+5) Python packages: notional, openai [gpt3.5-turbo API], notion
+I record stuff using "Say something". That shortcut works everywhere (watch, iphone, macos).
+
+The process shortcut only works on macos. It runs every 20 minutes using Shortery because I never need immediate processing.
+Why not process on both iphone and macos?
+
+Because while I can run any python program on iphone using a-shell mini, I am using a unofficial notion api v3 library that is git dependent.
+
+Why? Because I need it to upload recording to notion.
+Why are you running a python script instead of calling everything through shortcuts?
+
+Because shortcuts is buggy af and I want to move back to Android soon.
+
+Why not use pipedrive, zapier etc?
+
+Because I am broke, and cannot afford that or consider them worth the cost.
+Alright, what does the Say Something shortcut do?
+
+Oh, it just
+1. Records stuff
+2. Save the recording and
+3. Adds the path to a text file.
+
+It overwrites the audio file if all paths are processed, otherwise just adds a new one.
+And what does the Process shortcut do?
+
+1. Gets all paths to process from the text file
+2. Transcribe it (Hides apps that show up because of transcription process)
+3. Runs the python script
+4. Update the text file to remove the path that was processed
+Why not delete the file here?
+
+Because I can do it through the python script (but cannot later port it to iphone/android).
+
+Or I can use the shortcuts delete file and every single time it runs, it asks me permission. FTW.
+
+So, I just overwrite them.
+Alright, what does that python script do?
+
+1. It queries the Transcript Dump Settings Database for all settings.
+
+The settings database has the prompt, database id, token v2, API key for OpenAI, list of rich text properties, and list of multi-select properties.
+Why?
+
+Because I want it to be both:
+
+(a) Portable across devices later, if I do want to process in mobile as a background process, so do not want to store this information in shortcuts
+
+(b) Easily shareable, so do not want to store that information in python script.
+2. It then calls OpenAI API with the given prompt. it returns a particularly formatted json.
+
+I get a "title", "summary", "emotions", "health", "habit", "medicine", "entities", "people mentions", "date or time mentions", "topics", "food", "categories", "tags"
+Based on the prompt, tags for example are free ended, while categories are selected from a pre-existing pool.
+
+3. Then, I just parse the json, process it by keys and check whether it is a rich text or a multi select property, and create a new page with relevant properties.
+Andddd...we are done.
+
+Use it from iphone lock screen, or menu bar or watch screen, processes when I am on mac and online, and...
+
+It creates this useful information database with transcript and audio in page.
+
+This is my voice notes setup.

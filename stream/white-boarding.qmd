@@ -1,7 +1,0 @@
----
-title: Nothihng comes close to Muse
-date: 2023-05-31
-categories: [Muse, PKM, Spatial Canvas]
-# image: ../posts/theme-images/academia.png
-subtitle: Muse recently launched their Muse for teams and I have two wishes. I wish they had an option of publicly sharing the board, and that other spatial canvases adopted how well they implement the spatial and handwriting aspect of it. 
----
