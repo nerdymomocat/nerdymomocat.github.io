@@ -3,11 +3,11 @@ title: Is There a Need for Mainstream Graph-Based Note-Taking Tools?
 description: "Exploring why graph-based note-taking apps lack mainstream appeal despite their popularity among certain niche groups and discussing the features that make a tool mainstream."
 date: 2023-02-08 5:00 AM
 categories: [Opinion, PKM, Writing]
-filters:
-  - collapse-social-embeds
 ---
 
 Unpopular opinion: I agree with [@fortelabs](https://twitter.com/fortelabs/) [here](https://twitter.com/fortelabs/1616173350778441729).
+
+{{< tweet fortelabs 1616173350778441729 >}}
 
 <!-- ::: {.callout-note title="Tiago Forte talks about graph based PKM apps" collapse="true"}
 {{< tweet fortelabs 1616173350778441729 >}}
