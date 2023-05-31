@@ -1,5 +1,5 @@
 ---
-title: Why you should URL shorteners
+title: I regret not using a URL shortener
 date: 2023-03-06
 categories: [Notion, Vercel, Self Hosting, Tools]
 # image: ../posts/theme-images/academia.png
