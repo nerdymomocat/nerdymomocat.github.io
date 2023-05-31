@@ -1,6 +1,6 @@
 ---
 title: I regret not using a URL shortener
-date: 2023-03-06
+date: 2023-05-28
 categories: [Notion, Vercel, Self Hosting, Tools]
 # image: ../posts/theme-images/academia.png
 subtitle: I have been sharing tips and tricks and templates over the course of past year on Twitter, but now the links are gonna change.
