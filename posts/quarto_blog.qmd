@@ -1,0 +1,173 @@
+---
+title: Setting up your own Quarto Website notion2md
+description: "If you are looking to create a professional website to showcase your work or promote your business, Quarto is an excellent platform to consider."
+date: 2023-05-30 5:00 AM
+categories: [Tutorial, Blog, Website, Publishing, Writing]
+draft: true
+---
+💡 **Searching for options**
+	- Examples
+		[https://thesephist.com/](https://thesephist.com/)
+		[https://ddimmery.com/](https://ddimmery.com/)
+		[https://quartz.jzhao.xyz/](https://quartz.jzhao.xyz/)
+		[https://albert-rapp.de/blog.html](https://albert-rapp.de/blog.html)
+		[https://wasimlorgat.com/](https://wasimlorgat.com/)
+	- Softwares
+		[//]: # (link_preview is not supported)
+		[https://quarto.org/](https://quarto.org/)
+		- Resources
+			[https://mine-cetinkaya-rundel.github.io/quarto-tip-a-day/](https://mine-cetinkaya-rundel.github.io/quarto-tip-a-day/)
+			[https://github.com/ivelasq/pipedream/blob/main/custom.ejs](https://github.com/ivelasq/pipedream/blob/main/custom.ejs)
+			[//]: # (link_preview is not supported)
+			- Quarto Extensions
+				[//]: # (link_preview is not supported)
+				[//]: # (link_preview is not supported)
+				[//]: # (link_preview is not supported)
+				[//]: # (link_preview is not supported)
+				[//]: # (link_preview is not supported)
+			- Quick References
+				Get icons from: [https://icons.getbootstrap.com/](https://icons.getbootstrap.com/)
+		[//]: # (link_preview is not supported)
+		[//]: # (link_preview is not supported)
+		[https://simply-jekyll.netlify.app/](https://simply-jekyll.netlify.app/)
+		- Resources
+			[//]: # (Synced Block)
+				[//]: # (link_preview is not supported)
+		[//]: # (link_preview is not supported)
+	- Notion to Blog
+		[//]: # (Synced Block)
+		[//]: # (link_preview is not supported)
+		[//]: # (link_preview is not supported)
+		[//]: # (link_preview is not supported)
+		[//]: # (link_preview is not supported)
+		[//]: # (link_preview is not supported)
+		[//]: # (link_preview is not supported)
+		[//]: # (link_preview is not supported)
+		[//]: # (link_preview is not supported)
+1. Download the zip and unarchive it to a folder that you want to be remote repo for your website/webpage.
+	You can use my modification from:
+	[//]: # (link_preview is not supported)
+	The rest of the steps will talk about how to modify this version.
+2. Install the quarto extension for VS Code
+	[https://marketplace.visualstudio.com/items?itemName=quarto.quarto](https://marketplace.visualstudio.com/items?itemName=quarto.quarto)
+3. Create a repository in your github account named `username.github.io`
+4. `cd` into the directory
+5. Perform these starting git commands
+	1. `git init`
+	2. `git add .`
+	3. `git commit -m "Initial commit”`
+	4. `git remote add origin git@gitsshconfig:username/username.github.io`
+	5. `git push -u origin master`
+6. Use `code .` to open the project in VS Code.
+7. Modify basic configuration:
+	8. Replace `favicon.ico` by the icon you want to use for your website.
+	9. Modify `index.qmd`
+```markdown
+---
+listing:
+  contents: [posts]
+  sort: "date desc"
+  categories: true
+  fields: [date, title, image, description, categories]
+  feed: true
+  filter-ui: false
+  sort-ui: false
+  date-format: MM-DD-YYYY #<1>
+comments: false
+description: Recent posts
+pagetitle: Nerdy Momo Cat #<2>
+---
+<h1 style="margin-bottom: 2rem !important">
+Hi, I'm Nerdy Momo Cat #<3>
+</h1>
+::: me
+![](images/me.png) #<4>
+:::
+Personal Knowledge Management | Notion, Coding & Automations, Note Taking and Sketchnoting. #<5>
+## Get in touch
+Email me at [nerdymomocat\@gmail.com](mailto:nerdymomocat@gmail.com) #<6>
+ or DM me on [Twitter](https://twitter.com/nerdymomocat) #<7>
+if you'd like to chat!
+```
+		1. Replace with the date format you want if need be
+		2. Replace with your name
+		3. Replace with your greeting
+		4. Replace with your photo/image in the folder and name it `me.png`
+		5. Replace with description about yourself
+		6. Replace with your email
+		7. Replace with your twitter account
+	8. Modify `_quarto.yml`
+```yaml
+project:
+  type: website
+  preview:
+    port: 4200
+execute:
+  freeze: true
+website:
+  open-graph: true
+  twitter-card:
+    creator: "@nerdymomocat" #<1>
+    site: "@nerdymomocat" #<2>
+  title: "Nerdy Momo Cat" #<3>
+  favicon: favicon.ico
+	site-url: https://nerdymomocat.github.io #<4>
+  navbar:
+    background: dark
+    pinned: true
+    collapse: true
+    search: true
+    left:
+      - text: Posts
+        file: index.qmd
+      - stream/index.qmd
+    right:
+      - icon: twitter
+				text: Find me on Twitter
+        href: https://twitter.com/nerdymomocat #<5>
+      - icon: rss
+        text: Posts
+        href: index.xml
+      - icon: rss
+        text: Stream
+        href: stream/index.xml
+format:
+  html:
+	theme: quarto_mod.scss
+    highlight-style: quarto_mod.theme
+    metadata:
+      pagetitle: "{{< meta title >}}"
+      freeze: true
+      title-block-banner: false
+      author: Nerdy Momo Cat
+      title-block-categories: true
+      toc-depth: 5
+comments:
+  giscus: #<7>
+    repo: nerdymomocat/nerdymomocat.github.io #<8>
+    repo-id: R_kgDOJoxbeA #<9>
+    category: Announcements #<10>
+    category-id: DIC_kwDOJoxbeM4CWzrO #<11>
+    mapping: pathname
+    loading: lazy
+    input-position: top
+    reactions-enabled: true
+  hypothesis: #<11>
+    theme: clean
+    openSidebar: false
+    showHighlights: whenSidebarOpen
+```
+		1. Add your twitter handle
+		2. Add your website handle
+		3. Add the site title that shows up
+		4. Change to your [github.io](http://github.io) url
+		5. Add url to your twitter profile
+		6. Change to your name
+		7. Setup giscus from [https://giscus.app/](https://giscus.app/)
+			8. For more details looks here:
+				[https://beamilz.com/posts/2022-06-05-creating-a-blog-with-quarto/en/index.html#setting-up-comments](https://beamilz.com/posts/2022-06-05-creating-a-blog-with-quarto/en/index.html#setting-up-comments)
+		1. Set the name of your repo
+		2. Obtain the repo-id from giscus page and paste it here
+		3. Quarto suggests to use Announcements so only giscus can add comments: [https://quarto.org/docs/reference/projects/websites.html#giscus](https://quarto.org/docs/reference/projects/websites.html#giscus)
+		4. Paste the category-id from giscus
+		5. Remove this section if you do not want to have hypothesis enabled. Hypothesis allows to annotate webpages and pdfs in a social setting: [https://web.hypothes.is/](https://web.hypothes.is/)

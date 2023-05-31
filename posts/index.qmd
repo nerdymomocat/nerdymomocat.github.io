@@ -29,7 +29,7 @@ title-block-style: none
       </h2>
       <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample" style="">
          <div class="accordion-body">
-            <div class="grid" style="--bs-columns: 3;">
+            <div class="grid post-filter-grid">
                <div>
                   <div class="card mb-3" style="max-width: 20rem;" onclick="window.quartoListingCategory('Notion'); document.getElementById('collapseOne').classList.remove('show'); document.getElementById('button-collapseOne').classList.add('collapsed'); return false;">
                      <div class="card-body">
