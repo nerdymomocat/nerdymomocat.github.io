@@ -2,26 +2,19 @@
   {
     "listing": "/stream/index.html",
     "items": [
-      "/stream/how-to-create-an-ai-profile-picture-from-scratch.html",
-      "/stream/how-to-setup-a-gpu-instance-on-google-cloud-platform.html"
+      "/stream/white-boarding.html"
     ]
   },
   {
     "listing": "/index.html",
     "items": [
-      "/posts/quarto_blog_direct_export.html",
-      "/posts/jupytercon-2023.html",
-      "/posts/tools-wishlist.html",
-      "/posts/hats.html"
+      "/posts/notion_latex_resume.html"
     ]
   },
   {
     "listing": "/posts/index.html",
     "items": [
-      "/posts/quarto_blog_direct_export.html",
-      "/posts/jupytercon-2023.html",
-      "/posts/tools-wishlist.html",
-      "/posts/hats.html"
+      "/posts/notion_latex_resume.html"
     ]
   }
 ]

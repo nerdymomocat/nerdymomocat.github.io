@@ -1,39 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://nerdymomocat.github.io/stream/how-to-setup-a-gpu-instance-on-google-cloud-platform.html</loc>
-    <lastmod>2023-05-31T10:56:56.262Z</lastmod>
+    <loc>https://nerdymomocat.github.io/stream/white-boarding.html</loc>
+    <lastmod>2023-05-31T11:36:59.824Z</lastmod>
   </url>
   <url>
     <loc>https://nerdymomocat.github.io/stream/index.html</loc>
-    <lastmod>2023-05-31T10:56:57.026Z</lastmod>
-  </url>
-  <url>
-    <loc>https://nerdymomocat.github.io/stream/how-to-create-an-ai-profile-picture-from-scratch.html</loc>
-    <lastmod>2023-05-31T10:56:57.910Z</lastmod>
+    <lastmod>2023-05-31T11:37:00.508Z</lastmod>
   </url>
   <url>
     <loc>https://nerdymomocat.github.io/index.html</loc>
-    <lastmod>2023-05-31T10:56:58.630Z</lastmod>
-  </url>
-  <url>
-    <loc>https://nerdymomocat.github.io/posts/quarto_blog_direct_export.html</loc>
-    <lastmod>2023-05-31T10:56:59.298Z</lastmod>
-  </url>
-  <url>
-    <loc>https://nerdymomocat.github.io/posts/jupytercon-2023.html</loc>
-    <lastmod>2023-05-31T10:56:59.746Z</lastmod>
-  </url>
-  <url>
-    <loc>https://nerdymomocat.github.io/posts/tools-wishlist.html</loc>
-    <lastmod>2023-05-31T10:57:00.230Z</lastmod>
+    <lastmod>2023-05-31T11:37:01.364Z</lastmod>
   </url>
   <url>
     <loc>https://nerdymomocat.github.io/posts/index.html</loc>
-    <lastmod>2023-05-31T10:57:01.202Z</lastmod>
+    <lastmod>2023-05-31T11:37:02.744Z</lastmod>
   </url>
   <url>
-    <loc>https://nerdymomocat.github.io/posts/hats.html</loc>
-    <lastmod>2023-05-31T10:57:01.938Z</lastmod>
+    <loc>https://nerdymomocat.github.io/posts/notion_latex_resume.html</loc>
+    <lastmod>2023-05-31T11:37:03.572Z</lastmod>
   </url>
 </urlset>
