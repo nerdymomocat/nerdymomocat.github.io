@@ -36,4 +36,15 @@ Email me at [nerdymomocat\@gmail.com](mailto:nerdymomocat@gmail.com) or DM me on
 
 I can create a personalized PKM (Personal Knowledge Management) system for you on an individual basis. If this is what you’re interested in, feel free to send me a direct message.
 
+```{=html}
+</br>
+<div style="text-align: center;">
+<button class="buttoncta" onclick="window.location.href='/posts/#category=Resources'; return false;">
+  Find All My Resources
+  <div class="buttoncta__horizontal"></div>
+  <div class="buttoncta__vertical"></div>
+</button>
+</div>
+```
+
 ### Recent Posts
