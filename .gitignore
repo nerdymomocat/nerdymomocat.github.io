@@ -5,3 +5,5 @@ _freeze/
 .ipynb_checkpoints/
 temp/
 *.npy
+
+/.luarc.json

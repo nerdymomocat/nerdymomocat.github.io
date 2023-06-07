@@ -3,7 +3,7 @@ title: Design tips from a non-designer
 description: "Exploring why graph-based note-taking apps lack mainstream appeal despite their popularity among certain niche groups and discussing the features that make a tool mainstream."
 date: 2023-03-04 5:00 AM
 categories: [Opinion, PKM, Writing]
-draft: true
+draft: false
 ---
 https://typefully.com/nerdymomocat/design-for-non-designers-B5BpLEW
 Design tips from a non-designer.
