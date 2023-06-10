@@ -2,6 +2,7 @@
   {
     "listing": "/posts/index.html",
     "items": [
+      "/posts/moving_back_to_chrome_from_arc.html",
       "/posts/notion_latex_resume.html",
       "/posts/self_organizing_bookmarks.html",
       "/posts/design_for_non_designers.html",
@@ -11,6 +12,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/moving_back_to_chrome_from_arc.html",
       "/posts/notion_latex_resume.html",
       "/posts/self_organizing_bookmarks.html",
       "/posts/design_for_non_designers.html",
