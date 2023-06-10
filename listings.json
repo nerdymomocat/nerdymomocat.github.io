@@ -1,10 +1,11 @@
 [
   {
-    "listing": "/stream/index.html",
+    "listing": "/posts/index.html",
     "items": [
-      "/stream/nothing_comes_close_to_muse.html",
-      "/stream/notion_new_project_launch.html",
-      "/stream/url_shorteners.html"
+      "/posts/notion_latex_resume.html",
+      "/posts/self_organizing_bookmarks.html",
+      "/posts/design_for_non_designers.html",
+      "/posts/graph_based_notetaking_opinion.html"
     ]
   },
   {
@@ -12,15 +13,16 @@
     "items": [
       "/posts/notion_latex_resume.html",
       "/posts/self_organizing_bookmarks.html",
+      "/posts/design_for_non_designers.html",
       "/posts/graph_based_notetaking_opinion.html"
     ]
   },
   {
-    "listing": "/posts/index.html",
+    "listing": "/stream/index.html",
     "items": [
-      "/posts/notion_latex_resume.html",
-      "/posts/self_organizing_bookmarks.html",
-      "/posts/graph_based_notetaking_opinion.html"
+      "/stream/nothing_comes_close_to_muse.html",
+      "/stream/notion_new_project_launch.html",
+      "/stream/url_shorteners.html"
     ]
   }
 ]

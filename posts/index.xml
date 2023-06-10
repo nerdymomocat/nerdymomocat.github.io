@@ -247,6 +247,86 @@
   <pubDate>Tue, 02 May 2023 05:00:00 GMT</pubDate>
 </item>
 <item>
+  <title>Design tips from a non-designer</title>
+  <link>https://nerdymomocat.github.io/posts/design_for_non_designers.html</link>
+  <description><![CDATA[ 
+
+
+
+<p>https://typefully.com/nerdymomocat/design-for-non-designers-B5BpLEW Design tips from a non-designer.</p>
+<p>While prepping for NOMs launch, I was trying to figure out the best way to create a non over-engineered MVP, but still good enough for my ADHD brain.</p>
+<p>If you have the pesky perfectionism owl looking over you all the time, you’d want to read this. It has been a month since I tried to soft-launch the first time around and in this month.</p>
+<p>I have not only become way more proficient in some tools, I have also recognized the importance of personal branding. (Initial launch: https://twitter.com/nerdymomocat/status/1621700343854931969)</p>
+<p>https://twitter.com/nerdymomocat/status/1623640412652179457 Nerdy Momo Cat (she/her) <span class="citation" data-cites="nerdymomocat">@nerdymomocat</span> Automated Notion Databases Schema Manager is here. My first public template that integrates low-code automation and notion.</p>
+<p>The best part: the template is for managing notion workspace, and hence, useful for anyone and everyone!</p>
+<p>Get template here: Let’s start with the basics.</p>
+<ol type="1">
+<li>Twitter profile.</li>
+</ol>
+<p>This is what my twitter profile looked like before. The dark green and the halo glow made it really hard for the profile to be recognizable. So, I changed it to a clearer profile picture that you see right now. This twitter profile went through a series of name changes, from notefun to opinesnotes to finally landing on <span class="citation" data-cites="nerdymomocat">@nerdymomocat</span>.</p>
+<p>For most people, using their real name would be a great idea. For me, I want this passion of mine to be disassociated from my full time work. Having a consistent branding might not be a problem if:</p>
+<ol type="a">
+<li>you are using your real name, or,</li>
+<li>you do not obsess over making things look and feel consistent.</li>
+</ol>
+<p>For me, I was spending time trying to make it consistent everywhere, <span class="citation" data-cites="NotionHQ">@NotionHQ</span>, <span class="citation" data-cites="Twitter">@Twitter</span>, <span class="citation" data-cites="gumroad">@gumroad</span>. This time spent on design gave me fixed guidelines to follow:</p>
+<ol type="a">
+<li>Colors (orange and green)</li>
+<li>Personality (cat, food &amp; code)</li>
+<li>Product/series names (cat related acronyms: see NOMs, MEOWs, PAWS)</li>
+<li>Style (illustration-like)</li>
+<li>Font (Bubbly)</li>
+</ol>
+<p>https://twitter.com/nerdymomocat/status/1628379124720107521 For many people, it might not matter much. I not only respect you, I am jealous of you.</p>
+<p>For me, I was spending a significant amount of time looking for the appropriate name for an automation, selecting the perfect icon and the cover to go with it, tying my identity in. 2. Notion template design</p>
+<p>If I was making a google sheets template, maybe this would not matter as much. But given I was making notion templates, design had to be factored in for covers and page icons.</p>
+<p>And inconsistent ideas made me flustered, not something I want to repeat.</p>
+<p>https://twitter.com/nerdymomocat/status/1621700343854931969 Going back to the finalizations from above, design quickly became easier.</p>
+<p>I need a name for a series? Find a cat related word that can be an acronym (look at MEOWs).</p>
+<p>I need a page icon? Find an illustrative icon, put the selected cute kawaii icon representing NOMs with it. Design though, is about the organization and structure as much as it is about colors/graphics.</p>
+<p>So, I standardized it too. Every NOM would now have 3 levels, L1, L2, L3, where L1 would mostly be free, L2 and L3 providing increasingly more value. Dividing it as such made feature design a lot more easier too.</p>
+<p>I could now easily list the features that I want the best version to have and then pare it down to L1.</p>
+<p>And all I needed to do was copy paste it over for each NOM and then replace it with relevant features. I decided to launch on both iOS/Android this time around, I initially used input from Automate/Shortcuts.</p>
+<p>Automate does not have list input, &amp; I did not want to handle inconsistency.</p>
+<p>I would need a generic UI input too.</p>
+<p>So, each NOM has a dashboard and a settings page. Each NOM needs to have multiple components. I need to include a setup, FAQs, instructions, demo video etc.</p>
+<p>And I needed to design it once to be able to repeat it consistently. So, I created a set of blocks, tested them and made sure I liked them.</p>
+<p>Then the blocks were reusable. 3. Personal branding design</p>
+<p>Can you believe I launched the first time around without any personal website?</p>
+<p>This time around I decided to have a detailed version on <span class="citation" data-cites="NotionHQ">@NotionHQ</span> (https://nerdymomocat.notion.site/) and a shorter version on <span class="citation" data-cites="joinbento">@joinbento</span> (https://bento.me/nerdymomocat) Now I knew where to redirect people if they wanted to know more about my tool stack or workflows.</p>
+<p>You can see how consistent the promotional material, &amp; the personal profile is too.</p>
+<p>It is all in colors of orange, grey, green.</p>
+<p>And I did not have to spend time or think about it. So now, everything is branded nerdymomocat. My lemon squeezy store at: https://nerdymomocat.lemonsqueezy.com/, my personal profiles, my email, <span class="citation" data-cites="buymeacoffee">@buymeacoffee</span>, <span class="citation" data-cites="Reddit">@Reddit</span> etc.</p>
+<p>If I need to create a new series, I just find a cat illustration about it. 4. Tools</p>
+<p>Now that is all set and done, how did I get here?</p>
+<ol type="a">
+<li>I created a side projects database in <span class="citation" data-cites="NotionHQ">@NotionHQ</span> and stored all the designs in there related to all the series, profiles, websites etc.</li>
+</ol>
+<p>I made sure to keep a track of my newer and older designs. b. I tried MANY logo making websites, and eventually decided to use <span class="citation" data-cites="canva">@canva</span> and let me tell you, nothing comes close to the ease of use that canva provides.</p>
+<p>No AI tool comes close when you have a fixed set of guidelines and standardizations in your head. No more playing around! c.&nbsp;As much as I love to play around with tools, I do like narrowing them down to “go-tos”.</p>
+<p>I will never be able to play around with tools forever, even though I am open to going back to them.</p>
+<p>So, I settled on <span class="citation" data-cites="AppPika">@AppPika</span>, <span class="citation" data-cites="screenrunapp">@screenrunapp</span>, <span class="citation" data-cites="ScreenFlow">@ScreenFlow</span> for screenshot and demo design. Nerdy Momo Cat (she/her) <span class="citation" data-cites="nerdymomocat">@nerdymomocat</span> Guys, in case you have not heard about the <span class="citation" data-cites="screenrunapp">@screenrunapp</span>, you should. For NOMs in <span class="citation" data-cites="NotionHQ">@NotionHQ</span>, I have to make some instruction demos. And while screenshots work for most of it, gifs and videos are the best way to show the long processes. This is what I can make it 5 minutes. Possibly ending on a controversial take, but I know I am blessed to be good at coding, given how much I like personalization, automation and flexibility.</p>
+<p>It is not that I can put something together with time. I do AI/ML model design (not just use) as a full time job. So, I would not do subscriptions &gt;2$/mo for app that I do not use more than 100 hours a month. As I said before, paying for <span class="citation" data-cites="GoogleWorkspace">@GoogleWorkspace</span>, <span class="citation" data-cites="Spotify">@Spotify</span>, <span class="citation" data-cites="netflix">@netflix</span> is fine.</p>
+<p>If my “productivity” app costs more than my google subscription and provides me less value, I’m not doing it. In summation,</p>
+<p>For Repetitive Processes, REFINE:</p>
+<ol type="1">
+<li>Creation: color, personality, font, style.</li>
+<li>Structure: reusable blocks, ordering.</li>
+<li>Presentation: screenshots, recording, processing.</li>
+<li>Posts: website, writing, scheduling.</li>
+</ol>
+<p>Follow <span class="citation" data-cites="nerdymomocat">@nerdymomocat</span> for more workflow dig ins</p>
+
+
+
+<a onclick="window.scrollTo(0, 0); return false;" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a> ]]></description>
+  <category>Opinion</category>
+  <category>PKM</category>
+  <category>Writing</category>
+  <guid>https://nerdymomocat.github.io/posts/design_for_non_designers.html</guid>
+  <pubDate>Sat, 04 Mar 2023 05:00:00 GMT</pubDate>
+</item>
+<item>
   <title>Is There a Need for Mainstream Graph-Based Note-Taking Tools?</title>
   <link>https://nerdymomocat.github.io/posts/graph_based_notetaking_opinion.html</link>
   <description><![CDATA[ 
@@ -267,7 +347,7 @@ Tiago Forte talks about graph based PKM apps
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p></p><div id="tweet-24867"></div><script>tweet={"url":"https:\/\/twitter.com\/fortelabs\/status\/1616173350778441729","author_name":"Tiago Forte","author_url":"https:\/\/twitter.com\/fortelabs","html":"\u003Cblockquote class=\"twitter-tweet\" align=\"center\"\u003E\u003Cp lang=\"en\" dir=\"ltr\"\u003EWe really need a graph-based PKM app built by a serious company for mainstream users\u003Cbr\u003E\u003Cbr\u003E• Roam is a religion\u003Cbr\u003E• Obsidian is a side hobby\u003Cbr\u003E• Logseq is an open-source project\u003Cbr\u003E• Tana is barely in alpha\u003Cbr\u003E\u003Cbr\u003EIf there was just one reliable app in this space I’d refer so much traffic to it\u003C\/p\u003E&mdash; Tiago Forte (@fortelabs) \u003Ca href=\"https:\/\/twitter.com\/fortelabs\/status\/1616173350778441729?ref_src=twsrc%5Etfw\"\u003EJanuary 19, 2023\u003C\/a\u003E\u003C\/blockquote\u003E\n\u003Cscript async src=\"https:\/\/platform.twitter.com\/widgets.js\" charset=\"utf-8\"\u003E\u003C\/script\u003E\n","width":550,"height":null,"type":"rich","cache_age":"3153600000","provider_name":"Twitter","provider_url":"https:\/\/twitter.com","version":"1.0"};document.getElementById("tweet-24867").innerHTML = tweet["html"];</script><p></p>
+<p></p><div id="tweet-96460"></div><script>tweet={"url":"https:\/\/twitter.com\/fortelabs\/status\/1616173350778441729","author_name":"Tiago Forte","author_url":"https:\/\/twitter.com\/fortelabs","html":"\u003Cblockquote class=\"twitter-tweet\" align=\"center\"\u003E\u003Cp lang=\"en\" dir=\"ltr\"\u003EWe really need a graph-based PKM app built by a serious company for mainstream users\u003Cbr\u003E\u003Cbr\u003E• Roam is a religion\u003Cbr\u003E• Obsidian is a side hobby\u003Cbr\u003E• Logseq is an open-source project\u003Cbr\u003E• Tana is barely in alpha\u003Cbr\u003E\u003Cbr\u003EIf there was just one reliable app in this space I’d refer so much traffic to it\u003C\/p\u003E&mdash; Tiago Forte (@fortelabs) \u003Ca href=\"https:\/\/twitter.com\/fortelabs\/status\/1616173350778441729?ref_src=twsrc%5Etfw\"\u003EJanuary 19, 2023\u003C\/a\u003E\u003C\/blockquote\u003E\n\u003Cscript async src=\"https:\/\/platform.twitter.com\/widgets.js\" charset=\"utf-8\"\u003E\u003C\/script\u003E\n","width":550,"height":null,"type":"rich","cache_age":"3153600000","provider_name":"Twitter","provider_url":"https:\/\/twitter.com","version":"1.0"};document.getElementById("tweet-96460").innerHTML = tweet["html"];</script><p></p>
 </div>
 </div>
 </div></div><section id="mass-adoption-vs-niche-critical" class="level3">
