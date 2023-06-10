@@ -6,6 +6,7 @@ categories: [Tutorial, Resources, Notion, Publishing, Academia, Python, Automati
 ---
 
 ## Introduction
+
 All you need: this [notion template](https://nerdymomocat-shortened-url.vercel.app/notion_latex_resume_template), this [replit project](https://nerdymomocat-shortened-url.vercel.app/notion_latex_resume_replit_code) or this [github project](https://nerdymomocat-shortened-url.vercel.app/notion_latex_resume_github_code) if you want to run it locally.
 
 ![Example generated resume image](images/notion_latex_resume/image6.jpg)
@@ -22,31 +23,25 @@ See that `resume_generated.tex` file?
 
 That is the one we would be generating anytime we need to update our resume.
 
-
 ## Setup
-Oops! I got ahead of myself. 
+
+Oops! I got ahead of myself.
 
 ### Notion Setup
+
 Let's first talk about the template itself.
 
 It consists of 2 databases:
 
-![The resume information (MEOW| Resume Database)](images/notion_latex_resume/image.jpg)
+![The resume information (MEOW\| Resume Database)](images/notion_latex_resume/image.jpg)
 
-![The resume structure (MEOW| Resume Database Formatting)](images/notion_latex_resume/image2.jpg)
+![The resume structure (MEOW\| Resume Database Formatting)](images/notion_latex_resume/image2.jpg)
 
 What do they do?
 
-MEOW| Resume Database Formatting Database tells you which sections there are.
+MEOW\| Resume Database Formatting Database tells you which sections there are.
 
-It has just 7 properties:
-- Name (name of the section)
-- Sort By (time end or start)
-- Sort Direction (ascending or descending)
-- Rank (Order in which you want sections)
-- Item Format (Individual item formats)
-- Section Format (Start and end of section formatting)
-- MEOW| Resume Database (Related resume items/entries)
+It has just 7 properties: - Name (name of the section) - Sort By (time end or start) - Sort Direction (ascending or descending) - Rank (Order in which you want sections) - Item Format (Individual item formats) - Section Format (Start and end of section formatting) - MEOW\| Resume Database (Related resume items/entries)
 
 Items are placed inside section format using `NP:Items`.
 
@@ -54,23 +49,24 @@ Item Properties inside the format are referred by `NP:Property_Name`
 
 ![How Items and Property Names are used for formatting](images/notion_latex_resume/image7.jpg)
 
-MEOW| Resume Database includes each item. It only has 9 properties.
+MEOW\| Resume Database includes each item. It only has 9 properties.
 
-* Name
-* URL
-* People
-* Organization
-* Time (Can be date, year, range)
-* Comments
-* Status
-* Geographic Location
-* MEOW| Resume Database Formatting (Section the item belongs to)
+-   Name
+-   URL
+-   People
+-   Organization
+-   Time (Can be date, year, range)
+-   Comments
+-   Status
+-   Geographic Location
+-   MEOW\| Resume Database Formatting (Section the item belongs to)
 
-![Properties in the MEOW| Resume Database](images/notion_latex_resume/image9.jpg)
+![Properties in the MEOW\| Resume Database](images/notion_latex_resume/image9.jpg)
 
 Any of the text properties in the free text can have linked urls, bold or italics and it is rendered equivalently in LaTeX.
 
 #### Add One-Time Information
+
 Adding information is super-duper easy.
 
 The template comes with buttons for one time addition of basics.
@@ -88,6 +84,7 @@ The buttons come with a ton of pre-filled information and pointers of things you
 ![Example of newly add information using addition buttons](images/notion_latex_resume/image12.jpg)
 
 #### Make Modifications
+
 The template also includes a modification block.
 
 A submitted paper got accepted? A submitted grant got accepted? A student graduated?
@@ -97,6 +94,7 @@ Handle it through the modify callout. Remember to add this as a synced block to 
 ![Example of modify callout](images/notion_latex_resume/image11.jpg)
 
 ### Replit Setup
+
 Then you go to the repl.
 
 Fill in the value for these secrets. (Remember to share your template page in your workspace with the notion integration key)
@@ -104,14 +102,11 @@ Fill in the value for these secrets. (Remember to share your template page in yo
 ![Secret environment variables in replit](images/notion_latex_resume/image10.jpg)
 
 ## Generate
+
 And click run!
 
 And voila. It generates the resume_generated.tex
 
-It automatically takes care of a few things
-- Adds inline annotations to match notion
-- Adds href when there are links in notion
-- Does not add empty sections
-- Sorts entries in a section.
+It automatically takes care of a few things - Adds inline annotations to match notion - Adds href when there are links in notion - Does not add empty sections - Sorts entries in a section.
 
 ![Example of Generating The Resume](images/notion_latex_resume/notion_latex_resume_video.mp4)
