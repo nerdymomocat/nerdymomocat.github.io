@@ -1,13 +1,5 @@
 [
   {
-    "listing": "/stream/index.html",
-    "items": [
-      "/stream/nothing_comes_close_to_muse.html",
-      "/stream/notion_new_project_launch.html",
-      "/stream/url_shorteners.html"
-    ]
-  },
-  {
     "listing": "/index.html",
     "items": [
       "/posts/moving_back_to_chrome_from_arc.html",
@@ -15,6 +7,14 @@
       "/posts/notion_latex_resume.html",
       "/posts/self_organizing_bookmarks.html",
       "/posts/graph_based_notetaking_opinion.html"
+    ]
+  },
+  {
+    "listing": "/stream/index.html",
+    "items": [
+      "/stream/notion_new_project_launch.html",
+      "/stream/nothing_comes_close_to_muse.html",
+      "/stream/url_shorteners.html"
     ]
   },
   {
