@@ -17,8 +17,8 @@ lightbox: auto
 reference-location: margin
 threeword: 'Texts vs. Beeper'
 title: 'Texts vs. Beeper: The (App)solute Winner Is?'
-image: 'images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-c322b22e3cb.png 13-57-58-333.png'
-draft: true
+# image: 'images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-c322b22e3cb.png 13-57-58-333.png'
+draft: false
 ---
 # Introduction
 
