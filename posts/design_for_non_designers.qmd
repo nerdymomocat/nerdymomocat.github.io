@@ -3,17 +3,16 @@ title: Design tips from a non-designer
 description: "Exploring why graph-based note-taking apps lack mainstream appeal despite their popularity among certain niche groups and discussing the features that make a tool mainstream."
 date: 2023-03-04 5:00 AM
 categories: [Opinion, PKM, Writing]
-draft: false
+draft: true
 ---
-https://typefully.com/nerdymomocat/design-for-non-designers-B5BpLEW
 Design tips from a non-designer.
 
-While prepping for NOMs launch, I was trying to figure out the best way to create a non over-engineered MVP, but still good enough for my ADHD brain. {{< fa xmark >}}
+While prepping for NOMs launch, I was trying to figure out the best way to create a non over-engineered MVP, but still good enough for my ADHD brain.
 
 If you have the pesky perfectionism owl looking over you all the time, you'd want to read this.
 It has been a month since I tried to soft-launch the first time around and in this month.
 
-I have not only become way more proficient in some tools, I have also recognized the importance of personal branding. (Initial launch: https://twitter.com/nerdymomocat/status/1621700343854931969)
+I have not only become way more proficient in some tools, I have also recognized the importance of personal branding. [Initial launch](https://twitter.com/nerdymomocat/status/1621700343854931969)
 
 https://twitter.com/nerdymomocat/status/1623640412652179457
 Nerdy Momo Cat (she/her)
@@ -129,5 +128,3 @@ For Repetitive Processes, REFINE:
 2. Structure: reusable blocks, ordering.
 3. Presentation: screenshots, recording, processing.
 4. Posts: website, writing, scheduling.
-
-Follow @nerdymomocat for more workflow dig ins
