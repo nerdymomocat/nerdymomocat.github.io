@@ -107,7 +107,7 @@
 </section>
 <section id="functionality-comparison" class="level1 page-columns page-full">
 <h1>Functionality Comparison</h1>
-<section id="supported-apps" class="level2">
+<section id="supported-apps" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="supported-apps">Supported Apps</h2>
 <blockquote class="blockquote">
 <p>Beeper: <i class="fa-solid fa-check" aria-label="check"></i> <i class="fa-solid fa-plus" aria-label="plus"></i></p>
@@ -116,17 +116,19 @@
 <p>Beeper supports more apps: specifically Google Chat, Instagram and android SMS are notably missing from Texts. This is important to me, because I do plan to shift to Android, and I would want my sms to be available on Mac. Also important because, while iMessage does already have a desktop sync component, google messages does not have one on Mac, and Beeper does shine there.</p>
 <p>Google Chat is important for me as someone in education, where the university, my lab and colleagues; all use chat often for varying purposes.</p>
 <p>Instagram has been constantly buggy; even for Beeper, but not longer than 2 days (the last time it happened, it was buggy for 12-ish hours). I believe that is due Meta’s API issues, but Beeper has fixed connections faster than Texts. I can assume that because while Instagram is back on Beeper, it is still missing from Texts.</p>
-<!-- :::{.column-margin}
 
-![Update speed in Beeper](images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-49aec96a87e.png)
-
-::: -->
-<p></p>
-<section id="imessages" class="level3">
+<div class="no-row-height column-margin column-container"><div class="">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-49aec96a87e.png" class="lightbox" title="Update speed in Beeper" data-gallery="quarto-lightbox-gallery-7"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-49aec96a87e.png" class="img-fluid figure-img"></a></p>
+<figcaption class="figure-caption">Update speed in Beeper</figcaption>
+</figure>
+</div>
+</div></div><section id="imessages" class="level3">
 <h3 class="anchored" data-anchor-id="imessages">iMessages</h3>
 <blockquote class="blockquote">
-<p>Beeper: </p>
-<p>Texts: </p>
+<p>Beeper: <i class="fa-solid fa-check" aria-label="check"></i></p>
+<p>Texts: <i class="fa-solid fa-check" aria-label="check"></i> <i class="fa-solid fa-minus" aria-label="minus"></i></p>
 </blockquote>
 <p>Texts needs an extra helper for keeping the messages synced. I believe that is because they are extracting or intercepting rather than syncing through an extra server as Beeper is. That allows Beeper. That is one of the main reasons why you can have iMessage on Android/Windows in Beeper, and is unlikely to come anytime soon to Texts. Personally, when I switch back to Android, I do not need iMessage and I will not care about this. Google messages on the other hand allows for a QR code based login (similar to whatsapp) — and I am disappointed that does not exist on Texts.</p>
 </section>
@@ -134,8 +136,8 @@
 <section id="speed-and-updates" class="level2">
 <h2 class="anchored" data-anchor-id="speed-and-updates">Speed and Updates</h2>
 <blockquote class="blockquote">
-<p>Beeper: </p>
-<p>Texts: </p>
+<p>Beeper: <i class="fa-solid fa-check" aria-label="check"></i></p>
+<p>Texts: <i class="fa-solid fa-face-meh-blank" aria-label="face-meh-blank"></i></p>
 </blockquote>
 <p>While Beeper in usage is snappier (Texts feels slower to me) — Beeper’s startup time from being closed as an app to starting up is atrocious. Thankfully I never shut down my laptop and my messaging app is never closed, so I do not really care about this. The only caveat to this being — Beeper literally sends out new updates every single day (sometimes twice a day); and once it does update, you have to put up with the slow startup speed (takes a minute or two).</p>
 </section>
@@ -144,93 +146,93 @@
 <section id="archive" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="archive">Archive</h3>
 <blockquote class="blockquote">
-<p>Beeper: </p>
-<p>Texts: </p>
+<p>Beeper: <i class="fa-solid fa-check" aria-label="check"></i> <i class="fa-solid fa-minus" aria-label="minus"></i></p>
+<p>Texts: <i class="fa-solid fa-check" aria-label="check"></i></p>
 </blockquote>
 <p>While both Beeper and Texts allow for archiving a conversation, only Texts allows for syncing state of the archive with the native platform. Texts also has an option of “Move to Other” and “Hide” which kind of do the same thing — and I am not really sure if they need to exist. But more options for organizing the cluttered inbox has never hurt anyone!</p>
 
 <div class="no-row-height column-margin column-container"><div class="">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-3bf337d6178.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-3bf337d6178.png" class="img-fluid figure-img"></a></p>
+<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-3bf337d6178.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-3bf337d6178.png" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div></div></section>
 <section id="edit-messages" class="level3">
 <h3 class="anchored" data-anchor-id="edit-messages">Edit Messages</h3>
 <blockquote class="blockquote">
-<p>Beeper: </p>
-<p>Texts: </p>
+<p>Beeper: <i class="fa-solid fa-check" aria-label="check"></i></p>
+<p>Texts: <i class="fa-solid fa-question" aria-label="question"></i></p>
 </blockquote>
 <p>Because Beeper does not have app based context menu, I know it supports editing messages. I am not sure if Texts does because I do not use Slack or discord and those are the platforms off the top of my head that support editing messages.</p>
 </section>
 <section id="mark-as-unread" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="mark-as-unread">Mark as Unread</h3>
 <blockquote class="blockquote">
-<p>Beeper: </p>
-<p>Texts: </p>
+<p>Beeper: <i class="fa-solid fa-check" aria-label="check"></i></p>
+<p>Texts: <i class="fa-solid fa-check" aria-label="check"></i></p>
 </blockquote>
 <p>Both Beeper and Texts have an option to mark a conversation as unread, neither of which syncs back to the native platform. Texts has an add on feature here called “Stealth mode” that lets you keep a conversation remain marked as unread even if you click on it and read it; unless you reply to them.</p>
 
 <div class="no-row-height column-margin column-container"><div class="">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-d73ed56ce3c.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-d73ed56ce3c.png" class="img-fluid figure-img"></a></p>
+<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-d73ed56ce3c.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-d73ed56ce3c.png" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div></div></section>
 <section id="delete-thread" class="level3">
 <h3 class="anchored" data-anchor-id="delete-thread">Delete Thread</h3>
 <blockquote class="blockquote">
-<p>Beeper: </p>
-<p>Texts: </p>
+<p>Beeper: <i class="fa-solid fa-xmark" aria-label="xmark"></i></p>
+<p>Texts: <i class="fa-solid fa-check" aria-label="check"></i></p>
 </blockquote>
 <p>Texts provides a feature to delete a complete conversation. This is especially useful for spam twitter conversations. While Beeper does put them automatically in to the low priority inbox (invites box for Texts) — you cannot delete the conversation/thread and I do not like that. Delete thread/conversation entirely does not seem to sync state with the original app and that is a bummer.</p>
 </section>
 <section id="select-multiple-messages" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="select-multiple-messages">Select multiple messages</h3>
 <blockquote class="blockquote">
-<p>Beeper: </p>
-<p>Texts: </p>
+<p>Beeper: <i class="fa-solid fa-xmark" aria-label="xmark"></i></p>
+<p>Texts: <i class="fa-solid fa-check" aria-label="check"></i></p>
 </blockquote>
 <p>Texts allows you to select multiple messages using Shift + ↑ which you can then use to copy, remind, forward or delete (not shown here because these are tips inbox) and that is amazing. I have yet to find this functionality in Beeper, and quite possibly it does not exist.</p>
 
 <div class="no-row-height column-margin column-container"><div class="">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-8d18c384357.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-8d18c384357.png" class="img-fluid figure-img"></a></p>
+<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-8d18c384357.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-8d18c384357.png" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div></div></section>
 <section id="delete-message" class="level3">
 <h3 class="anchored" data-anchor-id="delete-message">Delete Message</h3>
 <blockquote class="blockquote">
-<p>Beeper: </p>
-<p>Texts: </p>
+<p>Beeper: <i class="fa-solid fa-check" aria-label="check"></i></p>
+<p>Texts: <i class="fa-solid fa-check" aria-label="check"></i> <i class="fa-solid fa-plus" aria-label="plus"></i></p>
 </blockquote>
 <p>Both Beeper and Texts supports deleting a message, but only texts separately shows Delete for everyone vs Delete for me in Whatsapp, which is not important to me, but an attention to detail I can appreciate. These deletes are synced with the server (so you do see a similar state when you open the corresponding app)</p>
 </section>
 <section id="forward-message" class="level3">
 <h3 class="anchored" data-anchor-id="forward-message">Forward Message</h3>
 <blockquote class="blockquote">
-<p>Beeper: </p>
-<p>Texts: </p>
+<p>Beeper: <i class="fa-solid fa-check" aria-label="check"></i></p>
+<p>Texts: <i class="fa-solid fa-check" aria-label="check"></i> <i class="fa-solid fa-plus" aria-label="plus"></i></p>
 </blockquote>
 <p>Both Texts and Beeper allow you to forward a message. Both allow you to forward a message to multiple users. While Texts does this as a popup modal, Beeper does this in sidebar for some reason; and I prefer Texts implementation here.</p>
 </section>
 <section id="reply-to-message" class="level3">
 <h3 class="anchored" data-anchor-id="reply-to-message">Reply to Message</h3>
 <blockquote class="blockquote">
-<p>Beeper: </p>
-<p>Texts: </p>
+<p>Beeper: <i class="fa-solid fa-check" aria-label="check"></i> <i class="fa-solid fa-plus" aria-label="plus"></i></p>
+<p>Texts: <i class="fa-solid fa-check" aria-label="check"></i></p>
 </blockquote>
 <p>Both Beeper and Texts supports replying to a message and the, so that is awesome! Beeper adds an extra option to view thread when there are a series of replies in a thread.</p>
 </section>
 <section id="open-conversation-in-corresponding-app" class="level3">
 <h3 class="anchored" data-anchor-id="open-conversation-in-corresponding-app">Open Conversation in Corresponding App</h3>
 <blockquote class="blockquote">
-<p>Beeper: </p>
-<p>Texts: </p>
+<p>Beeper: <i class="fa-solid fa-xmark" aria-label="xmark"></i></p>
+<p>Texts: <i class="fa-solid fa-check" aria-label="check"></i> <i class="fa-solid fa-plus" aria-label="plus"></i></p>
 </blockquote>
 <p>While most people might not find a use case for this; I heavily used this feature in 2 days. Whatsapp does not allow for calling through third party clients. Being able to open a conversation in Whatsapp to call my mom when she has called me 80 times; always helps. Trust me; it saves her a minute of panic attacks.</p>
 <p>Texts also has a chrome extension that allows you to open a chat on twitter or other web platforms back in the texts app — and that is another one I appreciate.</p>
@@ -241,39 +243,39 @@
 <section id="search" class="level3">
 <h3 class="anchored" data-anchor-id="search">Search</h3>
 <blockquote class="blockquote">
-<p>Beeper: </p>
-<p>Texts: </p>
+<p>Beeper: <i class="fa-solid fa-check" aria-label="check"></i></p>
+<p>Texts: <i class="fa-solid fa-check" aria-label="check"></i></p>
 </blockquote>
 <p>While both apps allow for searching across all chats and across a single chat; I prefer the design choice of Texts. Additionally, search in Texts highlights the word in a message whereas in beeper it just shows relevant messages.</p>
 </section>
 <section id="media" class="level3">
 <h3 class="anchored" data-anchor-id="media">Media</h3>
 <blockquote class="blockquote">
-<p>Beeper: </p>
-<p>Texts: </p>
+<p>Beeper: <i class="fa-solid fa-check" aria-label="check"></i></p>
+<p>Texts: <i class="fa-solid fa-check" aria-label="check"></i> <i class="fa-solid fa-minus" aria-label="minus"></i></p>
 </blockquote>
 <p>In Texts, the files and media section does not load media (or messages for that matter) before install date unless and until you scroll up the message viewport to an earlier date. I wish there was a setting to specify the earliest date you want to load messages from, but that does not seem to be the case.</p>
 </section>
 <section id="call-and-video" class="level3">
 <h3 class="anchored" data-anchor-id="call-and-video">Call and Video</h3>
 <blockquote class="blockquote">
-<p>Beeper: </p>
-<p>Texts: </p>
+<p>Beeper: <i class="fa-solid fa-question" aria-label="question"></i></p>
+<p>Texts: <i class="fa-solid fa-xmark" aria-label="xmark"></i></p>
 </blockquote>
 <p>Beeper seems to support call and video for certain channels. It is not apparent to me, which ones those are — given I do not use Slack and Discord. It does not seem to support Messenger or Whatsapp for calling. Texts does not provide any notifications for incoming calls and that is a huge bummer.</p>
 </section>
 <section id="notifications" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="notifications">Notifications</h3>
 <blockquote class="blockquote">
-<p>Beeper: </p>
-<p>Texts: {{<fa check="">}}</fa></p>
+<p>Beeper: <i class="fa-solid fa-check" aria-label="check"></i> <i class="fa-solid fa-plus" aria-label="plus"></i></p>
+<p>Texts: <i class="fa-solid fa-check" aria-label="check"></i></p>
 </blockquote>
 <p>Both Beeper and Texts have an app level notification setting and a conversation level notification setting. Beeper also has other kinds of notification settings, which I assume are really powerful for slack and discord — both of which I do not use at the moment.</p>
 
 <div class="no-row-height column-margin column-container"><div class="">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-adf6320f53b.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-adf6320f53b.png" class="img-fluid figure-img"></a></p>
+<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-adf6320f53b.png" class="lightbox" data-gallery="quarto-lightbox-gallery-11"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-adf6320f53b.png" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div></div></section>
@@ -292,13 +294,13 @@
 <div class="no-row-height column-margin column-container"><div class="">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-5f2083e3bff.png" class="lightbox" title="Schedule send UI in Beeper and how the scheduled send ends up looking like inside the Beeper interface" data-gallery="quarto-lightbox-gallery-11"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-5f2083e3bff.png" class="img-fluid figure-img"></a></p>
+<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-5f2083e3bff.png" class="lightbox" title="Schedule send UI in Beeper and how the scheduled send ends up looking like inside the Beeper interface" data-gallery="quarto-lightbox-gallery-12"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-5f2083e3bff.png" class="img-fluid figure-img"></a></p>
 <figcaption class="figure-caption">Schedule send UI in Beeper and how the scheduled send ends up looking like inside the Beeper interface</figcaption>
 </figure>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-986c5d0f5d7.png" class="lightbox" title="Send Later UI in Texts and how the scheduled send ends up looking like inside the Beeper interface" data-gallery="quarto-lightbox-gallery-12"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-986c5d0f5d7.png" class="img-fluid figure-img"></a></p>
+<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-986c5d0f5d7.png" class="lightbox" title="Send Later UI in Texts and how the scheduled send ends up looking like inside the Beeper interface" data-gallery="quarto-lightbox-gallery-13"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-986c5d0f5d7.png" class="img-fluid figure-img"></a></p>
 <figcaption class="figure-caption">Send Later UI in Texts and how the scheduled send ends up looking like inside the Beeper interface</figcaption>
 </figure>
 </div>
@@ -314,7 +316,7 @@
 <div class="no-row-height column-margin column-container"><div class="">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-82a76dc73ab.png" class="lightbox" data-gallery="quarto-lightbox-gallery-13"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-82a76dc73ab.png" class="img-fluid figure-img"></a></p>
+<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-82a76dc73ab.png" class="lightbox" data-gallery="quarto-lightbox-gallery-14"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-82a76dc73ab.png" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div></div></section>
@@ -361,7 +363,7 @@
 <div class="no-row-height column-margin column-container"><div class="">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-c34224e60d1.png" class="lightbox" title="Creating quick replies in Texts" data-gallery="quarto-lightbox-gallery-14"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-c34224e60d1.png" class="img-fluid figure-img"></a></p>
+<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-c34224e60d1.png" class="lightbox" title="Creating quick replies in Texts" data-gallery="quarto-lightbox-gallery-15"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-c34224e60d1.png" class="img-fluid figure-img"></a></p>
 <figcaption class="figure-caption">Creating quick replies in Texts</figcaption>
 </figure>
 </div>
@@ -666,7 +668,7 @@ Tiago Forte talks about graph based PKM apps
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p></p><div id="tweet-80706"></div><script>tweet={"url":"https:\/\/twitter.com\/fortelabs\/status\/1616173350778441729","author_name":"Tiago Forte","author_url":"https:\/\/twitter.com\/fortelabs","html":"\u003Cblockquote class=\"twitter-tweet\" align=\"center\"\u003E\u003Cp lang=\"en\" dir=\"ltr\"\u003EWe really need a graph-based PKM app built by a serious company for mainstream users\u003Cbr\u003E\u003Cbr\u003E• Roam is a religion\u003Cbr\u003E• Obsidian is a side hobby\u003Cbr\u003E• Logseq is an open-source project\u003Cbr\u003E• Tana is barely in alpha\u003Cbr\u003E\u003Cbr\u003EIf there was just one reliable app in this space I’d refer so much traffic to it\u003C\/p\u003E&mdash; Tiago Forte (@fortelabs) \u003Ca href=\"https:\/\/twitter.com\/fortelabs\/status\/1616173350778441729?ref_src=twsrc%5Etfw\"\u003EJanuary 19, 2023\u003C\/a\u003E\u003C\/blockquote\u003E\n\u003Cscript async src=\"https:\/\/platform.twitter.com\/widgets.js\" charset=\"utf-8\"\u003E\u003C\/script\u003E\n","width":550,"height":null,"type":"rich","cache_age":"3153600000","provider_name":"Twitter","provider_url":"https:\/\/twitter.com","version":"1.0"};document.getElementById("tweet-80706").innerHTML = tweet["html"];</script><p></p>
+<p></p><div id="tweet-97233"></div><script>tweet={"url":"https:\/\/twitter.com\/fortelabs\/status\/1616173350778441729","author_name":"Tiago Forte","author_url":"https:\/\/twitter.com\/fortelabs","html":"\u003Cblockquote class=\"twitter-tweet\" align=\"center\"\u003E\u003Cp lang=\"en\" dir=\"ltr\"\u003EWe really need a graph-based PKM app built by a serious company for mainstream users\u003Cbr\u003E\u003Cbr\u003E• Roam is a religion\u003Cbr\u003E• Obsidian is a side hobby\u003Cbr\u003E• Logseq is an open-source project\u003Cbr\u003E• Tana is barely in alpha\u003Cbr\u003E\u003Cbr\u003EIf there was just one reliable app in this space I’d refer so much traffic to it\u003C\/p\u003E&mdash; Tiago Forte (@fortelabs) \u003Ca href=\"https:\/\/twitter.com\/fortelabs\/status\/1616173350778441729?ref_src=twsrc%5Etfw\"\u003EJanuary 19, 2023\u003C\/a\u003E\u003C\/blockquote\u003E\n\u003Cscript async src=\"https:\/\/platform.twitter.com\/widgets.js\" charset=\"utf-8\"\u003E\u003C\/script\u003E\n","width":550,"height":null,"type":"rich","cache_age":"3153600000","provider_name":"Twitter","provider_url":"https:\/\/twitter.com","version":"1.0"};document.getElementById("tweet-97233").innerHTML = tweet["html"];</script><p></p>
 </div>
 </div>
 </div></div><section id="mass-adoption-vs-niche-critical" class="level3">
