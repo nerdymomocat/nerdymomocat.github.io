@@ -5,7 +5,7 @@ date: 2023-03-04 5:00 AM
 categories: [Opinion, PKM, Writing]
 draft: true
 ---
-Design tips from a non-designer.
+Design tips from a non-designer. {{< fa xmark >}}
 
 While prepping for NOMs launch, I was trying to figure out the best way to create a non over-engineered MVP, but still good enough for my ADHD brain.
 

@@ -1,0 +1,368 @@
+---
+categories:
+- Productivity Apps
+- Messaging
+- MacOS
+- Social Media
+- All-In-One
+citation-location: margin
+date: '2023-06-26'
+description: 'Texts offers an aggregation messaging experience with its design and keyboard focussed approach. Beeper provides utility-focused approach and a basic free software. I was curious to see if which one would meet my needs and provide the value I was looking for.'
+display-date: 'Jun 2023'
+filters:
+- collapse-social-embeds
+- lightbox
+format: html
+lightbox: auto
+reference-location: margin
+threeword: 'Texts vs. Beeper'
+title: 'Texts vs. Beeper: The (App)solute Winner Is?'
+image: 'images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-c322b22e3cb.png 13-57-58-333.png'
+---
+# Introduction
+
+When [\@Beth](https://twitter.com/pkmbeth) messaged me that she has invites for [Texts](https://texts.com/); I was excited.
+
+![Texts invitation from Beth 2023-06-24](images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-b352b61b0d2.png)
+
+I was equally excited about getting off Beeper's waitlist a little over a month ago.
+
+![Invitation from Beeper 2023-05-18 ](images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-9192cf69508.png)
+
+## Why did I even want to try Texts? {#why-did-i-even-want-to-try-texts-}
+
+Well, if you are reading this, you know this is my alt account. While I do not have multiple apps that I run alt accounts for, Twitter is definitely one of them. And Beeper at the moment does not support multiple accounts for the same app.
+
+As I have said before, I am very much a person who values utility over design; and especially would prefer free software that still works over paid beautiful ones (that also work, mind you).
+
+## What about Texts not having a mobile app? {#what-about-texts-not-having-a-mobile-app-}
+
+While I do have Beeper installed on my phone, Texts not having a mobile app is not a deal breaker for me. This is specifically because the I do have per app notifications for personal messaging turned on. Hence, the benefit of Beeper comes to be in the extras --- which I will talk about later, but in this case, is just scheduling; which I do use if need be.
+
+## Pricing
+
+Texts pricing is a concern for me, though thankfully their education pricing is okay by me --- which at the moment is \$5/mo. Beeper at the moment is free, though comes with a very very extensive waitlist. They do propose to have paid plans in the future, and if it is anywhere in the range of \$5/mo, I will pay for it.
+
+tl;dr --- I think \$5/mo for messaging aggregator app is where I place the value to be.
+
+# Quick look
+
+In case all you want is a quick look at what they can do or not do, the two graphics below almost cover everything. You can also go through each section/sub-section and look for checkmarks (has this option), meh (kinda), cross (does not have this option), plus (additional benefits) and minus (poor implementation).
+
+![Texts UI out of box](images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-f18160c8b1f.png)
+
+![Beeper UI out of box](images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-c00abdf1836.png)
+
+# Design Comparison
+
+Let's get this out of the way. I know many people care about this and I do want to touch on it, because that is one of the major out-of-box difference between Texts and Beeper.
+
+Design decisions of course affect the UI/UX of individual actions and I will discuss them while I discuss the functionality. This section is solely focussed on the looks, and not the UX of the two apps.
+
+## Basic Looks
+
+Texts feels like a "beautiful app" out of box. On the other hand Beeper feels like a hacker version of Texts. Now, none of this is to say, one is more or less stable than the other. Of course you can modify CSS in Beeper but no immediate changes makes it look comprehensive.
+
+There are of course differences in the setup page, but I do not care about it. You need to setup things ONCE. And yes, texts looks much better in that regard. Reduced number of popups, consistent design etc. But again, you will access it only once.
+
+![Texts UI out of box looks way cleaner than Beeper's](images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-c322b22e3cb.png)
+
+## What bothers me? {#what-bothers-me-}
+
+I am not the kind of person to care about Apple-esque design. If you are, then Beeper isn't for you. That being said, there are still multiple things that bother me in Beeper's design.
+
+-   The message preview in the sidebar can be one or two lines making it feel inconsistent
+-   The use of You on left and ticks/double-ticks misaligns the whole preview and very much prefers Texts implementation here. Even when the words (You) do not exist, the text in some cases does not align to the contact's name. Presence of tick/double-tick signifies that it was sent by you anyway.
+-   Chat settings open in a new modal on top of everything? Why?
+-   Schedule send has an orange colored huge button, why?
+-   There is no visual gradient or information in the sidebar list to identify which chat is opened at the moment.
+-   Some actions such as search inside a chat or favorite a chat are hidden in the top menu bar of Beeper. That to me makes no sense!
+
+![Click on the gif to see the menu bar actions and search UX](images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-94e785d25c2.gif)
+
+-   App indicator on the right has an outlined mode and I don't think I like it though it is easily fixable through CSS.
+-   Low priority and archive should be up there with categories but it isn't. There isn't a need for a floating "Open Archives" button.
+-   The sidebar opens with a stack icon which still confuses me. I would prefer a standardized icon like a hamburger menu.
+-   Group chats show who sent the last message which is awesome but also shows their contact picture and it just makes a mess.
+
+# Functionality Comparison
+
+## Supported Apps
+
+> Beeper: {{< fa check >}} {{< fa plus >}}
+>
+> Texts: {{< fa check >}} {{< fa minus >}}
+
+Beeper supports more apps: specifically Google Chat, Instagram and android SMS are notably missing from Texts. This is important to me, because I do plan to shift to Android, and I would want my sms to be available on Mac. Also important because, while iMessage does already have a desktop sync component, google messages does not have one on Mac, and Beeper does shine there.
+
+Google Chat is important for me as someone in education, where the university, my lab and colleagues; all use chat often for varying purposes.
+
+Instagram has been constantly buggy; even for Beeper, but not longer than 2 days (the last time it happened, it was buggy for 12-ish hours). I believe that is due Meta's API issues, but Beeper has fixed connections faster than Texts. I can assume that because while Instagram is back on Beeper, it is still missing from Texts.
+
+<!-- :::{.column-margin}
+
+![Update speed in Beeper](images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-49aec96a87e.png)
+
+::: -->
+
+{{< fa check>}}
+
+### iMessages
+
+> Beeper: {{< fa check>}}
+>
+> Texts: {{< fa check>}} {{< fa minus>}}
+
+Texts needs an extra helper for keeping the messages synced. I believe that is because they are extracting or intercepting rather than syncing through an extra server as Beeper is. That allows Beeper. That is one of the main reasons why you can have iMessage on Android/Windows in Beeper, and is unlikely to come anytime soon to Texts. Personally, when I switch back to Android, I do not need iMessage and I will not care about this. Google messages on the other hand allows for a QR code based login (similar to whatsapp) --- and I am disappointed that does not exist on Texts.
+
+## Speed and Updates
+
+> Beeper: {{< fa check>}}
+>
+> Texts: {{< fa face-meh-blank>}}
+
+While Beeper in usage is snappier (Texts feels slower to me) --- Beeper's startup time from being closed as an app to starting up is atrocious. Thankfully I never shut down my laptop and my messaging app is never closed, so I do not really care about this. The only caveat to this being --- Beeper literally sends out new updates every single day (sometimes twice a day); and once it does update, you have to put up with the slow startup speed (takes a minute or two).
+
+## Actions
+
+### Archive
+
+> Beeper: {{< fa check>}} {{< fa minus>}}
+>
+> Texts: {{< fa check>}}
+
+While both Beeper and Texts allow for archiving a conversation, only Texts allows for syncing state of the archive with the native platform. Texts also has an option of "Move to Other" and "Hide" which kind of do the same thing --- and I am not really sure if they need to exist. But more options for organizing the cluttered inbox has never hurt anyone!
+
+:::{.column-margin}
+
+![](images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-3bf337d6178.png)
+
+:::
+
+### Edit Messages
+
+> Beeper: {{< fa check>}}
+>
+> Texts: {{< fa question>}}
+
+Because Beeper does not have app based context menu, I know it supports editing messages. I am not sure if Texts does because I do not use Slack or discord and those are the platforms off the top of my head that support editing messages.
+
+### Mark as Unread
+
+> Beeper: {{< fa check>}}
+>
+> Texts: {{< fa check>}}
+
+Both Beeper and Texts have an option to mark a conversation as unread, neither of which syncs back to the native platform. Texts has an add on feature here called "Stealth mode" that lets you keep a conversation remain marked as unread even if you click on it and read it; unless you reply to them.
+
+:::{.column-margin}
+
+![](images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-d73ed56ce3c.png)
+
+:::
+
+### Delete Thread
+
+> Beeper: {{< fa xmark>}}
+>
+> Texts: {{< fa check>}}
+
+Texts provides a feature to delete a complete conversation. This is especially useful for spam twitter conversations. While Beeper does put them automatically in to the low priority inbox (invites box for Texts) --- you cannot delete the conversation/thread and I do not like that. Delete thread/conversation entirely does not seem to sync state with the original app and that is a bummer.
+
+### Select multiple messages
+
+> Beeper: {{< fa xmark>}}
+>
+> Texts: {{< fa check>}}
+
+Texts allows you to select multiple messages using Shift + ↑ which you can then use to copy, remind, forward or delete (not shown here because these are tips inbox) and that is amazing. I have yet to find this functionality in Beeper, and quite possibly it does not exist.
+
+:::{.column-margin}
+
+![](images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-8d18c384357.png)
+
+:::
+
+### Delete Message
+
+> Beeper: {{< fa check>}}
+>
+> Texts: {{< fa check>}} {{< fa plus>}}
+
+Both Beeper and Texts supports deleting a message, but only texts separately shows Delete for everyone vs Delete for me in Whatsapp, which is not important to me, but an attention to detail I can appreciate. These deletes are synced with the server (so you do see a similar state when you open the corresponding app)
+
+### Forward Message
+
+> Beeper: {{< fa check>}}
+>
+> Texts: {{< fa check>}} {{< fa plus>}}
+
+Both Texts and Beeper allow you to forward a message. Both allow you to forward a message to multiple users. While Texts does this as a popup modal, Beeper does this in sidebar for some reason; and I prefer Texts implementation here.
+
+### Reply to Message
+
+> Beeper: {{< fa check>}} {{< fa plus>}}
+>
+> Texts: {{< fa check>}}
+
+Both Beeper and Texts supports replying to a message and the, so that is awesome! Beeper adds an extra option to view thread when there are a series of replies in a thread.
+
+### Open Conversation in Corresponding App
+
+> Beeper: {{< fa xmark>}}
+>
+> Texts: {{< fa check>}} {{< fa plus>}}
+
+While most people might not find a use case for this; I heavily used this feature in 2 days. Whatsapp does not allow for calling through third party clients. Being able to open a conversation in Whatsapp to call my mom when she has called me 80 times; always helps. Trust me; it saves her a minute of panic attacks.
+
+Texts also has a chrome extension that allows you to open a chat on twitter or other web platforms back in the texts app --- and that is another one I appreciate.
+
+## Content
+
+### Search
+
+> Beeper: {{< fa check>}}
+>
+> Texts: {{< fa check>}}
+
+While both apps allow for searching across all chats and across a single chat; I prefer the design choice of Texts. Additionally, search in Texts highlights the word in a message whereas in beeper it just shows relevant messages.
+
+### Media
+
+> Beeper: {{< fa check>}}
+>
+> Texts: {{< fa check>}} {{< fa minus>}}
+
+In Texts, the files and media section does not load media (or messages for that matter) before install date unless and until you scroll up the message viewport to an earlier date. I wish there was a setting to specify the earliest date you want to load messages from, but that does not seem to be the case.
+
+### Call and Video
+
+> Beeper: {{< fa question>}}
+>
+> Texts: {{< fa xmark>}}
+
+Beeper seems to support call and video for certain channels. It is not apparent to me, which ones those are --- given I do not use Slack and Discord. It does not seem to support Messenger or Whatsapp for calling. Texts does not provide any notifications for incoming calls and that is a huge bummer.
+
+### Notifications
+
+> Beeper: {{< fa check>}} {{<fa plus>}}
+>
+> Texts: {{<fa check>}}
+
+Both Beeper and Texts have an app level notification setting and a conversation level notification setting. Beeper also has other kinds of notification settings, which I assume are really powerful for slack and discord --- both of which I do not use at the moment.
+
+:::{.column-margin}
+
+![](images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-adf6320f53b.png)
+
+:::
+
+## Add On Features
+
+### Send Later
+
+> Beeper: {{< fa check >}} Schedule and dismiss
+>
+> Texts: {{< fa check >}} {{< fa minue >}} Schedule when app is active, dismiss and reschedule
+
+Send later in Texts relies on the desktop being powered on and the app running. I believe they store it as an action on device. While on Beeper, you can instead send messages later because those actions are stored on their server.
+
+Due to this difference in system, while send later is more convenient on Beeper, it also has a poor UX. When you schedule a message in Beeper, it disappears back into the button. You also cannot schedule two messages to the same person, which in my opinion is fine. On Texts, it shows up inline and feels way more native to the app itself. You can also not reschedule a message in Beeper (fine by me, I will just copy paste); while you can do so in Texts.
+
+:::{.column-margin}
+
+![Schedule send UI in Beeper and how the scheduled send ends up looking like inside the Beeper interface](images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-5f2083e3bff.png)
+
+![Send Later UI in Texts and how the scheduled send ends up looking like inside the Beeper interface](images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-986c5d0f5d7.png)
+
+:::
+
+### View Thread
+
+> Beeper: {{< fa check >}}
+>
+> Texts: {{< fa xmark >}}
+
+Beeper allows you to show thread in a consecutive set of replies. Honestly, that has been a life-saver for me. As someone who often tends to have multiple conversations in parallel with the same person, show thread allows me to skim over the conversation way quicker.
+
+:::{.column-margin}
+
+![](images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-82a76dc73ab.png)
+
+:::
+
+### Auto-copy
+
+> Beeper: {{< fa check >}}
+>
+> Texts: {{< fa check >}}
+
+One of the best features of Beeper and Texts is: it auto copies the two factor auth code onto your clipboard to be pasted into the textboxes on the website. Yes, exactly that meme for iPhone but built by Beeper and Texts.
+
+### Auto-Archive
+
+> Beeper: {{< fa check >}}
+>
+> Texts: {{< fa check >}}
+
+Both Beeper and Texts have an option to auto-archive. Texts works in days by default, and Beeper in minutes. Both end up having the same functionality.
+
+### Remind Later
+
+> Beeper: {{< fa xmark >}}
+>
+> Texts: {{< fa check >}} Single or multiple messages, auto-archive on snooze
+
+This is completely missing from Beeper unfortunately, and given they are better poised to be doing this (because they have their own servers) --- I am disappointed. Remind later shows the same UI as scheduled send, just that in this case: you receive notification again on the set time. You can choose to archive threads that you have set a remind for in general settings. It is very similar to how snooze works in Spark Email.
+
+### OpenAI integration
+
+> Beeper: {{< fa xmark >}}
+>
+> Texts: {{< fa check >}}
+
+Texts has an option to draft replies and to transcribe voice messages through OpenAI. This is a part of their premium plan. I don't know if I am very excited about that, but one potential usecase might be using the transcription to send to a note-taking app such as Capacities which does have integration with Telegram/Whatsapp.
+
+### Snippets
+
+> Beeper: {{< fa xmark >}}
+>
+> Texts: {{< fa check >}}
+
+Custom snippets or what Texts calls as Quick Replies allows you to create custom templated responses. I will be honest, I do not work in any customer oriented role and I cannot think of any use case for these, though I believe, it might be useful for other people.
+
+:::{.column-margin}
+
+![Creating quick replies in Texts](images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-c34224e60d1.png)
+
+:::
+
+### Undo Send
+
+> Beeper: {{< fa xmark >}}
+>
+> Texts: {{< fa check >}} Specify in seconds `0-10`
+
+Texts allows for undo send using `Shift + Cmd + Z`. This is very much equivalent to undo send in gmail and is awesome. The amount of typo filled messages I write when I am half asleep serves me no good.
+
+### Labels
+
+> Beeper: {{< fa xmark >}}
+>
+> Texts: {{< fa check >}}
+
+Texts supports labels, one of the major organization perks. You can have default labels assigned to a conversation, to an app, and assign labels of your own. Then you can filter or search using these labels through the hamburger menu on the top left.
+
+## Keyboard Shortcuts
+
+> Beeper: {{< fa check >}} {{< fa minus >}} Navigation
+>
+> Texts: {{< fa check >}} {{< fa plus >}} Navigation and Actions
+
+Beeper, in my experience does not support action based keyboard shortcuts and rather just navigation based shortcuts. So, you have a shortcut for search, a shortcut to move between apps, and between categories, but that is it. Texts on the other hand aims to be completely accessible through keyboard, supporting both navigation (moving through the app) and action (reply, reminders, copy notification, schedule a message, delete etc) through keyboard.
+
+One of the best keyboard shortcuts is Focus App (that allows you to bring Texts to the front) instead of opening it through Raycast, and is something I have extensively used in the past 2 days.
+
+# Final Verdict
+
+I do not give verdicts, the above description is pretty detailed, go make your own decision! For me, I am personally leaning towards Texts at the moment; but it does lack some basic things I need.

@@ -7,3 +7,4 @@ temp/
 *.npy
 
 /.luarc.json
+n2y_config
