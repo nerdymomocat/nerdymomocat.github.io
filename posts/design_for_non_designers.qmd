@@ -8,7 +8,7 @@ draft: false
 https://typefully.com/nerdymomocat/design-for-non-designers-B5BpLEW
 Design tips from a non-designer.
 
-While prepping for NOMs launch, I was trying to figure out the best way to create a non over-engineered MVP, but still good enough for my ADHD brain.
+While prepping for NOMs launch, I was trying to figure out the best way to create a non over-engineered MVP, but still good enough for my ADHD brain. {{< fa xmark >}}
 
 If you have the pesky perfectionism owl looking over you all the time, you'd want to read this.
 It has been a month since I tried to soft-launch the first time around and in this month.
