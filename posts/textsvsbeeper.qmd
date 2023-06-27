@@ -99,27 +99,25 @@ Google Chat is important for me as someone in education, where the university, m
 
 Instagram has been constantly buggy; even for Beeper, but not longer than 2 days (the last time it happened, it was buggy for 12-ish hours). I believe that is due Meta's API issues, but Beeper has fixed connections faster than Texts. I can assume that because while Instagram is back on Beeper, it is still missing from Texts.
 
-<!-- :::{.column-margin}
+:::{.column-margin}
 
 ![Update speed in Beeper](images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-49aec96a87e.png)
 
-::: -->
-
-{{< fa check>}}
+:::
 
 ### iMessages
 
-> Beeper: {{< fa check>}}
+> Beeper: {{< fa check >}}
 >
-> Texts: {{< fa check>}} {{< fa minus>}}
+> Texts: {{< fa check >}} {{< fa minus >}}
 
 Texts needs an extra helper for keeping the messages synced. I believe that is because they are extracting or intercepting rather than syncing through an extra server as Beeper is. That allows Beeper. That is one of the main reasons why you can have iMessage on Android/Windows in Beeper, and is unlikely to come anytime soon to Texts. Personally, when I switch back to Android, I do not need iMessage and I will not care about this. Google messages on the other hand allows for a QR code based login (similar to whatsapp) --- and I am disappointed that does not exist on Texts.
 
 ## Speed and Updates
 
-> Beeper: {{< fa check>}}
+> Beeper: {{< fa check >}}
 >
-> Texts: {{< fa face-meh-blank>}}
+> Texts: {{< fa face-meh-blank >}}
 
 While Beeper in usage is snappier (Texts feels slower to me) --- Beeper's startup time from being closed as an app to starting up is atrocious. Thankfully I never shut down my laptop and my messaging app is never closed, so I do not really care about this. The only caveat to this being --- Beeper literally sends out new updates every single day (sometimes twice a day); and once it does update, you have to put up with the slow startup speed (takes a minute or two).
 
@@ -127,9 +125,9 @@ While Beeper in usage is snappier (Texts feels slower to me) --- Beeper's startu
 
 ### Archive
 
-> Beeper: {{< fa check>}} {{< fa minus>}}
+> Beeper: {{< fa check >}} {{< fa minus >}}
 >
-> Texts: {{< fa check>}}
+> Texts: {{< fa check >}}
 
 While both Beeper and Texts allow for archiving a conversation, only Texts allows for syncing state of the archive with the native platform. Texts also has an option of "Move to Other" and "Hide" which kind of do the same thing --- and I am not really sure if they need to exist. But more options for organizing the cluttered inbox has never hurt anyone!
 
@@ -141,17 +139,17 @@ While both Beeper and Texts allow for archiving a conversation, only Texts allow
 
 ### Edit Messages
 
-> Beeper: {{< fa check>}}
+> Beeper: {{< fa check >}}
 >
-> Texts: {{< fa question>}}
+> Texts: {{< fa question >}}
 
 Because Beeper does not have app based context menu, I know it supports editing messages. I am not sure if Texts does because I do not use Slack or discord and those are the platforms off the top of my head that support editing messages.
 
 ### Mark as Unread
 
-> Beeper: {{< fa check>}}
+> Beeper: {{< fa check >}}
 >
-> Texts: {{< fa check>}}
+> Texts: {{< fa check >}}
 
 Both Beeper and Texts have an option to mark a conversation as unread, neither of which syncs back to the native platform. Texts has an add on feature here called "Stealth mode" that lets you keep a conversation remain marked as unread even if you click on it and read it; unless you reply to them.
 
@@ -163,17 +161,17 @@ Both Beeper and Texts have an option to mark a conversation as unread, neither o
 
 ### Delete Thread
 
-> Beeper: {{< fa xmark>}}
+> Beeper: {{< fa xmark >}}
 >
-> Texts: {{< fa check>}}
+> Texts: {{< fa check >}}
 
 Texts provides a feature to delete a complete conversation. This is especially useful for spam twitter conversations. While Beeper does put them automatically in to the low priority inbox (invites box for Texts) --- you cannot delete the conversation/thread and I do not like that. Delete thread/conversation entirely does not seem to sync state with the original app and that is a bummer.
 
 ### Select multiple messages
 
-> Beeper: {{< fa xmark>}}
+> Beeper: {{< fa xmark >}}
 >
-> Texts: {{< fa check>}}
+> Texts: {{< fa check >}}
 
 Texts allows you to select multiple messages using Shift + ↑ which you can then use to copy, remind, forward or delete (not shown here because these are tips inbox) and that is amazing. I have yet to find this functionality in Beeper, and quite possibly it does not exist.
 
@@ -185,33 +183,33 @@ Texts allows you to select multiple messages using Shift + ↑ which you can the
 
 ### Delete Message
 
-> Beeper: {{< fa check>}}
+> Beeper: {{< fa check >}}
 >
-> Texts: {{< fa check>}} {{< fa plus>}}
+> Texts: {{< fa check >}} {{< fa plus >}}
 
 Both Beeper and Texts supports deleting a message, but only texts separately shows Delete for everyone vs Delete for me in Whatsapp, which is not important to me, but an attention to detail I can appreciate. These deletes are synced with the server (so you do see a similar state when you open the corresponding app)
 
 ### Forward Message
 
-> Beeper: {{< fa check>}}
+> Beeper: {{< fa check >}}
 >
-> Texts: {{< fa check>}} {{< fa plus>}}
+> Texts: {{< fa check >}} {{< fa plus >}}
 
 Both Texts and Beeper allow you to forward a message. Both allow you to forward a message to multiple users. While Texts does this as a popup modal, Beeper does this in sidebar for some reason; and I prefer Texts implementation here.
 
 ### Reply to Message
 
-> Beeper: {{< fa check>}} {{< fa plus>}}
+> Beeper: {{< fa check >}} {{< fa plus >}}
 >
-> Texts: {{< fa check>}}
+> Texts: {{< fa check >}}
 
 Both Beeper and Texts supports replying to a message and the, so that is awesome! Beeper adds an extra option to view thread when there are a series of replies in a thread.
 
 ### Open Conversation in Corresponding App
 
-> Beeper: {{< fa xmark>}}
+> Beeper: {{< fa xmark >}}
 >
-> Texts: {{< fa check>}} {{< fa plus>}}
+> Texts: {{< fa check >}} {{< fa plus >}}
 
 While most people might not find a use case for this; I heavily used this feature in 2 days. Whatsapp does not allow for calling through third party clients. Being able to open a conversation in Whatsapp to call my mom when she has called me 80 times; always helps. Trust me; it saves her a minute of panic attacks.
 
@@ -221,33 +219,33 @@ Texts also has a chrome extension that allows you to open a chat on twitter or o
 
 ### Search
 
-> Beeper: {{< fa check>}}
+> Beeper: {{< fa check >}}
 >
-> Texts: {{< fa check>}}
+> Texts: {{< fa check >}}
 
 While both apps allow for searching across all chats and across a single chat; I prefer the design choice of Texts. Additionally, search in Texts highlights the word in a message whereas in beeper it just shows relevant messages.
 
 ### Media
 
-> Beeper: {{< fa check>}}
+> Beeper: {{< fa check >}}
 >
-> Texts: {{< fa check>}} {{< fa minus>}}
+> Texts: {{< fa check >}} {{< fa minus >}}
 
 In Texts, the files and media section does not load media (or messages for that matter) before install date unless and until you scroll up the message viewport to an earlier date. I wish there was a setting to specify the earliest date you want to load messages from, but that does not seem to be the case.
 
 ### Call and Video
 
-> Beeper: {{< fa question>}}
+> Beeper: {{< fa question >}}
 >
-> Texts: {{< fa xmark>}}
+> Texts: {{< fa xmark >}}
 
 Beeper seems to support call and video for certain channels. It is not apparent to me, which ones those are --- given I do not use Slack and Discord. It does not seem to support Messenger or Whatsapp for calling. Texts does not provide any notifications for incoming calls and that is a huge bummer.
 
 ### Notifications
 
-> Beeper: {{< fa check>}} {{<fa plus>}}
+> Beeper: {{< fa check >}} {{< fa plus >}}
 >
-> Texts: {{<fa check>}}
+> Texts: {{< fa check >}}
 
 Both Beeper and Texts have an app level notification setting and a conversation level notification setting. Beeper also has other kinds of notification settings, which I assume are really powerful for slack and discord --- both of which I do not use at the moment.
 
