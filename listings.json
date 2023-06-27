@@ -1,8 +1,9 @@
 [
   {
-    "listing": "/posts/index.html",
+    "listing": "/index.html",
     "items": [
       "/posts/moving_back_to_chrome_from_arc.html",
+      "/posts/textsvsbeeper.html",
       "/posts/notion_latex_resume.html",
       "/posts/self_organizing_bookmarks.html",
       "/posts/graph_based_notetaking_opinion.html"
@@ -17,9 +18,10 @@
     ]
   },
   {
-    "listing": "/index.html",
+    "listing": "/posts/index.html",
     "items": [
       "/posts/moving_back_to_chrome_from_arc.html",
+      "/posts/textsvsbeeper.html",
       "/posts/notion_latex_resume.html",
       "/posts/self_organizing_bookmarks.html",
       "/posts/graph_based_notetaking_opinion.html"
