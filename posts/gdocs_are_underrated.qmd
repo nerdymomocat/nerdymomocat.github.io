@@ -247,8 +247,8 @@ File chip
 
 There are task, timer and variable smart chips too that I do not have access to at the moment, but you can check them out here.
 
-:::{.twitter user=thorstenball status_id=1673636222626050048 }
-
+::: {.callout-note title="Thorsten Ball talks about variables in Google Docs" collapse="false"}
+{{< tweet thorstenball 1673636222626050048 >}}
 :::
 
 ## Smart Chip Previews
