@@ -140,7 +140,7 @@ While both Beeper and Texts allow for archiving a conversation, only Texts allow
 
 ### Edit Messages
 
-> Beeper: {{< fa check >}}{{< fa minus >}}
+> Beeper: {{< fa check >}} {{< fa minus >}}
 >
 > Texts: {{< fa check >}}
 
@@ -160,7 +160,7 @@ Both Beeper and Texts have an option to mark a conversation as unread, neither o
 
 :::
 
-### Delete Thread
+### Delete Conversation
 
 > Beeper: {{< fa xmark >}}
 >
