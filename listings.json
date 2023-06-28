@@ -1,6 +1,15 @@
 [
   {
-    "listing": "/index.html",
+    "listing": "/stream/index.html",
+    "items": [
+      "/stream/nothing_comes_close_to_muse.html",
+      "/stream/notion_new_project_launch.html",
+      "/stream/i_have_been_avoiding_notion.html",
+      "/stream/url_shorteners.html"
+    ]
+  },
+  {
+    "listing": "/posts/index.html",
     "items": [
       "/posts/moving_back_to_chrome_from_arc.html",
       "/posts/textsvsbeeper.html",
@@ -12,15 +21,7 @@
     ]
   },
   {
-    "listing": "/stream/index.html",
-    "items": [
-      "/stream/notion_new_project_launch.html",
-      "/stream/nothing_comes_close_to_muse.html",
-      "/stream/url_shorteners.html"
-    ]
-  },
-  {
-    "listing": "/posts/index.html",
+    "listing": "/index.html",
     "items": [
       "/posts/moving_back_to_chrome_from_arc.html",
       "/posts/textsvsbeeper.html",
