@@ -307,6 +307,8 @@ The essay one looks like a craft doc!
 
 ![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-016693a5bdd.mp4)
 
+# tl;dr
+
 Alright, that wraps up my tool suggestion for @googledocs. It's easy to get caught up in the hype of new note-taking apps, but let's not forget the powerhouse that is Google Docs. In terms of its ecosystem, collaboration features, and the freedom it offers for writing, nothing really comes close.
 
 I must admit, I'm a huge fan of Notion myself, but I can't deny the strengths of Google Docs. It's a well-established platform that seamlessly integrates with other Google tools, such as Google Drive and Google Sheets. This ecosystem makes it incredibly convenient for users who rely on multiple Google services.
