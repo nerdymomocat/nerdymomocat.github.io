@@ -1,0 +1,314 @@
+---
+categories:
+- Productivity Apps
+- Note Taking
+- Collaboration
+- Google Workspace
+citation-location: margin
+date: '2023-03-21'
+description: 'With all the new tools popping up, people haven\''t checked Google Docs in a long while. Read this to know why you should.'
+display-date: 'Mar 2023'
+filters:
+- collapse-social-embeds
+- lightbox
+format: html
+lightbox: auto
+reference-location: margin
+threeword: 'GDocs For The Win!'
+title: Google Docs Is Underrated
+---
+
+# Introduction
+
+With all the new tools popping up, people haven't checked [\@googledocs](https://twitter.com/googledocs) in a long while. Read this to know why you should.
+
+I will interleave tips in between introducing you all to the feature set.
+
+Tip: Use [docs.new](http://docs.new/)/{account_number} to create a new doc with a particular signed in account.
+
+And you'll be greeted with this beauty. IMO, a much more modern design. (ping: [\@hobdaydesign](https://twitter.com/hobdaydesign))
+
+{{< video images/gdocs_are_underrated/Google_Docs_Is_Underrated-96bd008b675.mp4 >}}
+
+Alright, that brings us to one of the first new features that people think [\@googledocs](https://twitter.com/googledocs) does not have, but actually does!
+
+# General Features
+
+## Page Setup and Design
+
+Pageless docs. It is instead meant to render a beautiful document on-screen instead of focussing on margins/print layouts.
+
+See here: [support.google.com/docs/answer/11...](https://support.google.com/docs/answer/11528737)
+
+![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-93bfff63476.jpg)
+
+## Version History
+
+Google docs has version history. You can name a version. You can create a new version, check for changes and restore a previous version.
+
+![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-70c2ad8441b.jpg)
+
+## Keyboard Shortcuts
+
+You can work using your keyboard for almost everything using the new search menu option.
+
+{{< video images/gdocs_are_underrated/Google_Docs_Is_Underrated-462a69300a5.mp4 >}}
+
+## Clickable Checkboxes
+
+Checkboxes that you can create using markdown like syntax \[\] and have options for both, checked by strikethrough and just checked boxes.
+
+Btw, in the gif below you will notice how the expanded toolbar is persistent even when I'm changing things in the doc itself.
+
+{{< video images/gdocs_are_underrated/Google_Docs_Is_Underrated-e5323222fde.mp4 >}}
+
+## Citation Manager
+
+Inbuilt citation generator and manager. The only problem that exists here is the lack of citation sync across all documents.
+
+{{< video images/gdocs_are_underrated/Google_Docs_Is_Underrated-f0dc5fdffb9.mp4 >}}
+
+## History Diff and Merge
+
+Do you prefer to work on a different "private" version of a document so that people do not see your edits?
+
+You can create a duplicate document and then compare it to another document.
+
+Includes comments too. AND comments can be emoji reacts 🤯. (ref: [support.google.com/docs/answer/19...](https://support.google.com/docs/answer/190843#compare_documents))
+
+![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-44193324ade.jpg)
+
+## Markdown
+
+But but, I like writing in markdown and Google Docs is an ancient application that does not support markdown.
+
+You need to realize,
+
+\(a\) there are many people (like me) who write in LaTex for their day job & still don't like writing in markdown.
+
+\(b\) You can use markdown in docs!
+
+{{< video images/gdocs_are_underrated/Google_Docs_Is_Underrated-11b7a92c6cb.mp4 >}}
+
+## Outline, Summary and Dictionary
+
+Headings create a sticky outline of contents on the left. Although not auto-generated, they're likely to be the first point of AI inclusion.
+
+Summary stands out from other apps' designs. It remains sticky.
+
+Dictionary in the side bar that defines words & offers synonyms/antonyms.
+
+![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-c46828c4573.jpg)
+
+## Basic Content Types
+
+Insert different types of content:
+
+1\. Footnotes
+
+2\. Horizontal Lines
+
+3\. Equation
+
+4\. Inline code
+
+5\. Bookmarks and bookmark links
+
+6\. Linked charts (I talk about linked content later in the thread, in short, a chart created in sheets, pasted into docs, which updates automatically)
+
+![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-cc9f64a1f9f.jpg)
+
+## Publish to Web
+
+You can publish your document to web (for free) AND embed them (unlike notion docs). You can decide whether you want to manually update the document or update it as you go.
+
+This is how our sample document looks like: [tinyurl.com/example-pub-doc](https://tinyurl.com/example-pub-doc)
+
+Read here: [support.google.com/docs/answer/18...](https://support.google.com/docs/answer/183965)
+
+![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-087be88bda2.jpg)
+
+## Text Width and Columns
+
+You can change the amount of space any text covers (similar to Notion, but way more options)
+
+![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-f3206d092b6.jpg)
+
+## Works Offline
+
+Any google workspace software has an option to use it offline.
+
+![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-05f47b0d9ce.jpg)
+
+## Translate Document
+
+Create a translated copy of the current document
+
+![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-63751d205d9.jpg)
+
+## Explore from Google Search
+
+Explore. We'll test this by copying the front page of htmldocs ([htmldocs.com](https://htmldocs.com/)) released by [\@0k_zh](https://twitter.com/0k_zh).
+
+You can explore the topics in the doc, find related images for that topic, & look through your drive for the topic too!
+
+Tip: You can drag images into the doc
+
+{{< video images/gdocs_are_underrated/Google_Docs_Is_Underrated-9b99187898c.mp4 >}}
+
+## Linked Objects
+
+Linked Objects.
+
+You can link other google workspace content inside docs. (Would love to hear your thoughts [\@gobino](https://twitter.com/gobino)).
+
+They are updated (automatically or manually) when any change is made to the other object. These can be charts, tables or slides.
+
+Ref: [support.google.com/docs/answer/70...](https://support.google.com/docs/answer/7009814)
+
+{{< video images/gdocs_are_underrated/Google_Docs_Is_Underrated-ff29db1722d.mp4 >}}
+
+While presentation slides embed as images, sheets embed as tables (making them look non-clunky). You can also pin header rows!
+
+It is a one way sync. If you add something on the doc, it does not appear in the sheet but the vice-versa behaves just like slides.
+
+![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-1205119d987.jpg)
+
+## Notification Settings
+
+Varied notification settings:
+
+![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-2c6099d48f1.jpg)
+
+# Smart Chips
+
+Smart chips are different kinds of mentions. You can mention date, people, files, calendar event and locations.
+
+## Date Chip
+
+Date smart chips allow you to:
+
+\(a\) Add date using shorthands
+
+\(b\) Present the date in different formats
+
+\(c\) Book a meeting on the date
+
+![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-950fcb8c570.jpg)
+
+## People Chip
+
+Next up, people chip
+
+\(a\) Popup to share a document when you mention a person
+
+\(b\) View contact details of the person/email
+
+\(c\) Send them an email from the doc
+
+\(d\) Start a video call/chat with them right from the document
+
+\(e\) Book a meeting with them
+
+![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-63f2c7cb2e9.jpg)
+
+## File Chip
+
+File chip
+
+\(a\) Mention any file in google drive
+
+\(b\) Hover over it to see it at a quick glance. Also shows when it was last updated.
+
+\(c\) Open preview to have a persistent modal on side, which doesn't automatically close when you are typing. You can also select content from preview.
+
+![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-8684835ad92.jpg)
+
+## Calendar Chip
+
+\(a\) Mention an existing event in the doc
+
+\(b\) Use the attach option to attach the current document to the calendar event
+
+\(c\) Click the event name to directly join the video call if one exists, or go to the calendar event page.
+
+![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-c661c1d44df.jpg)
+
+## Place Chip
+
+\(a\) Search and add a location
+
+\(b\) Preview in maps on the sidebar
+
+\(c\) Get directions to the location
+
+\(d\) Hover to see modal preview
+
+![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-3c6ac55bd11.jpg)
+
+## Task, Timer, Variable Chips
+
+There are task, timer and variable smart chips too that I do not have access to at the moment, but you can check them out here.
+
+::: {.twitter user="thorstenball" status_id="1673636222626050048"}
+:::
+
+## Smart Chip Previews
+
+There are also smartchips for app integrations and I do not know of many but [Whimsical](https://help.whimsical.com/article/704-preview-whimsical-files-in-google-docs-as-a-smart-chip) has one at the moment.
+
+![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-004b442676b.gif)
+
+Create templated document dropdowns that you can use anywhere in the document. It comes with two that are preconfigured but you can configure one on your own.
+
+![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-4132a015b82.jpg)
+
+## Building Blocks
+
+Building blocks are templates built using smart chips.
+
+![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-d5f3e8e8fb5.jpg)
+
+Some of those are integrated into other Google services though.
+
+## Email
+
+For example, email draft, where you can draft a complete email in the doc, and then send it through gmail.
+
+![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-6e1bbb62a69.jpg)
+
+## Meeting Notes
+
+Another building block is meeting notes, which auto mentions the date, the document and creates a draft meeting note template right inside your doc when you select a calendar event.
+
+It also gives you an option to attach the doc to the meeting.
+
+![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-808183d1600.jpg)
+
+## Tables and Dropdown
+
+Other building blocks are just templates that include dropdowns and tables. For example, this is the review tracker building block.
+
+![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-ee50137b5dd.jpg)
+
+## Keep Clippings
+
+Last of the bunch: Keep clippings. At the start of the thread, when I did a design overview, you would see a a keep icon in the sidebar.
+
+\(a\) Add an existing note to document
+
+\(b\) Add a new note or a checklist that automatically attaches the document to it
+
+{{< video images/gdocs_are_underrated/Google_Docs_Is_Underrated-4f402032850.mp4 >}}
+
+# Templates
+
+Tip: There are so many templates in Google Docs. Check them out at [docs.google.com](http://docs.google.com/)
+
+The essay one looks like a craft doc!
+
+{{< video images/gdocs_are_underrated/Google_Docs_Is_Underrated-016693a5bdd.mp4 >}}
+
+Alright, this ends my tool suggestion of [\@googledocs](https://twitter.com/googledocs), everything that you probably missed in the last year while we all were obsessing over the new note taking apps.
+
+As much as I love notion, nothing comes close in terms of ecosystem, collaboration & FREE writing as google docs.
