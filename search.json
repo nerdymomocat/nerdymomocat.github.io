@@ -46,7 +46,42 @@
     "href": "posts/self_organizing_bookmarks.html",
     "title": "Streamline Your Bookmark Management w/ Notion and AI",
     "section": "",
-    "text": "Why?\nI hate having to tag everything in any Bookmark Manager, and an extra step of processing is just too much for my ADHD mind to get to.\nThat leads to inbox with 200+ entries.\nAnd hence, this automation.\n\n\nHow?\n\n\n\nExample of self-organizing bookmarks working\n\n\nWhat does it do?\n\nExtracts content of the page\nChecks if the content loading is not hindered due to javascript\n\n\nTakes screenshot of the page using Screenia by @s_badaoui\nIf it could not get the content of the page before, then uses ocr on image\n\n\nCall OpenAI API\nIt receives a JSON consisting of summary, tags and categories (chooses from a pre-selected list).\n\n\nAdd screenshot to dropbox\nAnd then get URL of the uploaded image.\n\n\nParses the information\nAnd adds everything to notion.\n\n\n\nRun this on your own\nIf you want to run this on your own, you need:\n\niOS/MacOS (because this is dependent on shortcuts app)\nNotion Integration Key\nBookmarks Database duplicated from the link below, shared with integration and then get its database ID\nOpen AI API Key\nFree Actions app by @sindresorhus [On both MacOS and iOS]\nConnect your dropbox account in shortcuts (should hopefully prompt itself)\n\nIssues:\n\nIt takes time to run this (and so you will see a spinner if you run this on ios, macos is in background, just don’t add 2 bookmarks in under a minute)\nScreenia has a rate limit and you can run into it.\niOS will ask god-awful permissions each damn time.\n\nAnd finally, get the Apple Shortcut here.\nIf you do end up using this, I would really appreciate if you could contribute to my wishlist or buy me a coffee.\n\n\n\n\n Back to top"
+    "text": "I absolutely despise the tedious task of manually tagging everything in a Bookmark Manager. It’s just an extra step that my ADHD mind struggles to keep up with. I mean, seriously, who has the time and patience for that?!\nAs a result, my bookmark inbox ends up becoming a chaotic mess with over 200 entries. It’s overwhelming and counterproductive, to say the least. But fear not, my fellow overwhelmed minds, there’s a solution on the horizon - automation!\nWith the power of automation, we can streamline our bookmark management process and save ourselves from the overwhelming task of manual tagging. It’s like having a personal assistant that takes care of all the grunt work for us. And let me tell you, it’s a game-changer."
+  },
+  {
+    "objectID": "posts/self_organizing_bookmarks.html#extracts-content-of-the-page",
+    "href": "posts/self_organizing_bookmarks.html#extracts-content-of-the-page",
+    "title": "Streamline Your Bookmark Management w/ Notion and AI",
+    "section": "Extracts content of the page",
+    "text": "Extracts content of the page\nFirstly, it extracts the content of the page you’re bookmarking. It ensures that the content is fully loaded and not hindered by any pesky JavaScript issues. This way, you can rest assured that you’re capturing the complete essence of the page."
+  },
+  {
+    "objectID": "posts/self_organizing_bookmarks.html#takes-screenshot-of-the-page-using-screenia-by-s_badaoui",
+    "href": "posts/self_organizing_bookmarks.html#takes-screenshot-of-the-page-using-screenia-by-s_badaoui",
+    "title": "Streamline Your Bookmark Management w/ Notion and AI",
+    "section": "Takes screenshot of the page using Screenia by @s_badaoui",
+    "text": "Takes screenshot of the page using Screenia by @s_badaoui\nNext, it takes a screenshot of the page using the nifty tool called Screenia by the talented @s_badaoui. This comes in handy when the automation couldn’t fetch the content of the page earlier. In such cases, it cleverly applies OCR (Optical Character Recognition) on the captured image to extract the necessary information."
+  },
+  {
+    "objectID": "posts/self_organizing_bookmarks.html#call-openai-api",
+    "href": "posts/self_organizing_bookmarks.html#call-openai-api",
+    "title": "Streamline Your Bookmark Management w/ Notion and AI",
+    "section": "Call OpenAI API",
+    "text": "Call OpenAI API\nBut wait, there’s more! The automation then calls the OpenAI API, which works its magic and provides a JSON file containing a summary of the page, along with relevant tags and categories. These tags and categories are selected from a pre-defined list, ensuring that your bookmarks are organized and easily searchable."
+  },
+  {
+    "objectID": "posts/self_organizing_bookmarks.html#add-screenshot-to-dropbox",
+    "href": "posts/self_organizing_bookmarks.html#add-screenshot-to-dropbox",
+    "title": "Streamline Your Bookmark Management w/ Notion and AI",
+    "section": "Add screenshot to dropbox",
+    "text": "Add screenshot to dropbox\nNow, here comes the cool part. The automation adds the screenshot of the page to Dropbox, making it easily accessible and shareable. It then retrieves the URL of the uploaded image, so you can conveniently view and reference it whenever needed."
+  },
+  {
+    "objectID": "posts/self_organizing_bookmarks.html#parses-the-information",
+    "href": "posts/self_organizing_bookmarks.html#parses-the-information",
+    "title": "Streamline Your Bookmark Management w/ Notion and AI",
+    "section": "Parses the information",
+    "text": "Parses the information\nLast but not least, the automation parses all the gathered information and seamlessly adds it to Notion. Notion acts as your centralized hub for bookmark management, allowing you to effortlessly categorize, search, and access your bookmarks with just a few clicks."
   },
   {
     "objectID": "posts/moving_back_to_chrome_from_arc.html",

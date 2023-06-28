@@ -139,7 +139,23 @@ ul.task-list li input[type="checkbox"] {
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#how" id="toc-how" class="nav-link" data-scroll-target="#how">How?</a>
+  <ul class="collapse">
+  <li><a href="#extracts-content-of-the-page" id="toc-extracts-content-of-the-page" class="nav-link" data-scroll-target="#extracts-content-of-the-page">Extracts content of the page</a></li>
+  <li><a href="#takes-screenshot-of-the-page-using-screenia-by-s_badaoui" id="toc-takes-screenshot-of-the-page-using-screenia-by-s_badaoui" class="nav-link" data-scroll-target="#takes-screenshot-of-the-page-using-screenia-by-s_badaoui">Takes screenshot of the page using Screenia by <span class="citation" data-cites="s_badaoui">@s_badaoui</span></a></li>
+  <li><a href="#call-openai-api" id="toc-call-openai-api" class="nav-link" data-scroll-target="#call-openai-api">Call OpenAI API</a></li>
+  <li><a href="#add-screenshot-to-dropbox" id="toc-add-screenshot-to-dropbox" class="nav-link" data-scroll-target="#add-screenshot-to-dropbox">Add screenshot to dropbox</a></li>
+  <li><a href="#parses-the-information" id="toc-parses-the-information" class="nav-link" data-scroll-target="#parses-the-information">Parses the information</a></li>
+  </ul></li>
+  <li><a href="#run-this-on-your-own" id="toc-run-this-on-your-own" class="nav-link" data-scroll-target="#run-this-on-your-own">Run this on your own</a></li>
+  <li><a href="#support-me" id="toc-support-me" class="nav-link" data-scroll-target="#support-me">Support Me</a></li>
+  </ul>
+</nav>
     <div class="quarto-margin-footer"><div class="margin-footer-item">
 <br>
 <div id="container" class="buy-coffee-btn">
@@ -191,44 +207,44 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<section id="why" class="level4">
-<h4 class="anchored" data-anchor-id="why">Why?</h4>
-<p>I hate having to tag everything in any Bookmark Manager, and an extra step of processing is just too much for my ADHD mind to get to.</p>
-<p>That leads to inbox with 200+ entries.</p>
-<p>And hence, this automation.</p>
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>I absolutely despise the tedious task of manually tagging everything in a Bookmark Manager. It’s just an extra step that my ADHD mind struggles to keep up with. I mean, seriously, who has the time and patience for that?!</p>
+<p>As a result, my bookmark inbox ends up becoming a chaotic mess with over 200 entries. It’s overwhelming and counterproductive, to say the least. But fear not, my fellow overwhelmed minds, there’s a solution on the horizon - automation!</p>
+<p>With the power of automation, we can streamline our bookmark management process and save ourselves from the overwhelming task of manual tagging. It’s like having a personal assistant that takes care of all the grunt work for us. And let me tell you, it’s a game-changer.</p>
 </section>
-<section id="how" class="level4">
-<h4 class="anchored" data-anchor-id="how">How?</h4>
+<section id="how" class="level1">
+<h1>How?</h1>
+<p>So, you might be wondering, what exactly does this automation do to streamline our bookmark management woes? Let me break it down for you:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/self_organizing_bookmarks/image2.gif" class="img-fluid figure-img"></p>
 <figcaption class="figure-caption">Example of self-organizing bookmarks working</figcaption>
 </figure>
 </div>
-<p>What does it do?</p>
-<section id="extracts-content-of-the-page" class="level5">
-<h5 class="anchored" data-anchor-id="extracts-content-of-the-page">Extracts content of the page</h5>
-<p>Checks if the content loading is not hindered due to javascript</p>
+<section id="extracts-content-of-the-page" class="level2">
+<h2 class="anchored" data-anchor-id="extracts-content-of-the-page">Extracts content of the page</h2>
+<p>Firstly, it extracts the content of the page you’re bookmarking. It ensures that the content is fully loaded and not hindered by any pesky JavaScript issues. This way, you can rest assured that you’re capturing the complete essence of the page.</p>
 </section>
-<section id="takes-screenshot-of-the-page-using-screenia-by-s_badaoui" class="level5">
-<h5 class="anchored" data-anchor-id="takes-screenshot-of-the-page-using-screenia-by-s_badaoui">Takes screenshot of the page using <a href="https://www.screenia.best/">Screenia</a> by <span class="citation" data-cites="s_badaoui">@s_badaoui</span></h5>
-<p>If it could not get the content of the page before, then uses ocr on image</p>
+<section id="takes-screenshot-of-the-page-using-screenia-by-s_badaoui" class="level2">
+<h2 class="anchored" data-anchor-id="takes-screenshot-of-the-page-using-screenia-by-s_badaoui">Takes screenshot of the page using <a href="https://www.screenia.best/">Screenia</a> by <span class="citation" data-cites="s_badaoui">@s_badaoui</span></h2>
+<p>Next, it takes a screenshot of the page using the nifty tool called Screenia by the talented <span class="citation" data-cites="s_badaoui">@s_badaoui</span>. This comes in handy when the automation couldn’t fetch the content of the page earlier. In such cases, it cleverly applies OCR (Optical Character Recognition) on the captured image to extract the necessary information.</p>
 </section>
-<section id="call-openai-api" class="level5">
-<h5 class="anchored" data-anchor-id="call-openai-api">Call OpenAI API</h5>
-<p>It receives a JSON consisting of summary, tags and categories (chooses from a pre-selected list).</p>
+<section id="call-openai-api" class="level2">
+<h2 class="anchored" data-anchor-id="call-openai-api">Call OpenAI API</h2>
+<p>But wait, there’s more! The automation then calls the OpenAI API, which works its magic and provides a JSON file containing a summary of the page, along with relevant tags and categories. These tags and categories are selected from a pre-defined list, ensuring that your bookmarks are organized and easily searchable.</p>
 </section>
-<section id="add-screenshot-to-dropbox" class="level5">
-<h5 class="anchored" data-anchor-id="add-screenshot-to-dropbox">Add screenshot to dropbox</h5>
-<p>And then get URL of the uploaded image.</p>
+<section id="add-screenshot-to-dropbox" class="level2">
+<h2 class="anchored" data-anchor-id="add-screenshot-to-dropbox">Add screenshot to dropbox</h2>
+<p>Now, here comes the cool part. The automation adds the screenshot of the page to Dropbox, making it easily accessible and shareable. It then retrieves the URL of the uploaded image, so you can conveniently view and reference it whenever needed.</p>
 </section>
-<section id="parses-the-information" class="level5">
-<h5 class="anchored" data-anchor-id="parses-the-information">Parses the information</h5>
-<p>And adds everything to notion.</p>
+<section id="parses-the-information" class="level2">
+<h2 class="anchored" data-anchor-id="parses-the-information">Parses the information</h2>
+<p>Last but not least, the automation parses all the gathered information and seamlessly adds it to Notion. Notion acts as your centralized hub for bookmark management, allowing you to effortlessly categorize, search, and access your bookmarks with just a few clicks.</p>
 </section>
 </section>
-<section id="run-this-on-your-own" class="level4">
-<h4 class="anchored" data-anchor-id="run-this-on-your-own">Run this on your own</h4>
+<section id="run-this-on-your-own" class="level1">
+<h1>Run this on your own</h1>
 <p>If you want to run this on your own, you need:</p>
 <ol type="1">
 <li><p>iOS/MacOS (because this is dependent on shortcuts app)</p></li>
@@ -238,14 +254,18 @@ ul.task-list li input[type="checkbox"] {
 <li><p>Free <a href="https://apps.apple.com/us/app/actions/id1586435171">Actions app</a> by <span class="citation" data-cites="sindresorhus">@sindresorhus [On both MacOS and iOS]</span></p></li>
 <li><p>Connect your dropbox account in shortcuts (should hopefully prompt itself)</p></li>
 </ol>
-<p>Issues:</p>
+<p>However, like with any automation, there are a few issues to be aware of. Let’s take a look at them:</p>
 <ol type="1">
-<li><p>It takes time to run this (and so you will see a spinner if you run this on ios, macos is in background, just don’t add 2 bookmarks in under a minute)</p></li>
-<li><p>Screenia has a rate limit and you can run into it.</p></li>
-<li><p>iOS will ask god-awful permissions each damn time.</p></li>
+<li><p>One downside is that this automation may take some time to run. So, if you’re using it on iOS and your macOS device is in the background, you might see a spinner indicating that the process is still ongoing. Just keep in mind that it’s best not to add two bookmarks within a minute to avoid any potential conflicts.</p></li>
+<li><p>Another issue to be mindful of is the rate limit of Screenia. While it’s a fantastic tool for taking screenshots, it does have its limitations. If you’re adding bookmarks at a rapid pace, you might run into the rate limit of Screenia. In such cases, you may need to wait for a while before the automation can successfully capture the screenshots.</p></li>
+<li><p>Ah, the dreaded iOS permissions. Unfortunately, iOS has a tendency to bombard us with permission requests, and this automation is no exception. Each time you run it, you may have to deal with those annoying permission prompts. It can be quite frustrating, but don’t worry, you’re not alone in this struggle.</p></li>
 </ol>
+<p>Despite these minor hiccups, the benefits of streamlining your bookmark management with Notion and AI far outweigh the inconveniences.</p>
 <p>And finally, get the Apple Shortcut <a href="https://nerdymomocat-shortened-url.vercel.app/self_organizing_bookmarks_shortcuts">here</a>.</p>
-<p>If you do end up using this, I would really appreciate if you could contribute to my wishlist or buy me a coffee.</p>
+</section>
+<section id="support-me" class="level1">
+<h1>Support Me</h1>
+<p>If you do decide to give this automation a try, I would be incredibly grateful for your support. Additionally, if you find this automation helpful and would like to show your appreciation, you can also support me by buying me a coffee. Your support would not only help fuel my caffeine addiction but also motivate me to create more useful tools in the future.</p>
 
 
 </section>
