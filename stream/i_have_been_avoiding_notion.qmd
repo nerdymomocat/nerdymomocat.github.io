@@ -1,0 +1,7 @@
+---
+title: Unintentionally avoiding Notion
+date: 2023-05-31
+categories: [Notion, PKM, Tasks]
+# image: ../posts/theme-images/academia.png
+subtitle: I have been avoiding notion for everything except long form docs with properties. So, everything that requires long document like content is fine. But for tasks, journalling, lists, I have just been unintentionally avoiding it. I hate opening and working with tasks in it. I do not like writing done list. I do not like linking pages because that information just gets lost. And I am sad about that.
+---
