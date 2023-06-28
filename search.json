@@ -1,5 +1,89 @@
 [
   {
+    "objectID": "posts/index.html",
+    "href": "posts/index.html",
+    "title": "Posts",
+    "section": "",
+    "text": "Filter by Themes\n         \n      \n      \n         \n            \n               \n                  \n                     \n                        \n                     \n                     Notion\n                  \n               \n               \n                  \n                     \n                        \n                     \n                     Todoist\n                  \n               \n               \n                  \n                     \n                        \n                     \n                     Apple Shortcuts\n                  \n               \n               \n                  \n                     \n                        \n                     \n                     Capture\n                  \n               \n               \n                  \n                     \n                        \n                     \n                     Organization\n                  \n               \n               \n                  \n                     \n                        \n                     \n                     Design\n                  \n               \n               \n                  \n                     \n                        \n                     \n                     Reading\n                  \n               \n                \n                  \n                     \n                        \n                     \n                     Tools\n                  \n               \n               \n                  \n                     \n                        \n                     \n                     Tasks\n                  \n               \n                \n                  \n                     \n                        \n                     \n                     Automation\n                  \n               \n              \n                  \n                     \n                        \n                     \n                     Research\n                  \n               \n                \n                  \n                     \n                        \n                     \n                     Writing\n                  \n               \n            \n         \n      \n   \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n \n\n\n\n\n\n\nTexts vs. Beeper: The (App)solute Winner Is?\n\n\n\n\n\n\n\nProductivity Apps\n\n\nMessaging\n\n\nMacOS\n\n\nSocial Media\n\n\nAll-In-One\n\n\n\n\nTexts offers an aggregation messaging experience with its design and keyboard focussed approach. Beeper provides utility-focused approach and a basic free software. I was curious to see if which one would meet my needs and provide the value I was looking for.\n\n\n\n\n\n\n06-26-2023\n\n\n\n\n\n\n\n\nCreating an Updated Resume with Notion and Python\n\n\n\n\n\n\n\nTutorial\n\n\nResources\n\n\nNotion\n\n\nPublishing\n\n\nAcademia\n\n\nPython\n\n\nAutomation\n\n\n\n\nMake a Notion setup for a LaTex resume using Python and Replit. The template has two databases: resume info and structure. It has pre-filled buttons for easy info input and a modification block for changes. The resume has inline annotations and href for Notion links, no empty sections, and sorted entries.\n\n\n\n\n\n\n05-03-2023\n\n\n\n\n\n\n\n\nStreamline Your Bookmark Management w/ Notion and AI\n\n\n\n\n\n\n\nTutorial\n\n\nResources\n\n\nNotion\n\n\nAI\n\n\nAutomation\n\n\nApple Shortcuts\n\n\n\n\nSay goodbye to the hassle of manually tagging bookmarks! This innovative automation combines shortcuts and AI to extract content, categorize and even take screenshots of your bookmarks before organizing them seamlessly in Notion. With a short setup process, this tool is a must-have for those looking to streamline their workflow.\n\n\n\n\n\n\n05-02-2023\n\n\n\n\n\n\n\n\nGoogle Docs Is Underrated\n\n\n\n\n\n\n\nProductivity Apps\n\n\nNote Taking\n\n\nCollaboration\n\n\nGoogle Workspace\n\n\n\n\nWith all the new tools popping up, people haven't checked Google Docs in a long while. Read this to know why you should.\n\n\n\n\n\n\n03-21-2023\n\n\n\n\n\n\n\n\nIs There a Need for Mainstream Graph-Based Note-Taking Tools?\n\n\n\n\n\n\n\nOpinion\n\n\nPKM\n\n\nWriting\n\n\n\n\nExploring why graph-based note-taking apps lack mainstream appeal despite their popularity among certain niche groups and discussing the features that make a tool mainstream.\n\n\n\n\n\n\n02-08-2023\n\n\n\n\n\n\nNo matching items\n\n Back to top"
+  },
+  {
+    "objectID": "stream/url_shorteners.html",
+    "href": "stream/url_shorteners.html",
+    "title": "I regret not using a URL shortener",
+    "section": "",
+    "text": "Why? Because I wanted to change the workspace where my Notion templates were hosted. And I wanted to change my homepage. Most URL shorteners do not allow you to edit the destination URL for free. So, I found a great repo on github built by @younho_9. And now, I can edit the URL in my notion database and still shorten all the URLs. That is awesome!\n\n\n\n Back to top"
+  },
+  {
+    "objectID": "stream/index.html",
+    "href": "stream/index.html",
+    "title": "Thought Stream",
+    "section": "",
+    "text": "Stream is a fun little side place to gather my random musings, quick reviews, and quotes that catch my eye into a curated collection. It’s nice to have everything in one place instead of scattered across my feed.\n\n\n\n\n\n\n\n\n  \n    \n        05-31-2023\n      \n      \n      \n        New project launch by Notion\n      \n      \n        The main concern is that current databases cannot be ported over to this new feature. And I am kinda okay with it?\n      \n      \n        \n        \n        \n      \n      \n      \n        Notion\n        Opinion\n        \n    \n\n  \n    \n        05-31-2023\n      \n      \n      \n        Nothing comes close to Muse\n      \n      \n        Muse recently launched their Muse for teams and I have two wishes. I wish they had an option of publicly sharing the board, and that other spatial canvases adopted how well they implement the spatial and handwriting aspect of it.\n      \n      \n        \n        \n        \n      \n      \n      \n        Muse\n        PKM\n        Spatial Canvas\n        \n    \n\n  \n    \n        05-28-2023\n      \n      \n      \n        I regret not using a URL shortener\n      \n      \n        I have been sharing tips and tricks and templates over the course of past year on Twitter, but now the links are gonna change.\n      \n      \n        \n        \n        \n      \n      \n      \n        Notion\n        Vercel\n        Self Hosting\n        Tools\n        \n    \n\n\n\nNo matching items\n\n Back to top"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Nerdy Momo Cat",
+    "section": "",
+    "text": "Hi, I’m Nerdy Momo Cat\n\n\n\n\nI’m passionate about all things personal knowledge management. I’m all about linking knowledge snippets, coding and automations, note taking and sketchnoting.\nWhether I’m helping others streamline their workflows and optimize their productivity, or experimenting with new tools to improve my own processes, I’m always exploring new ways to get the most out of my digital life.\nMy personal tools at the moment are: Notion, Todoist and Goodnotes, but I am always exploring other tools.\n\nGet in touch\nEmail me at nerdymomocat@gmail.com or DM me on Twitter if you’d like to chat!\nI can create a personalized PKM (Personal Knowledge Management) system for you on an individual basis. If this is what you’re interested in, feel free to send me a direct message.\n\n\n\n  Find All My Resources\n  \n  \n\n\n\n\nRecent Posts\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n \n\n\n\n\n\n\nTexts vs. Beeper: The (App)solute Winner Is?\n\n\n\n\n\n\n\nProductivity Apps\n\n\nMessaging\n\n\nMacOS\n\n\nSocial Media\n\n\nAll-In-One\n\n\n\n\nTexts offers an aggregation messaging experience with its design and keyboard focussed approach. Beeper provides utility-focused approach and a basic free software. I was curious to see if which one would meet my needs and provide the value I was looking for.\n\n\n\n\n\n\n06-26-2023\n\n\n\n\n\n\n\n\nCreating an Updated Resume with Notion and Python\n\n\n\n\n\n\n\nTutorial\n\n\nResources\n\n\nNotion\n\n\nPublishing\n\n\nAcademia\n\n\nPython\n\n\nAutomation\n\n\n\n\nMake a Notion setup for a LaTex resume using Python and Replit. The template has two databases: resume info and structure. It has pre-filled buttons for easy info input and a modification block for changes. The resume has inline annotations and href for Notion links, no empty sections, and sorted entries.\n\n\n\n\n\n\n05-03-2023\n\n\n\n\n\n\n\n\nStreamline Your Bookmark Management w/ Notion and AI\n\n\n\n\n\n\n\nTutorial\n\n\nResources\n\n\nNotion\n\n\nAI\n\n\nAutomation\n\n\nApple Shortcuts\n\n\n\n\nSay goodbye to the hassle of manually tagging bookmarks! This innovative automation combines shortcuts and AI to extract content, categorize and even take screenshots of your bookmarks before organizing them seamlessly in Notion. With a short setup process, this tool is a must-have for those looking to streamline their workflow.\n\n\n\n\n\n\n05-02-2023\n\n\n\n\n\n\n\n\nGoogle Docs Is Underrated\n\n\n\n\n\n\n\nProductivity Apps\n\n\nNote Taking\n\n\nCollaboration\n\n\nGoogle Workspace\n\n\n\n\nWith all the new tools popping up, people haven't checked Google Docs in a long while. Read this to know why you should.\n\n\n\n\n\n\n03-21-2023\n\n\n\n\n\n\nNo matching items\n\n Back to top"
+  },
+  {
+    "objectID": "stream/notion_new_project_launch.html",
+    "href": "stream/notion_new_project_launch.html",
+    "title": "New project launch by Notion",
+    "section": "",
+    "text": "I think, it is a new user onboarding feature. It is kinda similar to buying templates from people, just that this one is made by Notion and has some features inbuilt. It isn’t meant for people who customize so heavily or people who already have systems in place. One way I have thought about this previously is: Do I want this company to make money and stay alive? If the answer is yes, I just make peace with it. If the answer is, I do not like where this is going, I try to find an alternative. Because otherwise, very often, if companies do not focus on making money, they just shut down (look at me talking, working in research, and choosing to make less money in return for increased misery).\n\n\n\n Back to top"
+  },
+  {
+    "objectID": "stream/nothing_comes_close_to_muse.html",
+    "href": "stream/nothing_comes_close_to_muse.html",
+    "title": "Nothing comes close to Muse",
+    "section": "",
+    "text": "Back to top"
+  },
+  {
+    "objectID": "posts/self_organizing_bookmarks.html",
+    "href": "posts/self_organizing_bookmarks.html",
+    "title": "Streamline Your Bookmark Management w/ Notion and AI",
+    "section": "",
+    "text": "Why?\nI hate having to tag everything in any Bookmark Manager, and an extra step of processing is just too much for my ADHD mind to get to.\nThat leads to inbox with 200+ entries.\nAnd hence, this automation.\n\n\nHow?\n\n\n\nExample of self-organizing bookmarks working\n\n\nWhat does it do?\n\nExtracts content of the page\nChecks if the content loading is not hindered due to javascript\n\n\nTakes screenshot of the page using Screenia by @s_badaoui\nIf it could not get the content of the page before, then uses ocr on image\n\n\nCall OpenAI API\nIt receives a JSON consisting of summary, tags and categories (chooses from a pre-selected list).\n\n\nAdd screenshot to dropbox\nAnd then get URL of the uploaded image.\n\n\nParses the information\nAnd adds everything to notion.\n\n\n\nRun this on your own\nIf you want to run this on your own, you need:\n\niOS/MacOS (because this is dependent on shortcuts app)\nNotion Integration Key\nBookmarks Database duplicated from the link below, shared with integration and then get its database ID\nOpen AI API Key\nFree Actions app by @sindresorhus [On both MacOS and iOS]\nConnect your dropbox account in shortcuts (should hopefully prompt itself)\n\nIssues:\n\nIt takes time to run this (and so you will see a spinner if you run this on ios, macos is in background, just don’t add 2 bookmarks in under a minute)\nScreenia has a rate limit and you can run into it.\niOS will ask god-awful permissions each damn time.\n\nAnd finally, get the Apple Shortcut here.\nIf you do end up using this, I would really appreciate if you could contribute to my wishlist or buy me a coffee.\n\n\n\n\n Back to top"
+  },
+  {
+    "objectID": "posts/moving_back_to_chrome_from_arc.html",
+    "href": "posts/moving_back_to_chrome_from_arc.html",
+    "title": "Nerdy Momo Cat",
+    "section": "",
+    "text": "Back to top"
+  },
+  {
+    "objectID": "posts/notion_latex_resume.html",
+    "href": "posts/notion_latex_resume.html",
+    "title": "Creating an Updated Resume with Notion and Python",
+    "section": "",
+    "text": "All you need: this notion template, this replit project or this github project if you want to run it locally.\n\n\n\nExample generated resume image\n\n\nHow does it work?\nWell, the notion template comes with a stylized file for latex. You can use it in your own system, or upload the zip to overleaf.\nIt is based off a very popular template by Deedy: modified to be rendered as a single column resume.\n\n\n\nTemplate folder\n\n\nSee that resume_generated.tex file?\nThat is the one we would be generating anytime we need to update our resume."
+  },
+  {
+    "objectID": "posts/notion_latex_resume.html#introduction",
+    "href": "posts/notion_latex_resume.html#introduction",
+    "title": "Creating an Updated Resume with Notion and Python",
+    "section": "",
+    "text": "All you need: this notion template, this replit project or this github project if you want to run it locally.\n\n\n\nExample generated resume image\n\n\nHow does it work?\nWell, the notion template comes with a stylized file for latex. You can use it in your own system, or upload the zip to overleaf.\nIt is based off a very popular template by Deedy: modified to be rendered as a single column resume.\n\n\n\nTemplate folder\n\n\nSee that resume_generated.tex file?\nThat is the one we would be generating anytime we need to update our resume."
+  },
+  {
+    "objectID": "posts/notion_latex_resume.html#setup",
+    "href": "posts/notion_latex_resume.html#setup",
+    "title": "Creating an Updated Resume with Notion and Python",
+    "section": "Setup",
+    "text": "Setup\nOops! I got ahead of myself.\n\nNotion Setup\nLet’s first talk about the template itself.\nIt consists of 2 databases:\n\n\n\nThe resume information (MEOW| Resume Database)\n\n\n\n\n\nThe resume structure (MEOW| Resume Database Formatting)\n\n\nWhat do they do?\nMEOW| Resume Database Formatting Database tells you which sections there are.\nIt has just 7 properties: - Name (name of the section) - Sort By (time end or start) - Sort Direction (ascending or descending) - Rank (Order in which you want sections) - Item Format (Individual item formats) - Section Format (Start and end of section formatting) - MEOW| Resume Database (Related resume items/entries)\nItems are placed inside section format using NP:Items.\nItem Properties inside the format are referred by NP:Property_Name\n\n\n\nHow Items and Property Names are used for formatting\n\n\nMEOW| Resume Database includes each item. It only has 9 properties.\n\nName\nURL\nPeople\nOrganization\nTime (Can be date, year, range)\nComments\nStatus\nGeographic Location\nMEOW| Resume Database Formatting (Section the item belongs to)\n\n\n\n\nProperties in the MEOW| Resume Database\n\n\nAny of the text properties in the free text can have linked urls, bold or italics and it is rendered equivalently in LaTeX.\n\nAdd One-Time Information\nAdding information is super-duper easy.\nThe template comes with buttons for one time addition of basics.\n\n\n\nOne time addition buttons\n\n\nIt also has an add new information callout with pre-added buttons that you can just add as a synced block to your dashboard that you open everyday.\nThe buttons come with a ton of pre-filled information and pointers of things you need to add/replace to make it easy.\n\n\n\nNew information addition buttons\n\n\n\n\n\nPre-filled information in new information addition buttons\n\n\n\n\n\nExample of newly add information using addition buttons\n\n\n\n\nMake Modifications\nThe template also includes a modification block.\nA submitted paper got accepted? A submitted grant got accepted? A student graduated?\nHandle it through the modify callout. Remember to add this as a synced block to your workspace too.\n\n\n\nExample of modify callout\n\n\n\n\n\nReplit Setup\nThen you go to the repl.\nFill in the value for these secrets. (Remember to share your template page in your workspace with the notion integration key)\n\n\n\nSecret environment variables in replit"
+  },
+  {
+    "objectID": "posts/notion_latex_resume.html#generate",
+    "href": "posts/notion_latex_resume.html#generate",
+    "title": "Creating an Updated Resume with Notion and Python",
+    "section": "Generate",
+    "text": "Generate\nAnd click run!\nAnd voila. It generates the resume_generated.tex\nIt automatically takes care of a few things - Adds inline annotations to match notion - Adds href when there are links in notion - Does not add empty sections - Sorts entries in a section.\n\n\nVideo\nExample of Generating The Resume"
+  },
+  {
     "objectID": "posts/textsvsbeeper.html",
     "href": "posts/textsvsbeeper.html",
     "title": "Texts vs. Beeper: The (App)solute Winner Is?",
@@ -84,88 +168,207 @@
     "text": "Keyboard Shortcuts\n\nBeeper:   Navigation\nTexts:   Navigation and Actions\n\nBeeper, in my experience does not support action based keyboard shortcuts and rather just navigation based shortcuts. So, you have a shortcut for search, a shortcut to move between apps, and between categories, but that is it. Texts on the other hand aims to be completely accessible through keyboard, supporting both navigation (moving through the app) and action (reply, reminders, copy notification, schedule a message, delete etc) through keyboard.\nOne of the best keyboard shortcuts is Focus App (that allows you to bring Texts to the front) instead of opening it through Raycast, and is something I have extensively used in the past 2 days."
   },
   {
-    "objectID": "posts/notion_latex_resume.html",
-    "href": "posts/notion_latex_resume.html",
-    "title": "Creating an Updated Resume with Notion and Python",
+    "objectID": "posts/gdocs_are_underrated.html",
+    "href": "posts/gdocs_are_underrated.html",
+    "title": "Google Docs Is Underrated",
     "section": "",
-    "text": "All you need: this notion template, this replit project or this github project if you want to run it locally.\n\n\n\nExample generated resume image\n\n\nHow does it work?\nWell, the notion template comes with a stylized file for latex. You can use it in your own system, or upload the zip to overleaf.\nIt is based off a very popular template by Deedy: modified to be rendered as a single column resume.\n\n\n\nTemplate folder\n\n\nSee that resume_generated.tex file?\nThat is the one we would be generating anytime we need to update our resume."
+    "text": "With all the new tools popping up, people haven’t checked @googledocs in a long while. Read this to know why you should.\nI will interleave tips in between introducing you all to the feature set.\nTip: Use docs.new/{account_number} to create a new doc with a particular signed in account.\nAnd you’ll be greeted with this beauty. IMO, a much more modern design. (ping: @hobdaydesign)\n\nAlright, that brings us to one of the first new features that people think @googledocs does not have, but actually does!"
   },
   {
-    "objectID": "posts/notion_latex_resume.html#introduction",
-    "href": "posts/notion_latex_resume.html#introduction",
-    "title": "Creating an Updated Resume with Notion and Python",
-    "section": "",
-    "text": "All you need: this notion template, this replit project or this github project if you want to run it locally.\n\n\n\nExample generated resume image\n\n\nHow does it work?\nWell, the notion template comes with a stylized file for latex. You can use it in your own system, or upload the zip to overleaf.\nIt is based off a very popular template by Deedy: modified to be rendered as a single column resume.\n\n\n\nTemplate folder\n\n\nSee that resume_generated.tex file?\nThat is the one we would be generating anytime we need to update our resume."
+    "objectID": "posts/gdocs_are_underrated.html#page-setup-and-design",
+    "href": "posts/gdocs_are_underrated.html#page-setup-and-design",
+    "title": "Google Docs Is Underrated",
+    "section": "Page Setup and Design",
+    "text": "Page Setup and Design\nPageless docs. It is instead meant to render a beautiful document on-screen instead of focussing on margins/print layouts.\nSee here: support.google.com/docs/answer/11…"
   },
   {
-    "objectID": "posts/notion_latex_resume.html#setup",
-    "href": "posts/notion_latex_resume.html#setup",
-    "title": "Creating an Updated Resume with Notion and Python",
-    "section": "Setup",
-    "text": "Setup\nOops! I got ahead of myself.\n\nNotion Setup\nLet’s first talk about the template itself.\nIt consists of 2 databases:\n\n\n\nThe resume information (MEOW| Resume Database)\n\n\n\n\n\nThe resume structure (MEOW| Resume Database Formatting)\n\n\nWhat do they do?\nMEOW| Resume Database Formatting Database tells you which sections there are.\nIt has just 7 properties: - Name (name of the section) - Sort By (time end or start) - Sort Direction (ascending or descending) - Rank (Order in which you want sections) - Item Format (Individual item formats) - Section Format (Start and end of section formatting) - MEOW| Resume Database (Related resume items/entries)\nItems are placed inside section format using NP:Items.\nItem Properties inside the format are referred by NP:Property_Name\n\n\n\nHow Items and Property Names are used for formatting\n\n\nMEOW| Resume Database includes each item. It only has 9 properties.\n\nName\nURL\nPeople\nOrganization\nTime (Can be date, year, range)\nComments\nStatus\nGeographic Location\nMEOW| Resume Database Formatting (Section the item belongs to)\n\n\n\n\nProperties in the MEOW| Resume Database\n\n\nAny of the text properties in the free text can have linked urls, bold or italics and it is rendered equivalently in LaTeX.\n\nAdd One-Time Information\nAdding information is super-duper easy.\nThe template comes with buttons for one time addition of basics.\n\n\n\nOne time addition buttons\n\n\nIt also has an add new information callout with pre-added buttons that you can just add as a synced block to your dashboard that you open everyday.\nThe buttons come with a ton of pre-filled information and pointers of things you need to add/replace to make it easy.\n\n\n\nNew information addition buttons\n\n\n\n\n\nPre-filled information in new information addition buttons\n\n\n\n\n\nExample of newly add information using addition buttons\n\n\n\n\nMake Modifications\nThe template also includes a modification block.\nA submitted paper got accepted? A submitted grant got accepted? A student graduated?\nHandle it through the modify callout. Remember to add this as a synced block to your workspace too.\n\n\n\nExample of modify callout\n\n\n\n\n\nReplit Setup\nThen you go to the repl.\nFill in the value for these secrets. (Remember to share your template page in your workspace with the notion integration key)\n\n\n\nSecret environment variables in replit"
+    "objectID": "posts/gdocs_are_underrated.html#version-history",
+    "href": "posts/gdocs_are_underrated.html#version-history",
+    "title": "Google Docs Is Underrated",
+    "section": "Version History",
+    "text": "Version History\nGoogle docs has version history. You can name a version. You can create a new version, check for changes and restore a previous version."
   },
   {
-    "objectID": "posts/notion_latex_resume.html#generate",
-    "href": "posts/notion_latex_resume.html#generate",
-    "title": "Creating an Updated Resume with Notion and Python",
-    "section": "Generate",
-    "text": "Generate\nAnd click run!\nAnd voila. It generates the resume_generated.tex\nIt automatically takes care of a few things - Adds inline annotations to match notion - Adds href when there are links in notion - Does not add empty sections - Sorts entries in a section.\n\n\nVideo\nExample of Generating The Resume"
+    "objectID": "posts/gdocs_are_underrated.html#keyboard-shortcuts",
+    "href": "posts/gdocs_are_underrated.html#keyboard-shortcuts",
+    "title": "Google Docs Is Underrated",
+    "section": "Keyboard Shortcuts",
+    "text": "Keyboard Shortcuts\nYou can work using your keyboard for almost everything using the new search menu option."
   },
   {
-    "objectID": "posts/moving_back_to_chrome_from_arc.html",
-    "href": "posts/moving_back_to_chrome_from_arc.html",
-    "title": "Nerdy Momo Cat",
-    "section": "",
-    "text": "Back to top"
+    "objectID": "posts/gdocs_are_underrated.html#clickable-checkboxes",
+    "href": "posts/gdocs_are_underrated.html#clickable-checkboxes",
+    "title": "Google Docs Is Underrated",
+    "section": "Clickable Checkboxes",
+    "text": "Clickable Checkboxes\nCheckboxes that you can create using markdown like syntax [] and have options for both, checked by strikethrough and just checked boxes.\nBtw, in the gif below you will notice how the expanded toolbar is persistent even when I’m changing things in the doc itself."
   },
   {
-    "objectID": "posts/self_organizing_bookmarks.html",
-    "href": "posts/self_organizing_bookmarks.html",
-    "title": "Streamline Your Bookmark Management w/ Notion and AI",
-    "section": "",
-    "text": "Why?\nI hate having to tag everything in any Bookmark Manager, and an extra step of processing is just too much for my ADHD mind to get to.\nThat leads to inbox with 200+ entries.\nAnd hence, this automation.\n\n\nHow?\n\n\n\nExample of self-organizing bookmarks working\n\n\nWhat does it do?\n\nExtracts content of the page\nChecks if the content loading is not hindered due to javascript\n\n\nTakes screenshot of the page using Screenia by @s_badaoui\nIf it could not get the content of the page before, then uses ocr on image\n\n\nCall OpenAI API\nIt receives a JSON consisting of summary, tags and categories (chooses from a pre-selected list).\n\n\nAdd screenshot to dropbox\nAnd then get URL of the uploaded image.\n\n\nParses the information\nAnd adds everything to notion.\n\n\n\nRun this on your own\nIf you want to run this on your own, you need:\n\niOS/MacOS (because this is dependent on shortcuts app)\nNotion Integration Key\nBookmarks Database duplicated from the link below, shared with integration and then get its database ID\nOpen AI API Key\nFree Actions app by @sindresorhus [On both MacOS and iOS]\nConnect your dropbox account in shortcuts (should hopefully prompt itself)\n\nIssues:\n\nIt takes time to run this (and so you will see a spinner if you run this on ios, macos is in background, just don’t add 2 bookmarks in under a minute)\nScreenia has a rate limit and you can run into it.\niOS will ask god-awful permissions each damn time.\n\nAnd finally, get the Apple Shortcut here.\nIf you do end up using this, I would really appreciate if you could contribute to my wishlist or buy me a coffee.\n\n\n\n\n Back to top"
+    "objectID": "posts/gdocs_are_underrated.html#citation-manager",
+    "href": "posts/gdocs_are_underrated.html#citation-manager",
+    "title": "Google Docs Is Underrated",
+    "section": "Citation Manager",
+    "text": "Citation Manager\nInbuilt citation generator and manager. The only problem that exists here is the lack of citation sync across all documents."
   },
   {
-    "objectID": "stream/nothing_comes_close_to_muse.html",
-    "href": "stream/nothing_comes_close_to_muse.html",
-    "title": "Nothing comes close to Muse",
-    "section": "",
-    "text": "Back to top"
+    "objectID": "posts/gdocs_are_underrated.html#history-diff-and-merge",
+    "href": "posts/gdocs_are_underrated.html#history-diff-and-merge",
+    "title": "Google Docs Is Underrated",
+    "section": "History Diff and Merge",
+    "text": "History Diff and Merge\nDo you prefer to work on a different “private” version of a document so that people do not see your edits?\nYou can create a duplicate document and then compare it to another document.\nIncludes comments too. AND comments can be emoji reacts 🤯. (ref: support.google.com/docs/answer/19…)"
   },
   {
-    "objectID": "stream/notion_new_project_launch.html",
-    "href": "stream/notion_new_project_launch.html",
-    "title": "New project launch by Notion",
-    "section": "",
-    "text": "I think, it is a new user onboarding feature. It is kinda similar to buying templates from people, just that this one is made by Notion and has some features inbuilt. It isn’t meant for people who customize so heavily or people who already have systems in place. One way I have thought about this previously is: Do I want this company to make money and stay alive? If the answer is yes, I just make peace with it. If the answer is, I do not like where this is going, I try to find an alternative. Because otherwise, very often, if companies do not focus on making money, they just shut down (look at me talking, working in research, and choosing to make less money in return for increased misery).\n\n\n\n Back to top"
+    "objectID": "posts/gdocs_are_underrated.html#markdown",
+    "href": "posts/gdocs_are_underrated.html#markdown",
+    "title": "Google Docs Is Underrated",
+    "section": "Markdown",
+    "text": "Markdown\nBut but, I like writing in markdown and Google Docs is an ancient application that does not support markdown.\nYou need to realize,\n(a) there are many people (like me) who write in LaTex for their day job & still don’t like writing in markdown.\n(b) You can use markdown in docs!"
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Nerdy Momo Cat",
-    "section": "",
-    "text": "Hi, I’m Nerdy Momo Cat\n\n\n\n\nI’m passionate about all things personal knowledge management. I’m all about linking knowledge snippets, coding and automations, note taking and sketchnoting.\nWhether I’m helping others streamline their workflows and optimize their productivity, or experimenting with new tools to improve my own processes, I’m always exploring new ways to get the most out of my digital life.\nMy personal tools at the moment are: Notion, Todoist and Goodnotes, but I am always exploring other tools.\n\nGet in touch\nEmail me at nerdymomocat@gmail.com or DM me on Twitter if you’d like to chat!\nI can create a personalized PKM (Personal Knowledge Management) system for you on an individual basis. If this is what you’re interested in, feel free to send me a direct message.\n\n\n\n  Find All My Resources\n  \n  \n\n\n\n\nRecent Posts\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n \n\n\n\n\n\n\nTexts vs. Beeper: The (App)solute Winner Is?\n\n\n\n\n\n\n\nProductivity Apps\n\n\nMessaging\n\n\nMacOS\n\n\nSocial Media\n\n\nAll-In-One\n\n\n\n\nTexts offers an aggregation messaging experience with its design and keyboard focussed approach. Beeper provides utility-focused approach and a basic free software. I was curious to see if which one would meet my needs and provide the value I was looking for.\n\n\n\n\n\n\n06-26-2023\n\n\n\n\n\n\n\n\nCreating an Updated Resume with Notion and Python\n\n\n\n\n\n\n\nTutorial\n\n\nResources\n\n\nNotion\n\n\nPublishing\n\n\nAcademia\n\n\nPython\n\n\nAutomation\n\n\n\n\nMake a Notion setup for a LaTex resume using Python and Replit. The template has two databases: resume info and structure. It has pre-filled buttons for easy info input and a modification block for changes. The resume has inline annotations and href for Notion links, no empty sections, and sorted entries.\n\n\n\n\n\n\n05-03-2023\n\n\n\n\n\n\n\n\nStreamline Your Bookmark Management w/ Notion and AI\n\n\n\n\n\n\n\nTutorial\n\n\nResources\n\n\nNotion\n\n\nAI\n\n\nAutomation\n\n\nApple Shortcuts\n\n\n\n\nSay goodbye to the hassle of manually tagging bookmarks! This innovative automation combines shortcuts and AI to extract content, categorize and even take screenshots of your bookmarks before organizing them seamlessly in Notion. With a short setup process, this tool is a must-have for those looking to streamline their workflow.\n\n\n\n\n\n\n05-02-2023\n\n\n\n\n\n\n\n\nIs There a Need for Mainstream Graph-Based Note-Taking Tools?\n\n\n\n\n\n\n\nOpinion\n\n\nPKM\n\n\nWriting\n\n\n\n\nExploring why graph-based note-taking apps lack mainstream appeal despite their popularity among certain niche groups and discussing the features that make a tool mainstream.\n\n\n\n\n\n\n02-08-2023\n\n\n\n\n\n\nNo matching items\n\n Back to top"
+    "objectID": "posts/gdocs_are_underrated.html#outline-summary-and-dictionary",
+    "href": "posts/gdocs_are_underrated.html#outline-summary-and-dictionary",
+    "title": "Google Docs Is Underrated",
+    "section": "Outline, Summary and Dictionary",
+    "text": "Outline, Summary and Dictionary\nHeadings create a sticky outline of contents on the left. Although not auto-generated, they’re likely to be the first point of AI inclusion.\nSummary stands out from other apps’ designs. It remains sticky.\nDictionary in the side bar that defines words & offers synonyms/antonyms."
   },
   {
-    "objectID": "stream/index.html",
-    "href": "stream/index.html",
-    "title": "Thought Stream",
-    "section": "",
-    "text": "Stream is a fun little side place to gather my random musings, quick reviews, and quotes that catch my eye into a curated collection. It’s nice to have everything in one place instead of scattered across my feed.\n\n\n\n\n\n\n\n\n  \n    \n        05-31-2023\n      \n      \n      \n        New project launch by Notion\n      \n      \n        The main concern is that current databases cannot be ported over to this new feature. And I am kinda okay with it?\n      \n      \n        \n        \n        \n      \n      \n      \n        Notion\n        Opinion\n        \n    \n\n  \n    \n        05-31-2023\n      \n      \n      \n        Nothing comes close to Muse\n      \n      \n        Muse recently launched their Muse for teams and I have two wishes. I wish they had an option of publicly sharing the board, and that other spatial canvases adopted how well they implement the spatial and handwriting aspect of it.\n      \n      \n        \n        \n        \n      \n      \n      \n        Muse\n        PKM\n        Spatial Canvas\n        \n    \n\n  \n    \n        05-28-2023\n      \n      \n      \n        I regret not using a URL shortener\n      \n      \n        I have been sharing tips and tricks and templates over the course of past year on Twitter, but now the links are gonna change.\n      \n      \n        \n        \n        \n      \n      \n      \n        Notion\n        Vercel\n        Self Hosting\n        Tools\n        \n    \n\n\n\nNo matching items\n\n Back to top"
+    "objectID": "posts/gdocs_are_underrated.html#basic-content-types",
+    "href": "posts/gdocs_are_underrated.html#basic-content-types",
+    "title": "Google Docs Is Underrated",
+    "section": "Basic Content Types",
+    "text": "Basic Content Types\nInsert different types of content:\n1. Footnotes\n2. Horizontal Lines\n3. Equation\n4. Inline code\n5. Bookmarks and bookmark links\n6. Linked charts (I talk about linked content later in the thread, in short, a chart created in sheets, pasted into docs, which updates automatically)"
   },
   {
-    "objectID": "stream/url_shorteners.html",
-    "href": "stream/url_shorteners.html",
-    "title": "I regret not using a URL shortener",
-    "section": "",
-    "text": "Why? Because I wanted to change the workspace where my Notion templates were hosted. And I wanted to change my homepage. Most URL shorteners do not allow you to edit the destination URL for free. So, I found a great repo on github built by @younho_9. And now, I can edit the URL in my notion database and still shorten all the URLs. That is awesome!\n\n\n\n Back to top"
+    "objectID": "posts/gdocs_are_underrated.html#publish-to-web",
+    "href": "posts/gdocs_are_underrated.html#publish-to-web",
+    "title": "Google Docs Is Underrated",
+    "section": "Publish to Web",
+    "text": "Publish to Web\nYou can publish your document to web (for free) AND embed them (unlike notion docs). You can decide whether you want to manually update the document or update it as you go.\nThis is how our sample document looks like: tinyurl.com/example-pub-doc\nRead here: support.google.com/docs/answer/18…"
   },
   {
-    "objectID": "posts/index.html",
-    "href": "posts/index.html",
-    "title": "Posts",
-    "section": "",
-    "text": "Filter by Themes\n         \n      \n      \n         \n            \n               \n                  \n                     \n                        \n                     \n                     Notion\n                  \n               \n               \n                  \n                     \n                        \n                     \n                     Todoist\n                  \n               \n               \n                  \n                     \n                        \n                     \n                     Apple Shortcuts\n                  \n               \n               \n                  \n                     \n                        \n                     \n                     Capture\n                  \n               \n               \n                  \n                     \n                        \n                     \n                     Organization\n                  \n               \n               \n                  \n                     \n                        \n                     \n                     Design\n                  \n               \n               \n                  \n                     \n                        \n                     \n                     Reading\n                  \n               \n                \n                  \n                     \n                        \n                     \n                     Tools\n                  \n               \n               \n                  \n                     \n                        \n                     \n                     Tasks\n                  \n               \n                \n                  \n                     \n                        \n                     \n                     Automation\n                  \n               \n              \n                  \n                     \n                        \n                     \n                     Research\n                  \n               \n                \n                  \n                     \n                        \n                     \n                     Writing\n                  \n               \n            \n         \n      \n   \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n \n\n\n\n\n\n\nTexts vs. Beeper: The (App)solute Winner Is?\n\n\n\n\n\n\n\nProductivity Apps\n\n\nMessaging\n\n\nMacOS\n\n\nSocial Media\n\n\nAll-In-One\n\n\n\n\nTexts offers an aggregation messaging experience with its design and keyboard focussed approach. Beeper provides utility-focused approach and a basic free software. I was curious to see if which one would meet my needs and provide the value I was looking for.\n\n\n\n\n\n\n06-26-2023\n\n\n\n\n\n\n\n\nCreating an Updated Resume with Notion and Python\n\n\n\n\n\n\n\nTutorial\n\n\nResources\n\n\nNotion\n\n\nPublishing\n\n\nAcademia\n\n\nPython\n\n\nAutomation\n\n\n\n\nMake a Notion setup for a LaTex resume using Python and Replit. The template has two databases: resume info and structure. It has pre-filled buttons for easy info input and a modification block for changes. The resume has inline annotations and href for Notion links, no empty sections, and sorted entries.\n\n\n\n\n\n\n05-03-2023\n\n\n\n\n\n\n\n\nStreamline Your Bookmark Management w/ Notion and AI\n\n\n\n\n\n\n\nTutorial\n\n\nResources\n\n\nNotion\n\n\nAI\n\n\nAutomation\n\n\nApple Shortcuts\n\n\n\n\nSay goodbye to the hassle of manually tagging bookmarks! This innovative automation combines shortcuts and AI to extract content, categorize and even take screenshots of your bookmarks before organizing them seamlessly in Notion. With a short setup process, this tool is a must-have for those looking to streamline their workflow.\n\n\n\n\n\n\n05-02-2023\n\n\n\n\n\n\n\n\nIs There a Need for Mainstream Graph-Based Note-Taking Tools?\n\n\n\n\n\n\n\nOpinion\n\n\nPKM\n\n\nWriting\n\n\n\n\nExploring why graph-based note-taking apps lack mainstream appeal despite their popularity among certain niche groups and discussing the features that make a tool mainstream.\n\n\n\n\n\n\n02-08-2023\n\n\n\n\n\n\nNo matching items\n\n Back to top"
+    "objectID": "posts/gdocs_are_underrated.html#text-width-and-columns",
+    "href": "posts/gdocs_are_underrated.html#text-width-and-columns",
+    "title": "Google Docs Is Underrated",
+    "section": "Text Width and Columns",
+    "text": "Text Width and Columns\nYou can change the amount of space any text covers (similar to Notion, but way more options)"
+  },
+  {
+    "objectID": "posts/gdocs_are_underrated.html#works-offline",
+    "href": "posts/gdocs_are_underrated.html#works-offline",
+    "title": "Google Docs Is Underrated",
+    "section": "Works Offline",
+    "text": "Works Offline\nAny google workspace software has an option to use it offline."
+  },
+  {
+    "objectID": "posts/gdocs_are_underrated.html#translate-document",
+    "href": "posts/gdocs_are_underrated.html#translate-document",
+    "title": "Google Docs Is Underrated",
+    "section": "Translate Document",
+    "text": "Translate Document\nCreate a translated copy of the current document"
+  },
+  {
+    "objectID": "posts/gdocs_are_underrated.html#explore-from-google-search",
+    "href": "posts/gdocs_are_underrated.html#explore-from-google-search",
+    "title": "Google Docs Is Underrated",
+    "section": "Explore from Google Search",
+    "text": "Explore from Google Search\nExplore. We’ll test this by copying the front page of htmldocs (htmldocs.com) released by @0k_zh.\nYou can explore the topics in the doc, find related images for that topic, & look through your drive for the topic too!\nTip: You can drag images into the doc"
+  },
+  {
+    "objectID": "posts/gdocs_are_underrated.html#linked-objects",
+    "href": "posts/gdocs_are_underrated.html#linked-objects",
+    "title": "Google Docs Is Underrated",
+    "section": "Linked Objects",
+    "text": "Linked Objects\nLinked Objects.\nYou can link other google workspace content inside docs. (Would love to hear your thoughts @gobino).\nThey are updated (automatically or manually) when any change is made to the other object. These can be charts, tables or slides.\nRef: support.google.com/docs/answer/70…\n\nWhile presentation slides embed as images, sheets embed as tables (making them look non-clunky). You can also pin header rows!\nIt is a one way sync. If you add something on the doc, it does not appear in the sheet but the vice-versa behaves just like slides."
+  },
+  {
+    "objectID": "posts/gdocs_are_underrated.html#notification-settings",
+    "href": "posts/gdocs_are_underrated.html#notification-settings",
+    "title": "Google Docs Is Underrated",
+    "section": "Notification Settings",
+    "text": "Notification Settings\nVaried notification settings:"
+  },
+  {
+    "objectID": "posts/gdocs_are_underrated.html#date-chip",
+    "href": "posts/gdocs_are_underrated.html#date-chip",
+    "title": "Google Docs Is Underrated",
+    "section": "Date Chip",
+    "text": "Date Chip\nDate smart chips allow you to:\n(a) Add date using shorthands\n(b) Present the date in different formats\n(c) Book a meeting on the date"
+  },
+  {
+    "objectID": "posts/gdocs_are_underrated.html#people-chip",
+    "href": "posts/gdocs_are_underrated.html#people-chip",
+    "title": "Google Docs Is Underrated",
+    "section": "People Chip",
+    "text": "People Chip\nNext up, people chip\n(a) Popup to share a document when you mention a person\n(b) View contact details of the person/email\n(c) Send them an email from the doc\n(d) Start a video call/chat with them right from the document\n(e) Book a meeting with them"
+  },
+  {
+    "objectID": "posts/gdocs_are_underrated.html#file-chip",
+    "href": "posts/gdocs_are_underrated.html#file-chip",
+    "title": "Google Docs Is Underrated",
+    "section": "File Chip",
+    "text": "File Chip\nFile chip\n(a) Mention any file in google drive\n(b) Hover over it to see it at a quick glance. Also shows when it was last updated.\n(c) Open preview to have a persistent modal on side, which doesn’t automatically close when you are typing. You can also select content from preview."
+  },
+  {
+    "objectID": "posts/gdocs_are_underrated.html#calendar-chip",
+    "href": "posts/gdocs_are_underrated.html#calendar-chip",
+    "title": "Google Docs Is Underrated",
+    "section": "Calendar Chip",
+    "text": "Calendar Chip\n(a) Mention an existing event in the doc\n(b) Use the attach option to attach the current document to the calendar event\n(c) Click the event name to directly join the video call if one exists, or go to the calendar event page."
+  },
+  {
+    "objectID": "posts/gdocs_are_underrated.html#place-chip",
+    "href": "posts/gdocs_are_underrated.html#place-chip",
+    "title": "Google Docs Is Underrated",
+    "section": "Place Chip",
+    "text": "Place Chip\n(a) Search and add a location\n(b) Preview in maps on the sidebar\n(c) Get directions to the location\n(d) Hover to see modal preview"
+  },
+  {
+    "objectID": "posts/gdocs_are_underrated.html#task-timer-variable-chips",
+    "href": "posts/gdocs_are_underrated.html#task-timer-variable-chips",
+    "title": "Google Docs Is Underrated",
+    "section": "Task, Timer, Variable Chips",
+    "text": "Task, Timer, Variable Chips\nThere are task, timer and variable smart chips too that I do not have access to at the moment, but you can check them out here.\n\n\n\n\n\n\n\nNote"
+  },
+  {
+    "objectID": "posts/gdocs_are_underrated.html#smart-chip-previews",
+    "href": "posts/gdocs_are_underrated.html#smart-chip-previews",
+    "title": "Google Docs Is Underrated",
+    "section": "Smart Chip Previews",
+    "text": "Smart Chip Previews\nThere are also smartchips for app integrations and I do not know of many but Whimsical has one at the moment.\n\n\n\n\n\nCreate templated document dropdowns that you can use anywhere in the document. It comes with two that are preconfigured but you can configure one on your own."
+  },
+  {
+    "objectID": "posts/gdocs_are_underrated.html#building-blocks",
+    "href": "posts/gdocs_are_underrated.html#building-blocks",
+    "title": "Google Docs Is Underrated",
+    "section": "Building Blocks",
+    "text": "Building Blocks\nBuilding blocks are templates built using smart chips.\n\n\n\n\n\nSome of those are integrated into other Google services though."
+  },
+  {
+    "objectID": "posts/gdocs_are_underrated.html#email",
+    "href": "posts/gdocs_are_underrated.html#email",
+    "title": "Google Docs Is Underrated",
+    "section": "Email",
+    "text": "Email\nFor example, email draft, where you can draft a complete email in the doc, and then send it through gmail."
+  },
+  {
+    "objectID": "posts/gdocs_are_underrated.html#meeting-notes",
+    "href": "posts/gdocs_are_underrated.html#meeting-notes",
+    "title": "Google Docs Is Underrated",
+    "section": "Meeting Notes",
+    "text": "Meeting Notes\nAnother building block is meeting notes, which auto mentions the date, the document and creates a draft meeting note template right inside your doc when you select a calendar event.\nIt also gives you an option to attach the doc to the meeting."
+  },
+  {
+    "objectID": "posts/gdocs_are_underrated.html#tables-and-dropdown",
+    "href": "posts/gdocs_are_underrated.html#tables-and-dropdown",
+    "title": "Google Docs Is Underrated",
+    "section": "Tables and Dropdown",
+    "text": "Tables and Dropdown\nOther building blocks are just templates that include dropdowns and tables. For example, this is the review tracker building block."
+  },
+  {
+    "objectID": "posts/gdocs_are_underrated.html#keep-clippings",
+    "href": "posts/gdocs_are_underrated.html#keep-clippings",
+    "title": "Google Docs Is Underrated",
+    "section": "Keep Clippings",
+    "text": "Keep Clippings\nLast of the bunch: Keep clippings. At the start of the thread, when I did a design overview, you would see a a keep icon in the sidebar.\n(a) Add an existing note to document\n(b) Add a new note or a checklist that automatically attaches the document to it"
   },
   {
     "objectID": "posts/graph_based_notetaking_opinion.html",
