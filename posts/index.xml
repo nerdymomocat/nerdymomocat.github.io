@@ -659,11 +659,14 @@
 
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
-<p>With all the new tools popping up, people haven’t checked <a href="https://twitter.com/googledocs">@googledocs</a> in a long while. Read this to know why you should.</p>
-<p>I will interleave tips in between introducing you all to the feature set.</p>
+<p>If you’ve been caught up in the excitement of new note-taking apps, it’s time to take a step back and revisit the tried and true tool that is Google Docs (<a href="https://twitter.com/googledocs">@googledocs</a>). It’s easy to overlook the features and updates that have been added over time. So, let’s dive in and explore why you should give Google Docs another look!</p>
 <p>Tip: Use <a href="http://docs.new/">docs.new</a>/{account_number} to create a new doc with a particular signed in account.</p>
-<p>And you’ll be greeted with this beauty. IMO, a much more modern design. (ping: <a href="https://twitter.com/hobdaydesign">@hobdaydesign</a>)</p>
-<div class="quarto-video"><video id="video_shortcode_videojs_video1" class="video-js vjs-default-skin vjs-fluid" controls="" preload="auto" data-setup="{}" title=""><source src="images/gdocs_are_underrated/Google_Docs_Is_Underrated-96bd008b675.mp4"></video></div>
+<p>And you'll be greeted with this beauty. IMO, a much more modern design. (ping: <a href="https://twitter.com/hobdaydesign">@hobdaydesign</a>)</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-96bd008b675.mp4" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><video src="images/gdocs_are_underrated/Google_Docs_Is_Underrated-96bd008b675.mp4" class="img-fluid" controls=""></video></a><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-96bd008b675.mp4">Video</a></p>
+</figure>
+</div>
 <p>Alright, that brings us to one of the first new features that people think <a href="https://twitter.com/googledocs">@googledocs</a> does not have, but actually does!</p>
 </section>
 <section id="general-features" class="level1">
@@ -674,7 +677,7 @@
 <p>See here: <a href="https://support.google.com/docs/answer/11528737">support.google.com/docs/answer/11…</a></p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-93bfff63476.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="https://nerdymomocat.github.io/posts/images/gdocs_are_underrated/Google_Docs_Is_Underrated-93bfff63476.jpg" class="img-fluid figure-img"></a></p>
+<p><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-93bfff63476.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="https://nerdymomocat.github.io/posts/images/gdocs_are_underrated/Google_Docs_Is_Underrated-93bfff63476.jpg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </section>
@@ -683,34 +686,46 @@
 <p>Google docs has version history. You can name a version. You can create a new version, check for changes and restore a previous version.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-70c2ad8441b.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="https://nerdymomocat.github.io/posts/images/gdocs_are_underrated/Google_Docs_Is_Underrated-70c2ad8441b.jpg" class="img-fluid figure-img"></a></p>
+<p><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-70c2ad8441b.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="https://nerdymomocat.github.io/posts/images/gdocs_are_underrated/Google_Docs_Is_Underrated-70c2ad8441b.jpg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </section>
 <section id="keyboard-shortcuts" class="level2">
 <h2 class="anchored" data-anchor-id="keyboard-shortcuts">Keyboard Shortcuts</h2>
 <p>You can work using your keyboard for almost everything using the new search menu option.</p>
-<div class="quarto-video"><video id="video_shortcode_videojs_video2" class="video-js vjs-default-skin vjs-fluid" controls="" preload="auto" data-setup="{}" title=""><source src="images/gdocs_are_underrated/Google_Docs_Is_Underrated-462a69300a5.mp4"></video></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-462a69300a5.mp4" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><video src="images/gdocs_are_underrated/Google_Docs_Is_Underrated-462a69300a5.mp4" class="img-fluid" controls=""></video></a><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-462a69300a5.mp4">Video</a></p>
+</figure>
+</div>
 </section>
 <section id="clickable-checkboxes" class="level2">
 <h2 class="anchored" data-anchor-id="clickable-checkboxes">Clickable Checkboxes</h2>
 <p>Checkboxes that you can create using markdown like syntax [] and have options for both, checked by strikethrough and just checked boxes.</p>
-<p>Btw, in the gif below you will notice how the expanded toolbar is persistent even when I’m changing things in the doc itself.</p>
-<div class="quarto-video"><video id="video_shortcode_videojs_video3" class="video-js vjs-default-skin vjs-fluid" controls="" preload="auto" data-setup="{}" title=""><source src="images/gdocs_are_underrated/Google_Docs_Is_Underrated-e5323222fde.mp4"></video></div>
+<p>Btw, in the gif below you will notice how the expanded toolbar is persistent even when I'm changing things in the doc itself.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-e5323222fde.mp4" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><video src="images/gdocs_are_underrated/Google_Docs_Is_Underrated-e5323222fde.mp4" class="img-fluid" controls=""></video></a><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-e5323222fde.mp4">Video</a></p>
+</figure>
+</div>
 </section>
 <section id="citation-manager" class="level2">
 <h2 class="anchored" data-anchor-id="citation-manager">Citation Manager</h2>
 <p>Inbuilt citation generator and manager. The only problem that exists here is the lack of citation sync across all documents.</p>
-<div class="quarto-video"><video id="video_shortcode_videojs_video4" class="video-js vjs-default-skin vjs-fluid" controls="" preload="auto" data-setup="{}" title=""><source src="images/gdocs_are_underrated/Google_Docs_Is_Underrated-f0dc5fdffb9.mp4"></video></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-f0dc5fdffb9.mp4" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><video src="images/gdocs_are_underrated/Google_Docs_Is_Underrated-f0dc5fdffb9.mp4" class="img-fluid" controls=""></video></a><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-f0dc5fdffb9.mp4">Video</a></p>
+</figure>
+</div>
 </section>
 <section id="history-diff-and-merge" class="level2">
 <h2 class="anchored" data-anchor-id="history-diff-and-merge">History Diff and Merge</h2>
-<p>Do you prefer to work on a different “private” version of a document so that people do not see your edits?</p>
+<p>Do you prefer to work on a different "private" version of a document so that people do not see your edits?</p>
 <p>You can create a duplicate document and then compare it to another document.</p>
 <p>Includes comments too. AND comments can be emoji reacts 🤯. (ref: <a href="https://support.google.com/docs/answer/190843#compare_documents">support.google.com/docs/answer/19…</a>)</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-44193324ade.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="https://nerdymomocat.github.io/posts/images/gdocs_are_underrated/Google_Docs_Is_Underrated-44193324ade.jpg" class="img-fluid figure-img"></a></p>
+<p><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-44193324ade.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img src="https://nerdymomocat.github.io/posts/images/gdocs_are_underrated/Google_Docs_Is_Underrated-44193324ade.jpg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </section>
@@ -718,18 +733,22 @@
 <h2 class="anchored" data-anchor-id="markdown">Markdown</h2>
 <p>But but, I like writing in markdown and Google Docs is an ancient application that does not support markdown.</p>
 <p>You need to realize,</p>
-<p>(a) there are many people (like me) who write in LaTex for their day job &amp; still don’t like writing in markdown.</p>
+<p>(a) there are many people (like me) who write in LaTex for their day job &amp; still don't like writing in markdown.</p>
 <p>(b) You can use markdown in docs!</p>
-<div class="quarto-video"><video id="video_shortcode_videojs_video5" class="video-js vjs-default-skin vjs-fluid" controls="" preload="auto" data-setup="{}" title=""><source src="images/gdocs_are_underrated/Google_Docs_Is_Underrated-11b7a92c6cb.mp4"></video></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-11b7a92c6cb.mp4" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><video src="images/gdocs_are_underrated/Google_Docs_Is_Underrated-11b7a92c6cb.mp4" class="img-fluid" controls=""></video></a><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-11b7a92c6cb.mp4">Video</a></p>
+</figure>
+</div>
 </section>
 <section id="outline-summary-and-dictionary" class="level2">
 <h2 class="anchored" data-anchor-id="outline-summary-and-dictionary">Outline, Summary and Dictionary</h2>
-<p>Headings create a sticky outline of contents on the left. Although not auto-generated, they’re likely to be the first point of AI inclusion.</p>
-<p>Summary stands out from other apps’ designs. It remains sticky.</p>
+<p>Headings create a sticky outline of contents on the left. Although not auto-generated, they're likely to be the first point of AI inclusion.</p>
+<p>Summary stands out from other apps' designs. It remains sticky.</p>
 <p>Dictionary in the side bar that defines words &amp; offers synonyms/antonyms.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-c46828c4573.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="https://nerdymomocat.github.io/posts/images/gdocs_are_underrated/Google_Docs_Is_Underrated-c46828c4573.jpg" class="img-fluid figure-img"></a></p>
+<p><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-c46828c4573.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img src="https://nerdymomocat.github.io/posts/images/gdocs_are_underrated/Google_Docs_Is_Underrated-c46828c4573.jpg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </section>
@@ -744,7 +763,7 @@
 <p>6. Linked charts (I talk about linked content later in the thread, in short, a chart created in sheets, pasted into docs, which updates automatically)</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-cc9f64a1f9f.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="https://nerdymomocat.github.io/posts/images/gdocs_are_underrated/Google_Docs_Is_Underrated-cc9f64a1f9f.jpg" class="img-fluid figure-img"></a></p>
+<p><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-cc9f64a1f9f.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-10"><img src="https://nerdymomocat.github.io/posts/images/gdocs_are_underrated/Google_Docs_Is_Underrated-cc9f64a1f9f.jpg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </section>
@@ -755,7 +774,7 @@
 <p>Read here: <a href="https://support.google.com/docs/answer/183965">support.google.com/docs/answer/18…</a></p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-087be88bda2.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="https://nerdymomocat.github.io/posts/images/gdocs_are_underrated/Google_Docs_Is_Underrated-087be88bda2.jpg" class="img-fluid figure-img"></a></p>
+<p><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-087be88bda2.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-11"><img src="https://nerdymomocat.github.io/posts/images/gdocs_are_underrated/Google_Docs_Is_Underrated-087be88bda2.jpg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </section>
@@ -764,7 +783,7 @@
 <p>You can change the amount of space any text covers (similar to Notion, but way more options)</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-f3206d092b6.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img src="https://nerdymomocat.github.io/posts/images/gdocs_are_underrated/Google_Docs_Is_Underrated-f3206d092b6.jpg" class="img-fluid figure-img"></a></p>
+<p><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-f3206d092b6.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-12"><img src="https://nerdymomocat.github.io/posts/images/gdocs_are_underrated/Google_Docs_Is_Underrated-f3206d092b6.jpg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </section>
@@ -773,7 +792,7 @@
 <p>Any google workspace software has an option to use it offline.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-05f47b0d9ce.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img src="https://nerdymomocat.github.io/posts/images/gdocs_are_underrated/Google_Docs_Is_Underrated-05f47b0d9ce.jpg" class="img-fluid figure-img"></a></p>
+<p><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-05f47b0d9ce.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-13"><img src="https://nerdymomocat.github.io/posts/images/gdocs_are_underrated/Google_Docs_Is_Underrated-05f47b0d9ce.jpg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </section>
@@ -782,16 +801,20 @@
 <p>Create a translated copy of the current document</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-63751d205d9.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img src="https://nerdymomocat.github.io/posts/images/gdocs_are_underrated/Google_Docs_Is_Underrated-63751d205d9.jpg" class="img-fluid figure-img"></a></p>
+<p><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-63751d205d9.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-14"><img src="https://nerdymomocat.github.io/posts/images/gdocs_are_underrated/Google_Docs_Is_Underrated-63751d205d9.jpg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </section>
 <section id="explore-from-google-search" class="level2">
 <h2 class="anchored" data-anchor-id="explore-from-google-search">Explore from Google Search</h2>
-<p>Explore. We’ll test this by copying the front page of htmldocs (<a href="https://htmldocs.com/">htmldocs.com</a>) released by <a href="https://twitter.com/0k_zh">@0k_zh</a>.</p>
+<p>Explore. We'll test this by copying the front page of htmldocs (<a href="https://htmldocs.com/">htmldocs.com</a>) released by <a href="https://twitter.com/0k_zh">@0k_zh</a>.</p>
 <p>You can explore the topics in the doc, find related images for that topic, &amp; look through your drive for the topic too!</p>
 <p>Tip: You can drag images into the doc</p>
-<div class="quarto-video"><video id="video_shortcode_videojs_video6" class="video-js vjs-default-skin vjs-fluid" controls="" preload="auto" data-setup="{}" title=""><source src="images/gdocs_are_underrated/Google_Docs_Is_Underrated-9b99187898c.mp4"></video></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-9b99187898c.mp4" class="lightbox" data-gallery="quarto-lightbox-gallery-15"><video src="images/gdocs_are_underrated/Google_Docs_Is_Underrated-9b99187898c.mp4" class="img-fluid" controls=""></video></a><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-9b99187898c.mp4">Video</a></p>
+</figure>
+</div>
 </section>
 <section id="linked-objects" class="level2">
 <h2 class="anchored" data-anchor-id="linked-objects">Linked Objects</h2>
@@ -799,12 +822,16 @@
 <p>You can link other google workspace content inside docs. (Would love to hear your thoughts <a href="https://twitter.com/gobino">@gobino</a>).</p>
 <p>They are updated (automatically or manually) when any change is made to the other object. These can be charts, tables or slides.</p>
 <p>Ref: <a href="https://support.google.com/docs/answer/7009814">support.google.com/docs/answer/70…</a></p>
-<div class="quarto-video"><video id="video_shortcode_videojs_video7" class="video-js vjs-default-skin vjs-fluid" controls="" preload="auto" data-setup="{}" title=""><source src="images/gdocs_are_underrated/Google_Docs_Is_Underrated-ff29db1722d.mp4"></video></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-ff29db1722d.mp4" class="lightbox" data-gallery="quarto-lightbox-gallery-16"><video src="images/gdocs_are_underrated/Google_Docs_Is_Underrated-ff29db1722d.mp4" class="img-fluid" controls=""></video></a><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-ff29db1722d.mp4">Video</a></p>
+</figure>
+</div>
 <p>While presentation slides embed as images, sheets embed as tables (making them look non-clunky). You can also pin header rows!</p>
 <p>It is a one way sync. If you add something on the doc, it does not appear in the sheet but the vice-versa behaves just like slides.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-1205119d987.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-10"><img src="https://nerdymomocat.github.io/posts/images/gdocs_are_underrated/Google_Docs_Is_Underrated-1205119d987.jpg" class="img-fluid figure-img"></a></p>
+<p><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-1205119d987.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-17"><img src="https://nerdymomocat.github.io/posts/images/gdocs_are_underrated/Google_Docs_Is_Underrated-1205119d987.jpg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </section>
@@ -813,7 +840,7 @@
 <p>Varied notification settings:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-2c6099d48f1.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-11"><img src="https://nerdymomocat.github.io/posts/images/gdocs_are_underrated/Google_Docs_Is_Underrated-2c6099d48f1.jpg" class="img-fluid figure-img"></a></p>
+<p><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-2c6099d48f1.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-18"><img src="https://nerdymomocat.github.io/posts/images/gdocs_are_underrated/Google_Docs_Is_Underrated-2c6099d48f1.jpg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </section>
@@ -829,7 +856,7 @@
 <p>(c) Book a meeting on the date</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-950fcb8c570.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-12"><img src="https://nerdymomocat.github.io/posts/images/gdocs_are_underrated/Google_Docs_Is_Underrated-950fcb8c570.jpg" class="img-fluid figure-img"></a></p>
+<p><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-950fcb8c570.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-19"><img src="https://nerdymomocat.github.io/posts/images/gdocs_are_underrated/Google_Docs_Is_Underrated-950fcb8c570.jpg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </section>
@@ -843,7 +870,7 @@
 <p>(e) Book a meeting with them</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-63f2c7cb2e9.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-13"><img src="https://nerdymomocat.github.io/posts/images/gdocs_are_underrated/Google_Docs_Is_Underrated-63f2c7cb2e9.jpg" class="img-fluid figure-img"></a></p>
+<p><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-63f2c7cb2e9.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-20"><img src="https://nerdymomocat.github.io/posts/images/gdocs_are_underrated/Google_Docs_Is_Underrated-63f2c7cb2e9.jpg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </section>
@@ -852,10 +879,10 @@
 <p>File chip</p>
 <p>(a) Mention any file in google drive</p>
 <p>(b) Hover over it to see it at a quick glance. Also shows when it was last updated.</p>
-<p>(c) Open preview to have a persistent modal on side, which doesn’t automatically close when you are typing. You can also select content from preview.</p>
+<p>(c) Open preview to have a persistent modal on side, which doesn't automatically close when you are typing. You can also select content from preview.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-8684835ad92.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-14"><img src="https://nerdymomocat.github.io/posts/images/gdocs_are_underrated/Google_Docs_Is_Underrated-8684835ad92.jpg" class="img-fluid figure-img"></a></p>
+<p><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-8684835ad92.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-21"><img src="https://nerdymomocat.github.io/posts/images/gdocs_are_underrated/Google_Docs_Is_Underrated-8684835ad92.jpg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </section>
@@ -866,7 +893,7 @@
 <p>(c) Click the event name to directly join the video call if one exists, or go to the calendar event page.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-c661c1d44df.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-15"><img src="https://nerdymomocat.github.io/posts/images/gdocs_are_underrated/Google_Docs_Is_Underrated-c661c1d44df.jpg" class="img-fluid figure-img"></a></p>
+<p><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-c661c1d44df.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-22"><img src="https://nerdymomocat.github.io/posts/images/gdocs_are_underrated/Google_Docs_Is_Underrated-c661c1d44df.jpg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </section>
@@ -878,7 +905,7 @@
 <p>(d) Hover to see modal preview</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-3c6ac55bd11.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-16"><img src="https://nerdymomocat.github.io/posts/images/gdocs_are_underrated/Google_Docs_Is_Underrated-3c6ac55bd11.jpg" class="img-fluid figure-img"></a></p>
+<p><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-3c6ac55bd11.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-23"><img src="https://nerdymomocat.github.io/posts/images/gdocs_are_underrated/Google_Docs_Is_Underrated-3c6ac55bd11.jpg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </section>
@@ -898,7 +925,7 @@ Note
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="tweet-97069"></div><script>tweet={"url":"https:\/\/twitter.com\/thorstenball\/status\/1673636222626050048","author_name":"Thorsten Ball","author_url":"https:\/\/twitter.com\/thorstenball","html":"\u003Cblockquote class=\"twitter-tweet\" align=\"center\"\u003E\u003Cp lang=\"en\" dir=\"ltr\"\u003EGoogle Docs now has variables? Wow\u003Cbr\u003E\u003Cbr\u003EDoes someone have an explanation for what happened with Google Docs?\u003Cbr\u003E\u003Cbr\u003EFor years and years it seemed stagnant and since, what, last year, there&#39;s all these new, very nice features popping up on a regular basis.\u003Cbr\u003E\u003Cbr\u003EI need the inside story here. \u003Ca href=\"https:\/\/t.co\/EQXa8p9SiJ\"\u003Epic.twitter.com\/EQXa8p9SiJ\u003C\/a\u003E\u003C\/p\u003E&mdash; Thorsten Ball (@thorstenball) \u003Ca href=\"https:\/\/twitter.com\/thorstenball\/status\/1673636222626050048?ref_src=twsrc%5Etfw\"\u003EJune 27, 2023\u003C\/a\u003E\u003C\/blockquote\u003E\n\u003Cscript async src=\"https:\/\/platform.twitter.com\/widgets.js\" charset=\"utf-8\"\u003E\u003C\/script\u003E\n","width":550,"height":null,"type":"rich","cache_age":"3153600000","provider_name":"Twitter","provider_url":"https:\/\/twitter.com","version":"1.0"};document.getElementById("tweet-97069").innerHTML = tweet["html"];</script>
+<div id="tweet-59415"></div><script>tweet={"url":"https:\/\/twitter.com\/thorstenball\/status\/1673636222626050048","author_name":"Thorsten Ball","author_url":"https:\/\/twitter.com\/thorstenball","html":"\u003Cblockquote class=\"twitter-tweet\" align=\"center\"\u003E\u003Cp lang=\"en\" dir=\"ltr\"\u003EGoogle Docs now has variables? Wow\u003Cbr\u003E\u003Cbr\u003EDoes someone have an explanation for what happened with Google Docs?\u003Cbr\u003E\u003Cbr\u003EFor years and years it seemed stagnant and since, what, last year, there&#39;s all these new, very nice features popping up on a regular basis.\u003Cbr\u003E\u003Cbr\u003EI need the inside story here. \u003Ca href=\"https:\/\/t.co\/EQXa8p9SiJ\"\u003Epic.twitter.com\/EQXa8p9SiJ\u003C\/a\u003E\u003C\/p\u003E&mdash; Thorsten Ball (@thorstenball) \u003Ca href=\"https:\/\/twitter.com\/thorstenball\/status\/1673636222626050048?ref_src=twsrc%5Etfw\"\u003EJune 27, 2023\u003C\/a\u003E\u003C\/blockquote\u003E\n\u003Cscript async src=\"https:\/\/platform.twitter.com\/widgets.js\" charset=\"utf-8\"\u003E\u003C\/script\u003E\n","width":550,"height":null,"type":"rich","cache_age":"3153600000","provider_name":"Twitter","provider_url":"https:\/\/twitter.com","version":"1.0"};document.getElementById("tweet-59415").innerHTML = tweet["html"];</script>
 </div>
 </div>
 </div>
@@ -909,13 +936,13 @@ Note
 <p>There are also smartchips for app integrations and I do not know of many but <a href="https://help.whimsical.com/article/704-preview-whimsical-files-in-google-docs-as-a-smart-chip">Whimsical</a> has one at the moment.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-004b442676b.gif" class="lightbox" data-gallery="quarto-lightbox-gallery-17"><img src="https://nerdymomocat.github.io/posts/images/gdocs_are_underrated/Google_Docs_Is_Underrated-004b442676b.gif" class="img-fluid figure-img"></a></p>
+<p><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-004b442676b.gif" class="lightbox" data-gallery="quarto-lightbox-gallery-24"><img src="https://nerdymomocat.github.io/posts/images/gdocs_are_underrated/Google_Docs_Is_Underrated-004b442676b.gif" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 <p>Create templated document dropdowns that you can use anywhere in the document. It comes with two that are preconfigured but you can configure one on your own.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-4132a015b82.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-18"><img src="https://nerdymomocat.github.io/posts/images/gdocs_are_underrated/Google_Docs_Is_Underrated-4132a015b82.jpg" class="img-fluid figure-img"></a></p>
+<p><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-4132a015b82.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-25"><img src="https://nerdymomocat.github.io/posts/images/gdocs_are_underrated/Google_Docs_Is_Underrated-4132a015b82.jpg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </section>
@@ -924,7 +951,7 @@ Note
 <p>Building blocks are templates built using smart chips.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-d5f3e8e8fb5.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-19"><img src="https://nerdymomocat.github.io/posts/images/gdocs_are_underrated/Google_Docs_Is_Underrated-d5f3e8e8fb5.jpg" class="img-fluid figure-img"></a></p>
+<p><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-d5f3e8e8fb5.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-26"><img src="https://nerdymomocat.github.io/posts/images/gdocs_are_underrated/Google_Docs_Is_Underrated-d5f3e8e8fb5.jpg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 <p>Some of those are integrated into other Google services though.</p>
@@ -934,7 +961,7 @@ Note
 <p>For example, email draft, where you can draft a complete email in the doc, and then send it through gmail.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-6e1bbb62a69.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-20"><img src="https://nerdymomocat.github.io/posts/images/gdocs_are_underrated/Google_Docs_Is_Underrated-6e1bbb62a69.jpg" class="img-fluid figure-img"></a></p>
+<p><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-6e1bbb62a69.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-27"><img src="https://nerdymomocat.github.io/posts/images/gdocs_are_underrated/Google_Docs_Is_Underrated-6e1bbb62a69.jpg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </section>
@@ -944,7 +971,7 @@ Note
 <p>It also gives you an option to attach the doc to the meeting.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-808183d1600.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-21"><img src="https://nerdymomocat.github.io/posts/images/gdocs_are_underrated/Google_Docs_Is_Underrated-808183d1600.jpg" class="img-fluid figure-img"></a></p>
+<p><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-808183d1600.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-28"><img src="https://nerdymomocat.github.io/posts/images/gdocs_are_underrated/Google_Docs_Is_Underrated-808183d1600.jpg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </section>
@@ -953,7 +980,7 @@ Note
 <p>Other building blocks are just templates that include dropdowns and tables. For example, this is the review tracker building block.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-ee50137b5dd.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-22"><img src="https://nerdymomocat.github.io/posts/images/gdocs_are_underrated/Google_Docs_Is_Underrated-ee50137b5dd.jpg" class="img-fluid figure-img"></a></p>
+<p><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-ee50137b5dd.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-29"><img src="https://nerdymomocat.github.io/posts/images/gdocs_are_underrated/Google_Docs_Is_Underrated-ee50137b5dd.jpg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </section>
@@ -962,16 +989,27 @@ Note
 <p>Last of the bunch: Keep clippings. At the start of the thread, when I did a design overview, you would see a a keep icon in the sidebar.</p>
 <p>(a) Add an existing note to document</p>
 <p>(b) Add a new note or a checklist that automatically attaches the document to it</p>
-<div class="quarto-video"><video id="video_shortcode_videojs_video8" class="video-js vjs-default-skin vjs-fluid" controls="" preload="auto" data-setup="{}" title=""><source src="images/gdocs_are_underrated/Google_Docs_Is_Underrated-4f402032850.mp4"></video></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-4f402032850.mp4" class="lightbox" data-gallery="quarto-lightbox-gallery-30"><video src="images/gdocs_are_underrated/Google_Docs_Is_Underrated-4f402032850.mp4" class="img-fluid" controls=""></video></a><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-4f402032850.mp4">Video</a></p>
+</figure>
+</div>
 </section>
 </section>
 <section id="templates" class="level1">
 <h1>Templates</h1>
 <p>Tip: There are so many templates in Google Docs. Check them out at <a href="http://docs.google.com/">docs.google.com</a></p>
 <p>The essay one looks like a craft doc!</p>
-<div class="quarto-video"><video id="video_shortcode_videojs_video9" class="video-js vjs-default-skin vjs-fluid" controls="" preload="auto" data-setup="{}" title=""><source src="images/gdocs_are_underrated/Google_Docs_Is_Underrated-016693a5bdd.mp4"></video></div>
-<p>Alright, this ends my tool suggestion of <a href="https://twitter.com/googledocs">@googledocs</a>, everything that you probably missed in the last year while we all were obsessing over the new note taking apps.</p>
-<p>As much as I love notion, nothing comes close in terms of ecosystem, collaboration &amp; FREE writing as google docs.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-016693a5bdd.mp4" class="lightbox" data-gallery="quarto-lightbox-gallery-31"><video src="images/gdocs_are_underrated/Google_Docs_Is_Underrated-016693a5bdd.mp4" class="img-fluid" controls=""></video></a><a href="images/gdocs_are_underrated/Google_Docs_Is_Underrated-016693a5bdd.mp4">Video</a></p>
+</figure>
+</div>
+<p>Alright, that wraps up my tool suggestion for <span class="citation" data-cites="googledocs">@googledocs</span>. It’s easy to get caught up in the hype of new note-taking apps, but let’s not forget the powerhouse that is Google Docs. In terms of its ecosystem, collaboration features, and the freedom it offers for writing, nothing really comes close.</p>
+<p>I must admit, I’m a huge fan of Notion myself, but I can’t deny the strengths of Google Docs. It’s a well-established platform that seamlessly integrates with other Google tools, such as Google Drive and Google Sheets. This ecosystem makes it incredibly convenient for users who rely on multiple Google services.</p>
+<p>When it comes to collaboration, Google Docs is a game-changer. Its real-time editing capabilities allow multiple users to work on a document simultaneously, making it ideal for team projects or even just brainstorming sessions with friends. The ability to leave comments, suggest edits, and track changes ensures a smooth collaborative workflow.</p>
+<p>And let’s not forget the best part - Google Docs is free! It offers a generous amount of storage for your documents, and you can access them from any device with an internet connection. The simplicity and accessibility of Google Docs make it a go-to choice for many writers, students, and professionals.</p>
+<p>So, while new note-taking apps may be grabbing the headlines, let’s not overlook the enduring power and versatility of Google Docs. It’s a reliable tool that continues to meet the needs of millions of users worldwide.</p>
 
 
 </section>
@@ -1005,7 +1043,7 @@ Tiago Forte talks about graph based PKM apps
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p></p><div id="tweet-55529"></div><script>tweet={"url":"https:\/\/twitter.com\/fortelabs\/status\/1616173350778441729","author_name":"Tiago Forte","author_url":"https:\/\/twitter.com\/fortelabs","html":"\u003Cblockquote class=\"twitter-tweet\" align=\"center\"\u003E\u003Cp lang=\"en\" dir=\"ltr\"\u003EWe really need a graph-based PKM app built by a serious company for mainstream users\u003Cbr\u003E\u003Cbr\u003E• Roam is a religion\u003Cbr\u003E• Obsidian is a side hobby\u003Cbr\u003E• Logseq is an open-source project\u003Cbr\u003E• Tana is barely in alpha\u003Cbr\u003E\u003Cbr\u003EIf there was just one reliable app in this space I’d refer so much traffic to it\u003C\/p\u003E&mdash; Tiago Forte (@fortelabs) \u003Ca href=\"https:\/\/twitter.com\/fortelabs\/status\/1616173350778441729?ref_src=twsrc%5Etfw\"\u003EJanuary 19, 2023\u003C\/a\u003E\u003C\/blockquote\u003E\n\u003Cscript async src=\"https:\/\/platform.twitter.com\/widgets.js\" charset=\"utf-8\"\u003E\u003C\/script\u003E\n","width":550,"height":null,"type":"rich","cache_age":"3153600000","provider_name":"Twitter","provider_url":"https:\/\/twitter.com","version":"1.0"};document.getElementById("tweet-55529").innerHTML = tweet["html"];</script><p></p>
+<p></p><div id="tweet-73089"></div><script>tweet={"url":"https:\/\/twitter.com\/fortelabs\/status\/1616173350778441729","author_name":"Tiago Forte","author_url":"https:\/\/twitter.com\/fortelabs","html":"\u003Cblockquote class=\"twitter-tweet\" align=\"center\"\u003E\u003Cp lang=\"en\" dir=\"ltr\"\u003EWe really need a graph-based PKM app built by a serious company for mainstream users\u003Cbr\u003E\u003Cbr\u003E• Roam is a religion\u003Cbr\u003E• Obsidian is a side hobby\u003Cbr\u003E• Logseq is an open-source project\u003Cbr\u003E• Tana is barely in alpha\u003Cbr\u003E\u003Cbr\u003EIf there was just one reliable app in this space I’d refer so much traffic to it\u003C\/p\u003E&mdash; Tiago Forte (@fortelabs) \u003Ca href=\"https:\/\/twitter.com\/fortelabs\/status\/1616173350778441729?ref_src=twsrc%5Etfw\"\u003EJanuary 19, 2023\u003C\/a\u003E\u003C\/blockquote\u003E\n\u003Cscript async src=\"https:\/\/platform.twitter.com\/widgets.js\" charset=\"utf-8\"\u003E\u003C\/script\u003E\n","width":550,"height":null,"type":"rich","cache_age":"3153600000","provider_name":"Twitter","provider_url":"https:\/\/twitter.com","version":"1.0"};document.getElementById("tweet-73089").innerHTML = tweet["html"];</script><p></p>
 </div>
 </div>
 </div></div><section id="mass-adoption-vs-niche-critical" class="level3">
