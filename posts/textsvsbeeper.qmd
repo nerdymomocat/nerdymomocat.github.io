@@ -140,11 +140,11 @@ While both Beeper and Texts allow for archiving a conversation, only Texts allow
 
 ### Edit Messages
 
-> Beeper: {{< fa check >}}
+> Beeper: {{< fa check >}}{{< fa minus >}}
 >
-> Texts: {{< fa question >}}
+> Texts: {{< fa check >}}
 
-Because Beeper does not have app based context menu, I know it supports editing messages. I am not sure if Texts does because I do not use Slack or discord and those are the platforms off the top of my head that support editing messages.
+Both Beeper and Texts support editing a text message on platforms that do support it. Unfortunately because Beeper does not have a platform specific context menu, sometimes you might try editing a message and end up with an error.
 
 ### Mark as Unread
 
