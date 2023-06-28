@@ -5,7 +5,6 @@ date: 2022-12-22 5:00 AM
 categories: [Opinion, PKM, Writing]
 draft: true
 ---
-https://typefully.com/nerdymomocat/my-notion-workflow-SxTtyPF
 I have talked quite a lot about HAVING my "automation" system in @NotionHQ. While I try a multitude of other apps as a passion project, most of them are not modifiable for my needs.
 
 This a thread about insights into MY (a) needs, (b) system, (c) automation, and, (d) thoughts.

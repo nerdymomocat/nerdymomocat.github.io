@@ -210,9 +210,9 @@ Both Beeper and Texts supports replying to a message and the, so that is awesome
 
 > Beeper: {{< fa xmark >}}
 >
-> Texts: {{< fa check >}} {{< fa plus >}}
+> Texts: {{< fa check >}} {{< fa minus >}}
 
-While most people might not find a use case for this; I heavily used this feature in 2 days. Whatsapp does not allow for calling through third party clients. Being able to open a conversation in Whatsapp to call my mom when she has called me 80 times; always helps. Trust me; it saves her a minute of panic attacks.
+While most people might not find a use case for this; I would have heavily used this feature in 2 days. Whatsapp does not allow for calling through third party clients. Being able to open a conversation in Whatsapp to call my mom when she has called me 80 times; always helps. Trust me; it saves her a minute of panic attacks. But texts seems to be able to open webapps but not on desktop apps?
 
 Texts also has a chrome extension that allows you to open a chat on twitter or other web platforms back in the texts app --- and that is another one I appreciate.
 

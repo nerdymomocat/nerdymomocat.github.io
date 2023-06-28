@@ -5,8 +5,6 @@ date: 2023-04-23 5:00 AM
 categories: [Opinion, PKM, Writing]
 draft: true
 ---
-https://typefully.com/nerdymomocat/automating-voice-memos-in-notion-2eejryR
-
 At this point everyone has their voice to notion system. So, here is mine.
 
 Why you should read this thread?
