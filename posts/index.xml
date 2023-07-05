@@ -10,7 +10,7 @@
 <atom:link href="https://nerdymomocat.github.io/posts/index.xml" rel="self" type="application/rss+xml"/>
 <description>Long Form Posts</description>
 <generator>quarto-1.3.433</generator>
-<lastBuildDate>Wed, 05 Jul 2023 00:00:00 GMT</lastBuildDate>
+<lastBuildDate>Wed, 05 Jul 2023 05:00:00 GMT</lastBuildDate>
 <item>
   <title>The Components of a Personal Knowledge Management</title>
   <link>https://nerdymomocat.github.io/posts/pkm_components.html</link>
@@ -140,7 +140,7 @@
   <category>Note Taking</category>
   <category>AI</category>
   <guid>https://nerdymomocat.github.io/posts/pkm_components.html</guid>
-  <pubDate>Wed, 05 Jul 2023 00:00:00 GMT</pubDate>
+  <pubDate>Wed, 05 Jul 2023 05:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Texts vs. Beeper: The (App)solute Winner Is?</title>
@@ -154,14 +154,14 @@
 <p>When <a href="https://twitter.com/pkmbeth">@Beth</a> messaged me that she has invites for <a href="https://texts.com/">Texts</a>; I was excited.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-b352b61b0d2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Texts invitation from Beth 2023-06-24"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-b352b61b0d2.png" class="img-fluid figure-img"></a></p>
+<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-b352b61b0d2.png" class="lightbox" title="Texts invitation from Beth 2023-06-24" data-gallery="quarto-lightbox-gallery-1"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-b352b61b0d2.png" class="img-fluid figure-img"></a></p>
 <figcaption class="figure-caption">Texts invitation from Beth 2023-06-24</figcaption>
 </figure>
 </div>
 <p>I was equally excited about getting off Beeper’s waitlist a little over a month ago.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-9192cf69508.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Invitation from Beeper 2023-05-18"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-9192cf69508.png" class="img-fluid figure-img"></a></p>
+<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-9192cf69508.png" class="lightbox" title="Invitation from Beeper 2023-05-18" data-gallery="quarto-lightbox-gallery-2"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-9192cf69508.png" class="img-fluid figure-img"></a></p>
 <figcaption class="figure-caption">Invitation from Beeper 2023-05-18</figcaption>
 </figure>
 </div>
@@ -185,13 +185,13 @@
 <p>In case all you want is a quick look at what they can do or not do, the two graphics below almost cover everything. You can also go through each section/sub-section and look for checkmarks (has this option), meh (kinda), cross (does not have this option), plus (additional benefits) and minus (poor implementation).</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-f18160c8b1f.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Texts UI out of box"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-f18160c8b1f.png" class="img-fluid figure-img"></a></p>
+<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-f18160c8b1f.png" class="lightbox" title="Texts UI out of box" data-gallery="quarto-lightbox-gallery-3"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-f18160c8b1f.png" class="img-fluid figure-img"></a></p>
 <figcaption class="figure-caption">Texts UI out of box</figcaption>
 </figure>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-c00abdf1836.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Beeper UI out of box"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-c00abdf1836.png" class="img-fluid figure-img"></a></p>
+<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-c00abdf1836.png" class="lightbox" title="Beeper UI out of box" data-gallery="quarto-lightbox-gallery-4"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-c00abdf1836.png" class="img-fluid figure-img"></a></p>
 <figcaption class="figure-caption">Beeper UI out of box</figcaption>
 </figure>
 </div>
@@ -206,7 +206,7 @@
 <p>There are of course differences in the setup page, but I do not care about it. You need to setup things ONCE. And yes, texts looks much better in that regard. Reduced number of popups, consistent design etc. But again, you will access it only once.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-c322b22e3cb.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="Texts UI out of box looks way cleaner than Beeper’s"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-c322b22e3cb.png" class="img-fluid figure-img"></a></p>
+<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-c322b22e3cb.png" class="lightbox" title="Texts UI out of box looks way cleaner than Beeper’s" data-gallery="quarto-lightbox-gallery-5"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-c322b22e3cb.png" class="img-fluid figure-img"></a></p>
 <figcaption class="figure-caption">Texts UI out of box looks way cleaner than Beeper’s</figcaption>
 </figure>
 </div>
@@ -224,7 +224,7 @@
 </ul>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-94e785d25c2.gif" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="Click on the gif to see the menu bar actions and search UX"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-94e785d25c2.gif" class="img-fluid figure-img"></a></p>
+<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-94e785d25c2.gif" class="lightbox" title="Click on the gif to see the menu bar actions and search UX" data-gallery="quarto-lightbox-gallery-6"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-94e785d25c2.gif" class="img-fluid figure-img"></a></p>
 <figcaption class="figure-caption">Click on the gif to see the menu bar actions and search UX</figcaption>
 </figure>
 </div>
@@ -251,7 +251,7 @@
 <div class="no-row-height column-margin column-container"><div class="">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-49aec96a87e.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="Update speed in Beeper"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-49aec96a87e.png" class="img-fluid figure-img"></a></p>
+<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-49aec96a87e.png" class="lightbox" title="Update speed in Beeper" data-gallery="quarto-lightbox-gallery-7"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-49aec96a87e.png" class="img-fluid figure-img"></a></p>
 <figcaption class="figure-caption">Update speed in Beeper</figcaption>
 </figure>
 </div>
@@ -425,13 +425,13 @@
 <div class="no-row-height column-margin column-container"><div class="">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-5f2083e3bff.png" class="lightbox" data-gallery="quarto-lightbox-gallery-12" title="Schedule send UI in Beeper and how the scheduled send ends up looking like inside the Beeper interface"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-5f2083e3bff.png" class="img-fluid figure-img"></a></p>
+<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-5f2083e3bff.png" class="lightbox" title="Schedule send UI in Beeper and how the scheduled send ends up looking like inside the Beeper interface" data-gallery="quarto-lightbox-gallery-12"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-5f2083e3bff.png" class="img-fluid figure-img"></a></p>
 <figcaption class="figure-caption">Schedule send UI in Beeper and how the scheduled send ends up looking like inside the Beeper interface</figcaption>
 </figure>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-986c5d0f5d7.png" class="lightbox" data-gallery="quarto-lightbox-gallery-13" title="Send Later UI in Texts and how the scheduled send ends up looking like inside the Beeper interface"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-986c5d0f5d7.png" class="img-fluid figure-img"></a></p>
+<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-986c5d0f5d7.png" class="lightbox" title="Send Later UI in Texts and how the scheduled send ends up looking like inside the Beeper interface" data-gallery="quarto-lightbox-gallery-13"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-986c5d0f5d7.png" class="img-fluid figure-img"></a></p>
 <figcaption class="figure-caption">Send Later UI in Texts and how the scheduled send ends up looking like inside the Beeper interface</figcaption>
 </figure>
 </div>
@@ -494,7 +494,7 @@
 <div class="no-row-height column-margin column-container"><div class="">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-c34224e60d1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-15" title="Creating quick replies in Texts"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-c34224e60d1.png" class="img-fluid figure-img"></a></p>
+<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-c34224e60d1.png" class="lightbox" title="Creating quick replies in Texts" data-gallery="quarto-lightbox-gallery-15"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-c34224e60d1.png" class="img-fluid figure-img"></a></p>
 <figcaption class="figure-caption">Creating quick replies in Texts</figcaption>
 </figure>
 </div>
@@ -1227,7 +1227,7 @@ Thorsten Ball talks about variables in Google Docs
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
-<p></p><div id="tweet-98115"></div><script>tweet={"url":"https:\/\/twitter.com\/thorstenball\/status\/1673636222626050048","author_name":"Thorsten Ball","author_url":"https:\/\/twitter.com\/thorstenball","html":"\u003Cblockquote class=\"twitter-tweet\" align=\"center\"\u003E\u003Cp lang=\"en\" dir=\"ltr\"\u003EGoogle Docs now has variables? Wow\u003Cbr\u003E\u003Cbr\u003EDoes someone have an explanation for what happened with Google Docs?\u003Cbr\u003E\u003Cbr\u003EFor years and years it seemed stagnant and since, what, last year, there&#39;s all these new, very nice features popping up on a regular basis.\u003Cbr\u003E\u003Cbr\u003EI need the inside story here. \u003Ca href=\"https:\/\/t.co\/EQXa8p9SiJ\"\u003Epic.twitter.com\/EQXa8p9SiJ\u003C\/a\u003E\u003C\/p\u003E&mdash; Thorsten Ball (@thorstenball) \u003Ca href=\"https:\/\/twitter.com\/thorstenball\/status\/1673636222626050048?ref_src=twsrc%5Etfw\"\u003EJune 27, 2023\u003C\/a\u003E\u003C\/blockquote\u003E\n\u003Cscript async src=\"https:\/\/platform.twitter.com\/widgets.js\" charset=\"utf-8\"\u003E\u003C\/script\u003E\n","width":550,"height":null,"type":"rich","cache_age":"3153600000","provider_name":"Twitter","provider_url":"https:\/\/twitter.com","version":"1.0"};document.getElementById("tweet-98115").innerHTML = tweet["html"];</script><p></p>
+<p></p><div id="tweet-30077"></div><script>tweet={"url":"https:\/\/twitter.com\/thorstenball\/status\/1673636222626050048","author_name":"Thorsten Ball","author_url":"https:\/\/twitter.com\/thorstenball","html":"\u003Cblockquote class=\"twitter-tweet\" align=\"center\"\u003E\u003Cp lang=\"en\" dir=\"ltr\"\u003EGoogle Docs now has variables? Wow\u003Cbr\u003E\u003Cbr\u003EDoes someone have an explanation for what happened with Google Docs?\u003Cbr\u003E\u003Cbr\u003EFor years and years it seemed stagnant and since, what, last year, there&#39;s all these new, very nice features popping up on a regular basis.\u003Cbr\u003E\u003Cbr\u003EI need the inside story here. \u003Ca href=\"https:\/\/t.co\/EQXa8p9SiJ\"\u003Epic.twitter.com\/EQXa8p9SiJ\u003C\/a\u003E\u003C\/p\u003E&mdash; Thorsten Ball (@thorstenball) \u003Ca href=\"https:\/\/twitter.com\/thorstenball\/status\/1673636222626050048?ref_src=twsrc%5Etfw\"\u003EJune 27, 2023\u003C\/a\u003E\u003C\/blockquote\u003E\n\u003Cscript async src=\"https:\/\/platform.twitter.com\/widgets.js\" charset=\"utf-8\"\u003E\u003C\/script\u003E\n","width":550,"height":null,"type":"rich","cache_age":"3153600000","provider_name":"Twitter","provider_url":"https:\/\/twitter.com","version":"1.0"};document.getElementById("tweet-30077").innerHTML = tweet["html"];</script><p></p>
 </div>
 </div>
 </div>
@@ -1346,7 +1346,7 @@ Tiago Forte talks about graph based PKM apps
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p></p><div id="tweet-90176"></div><script>tweet={"url":"https:\/\/twitter.com\/fortelabs\/status\/1616173350778441729","author_name":"Tiago Forte","author_url":"https:\/\/twitter.com\/fortelabs","html":"\u003Cblockquote class=\"twitter-tweet\" align=\"center\"\u003E\u003Cp lang=\"en\" dir=\"ltr\"\u003EWe really need a graph-based PKM app built by a serious company for mainstream users\u003Cbr\u003E\u003Cbr\u003E• Roam is a religion\u003Cbr\u003E• Obsidian is a side hobby\u003Cbr\u003E• Logseq is an open-source project\u003Cbr\u003E• Tana is barely in alpha\u003Cbr\u003E\u003Cbr\u003EIf there was just one reliable app in this space I’d refer so much traffic to it\u003C\/p\u003E&mdash; Tiago Forte (@fortelabs) \u003Ca href=\"https:\/\/twitter.com\/fortelabs\/status\/1616173350778441729?ref_src=twsrc%5Etfw\"\u003EJanuary 19, 2023\u003C\/a\u003E\u003C\/blockquote\u003E\n\u003Cscript async src=\"https:\/\/platform.twitter.com\/widgets.js\" charset=\"utf-8\"\u003E\u003C\/script\u003E\n","width":550,"height":null,"type":"rich","cache_age":"3153600000","provider_name":"Twitter","provider_url":"https:\/\/twitter.com","version":"1.0"};document.getElementById("tweet-90176").innerHTML = tweet["html"];</script><p></p>
+<p></p><div id="tweet-64779"></div><script>tweet={"url":"https:\/\/twitter.com\/fortelabs\/status\/1616173350778441729","author_name":"Tiago Forte","author_url":"https:\/\/twitter.com\/fortelabs","html":"\u003Cblockquote class=\"twitter-tweet\" align=\"center\"\u003E\u003Cp lang=\"en\" dir=\"ltr\"\u003EWe really need a graph-based PKM app built by a serious company for mainstream users\u003Cbr\u003E\u003Cbr\u003E• Roam is a religion\u003Cbr\u003E• Obsidian is a side hobby\u003Cbr\u003E• Logseq is an open-source project\u003Cbr\u003E• Tana is barely in alpha\u003Cbr\u003E\u003Cbr\u003EIf there was just one reliable app in this space I’d refer so much traffic to it\u003C\/p\u003E&mdash; Tiago Forte (@fortelabs) \u003Ca href=\"https:\/\/twitter.com\/fortelabs\/status\/1616173350778441729?ref_src=twsrc%5Etfw\"\u003EJanuary 19, 2023\u003C\/a\u003E\u003C\/blockquote\u003E\n\u003Cscript async src=\"https:\/\/platform.twitter.com\/widgets.js\" charset=\"utf-8\"\u003E\u003C\/script\u003E\n","width":550,"height":null,"type":"rich","cache_age":"3153600000","provider_name":"Twitter","provider_url":"https:\/\/twitter.com","version":"1.0"};document.getElementById("tweet-64779").innerHTML = tweet["html"];</script><p></p>
 </div>
 </div>
 </div>

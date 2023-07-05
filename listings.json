@@ -1,17 +1,7 @@
 [
   {
-    "listing": "/stream/index.html",
-    "items": [
-      "/stream/i_have_been_avoiding_notion.html",
-      "/stream/nothing_comes_close_to_muse.html",
-      "/stream/notion_new_project_launch.html",
-      "/stream/url_shorteners.html"
-    ]
-  },
-  {
     "listing": "/posts/index.html",
     "items": [
-      "/posts/moving_back_to_chrome_from_arc.html",
       "/posts/pkm_components.html",
       "/posts/textsvsbeeper.html",
       "/posts/notion_latex_resume.html",
@@ -24,7 +14,6 @@
   {
     "listing": "/index.html",
     "items": [
-      "/posts/moving_back_to_chrome_from_arc.html",
       "/posts/pkm_components.html",
       "/posts/textsvsbeeper.html",
       "/posts/notion_latex_resume.html",
@@ -32,6 +21,15 @@
       "/posts/choose_your_notetaking_app.html",
       "/posts/gdocs_are_underrated.html",
       "/posts/graph_based_notetaking_opinion.html"
+    ]
+  },
+  {
+    "listing": "/stream/index.html",
+    "items": [
+      "/stream/i_have_been_avoiding_notion.html",
+      "/stream/notion_new_project_launch.html",
+      "/stream/nothing_comes_close_to_muse.html",
+      "/stream/url_shorteners.html"
     ]
   }
 ]
