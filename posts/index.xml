@@ -20,18 +20,23 @@
 
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/pkm_components/The_Components_of_a_PKM-6bf1a93d980.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="https://nerdymomocat.github.io/posts/images/pkm_components/The_Components_of_a_PKM-6bf1a93d980.png" class="img-fluid figure-img"></a></p>
+<p><a href="images/pkm_components/The_Components_of_a_Personal_Knowledge_Management-6bf1a93d980.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="https://nerdymomocat.github.io/posts/images/pkm_components/The_Components_of_a_Personal_Knowledge_Management-6bf1a93d980.png" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 <p>Hello, readers! Grab a cup of coffee, settle in, and join me today as we explore a fascinating world, the world of Personal Knowledge Management (PKM). And for those who sigh at the prospect of manual efforts, fear not, we’ll also delve into the ways AI can serve as our digital butler, all set to ease our journey. Ready to dive in</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/pkm_components/The_Components_of_a_PKM-e5352d24449.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="https://nerdymomocat.github.io/posts/images/pkm_components/The_Components_of_a_PKM-e5352d24449.png" class="img-fluid figure-img"></a></p>
+<p><a href="images/pkm_components/The_Components_of_a_Personal_Knowledge_Management-e5352d24449.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="https://nerdymomocat.github.io/posts/images/pkm_components/The_Components_of_a_Personal_Knowledge_Management-e5352d24449.png" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 <section id="understanding-the-pkm-primitives" class="level1">
 <h1>Understanding the PKM Primitives</h1>
 <p>Remember, every massive building begins with the laying of bricks? PKM also starts from seemingly mundane yet indispensable primitives. They are the building blocks, the foundation stones, shaping up the infrastructure where you collect, curate, organize, and eventually, make sense of your knowledge. Let's delve into their specifics.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="images/pkm_components/The_Components_of_a_Personal_Knowledge_Management-4cc6496d691.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="https://nerdymomocat.github.io/posts/images/pkm_components/The_Components_of_a_Personal_Knowledge_Management-4cc6496d691.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
 <section id="app-primitives" class="level2">
 <h2 class="anchored" data-anchor-id="app-primitives">App Primitives</h2>
 <p>Imagine these as virtual rooms where you perform a plethora of tasks. These are places where you share interesting articles with your colleagues or access critical documents on the go. You collaborate on projects, publish your knowledge, store your bits and pieces of information safely, and even keep track of your changes on files or data.</p>
@@ -41,23 +46,14 @@
 <p>From a task to be done, a reminder for a friend’s birthday, to a fascinating code snippet you stumbled upon—these are the content primitives. They are the ‘what’ of your PKM: the kind of information you capture, hold, and process. Images, audio and visual clips, your next cooking recipe as text, or fun polls you conduct amongst friends—they all fall under this category.</p>
 </section>
 </section>
-<section id="unlocking-knowledge-through-processing" class="level1">
-<h1>Unlocking Knowledge Through Processing</h1>
-<p>Second comes the turn of processing. This isn’t just a tedious laundry-list compiling. It's you, as a goldsmith, refining the gold (content) by various processes explicit and implicit, before it's ready to be fashioned into ornaments (actions).</p>
-<section id="explicit-processing" class="level2">
-<h2 class="anchored" data-anchor-id="explicit-processing">Explicit Processing</h2>
-<p>Kudos to you, if you have ever put tags on your blog, created hyperlinks between your web pages, or constructed an outline for your report. You have already taken your first step in explicit processing. The joy of seeing related information clustered via tags, the context being built around a link, and the clarity achieved through outlines—all of them are rewards of this process.</p>
-</section>
-<section id="implicit-processing-with-ai" class="level2">
-<h2 class="anchored" data-anchor-id="implicit-processing-with-ai">Implicit Processing with AI</h2>
-<p>Wanting to manage everything can be exhausting, especially with the constant stream of data. We need to lean on systems that can sift through this massive load in the background. Here's where artificial intelligence (AI) steps in. It's amazing how AI uses its magic to make sense of hidden patterns, extract meaning, find what's similar, and understand the underlying message.</p>
-<p>The perks of AI are numerous. For example, AI can tag items or even enable auto-tagging by analyzing content thoroughly. Not only that, but AI can also identify links between different data and assist in creating related connections. It can even outline your content by understanding its structure. Basically, AI is your go-to tool, letting you concentrate on your main job, much like how a unique tool gives a hand to a jeweler.</p>
-<p>Picture this: you're scrolling through your photos and find that they've been grouped automatically due to similar characteristics. You'd say, "Cool, all my beach holiday snaps are in one place!" This is how AI quietly does its work. It's as if there's a crew member behind-the-scenes, ensuring everything is spot-on while you wow your audience. It's like an AI-powered owl delivering your personal notes in the wide universe of information, a bit like how owls deliver mail in the Harry Potter series.</p>
-</section>
-</section>
 <section id="the-art-of-capture" class="level1">
 <h1>The Art of Capture</h1>
 <p>Caught an interesting headline while scrolling through your news feed? Came across a golden nugget in a podcast? Want to save that hilarious meme from your chat? Capture comes in play in such instances where specific information pieces are to be grabbed and brought into your PKM system.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="images/pkm_components/The_Components_of_a_Personal_Knowledge_Management-ba3a3016f15.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="https://nerdymomocat.github.io/posts/images/pkm_components/The_Components_of_a_Personal_Knowledge_Management-ba3a3016f15.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
 <section id="integrations" class="level3">
 <h3 class="anchored" data-anchor-id="integrations">Integrations</h3>
 <p>Linking your Personal Knowledge Management (PKM) system with a mix of resources like Health, Email, Blogposts/RSS, Music, and Calendar has the power to change how you handle information. This process is made more effortless, aware, and auto-set when you integrate an AI assistant, leading to higher effectiveness and simplicity.</p>
@@ -70,9 +66,33 @@
 <p>Now let's take a quick detour from words to pictures. Are you engaged in some serious visual research or simply getting lost in an enchanting photo album? Snippets allow you to cherry-pick those parts of images that appeal to you the most, whether it's quirky street art, a picturesque sunset, or a helpful data visualization. File these snippets away into your PKM toolbox, and use them as visual cues that you can pull out when you need a memory jog. And don't forget about audio - maybe you're attending an insightful lecture or interviewing someone. Snippets let you skim the cream off these levels of audial rivers, turning lengthy recordings into digestible morsels of wisdom. Thus, in the world of PKM, snippets become your invaluable companions in carving a path through the informational jungle.</p>
 </section>
 </section>
+<section id="unlocking-knowledge-through-processing" class="level1">
+<h1>Unlocking Knowledge Through Processing</h1>
+<p>Second comes the turn of processing. This isn’t just a tedious laundry-list compiling. It's you, as a goldsmith, refining the gold (content) by various processes explicit and implicit, before it's ready to be fashioned into ornaments (actions).</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="images/pkm_components/The_Components_of_a_Personal_Knowledge_Management-63fd62d11fd.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="https://nerdymomocat.github.io/posts/images/pkm_components/The_Components_of_a_Personal_Knowledge_Management-63fd62d11fd.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<section id="explicit-processing" class="level2">
+<h2 class="anchored" data-anchor-id="explicit-processing">Explicit Processing</h2>
+<p>Kudos to you, if you have ever put tags on your blog, created hyperlinks between your web pages, or constructed an outline for your report. You have already taken your first step in explicit processing. The joy of seeing related information clustered via tags, the context being built around a link, and the clarity achieved through outlines—all of them are rewards of this process.</p>
+</section>
+<section id="implicit-processing-with-ai" class="level2">
+<h2 class="anchored" data-anchor-id="implicit-processing-with-ai">Implicit Processing with AI</h2>
+<p>Wanting to manage everything can be exhausting, especially with the constant stream of data. We need to lean on systems that can sift through this massive load in the background. Here's where artificial intelligence (AI) steps in. It's amazing how AI uses its magic to make sense of hidden patterns, extract meaning, find what's similar, and understand the underlying message.</p>
+<p>The perks of AI are numerous. For example, AI can tag items or even enable auto-tagging by analyzing content thoroughly. Not only that, but AI can also identify links between different data and assist in creating related connections. It can even outline your content by understanding its structure. Basically, AI is your go-to tool, letting you concentrate on your main job, much like how a unique tool gives a hand to a jeweler.</p>
+<p>Picture this: you're scrolling through your photos and find that they've been grouped automatically due to similar characteristics. You'd say, "Cool, all my beach holiday snaps are in one place!" This is how AI quietly does its work. It's as if there's a crew member behind-the-scenes, ensuring everything is spot-on while you wow your audience. It's like an AI-powered owl delivering your personal notes in the wide universe of information, a bit like how owls deliver mail in the Harry Potter series.</p>
+</section>
+</section>
 <section id="actions-the-grand-finale" class="level1">
 <h1>Actions - The Grand Finale</h1>
 <p>Finally, moving onto actions! Remember the gold extracted and refined? It's time to make it into ornaments now. Actions, thus, shape your processed knowledge into structures like galleries, cards, timelines, or boards, or processes such as searching, plotting, or filtering. Actions also contain modifications in your content, like cutting, deletion, editing, or status change.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="images/pkm_components/The_Components_of_a_Personal_Knowledge_Management-5cf51abe08d.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="https://nerdymomocat.github.io/posts/images/pkm_components/The_Components_of_a_Personal_Knowledge_Management-5cf51abe08d.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
 <section id="render" class="level2">
 <h2 class="anchored" data-anchor-id="render">Render</h2>
 <p>Picture your personal knowledge management as a vibrant ecosystem of visual and interactive structures, brimming with galleries, boards, timelines, groups, and flashcards. They're like hidden treasure chests, each brimming with knowledge curated for easy comprehension and interaction. Galleries are your personalized exhibition spaces, housing your carefully chosen images, diagrams, or other multimedia content in a way that's pleasing to the eye and the mind. Boards resemble your very own brainstorming hub, allowing you to arrange different nuggets of knowledge, be it cards, notes, or snippets, mimicking the organic process of pinning ideas on a bulletin board.</p>
@@ -92,13 +112,14 @@
 <h2 class="anchored" data-anchor-id="consume">Consume</h2>
 <section id="structured" class="level3">
 <h3 class="anchored" data-anchor-id="structured">Structured</h3>
-<p>Structured consumption involves strategizing ways to gather and understand acquired knowledge. We filter to navigate through information overload, retrieve to find specific details, correlate to find relationships, search to unearth relevant facets and plot to graphically display information.</p>
-<p>AI can shine a guiding light here. Using AI, you can efficiently filter through vast datasets based on your criteria, find correlations between audio tracks based on beats or rhythm, search through unstructured data for semantic meaning, or plot complex data into understandable graphs. It's akin to having an intelligent search dog that sniffs out exactly what you're looking for, saving you the time and effort of manual searching.</p>
+<p>Now, let's dive right into the realm of structured consumption from a Personal Knowledge Management (PKM) system. You know when you neatly categorize and organize information, much like the systematic arrangement of books in a library? That's structured consumption. Structured consumption taps into methods such as Filtering, Retrieving, Correlating, Searching, and Plotting. Allow me to walk you through it.</p>
+<p>Filtering is like having a personal librarian who knows exactly what books you want read. Within a structured PKM, you format data in a way that lets you filter out irrelevant information. When we're talking about retrieving information, think of it as a real-time, personalized book recommendation engine that fetches specific data points relevant to your query – basically, your librarian friend again. And when you correlate, that's your librarian cross-referencing genres, authors, or publication years to predict your next best read based on your reading history. Are you seeing a pattern here?</p>
+<p>Search and Plot functions can be best visualised as magic spells that can summon any book at your command, and a literal plot generator, respectively. Now, where does AI tie into this neatly-bound package? Well, AI makes the "librarian" work efficiently. It brings in Machine Learning to predict, understand, and improve the retrieval of data, thereby saving your time and effort.</p>
 </section>
 <section id="unstructured" class="level3">
 <h3 class="anchored" data-anchor-id="unstructured">Unstructured</h3>
-<p>Unstructured consumption is also about absorbing information, but this time, in raw, unformatted, and typically more extensive data sets. We summarize vast texts, expand on bullet ideas, augment information with additional context, or attribute missing metadata.</p>
-<p>Enter, AI. AI could scan a massive document and give you a tight summary. It can expand on your bullet points to a full-fledged article, suggest augmentations based on trends or previous data, or fill in missing attributes in your music playlist based on genres or artists. It's like having a personal librarian who not only knows every book but also can summarize them.</p>
+<p>Shifting gears to unstructured consumption, we're now dealing with a dynamic, fluid structure, much like an ever-changing story. In unstructured consumption, we focus on Summarizing, Expanding, Augmenting, and Attributing information. Imagine an AI entity summarizing a book for you, or expanding upon a cliffhanger. Isn't that exciting?</p>
+<p>The Augment function could be like your personal AI fanfiction writer, relating and adding extra layers to your favorite storylines. Attribution might resemble an outspoken critic, finding sources and attributing credit wherever necessary. This shifting, evolving nature of unstructured consumption requires more creative AI solutions, such as Natural Language Processing, to dissect, understand, and maneuver text, and in turn, provide you with a rich, unstructured, yet organized consumption experience.</p>
 </section>
 </section>
 </section>
@@ -133,14 +154,14 @@
 <p>When <a href="https://twitter.com/pkmbeth">@Beth</a> messaged me that she has invites for <a href="https://texts.com/">Texts</a>; I was excited.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-b352b61b0d2.png" class="lightbox" title="Texts invitation from Beth 2023-06-24" data-gallery="quarto-lightbox-gallery-1"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-b352b61b0d2.png" class="img-fluid figure-img"></a></p>
+<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-b352b61b0d2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Texts invitation from Beth 2023-06-24"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-b352b61b0d2.png" class="img-fluid figure-img"></a></p>
 <figcaption class="figure-caption">Texts invitation from Beth 2023-06-24</figcaption>
 </figure>
 </div>
 <p>I was equally excited about getting off Beeper’s waitlist a little over a month ago.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-9192cf69508.png" class="lightbox" title="Invitation from Beeper 2023-05-18" data-gallery="quarto-lightbox-gallery-2"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-9192cf69508.png" class="img-fluid figure-img"></a></p>
+<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-9192cf69508.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Invitation from Beeper 2023-05-18"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-9192cf69508.png" class="img-fluid figure-img"></a></p>
 <figcaption class="figure-caption">Invitation from Beeper 2023-05-18</figcaption>
 </figure>
 </div>
@@ -164,13 +185,13 @@
 <p>In case all you want is a quick look at what they can do or not do, the two graphics below almost cover everything. You can also go through each section/sub-section and look for checkmarks (has this option), meh (kinda), cross (does not have this option), plus (additional benefits) and minus (poor implementation).</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-f18160c8b1f.png" class="lightbox" title="Texts UI out of box" data-gallery="quarto-lightbox-gallery-3"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-f18160c8b1f.png" class="img-fluid figure-img"></a></p>
+<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-f18160c8b1f.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Texts UI out of box"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-f18160c8b1f.png" class="img-fluid figure-img"></a></p>
 <figcaption class="figure-caption">Texts UI out of box</figcaption>
 </figure>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-c00abdf1836.png" class="lightbox" title="Beeper UI out of box" data-gallery="quarto-lightbox-gallery-4"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-c00abdf1836.png" class="img-fluid figure-img"></a></p>
+<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-c00abdf1836.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Beeper UI out of box"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-c00abdf1836.png" class="img-fluid figure-img"></a></p>
 <figcaption class="figure-caption">Beeper UI out of box</figcaption>
 </figure>
 </div>
@@ -185,7 +206,7 @@
 <p>There are of course differences in the setup page, but I do not care about it. You need to setup things ONCE. And yes, texts looks much better in that regard. Reduced number of popups, consistent design etc. But again, you will access it only once.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-c322b22e3cb.png" class="lightbox" title="Texts UI out of box looks way cleaner than Beeper’s" data-gallery="quarto-lightbox-gallery-5"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-c322b22e3cb.png" class="img-fluid figure-img"></a></p>
+<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-c322b22e3cb.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="Texts UI out of box looks way cleaner than Beeper’s"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-c322b22e3cb.png" class="img-fluid figure-img"></a></p>
 <figcaption class="figure-caption">Texts UI out of box looks way cleaner than Beeper’s</figcaption>
 </figure>
 </div>
@@ -203,7 +224,7 @@
 </ul>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-94e785d25c2.gif" class="lightbox" title="Click on the gif to see the menu bar actions and search UX" data-gallery="quarto-lightbox-gallery-6"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-94e785d25c2.gif" class="img-fluid figure-img"></a></p>
+<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-94e785d25c2.gif" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="Click on the gif to see the menu bar actions and search UX"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-94e785d25c2.gif" class="img-fluid figure-img"></a></p>
 <figcaption class="figure-caption">Click on the gif to see the menu bar actions and search UX</figcaption>
 </figure>
 </div>
@@ -230,7 +251,7 @@
 <div class="no-row-height column-margin column-container"><div class="">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-49aec96a87e.png" class="lightbox" title="Update speed in Beeper" data-gallery="quarto-lightbox-gallery-7"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-49aec96a87e.png" class="img-fluid figure-img"></a></p>
+<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-49aec96a87e.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="Update speed in Beeper"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-49aec96a87e.png" class="img-fluid figure-img"></a></p>
 <figcaption class="figure-caption">Update speed in Beeper</figcaption>
 </figure>
 </div>
@@ -404,13 +425,13 @@
 <div class="no-row-height column-margin column-container"><div class="">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-5f2083e3bff.png" class="lightbox" title="Schedule send UI in Beeper and how the scheduled send ends up looking like inside the Beeper interface" data-gallery="quarto-lightbox-gallery-12"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-5f2083e3bff.png" class="img-fluid figure-img"></a></p>
+<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-5f2083e3bff.png" class="lightbox" data-gallery="quarto-lightbox-gallery-12" title="Schedule send UI in Beeper and how the scheduled send ends up looking like inside the Beeper interface"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-5f2083e3bff.png" class="img-fluid figure-img"></a></p>
 <figcaption class="figure-caption">Schedule send UI in Beeper and how the scheduled send ends up looking like inside the Beeper interface</figcaption>
 </figure>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-986c5d0f5d7.png" class="lightbox" title="Send Later UI in Texts and how the scheduled send ends up looking like inside the Beeper interface" data-gallery="quarto-lightbox-gallery-13"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-986c5d0f5d7.png" class="img-fluid figure-img"></a></p>
+<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-986c5d0f5d7.png" class="lightbox" data-gallery="quarto-lightbox-gallery-13" title="Send Later UI in Texts and how the scheduled send ends up looking like inside the Beeper interface"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-986c5d0f5d7.png" class="img-fluid figure-img"></a></p>
 <figcaption class="figure-caption">Send Later UI in Texts and how the scheduled send ends up looking like inside the Beeper interface</figcaption>
 </figure>
 </div>
@@ -473,7 +494,7 @@
 <div class="no-row-height column-margin column-container"><div class="">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-c34224e60d1.png" class="lightbox" title="Creating quick replies in Texts" data-gallery="quarto-lightbox-gallery-15"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-c34224e60d1.png" class="img-fluid figure-img"></a></p>
+<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-c34224e60d1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-15" title="Creating quick replies in Texts"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-c34224e60d1.png" class="img-fluid figure-img"></a></p>
 <figcaption class="figure-caption">Creating quick replies in Texts</figcaption>
 </figure>
 </div>
@@ -1206,7 +1227,7 @@ Thorsten Ball talks about variables in Google Docs
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
-<p></p><div id="tweet-93582"></div><script>tweet={"url":"https:\/\/twitter.com\/thorstenball\/status\/1673636222626050048","author_name":"Thorsten Ball","author_url":"https:\/\/twitter.com\/thorstenball","html":"\u003Cblockquote class=\"twitter-tweet\" align=\"center\"\u003E\u003Cp lang=\"en\" dir=\"ltr\"\u003EGoogle Docs now has variables? Wow\u003Cbr\u003E\u003Cbr\u003EDoes someone have an explanation for what happened with Google Docs?\u003Cbr\u003E\u003Cbr\u003EFor years and years it seemed stagnant and since, what, last year, there&#39;s all these new, very nice features popping up on a regular basis.\u003Cbr\u003E\u003Cbr\u003EI need the inside story here. \u003Ca href=\"https:\/\/t.co\/EQXa8p9SiJ\"\u003Epic.twitter.com\/EQXa8p9SiJ\u003C\/a\u003E\u003C\/p\u003E&mdash; Thorsten Ball (@thorstenball) \u003Ca href=\"https:\/\/twitter.com\/thorstenball\/status\/1673636222626050048?ref_src=twsrc%5Etfw\"\u003EJune 27, 2023\u003C\/a\u003E\u003C\/blockquote\u003E\n\u003Cscript async src=\"https:\/\/platform.twitter.com\/widgets.js\" charset=\"utf-8\"\u003E\u003C\/script\u003E\n","width":550,"height":null,"type":"rich","cache_age":"3153600000","provider_name":"Twitter","provider_url":"https:\/\/twitter.com","version":"1.0"};document.getElementById("tweet-93582").innerHTML = tweet["html"];</script><p></p>
+<p></p><div id="tweet-42214"></div><script>tweet={"url":"https:\/\/twitter.com\/thorstenball\/status\/1673636222626050048","author_name":"Thorsten Ball","author_url":"https:\/\/twitter.com\/thorstenball","html":"\u003Cblockquote class=\"twitter-tweet\" align=\"center\"\u003E\u003Cp lang=\"en\" dir=\"ltr\"\u003EGoogle Docs now has variables? Wow\u003Cbr\u003E\u003Cbr\u003EDoes someone have an explanation for what happened with Google Docs?\u003Cbr\u003E\u003Cbr\u003EFor years and years it seemed stagnant and since, what, last year, there&#39;s all these new, very nice features popping up on a regular basis.\u003Cbr\u003E\u003Cbr\u003EI need the inside story here. \u003Ca href=\"https:\/\/t.co\/EQXa8p9SiJ\"\u003Epic.twitter.com\/EQXa8p9SiJ\u003C\/a\u003E\u003C\/p\u003E&mdash; Thorsten Ball (@thorstenball) \u003Ca href=\"https:\/\/twitter.com\/thorstenball\/status\/1673636222626050048?ref_src=twsrc%5Etfw\"\u003EJune 27, 2023\u003C\/a\u003E\u003C\/blockquote\u003E\n\u003Cscript async src=\"https:\/\/platform.twitter.com\/widgets.js\" charset=\"utf-8\"\u003E\u003C\/script\u003E\n","width":550,"height":null,"type":"rich","cache_age":"3153600000","provider_name":"Twitter","provider_url":"https:\/\/twitter.com","version":"1.0"};document.getElementById("tweet-42214").innerHTML = tweet["html"];</script><p></p>
 </div>
 </div>
 </div>
@@ -1325,7 +1346,7 @@ Tiago Forte talks about graph based PKM apps
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p></p><div id="tweet-85772"></div><script>tweet={"url":"https:\/\/twitter.com\/fortelabs\/status\/1616173350778441729","author_name":"Tiago Forte","author_url":"https:\/\/twitter.com\/fortelabs","html":"\u003Cblockquote class=\"twitter-tweet\" align=\"center\"\u003E\u003Cp lang=\"en\" dir=\"ltr\"\u003EWe really need a graph-based PKM app built by a serious company for mainstream users\u003Cbr\u003E\u003Cbr\u003E• Roam is a religion\u003Cbr\u003E• Obsidian is a side hobby\u003Cbr\u003E• Logseq is an open-source project\u003Cbr\u003E• Tana is barely in alpha\u003Cbr\u003E\u003Cbr\u003EIf there was just one reliable app in this space I’d refer so much traffic to it\u003C\/p\u003E&mdash; Tiago Forte (@fortelabs) \u003Ca href=\"https:\/\/twitter.com\/fortelabs\/status\/1616173350778441729?ref_src=twsrc%5Etfw\"\u003EJanuary 19, 2023\u003C\/a\u003E\u003C\/blockquote\u003E\n\u003Cscript async src=\"https:\/\/platform.twitter.com\/widgets.js\" charset=\"utf-8\"\u003E\u003C\/script\u003E\n","width":550,"height":null,"type":"rich","cache_age":"3153600000","provider_name":"Twitter","provider_url":"https:\/\/twitter.com","version":"1.0"};document.getElementById("tweet-85772").innerHTML = tweet["html"];</script><p></p>
+<p></p><div id="tweet-83709"></div><script>tweet={"url":"https:\/\/twitter.com\/fortelabs\/status\/1616173350778441729","author_name":"Tiago Forte","author_url":"https:\/\/twitter.com\/fortelabs","html":"\u003Cblockquote class=\"twitter-tweet\" align=\"center\"\u003E\u003Cp lang=\"en\" dir=\"ltr\"\u003EWe really need a graph-based PKM app built by a serious company for mainstream users\u003Cbr\u003E\u003Cbr\u003E• Roam is a religion\u003Cbr\u003E• Obsidian is a side hobby\u003Cbr\u003E• Logseq is an open-source project\u003Cbr\u003E• Tana is barely in alpha\u003Cbr\u003E\u003Cbr\u003EIf there was just one reliable app in this space I’d refer so much traffic to it\u003C\/p\u003E&mdash; Tiago Forte (@fortelabs) \u003Ca href=\"https:\/\/twitter.com\/fortelabs\/status\/1616173350778441729?ref_src=twsrc%5Etfw\"\u003EJanuary 19, 2023\u003C\/a\u003E\u003C\/blockquote\u003E\n\u003Cscript async src=\"https:\/\/platform.twitter.com\/widgets.js\" charset=\"utf-8\"\u003E\u003C\/script\u003E\n","width":550,"height":null,"type":"rich","cache_age":"3153600000","provider_name":"Twitter","provider_url":"https:\/\/twitter.com","version":"1.0"};document.getElementById("tweet-83709").innerHTML = tweet["html"];</script><p></p>
 </div>
 </div>
 </div>
