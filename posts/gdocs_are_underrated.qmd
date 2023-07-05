@@ -37,13 +37,13 @@ Pageless docs. It is instead meant to render a beautiful document on-screen inst
 
 See here: [support.google.com/docs/answer/11...](https://support.google.com/docs/answer/11528737)
 
-![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-93bfff63476.jpg)
+![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-93bfff63476.webp)
 
 ## Version History
 
 Google docs has version history. You can name a version. You can create a new version, check for changes and restore a previous version.
 
-![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-70c2ad8441b.jpg)
+![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-70c2ad8441b.webp)
 
 ## Keyboard Shortcuts
 
@@ -73,7 +73,7 @@ You can create a duplicate document and then compare it to another document.
 
 Includes comments too. AND comments can be emoji reacts 🤯. (ref: [support.google.com/docs/answer/19...](https://support.google.com/docs/answer/190843#compare_documents))
 
-![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-44193324ade.jpg)
+![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-44193324ade.webp)
 
 ## Markdown
 
@@ -95,7 +95,7 @@ Summary stands out from other apps\' designs. It remains sticky.
 
 Dictionary in the side bar that defines words & offers synonyms/antonyms.
 
-![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-c46828c4573.jpg)
+![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-c46828c4573.webp)
 
 ## Basic Content Types
 
@@ -113,7 +113,7 @@ Insert different types of content:
 
 6\. Linked charts (I talk about linked content later in the thread, in short, a chart created in sheets, pasted into docs, which updates automatically)
 
-![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-cc9f64a1f9f.jpg)
+![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-cc9f64a1f9f.webp)
 
 ## Publish to Web
 
@@ -123,25 +123,25 @@ This is how our sample document looks like: [tinyurl.com/example-pub-doc](https:
 
 Read here: [support.google.com/docs/answer/18...](https://support.google.com/docs/answer/183965)
 
-![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-087be88bda2.jpg)
+![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-087be88bda2.webp)
 
 ## Text Width and Columns
 
 You can change the amount of space any text covers (similar to Notion, but way more options)
 
-![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-f3206d092b6.jpg)
+![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-f3206d092b6.webp)
 
 ## Works Offline
 
 Any google workspace software has an option to use it offline.
 
-![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-05f47b0d9ce.jpg)
+![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-05f47b0d9ce.webp)
 
 ## Translate Document
 
 Create a translated copy of the current document
 
-![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-63751d205d9.jpg)
+![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-63751d205d9.webp)
 
 ## Explore from Google Search
 
@@ -169,13 +169,13 @@ While presentation slides embed as images, sheets embed as tables (making them l
 
 It is a one way sync. If you add something on the doc, it does not appear in the sheet but the vice-versa behaves just like slides.
 
-![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-1205119d987.jpg)
+![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-1205119d987.webp)
 
 ## Notification Settings
 
 Varied notification settings:
 
-![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-2c6099d48f1.jpg)
+![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-2c6099d48f1.webp)
 
 # Smart Chips
 
@@ -191,7 +191,7 @@ Date smart chips allow you to:
 
 \(c\) Book a meeting on the date
 
-![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-950fcb8c570.jpg)
+![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-950fcb8c570.webp)
 
 ## People Chip
 
@@ -207,7 +207,7 @@ Next up, people chip
 
 \(e\) Book a meeting with them
 
-![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-63f2c7cb2e9.jpg)
+![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-63f2c7cb2e9.webp)
 
 ## File Chip
 
@@ -219,7 +219,7 @@ File chip
 
 \(c\) Open preview to have a persistent modal on side, which doesn\'t automatically close when you are typing. You can also select content from preview.
 
-![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-8684835ad92.jpg)
+![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-8684835ad92.webp)
 
 ## Calendar Chip
 
@@ -229,7 +229,7 @@ File chip
 
 \(c\) Click the event name to directly join the video call if one exists, or go to the calendar event page.
 
-![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-c661c1d44df.jpg)
+![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-c661c1d44df.webp)
 
 ## Place Chip
 
@@ -241,7 +241,7 @@ File chip
 
 \(d\) Hover to see modal preview
 
-![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-3c6ac55bd11.jpg)
+![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-3c6ac55bd11.webp)
 
 ## Task, Timer, Variable Chips
 
@@ -259,13 +259,13 @@ There are also smartchips for app integrations and I do not know of many but [Wh
 
 Create templated document dropdowns that you can use anywhere in the document. It comes with two that are preconfigured but you can configure one on your own.
 
-![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-4132a015b82.jpg)
+![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-4132a015b82.webp)
 
 ## Building Blocks
 
 Building blocks are templates built using smart chips.
 
-![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-d5f3e8e8fb5.jpg)
+![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-d5f3e8e8fb5.webp)
 
 Some of those are integrated into other Google services though.
 
@@ -273,7 +273,7 @@ Some of those are integrated into other Google services though.
 
 For example, email draft, where you can draft a complete email in the doc, and then send it through gmail.
 
-![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-6e1bbb62a69.jpg)
+![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-6e1bbb62a69.webp)
 
 ## Meeting Notes
 
@@ -281,13 +281,13 @@ Another building block is meeting notes, which auto mentions the date, the docum
 
 It also gives you an option to attach the doc to the meeting.
 
-![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-808183d1600.jpg)
+![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-808183d1600.webp)
 
 ## Tables and Dropdown
 
 Other building blocks are just templates that include dropdowns and tables. For example, this is the review tracker building block.
 
-![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-ee50137b5dd.jpg)
+![](images/gdocs_are_underrated/Google_Docs_Is_Underrated-ee50137b5dd.webp)
 
 ## Keep Clippings
 

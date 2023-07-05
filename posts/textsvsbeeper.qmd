@@ -17,18 +17,18 @@ lightbox: auto
 reference-location: margin
 threeword: 'Texts vs Beeper'
 title: 'Texts vs. Beeper: The (App)solute Winner Is?'
-# image: 'images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-c322b22e3cb.png 13-57-58-333.png'
+# image: 'images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-c322b22e3cb.webp 13-57-58-333.webp'
 draft: false
 ---
 # Introduction
 
 When [\@Beth](https://twitter.com/pkmbeth) messaged me that she has invites for [Texts](https://texts.com/); I was excited.
 
-![Texts invitation from Beth 2023-06-24](images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-b352b61b0d2.png)
+![Texts invitation from Beth 2023-06-24](images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-b352b61b0d2.webp)
 
 I was equally excited about getting off Beeper's waitlist a little over a month ago.
 
-![Invitation from Beeper 2023-05-18 ](images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-9192cf69508.png)
+![Invitation from Beeper 2023-05-18 ](images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-9192cf69508.webp)
 
 ## Why did I even want to try Texts? {#why-did-i-even-want-to-try-texts-}
 
@@ -50,9 +50,9 @@ tl;dr --- I think \$5/mo for messaging aggregator app is where I place the value
 
 In case all you want is a quick look at what they can do or not do, the two graphics below almost cover everything. You can also go through each section/sub-section and look for checkmarks (has this option), meh (kinda), cross (does not have this option), plus (additional benefits) and minus (poor implementation).
 
-![Texts UI out of box](images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-f18160c8b1f.png)
+![Texts UI out of box](images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-f18160c8b1f.webp)
 
-![Beeper UI out of box](images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-c00abdf1836.png)
+![Beeper UI out of box](images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-c00abdf1836.webp)
 
 # Design Comparison
 
@@ -66,7 +66,7 @@ Texts feels like a "beautiful app" out of box. On the other hand Beeper feels li
 
 There are of course differences in the setup page, but I do not care about it. You need to setup things ONCE. And yes, texts looks much better in that regard. Reduced number of popups, consistent design etc. But again, you will access it only once.
 
-![Texts UI out of box looks way cleaner than Beeper's](images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-c322b22e3cb.png)
+![Texts UI out of box looks way cleaner than Beeper's](images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-c322b22e3cb.webp)
 
 ## What bothers me? {#what-bothers-me-}
 
@@ -102,7 +102,7 @@ Instagram has been constantly buggy; even for Beeper, but not longer than 2 days
 
 :::{.column-margin}
 
-![Update speed in Beeper](images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-49aec96a87e.png)
+![Update speed in Beeper](images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-49aec96a87e.webp)
 
 :::
 
@@ -134,7 +134,7 @@ While both Beeper and Texts allow for archiving a conversation, only Texts allow
 
 :::{.column-margin}
 
-![](images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-3bf337d6178.png)
+![](images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-3bf337d6178.webp)
 
 :::
 
@@ -156,7 +156,7 @@ Both Beeper and Texts have an option to mark a conversation as unread, neither o
 
 :::{.column-margin}
 
-![](images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-d73ed56ce3c.png)
+![](images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-d73ed56ce3c.webp)
 
 :::
 
@@ -178,7 +178,7 @@ Texts allows you to select multiple messages using Shift + ↑ which you can the
 
 :::{.column-margin}
 
-![](images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-8d18c384357.png)
+![](images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-8d18c384357.webp)
 
 :::
 
@@ -252,7 +252,7 @@ Both Beeper and Texts have an app level notification setting and a conversation 
 
 :::{.column-margin}
 
-![](images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-adf6320f53b.png)
+![](images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-adf6320f53b.webp)
 
 :::
 
@@ -270,9 +270,9 @@ Due to this difference in system, while send later is more convenient on Beeper,
 
 :::{.column-margin}
 
-![Schedule send UI in Beeper and how the scheduled send ends up looking like inside the Beeper interface](images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-5f2083e3bff.png)
+![Schedule send UI in Beeper and how the scheduled send ends up looking like inside the Beeper interface](images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-5f2083e3bff.webp)
 
-![Send Later UI in Texts and how the scheduled send ends up looking like inside the Beeper interface](images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-986c5d0f5d7.png)
+![Send Later UI in Texts and how the scheduled send ends up looking like inside the Beeper interface](images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-986c5d0f5d7.webp)
 
 :::
 
@@ -286,7 +286,7 @@ Beeper allows you to show thread in a consecutive set of replies. Honestly, that
 
 :::{.column-margin}
 
-![](images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-82a76dc73ab.png)
+![](images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-82a76dc73ab.webp)
 
 :::
 
@@ -332,7 +332,7 @@ Custom snippets or what Texts calls as Quick Replies allows you to create custom
 
 :::{.column-margin}
 
-![Creating quick replies in Texts](images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-c34224e60d1.png)
+![Creating quick replies in Texts](images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-c34224e60d1.webp)
 
 :::
 

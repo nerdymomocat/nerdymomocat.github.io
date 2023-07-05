@@ -23,7 +23,7 @@ Choosing the right note-taking or task management tool can be overwhelming with 
 
 And don\'t forget to check out the flowchart below for a quick summary of the steps to choose your perfect note-taking or task management app!
 
-![](images/choose_your_notetaking_app/How_to_Choose_Your_Note-Taking_App-c3ff292c042.png)
+![](images/choose_your_notetaking_app/How_to_Choose_Your_Note-Taking_App-c3ff292c042.webp)
 
 # Choose an App
 
@@ -35,7 +35,7 @@ When selecting an app, it\'s important to first determine the scope of your need
 
 To illustrate this, let\'s consider an example. Imagine you\'re a busy professional who needs a note-taking app that seamlessly integrates with your task management and scheduling. In this case, you would want an app that allows you to jot down important notes, create to-do lists, and even set reminders for upcoming deadlines or meetings. By defining the scope of your requirements, you can focus your search on apps that offer these combined features.
 
-![](images/choose_your_notetaking_app/How_to_Choose_Your_Note-Taking_App-cebeebdc1a1.png)
+![](images/choose_your_notetaking_app/How_to_Choose_Your_Note-Taking_App-cebeebdc1a1.webp)
 
 ## Define the quantity. {#define-the-quantity-}
 
@@ -45,7 +45,7 @@ To put things into perspective, let\'s consider an example. Imagine you are a cr
 
 By being realistic and understanding that you may need to use multiple apps to cover all the functionalities you require, you can make a more informed decision and find the best combination of apps that work seamlessly together. Remember, it\'s about finding the right tools that enhance your productivity and meet your specific needs, even if it means using different apps for different purposes.
 
-![](images/choose_your_notetaking_app/How_to_Choose_Your_Note-Taking_App-193b87caf41.png)
+![](images/choose_your_notetaking_app/How_to_Choose_Your_Note-Taking_App-193b87caf41.webp)
 
 ## Requirements
 
@@ -74,7 +74,7 @@ b\. Want (2): Cloud sync native to the app - While cloud synchronization is impo
 
 c\. Good to Have (3): Web app and mobile apps, and Offline functionality - These requirements are desirable but not essential. Having a web app and dedicated mobile apps, as well as the ability to access notes offline, would enhance your user experience, but they can be considered lower priority compared to the previous requirements.
 
-![](images/choose_your_notetaking_app/How_to_Choose_Your_Note-Taking_App-9ab8756483c.png)
+![](images/choose_your_notetaking_app/How_to_Choose_Your_Note-Taking_App-9ab8756483c.webp)
 
 ## Discover potential tools/apps {#discover-potential-tools-apps}
 
@@ -92,7 +92,7 @@ For instance, considering the requirements you mentioned earlier, you might choo
 
 By selecting these three promising options, you can now move on to the next step and evaluate each app based on your requirements and tool scores. Completing these five steps within a weekend will help you make an efficient decision and find the most suitable app for your note-taking needs.
 
-![](images/choose_your_notetaking_app/How_to_Choose_Your_Note-Taking_App-5067e16df5c.png)
+![](images/choose_your_notetaking_app/How_to_Choose_Your_Note-Taking_App-5067e16df5c.webp)
 
 Now, let\'s be fair here. None of the note-taking apps I\'ve tried so far have managed to fulfill all of my requirements. For instance, Notion falls short when it comes to offline functionality, and the mobile apps for Remnote and Logseq aren\'t as useful as I\'d hoped. However, despite these limitations, they do offer enough features to make them worth considering.
 
@@ -112,7 +112,7 @@ For example, you may realize that you don\'t care as much about offline mode bec
 
 By continuously refining and updating your requirement list, you\'ll be able to narrow down your choices and find the note-taking app that best suits your needs. Remember, this evaluation process is all about finding the perfect fit for you!
 
-![](images/choose_your_notetaking_app/How_to_Choose_Your_Note-Taking_App-73f95a31a40.png)
+![](images/choose_your_notetaking_app/How_to_Choose_Your_Note-Taking_App-73f95a31a40.webp)
 
 ## Assign Tool Scores
 
@@ -128,7 +128,7 @@ Here\'s a suggested scale you can use, but feel free to modify it to suit your p
 
 As you evaluate each app, assign the corresponding tool score for each requirement. This will help you objectively compare the apps and determine which one aligns best with your needs and preferences. Don\'t forget to update your scores as you continue to use and explore the apps over the evaluation period.
 
-![](images/choose_your_notetaking_app/How_to_Choose_Your_Note-Taking_App-2a34744f548.png)
+![](images/choose_your_notetaking_app/How_to_Choose_Your_Note-Taking_App-2a34744f548.webp)
 
 ## Make a decision
 

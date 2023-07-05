@@ -9,7 +9,7 @@ categories: [Tutorial, Resources, Notion, Publishing, Academia, Python, Automati
 
 All you need: this [notion template](https://nerdymomocat-shortened-url.vercel.app/notion_latex_resume_template), this [replit project](https://nerdymomocat-shortened-url.vercel.app/notion_latex_resume_replit_code) or this [github project](https://nerdymomocat-shortened-url.vercel.app/notion_latex_resume_github_code) if you want to run it locally.
 
-![Example generated resume image](images/notion_latex_resume/image6.jpg)
+![Example generated resume image](images/notion_latex_resume/image6.webp)
 
 How does it work?
 
@@ -17,7 +17,7 @@ Well, the notion template comes with a stylized file for latex. You can use it i
 
 It is based off a very popular template by [Deedy](https://www.overleaf.com/latex/templates/deedy-cv/bjryvfsjdyxz): modified to be rendered as a single column resume.
 
-![Template folder](images/notion_latex_resume/image3.jpg)
+![Template folder](images/notion_latex_resume/image3.webp)
 
 See that `resume_generated.tex` file?
 
@@ -33,9 +33,9 @@ Let's first talk about the template itself.
 
 It consists of 2 databases:
 
-![The resume information (MEOW\| Resume Database)](images/notion_latex_resume/image.jpg)
+![The resume information (MEOW\| Resume Database)](images/notion_latex_resume/image.webp)
 
-![The resume structure (MEOW\| Resume Database Formatting)](images/notion_latex_resume/image2.jpg)
+![The resume structure (MEOW\| Resume Database Formatting)](images/notion_latex_resume/image2.webp)
 
 What do they do?
 
@@ -47,7 +47,7 @@ Items are placed inside section format using `NP:Items`.
 
 Item Properties inside the format are referred by `NP:Property_Name`
 
-![How Items and Property Names are used for formatting](images/notion_latex_resume/image7.jpg)
+![How Items and Property Names are used for formatting](images/notion_latex_resume/image7.webp)
 
 MEOW\| Resume Database includes each item. It only has 9 properties.
 
@@ -61,7 +61,7 @@ MEOW\| Resume Database includes each item. It only has 9 properties.
 -   Geographic Location
 -   MEOW\| Resume Database Formatting (Section the item belongs to)
 
-![Properties in the MEOW\| Resume Database](images/notion_latex_resume/image9.jpg)
+![Properties in the MEOW\| Resume Database](images/notion_latex_resume/image9.webp)
 
 Any of the text properties in the free text can have linked urls, bold or italics and it is rendered equivalently in LaTeX.
 
@@ -71,17 +71,17 @@ Adding information is super-duper easy.
 
 The template comes with buttons for one time addition of basics.
 
-![One time addition buttons](images/notion_latex_resume/image4.jpg)
+![One time addition buttons](images/notion_latex_resume/image4.webp)
 
 It also has an add new information callout with pre-added buttons that you can just add as a synced block to your dashboard that you open everyday.
 
 The buttons come with a ton of pre-filled information and pointers of things you need to add/replace to make it easy.
 
-![New information addition buttons](images/notion_latex_resume/image8.jpg)
+![New information addition buttons](images/notion_latex_resume/image8.webp)
 
-![Pre-filled information in new information addition buttons](images/notion_latex_resume/image5.jpg)
+![Pre-filled information in new information addition buttons](images/notion_latex_resume/image5.webp)
 
-![Example of newly add information using addition buttons](images/notion_latex_resume/image12.jpg)
+![Example of newly add information using addition buttons](images/notion_latex_resume/image12.webp)
 
 #### Make Modifications
 
@@ -91,7 +91,7 @@ A submitted paper got accepted? A submitted grant got accepted? A student gradua
 
 Handle it through the modify callout. Remember to add this as a synced block to your workspace too.
 
-![Example of modify callout](images/notion_latex_resume/image11.jpg)
+![Example of modify callout](images/notion_latex_resume/image11.webp)
 
 ### Replit Setup
 
@@ -99,7 +99,7 @@ Then you go to the repl.
 
 Fill in the value for these secrets. (Remember to share your template page in your workspace with the notion integration key)
 
-![Secret environment variables in replit](images/notion_latex_resume/image10.jpg)
+![Secret environment variables in replit](images/notion_latex_resume/image10.webp)
 
 ## Generate
 
