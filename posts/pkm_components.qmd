@@ -14,7 +14,7 @@ format: html
 lightbox: auto
 reference-location: margin
 threeword: 'PKM Components'
-title: The Components of a PKM
+title: The Components of a Personal Knowledge Management
 ---
 ![](images/pkm_components/The_Components_of_a_PKM-6bf1a93d980.png)
 
