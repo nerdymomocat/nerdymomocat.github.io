@@ -1,10 +1,4 @@
 ---
-Featured: false
-Publish Where?:
-- Nerdy Momo Cat
-Related Blogposts: []
-Type: Post
-URL: null
 categories:
 - PKM
 - Note Taking
@@ -32,8 +26,6 @@ filters:
 - lightbox
 format: html
 lightbox: auto
-notion_id: c01e51da-4929-4d72-ad3b-6b90d7d96617
-notion_url: https://www.notion.so/The-Components-of-a-Personal-Knowledge-Management-c01e51da49294d72ad3b6b90d7d96617
 reference-location: margin
 threeword: 'PKM Components
 
