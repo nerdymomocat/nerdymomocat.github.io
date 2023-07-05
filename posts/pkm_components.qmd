@@ -2,7 +2,7 @@
 categories:
 - PKM
 - Note Taking
-- AI Aids
+- AI
 citation-location: margin
 date: '2023-07-05'
 description: 'Personal Knowledge Management (PKM) is the process of collecting, organizing, and making sense of knowledge. It involves using app and content primitives to manage information. Content creation leads to processing, and that guides the capture method. The processing cycle repeats further, culminating in actions.'
