@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.433">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Nerdy Momo Cat">
+<meta name="dcterms.date" content="2023-07-05">
+<meta name="description" content="Personal Knowledge Management (PKM) is the process of collecting, organizing, and making sense of knowledge. It involves using app and content primitives to manage information. Content creation leads to processing, and that guides the capture method. The processing cycle repeats further, culminating in actions.">
+
+<title>The Components of a PKM</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../favicon.ico" rel="icon">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/quarto-contrib/collapse-social-embeds-1.0.0/collapse.css" rel="stylesheet">
+<script src="../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script type="application/json" class="js-hypothesis-config">
+{
+  "theme": "clean",
+  "openSidebar": false,
+  "showHighlights": "whenSidebarOpen"
+}
+</script>
+<script async="" src="https://hypothes.is/embed.js"></script>
+<script>
+    
+</script>
+<script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="nerdymomocat" data-description="Support me on Buy me a coffee!" data-message="" data-color="#eb6864" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+
+
+<meta property="og:title" content="The Components of a PKM">
+<meta property="og:description" content="Personal Knowledge Management (PKM) is the process of collecting, organizing, and making sense of knowledge. It involves using app and content primitives to manage information. Content creation leads to processing, and that guides the capture method. The processing cycle repeats further, culminating in actions.">
+<meta property="og:image" content="https://nerdymomocat.github.io/posts/images/pkm_components/The_Components_of_a_PKM-6bf1a93d980.png">
+<meta property="og:site-name" content="Nerdy Momo Cat">
+<meta property="og:image:height" content="2048">
+<meta property="og:image:width" content="2048">
+<meta name="twitter:title" content="The Components of a PKM">
+<meta name="twitter:description" content="Personal Knowledge Management (PKM) is the process of collecting, organizing, and making sense of knowledge. It involves using app and content primitives to manage information. Content creation leads to processing, and that guides the capture method. The processing cycle repeats further, culminating in actions.">
+<meta name="twitter:image" content="https://nerdymomocat.github.io/posts/images/pkm_components/The_Components_of_a_PKM-6bf1a93d980.png">
+<meta name="twitter:creator" content="@nerdymomocat">
+<meta name="twitter:site" content="@nerdymomocat">
+<meta name="twitter:image-height" content="2048">
+<meta name="twitter:image-width" content="2048">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Nerdy Momo Cat</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../posts/index.html" rel="" target=""><i class="bi bi-text-indent-left" role="img">
+</i> 
+ <span class="menu-text">Posts</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../stream/index.html" rel="" target=""><i class="bi bi-cursor-text" role="img">
+</i> 
+ <span class="menu-text">Thought Stream</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://twitter.com/nerdymomocat" rel="" target=""><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text">Find me on Twitter</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../posts/index.xml" rel="" target=""><i class="bi bi-rss" role="img">
+</i> 
+ <span class="menu-text">Feed</span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#understanding-the-pkm-primitives" id="toc-understanding-the-pkm-primitives" class="nav-link active" data-scroll-target="#understanding-the-pkm-primitives">Understanding the PKM Primitives</a>
+  <ul class="collapse">
+  <li><a href="#app-primitives" id="toc-app-primitives" class="nav-link" data-scroll-target="#app-primitives">App Primitives</a></li>
+  <li><a href="#content-primitives" id="toc-content-primitives" class="nav-link" data-scroll-target="#content-primitives">Content Primitives</a></li>
+  </ul></li>
+  <li><a href="#unlocking-knowledge-through-processing" id="toc-unlocking-knowledge-through-processing" class="nav-link" data-scroll-target="#unlocking-knowledge-through-processing">Unlocking Knowledge Through Processing</a>
+  <ul class="collapse">
+  <li><a href="#explicit-processing" id="toc-explicit-processing" class="nav-link" data-scroll-target="#explicit-processing">Explicit Processing</a></li>
+  <li><a href="#implicit-processing-with-ai" id="toc-implicit-processing-with-ai" class="nav-link" data-scroll-target="#implicit-processing-with-ai">Implicit Processing with AI</a></li>
+  </ul></li>
+  <li><a href="#the-art-of-capture" id="toc-the-art-of-capture" class="nav-link" data-scroll-target="#the-art-of-capture">The Art of Capture</a>
+  <ul class="collapse">
+  <li><a href="#integrations" id="toc-integrations" class="nav-link" data-scroll-target="#integrations">Integrations</a></li>
+  <li><a href="#snippets" id="toc-snippets" class="nav-link" data-scroll-target="#snippets">Snippets</a></li>
+  </ul></li>
+  <li><a href="#actions-the-grand-finale" id="toc-actions-the-grand-finale" class="nav-link" data-scroll-target="#actions-the-grand-finale">Actions - The Grand Finale</a>
+  <ul class="collapse">
+  <li><a href="#render" id="toc-render" class="nav-link" data-scroll-target="#render">Render</a></li>
+  <li><a href="#modify" id="toc-modify" class="nav-link" data-scroll-target="#modify">Modify</a></li>
+  <li><a href="#create" id="toc-create" class="nav-link" data-scroll-target="#create">Create</a></li>
+  <li><a href="#consume" id="toc-consume" class="nav-link" data-scroll-target="#consume">Consume</a>
+  <ul class="collapse">
+  <li><a href="#structured" id="toc-structured" class="nav-link" data-scroll-target="#structured">Structured</a></li>
+  <li><a href="#unstructured" id="toc-unstructured" class="nav-link" data-scroll-target="#unstructured">Unstructured</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  <li><a href="#tl-dr" id="toc-tl-dr" class="nav-link" data-scroll-target="#tl-dr">tl;dr</a></li>
+  </ul>
+</nav>
+    <div class="quarto-margin-footer"><div class="margin-footer-item">
+<br>
+<div id="container" class="buy-coffee-btn">
+<a href="https://www.buymeacoffee.com/nerdymomocat"> <button class="buy-coffee"> <span class="circle" aria-hidden="true"> <span class="icon arrow"></span> </span> <span class="button-text"><b>Buy me a coffee</b></span> </button></a>
+</div>
+</div></div></div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">The Components of a PKM</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">PKM</div>
+    <div class="quarto-category">Note Taking</div>
+    <div class="quarto-category">AI Aids</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    Personal Knowledge Management (PKM) is the process of collecting, organizing, and making sense of knowledge. It involves using app and content primitives to manage information. Content creation leads to processing, and that guides the capture method. The processing cycle repeats further, culminating in actions.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Nerdy Momo Cat </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">July 5, 2023</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="images/pkm_components/The_Components_of_a_PKM-6bf1a93d980.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="images/pkm_components/The_Components_of_a_PKM-6bf1a93d980.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<p>Hello, readers! Grab a cup of coffee, settle in, and join me today as we explore a fascinating world, the world of Personal Knowledge Management (PKM). And for those who sigh at the prospect of manual efforts, fear not, we’ll also delve into the ways AI can serve as our digital butler, all set to ease our journey. Ready to dive in</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="images/pkm_components/The_Components_of_a_PKM-e5352d24449.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="images/pkm_components/The_Components_of_a_PKM-e5352d24449.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<section id="understanding-the-pkm-primitives" class="level1">
+<h1>Understanding the PKM Primitives</h1>
+<p>Remember, every massive building begins with the laying of bricks? PKM also starts from seemingly mundane yet indispensable primitives. They are the building blocks, the foundation stones, shaping up the infrastructure where you collect, curate, organize, and eventually, make sense of your knowledge. Let's delve into their specifics.</p>
+<section id="app-primitives" class="level2">
+<h2 class="anchored" data-anchor-id="app-primitives">App Primitives</h2>
+<p>Imagine these as virtual rooms where you perform a plethora of tasks. These are places where you share interesting articles with your colleagues or access critical documents on the go. You collaborate on projects, publish your knowledge, store your bits and pieces of information safely, and even keep track of your changes on files or data.</p>
+</section>
+<section id="content-primitives" class="level2">
+<h2 class="anchored" data-anchor-id="content-primitives">Content Primitives</h2>
+<p>From a task to be done, a reminder for a friend’s birthday, to a fascinating code snippet you stumbled upon—these are the content primitives. They are the ‘what’ of your PKM: the kind of information you capture, hold, and process. Images, audio and visual clips, your next cooking recipe as text, or fun polls you conduct amongst friends—they all fall under this category.</p>
+</section>
+</section>
+<section id="unlocking-knowledge-through-processing" class="level1">
+<h1>Unlocking Knowledge Through Processing</h1>
+<p>Second comes the turn of processing. This isn’t just a tedious laundry-list compiling. It's you, as a goldsmith, refining the gold (content) by various processes explicit and implicit, before it's ready to be fashioned into ornaments (actions).</p>
+<section id="explicit-processing" class="level2">
+<h2 class="anchored" data-anchor-id="explicit-processing">Explicit Processing</h2>
+<p>Kudos to you, if you have ever put tags on your blog, created hyperlinks between your web pages, or constructed an outline for your report. You have already taken your first step in explicit processing. The joy of seeing related information clustered via tags, the context being built around a link, and the clarity achieved through outlines—all of them are rewards of this process.</p>
+</section>
+<section id="implicit-processing-with-ai" class="level2">
+<h2 class="anchored" data-anchor-id="implicit-processing-with-ai">Implicit Processing with AI</h2>
+<p>Wanting to manage everything can be exhausting, especially with the constant stream of data. We need to lean on systems that can sift through this massive load in the background. Here's where artificial intelligence (AI) steps in. It's amazing how AI uses its magic to make sense of hidden patterns, extract meaning, find what's similar, and understand the underlying message.</p>
+<p>The perks of AI are numerous. For example, AI can tag items or even enable auto-tagging by analyzing content thoroughly. Not only that, but AI can also identify links between different data and assist in creating related connections. It can even outline your content by understanding its structure. Basically, AI is your go-to tool, letting you concentrate on your main job, much like how a unique tool gives a hand to a jeweler.</p>
+<p>Picture this: you're scrolling through your photos and find that they've been grouped automatically due to similar characteristics. You'd say, "Cool, all my beach holiday snaps are in one place!" This is how AI quietly does its work. It's as if there's a crew member behind-the-scenes, ensuring everything is spot-on while you wow your audience. It's like an AI-powered owl delivering your personal notes in the wide universe of information, a bit like how owls deliver mail in the Harry Potter series.</p>
+</section>
+</section>
+<section id="the-art-of-capture" class="level1">
+<h1>The Art of Capture</h1>
+<p>Caught an interesting headline while scrolling through your news feed? Came across a golden nugget in a podcast? Want to save that hilarious meme from your chat? Capture comes in play in such instances where specific information pieces are to be grabbed and brought into your PKM system.</p>
+<section id="integrations" class="level3">
+<h3 class="anchored" data-anchor-id="integrations">Integrations</h3>
+<p>Linking your Personal Knowledge Management (PKM) system with a mix of resources like Health, Email, Blogposts/RSS, Music, and Calendar has the power to change how you handle information. This process is made more effortless, aware, and auto-set when you integrate an AI assistant, leading to higher effectiveness and simplicity.</p>
+<p>Let's take health data connected to your PKM system, for instance. By tapping into AI, your assistant can monitor trends in your health data - factors like exercise, sleep, or nutrition. Using this context, the assistant can bring up tailor-made reminders and tips to maintain healthy habits, contributing to your wellness.</p>
+<p>The integration of your PKM system with your email, blog posts, RSS feeds, music, and calendar brings more advantages. Picture your AI assistant going through your emails and pulling out critical information like deadlines, meeting summaries, or tasks automatically. This info can then be classified and arranged in your PKM system, allowing you to find and access it when necessary. Furthermore, integrating your PKM system with blogposts, RSS feeds, and other content can mean your AI assistant can fetch information important to you based on your taste and preferences.</p>
+</section>
+<section id="snippets" class="level3">
+<h3 class="anchored" data-anchor-id="snippets">Snippets</h3>
+<p>Consider snippets as your pocket assistants for personal knowledge management. Think of them as the tools in your digital toolbox, each tailored to different mediums like images, text from documents or webpages, or even audio files - not unlike the varied knickknacks you might stow away in a physical scrapbook. Have you ever found yourself staring at a bursting-at-the-seams document or a webpage, trying to engulf information that seems akin to drinking from a firehose? Here's where snippets, those lifesavers, swoop in. Imagine how much easier it is to have just the sections that piqued your interest neatly tucked away in your PKM system, like a beaver selecting the best sticks for its dam.</p>
+<p>Now let's take a quick detour from words to pictures. Are you engaged in some serious visual research or simply getting lost in an enchanting photo album? Snippets allow you to cherry-pick those parts of images that appeal to you the most, whether it's quirky street art, a picturesque sunset, or a helpful data visualization. File these snippets away into your PKM toolbox, and use them as visual cues that you can pull out when you need a memory jog. And don't forget about audio - maybe you're attending an insightful lecture or interviewing someone. Snippets let you skim the cream off these levels of audial rivers, turning lengthy recordings into digestible morsels of wisdom. Thus, in the world of PKM, snippets become your invaluable companions in carving a path through the informational jungle.</p>
+</section>
+</section>
+<section id="actions-the-grand-finale" class="level1">
+<h1>Actions - The Grand Finale</h1>
+<p>Finally, moving onto actions! Remember the gold extracted and refined? It's time to make it into ornaments now. Actions, thus, shape your processed knowledge into structures like galleries, cards, timelines, or boards, or processes such as searching, plotting, or filtering. Actions also contain modifications in your content, like cutting, deletion, editing, or status change.</p>
+<section id="render" class="level2">
+<h2 class="anchored" data-anchor-id="render">Render</h2>
+<p>Picture your personal knowledge management as a vibrant ecosystem of visual and interactive structures, brimming with galleries, boards, timelines, groups, and flashcards. They're like hidden treasure chests, each brimming with knowledge curated for easy comprehension and interaction. Galleries are your personalized exhibition spaces, housing your carefully chosen images, diagrams, or other multimedia content in a way that's pleasing to the eye and the mind. Boards resemble your very own brainstorming hub, allowing you to arrange different nuggets of knowledge, be it cards, notes, or snippets, mimicking the organic process of pinning ideas on a bulletin board.</p>
+<p>Now, imagine seamlessly sifting through the linear thread of time with the help of timelines, enjoying the clarity they bring to your sequences and progressions. Lean into the beauty of groups and the sense of ordered coherence they lend to your thematic collections. Embrace the compact efficiency of flashcards for their strength in breaking down chunks of information into digestible, enthusiastic bouts of self-learning. As your weave this tapestry of knowledge structure, artificial intelligence plays a crucial role as your behind-the-scenes co-designer. Whether it's crafting engaging timelines or devising strategic flashcards, AI is your trusted aide, helping you chart your knowledge journey with an artist's finesse.</p>
+</section>
+<section id="modify" class="level2">
+<h2 class="anchored" data-anchor-id="modify">Modify</h2>
+<p>Modification actions are essentially changes applied to your content - it could be as simple as editing a typo or deleting an unnecessary file. They could also be higher-level actions, such as marking a task complete or archiving an old document.</p>
+<p>With AI working in tandem, you have an additional pair of eagle eyes. AI functionalities can catch your grammatical errors while editing, suggest deletions based on redundancy checks, auto-archive your completed tasks, and even monitor and manage the status of ongoing projects. It's akin to bringing in a scrupulous editor who has an eye for both macro-level content refinement and micro-level textual details.</p>
+</section>
+<section id="create" class="level2">
+<h2 class="anchored" data-anchor-id="create">Create</h2>
+<p>Broad in its opportunities for creative content generation, a Personal Knowledge Management (PKM) system is an immersive platform propelling both complexity and simplicity. It's where users can cultivate long-form content like extensive reports or articles, dissecting intricate subjects and sharing deep insights. Imbued with rich text formatting, media embedding, and organizational elements, these systems shape the process of knowledge crafting into an art. After leveraging the refining and editing powers of PKMs, users can present their masterpieces to their network with confidence.</p>
+<p>Not just a haven for extensive content, PKMs are also effective for creating concise cards or notes. Users can swiftly catalog key concepts or ideas in custom or predefined formats, employing tagging or labeling for efficient search and retrieval. It's a boon for summarizing knowledge or dispensing crisp, insightful snippets. But PKMs aren't just about solo journeys; they serve the social facet of learning by transforming into interactive platforms. Discussion forums or knowledge-sharing communities thrive here, nurturing enriching exchanges of thoughts and ideas. Finally, a PKM system transcends the textual realm, inviting multimedia expressions for delivering content, such as infographics or presentations. Users can harness integrated tools or external media to create engaging and richly informative visual narratives, thus reaching audiences in novel, captivating ways.</p>
+</section>
+<section id="consume" class="level2">
+<h2 class="anchored" data-anchor-id="consume">Consume</h2>
+<section id="structured" class="level3">
+<h3 class="anchored" data-anchor-id="structured">Structured</h3>
+<p>Structured consumption involves strategizing ways to gather and understand acquired knowledge. We filter to navigate through information overload, retrieve to find specific details, correlate to find relationships, search to unearth relevant facets and plot to graphically display information.</p>
+<p>AI can shine a guiding light here. Using AI, you can efficiently filter through vast datasets based on your criteria, find correlations between audio tracks based on beats or rhythm, search through unstructured data for semantic meaning, or plot complex data into understandable graphs. It's akin to having an intelligent search dog that sniffs out exactly what you're looking for, saving you the time and effort of manual searching.</p>
+</section>
+<section id="unstructured" class="level3">
+<h3 class="anchored" data-anchor-id="unstructured">Unstructured</h3>
+<p>Unstructured consumption is also about absorbing information, but this time, in raw, unformatted, and typically more extensive data sets. We summarize vast texts, expand on bullet ideas, augment information with additional context, or attribute missing metadata.</p>
+<p>Enter, AI. AI could scan a massive document and give you a tight summary. It can expand on your bullet points to a full-fledged article, suggest augmentations based on trends or previous data, or fill in missing attributes in your music playlist based on genres or artists. It's like having a personal librarian who not only knows every book but also can summarize them.</p>
+</section>
+</section>
+</section>
+<section id="conclusion" class="level1">
+<h1>Conclusion</h1>
+<p>And it's a wrap! As we've braved the journey together, hopefully, the foggy landscape of PKM seems clearer now. And with AI, it seems less daunting than exciting. However, remember that we discussed the components of a PKM system and how AI can be the wizard's apprentice making the process smoother. But as always, the wizard is still you.</p>
+<p><em>Content creation</em> leads to <em>processing</em>, and that guides the <em>capture</em> method. The <em>processing</em> cycle repeats further, culminating in <em>actions</em>.</p>
+</section>
+<section id="tl-dr" class="level1">
+<h1>tl;dr</h1>
+<p>Personal Knowledge Management (PKM) is the process of collecting, organizing, and making sense of knowledge. It involves using app and content primitives to manage information. Processing knowledge includes explicit actions like tagging and linking, as well as implicit actions using AI to analyze and understand patterns. Capture involves grabbing specific information and integrating various resources. Snippets are useful tools for capturing different types of media. Actions shape processed knowledge into structures and modify content. Render actions create visual and interactive structures, while modify actions make changes to content. Create actions involve generating creative content, and consume actions involve filtering, searching, and summarizing knowledge. AI can assist in these actions by providing suggestions and automating tasks.</p>
+
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<script src="https://giscus.app/client.js" data-repo="nerdymomocat/nerdymomocat.github.io" data-repo-id="R_kgDOJoxbeA" data-category="Announcements" data-category-id="DIC_kwDOJoxbeM4CWzrO" data-mapping="pathname" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="en" crossorigin="anonymous" data-loading="lazy" async="">
+</script>
+</div> <!-- /content -->
+<script>var lightboxQuarto = GLightbox({"selector":".lightbox","loop":true,"closeEffect":"zoom","descPosition":"bottom","openEffect":"zoom"});</script>
+
+
+
+</body></html>
