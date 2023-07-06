@@ -50,92 +50,68 @@ App primitives, in my viewpoint are the capabilities or possibilities of a syste
 
 ## Content Primitives
 
-Content primitives are smaller building blocks that can combine together to create better or more complex systems. Content primitives define a set of actions associated to those "blocks" as well. the content primitives defined above should cover most cases, but one of the best abilities that an app can provide is creating new content primitives specific to the user, such as Notion. One of the missing aspect for all of these content primitives is default actions and default recognition. For example, task is a common content primitive in many apps --- the idea there being that it has at least two states of not done vs done. Or a timestamp has a "change date" action. But there is a dire dearth of content primitives recognized by apps.
+Content primitives are smaller building blocks that can combine together to create better or more complex systems. Content primitives define a set of actions associated to those "blocks" as well. the content primitives defined above should cover most cases, but one of the best abilities that an app can provide is creating new content primitives specific to the user, such as Notion or Tana. One of the missing aspect for all of these content primitives is default actions and default recognition. For example, task is a common content primitive in many apps --- the idea there being that it has at least two states of not done vs done. Or a timestamp has a "change date" action. But there is a dire dearth of content primitives recognized by apps.
 
 # The Art of Capture
 
-Caught an interesting headline while scrolling through your news feed? Came across a golden nugget in a podcast? Want to save that hilarious meme from your chat? Capture comes in play in such instances where specific information pieces are to be grabbed and brought into your PKM system.
+Capture is a largely unsolved problem. Every time a new capture app comes into picture; there is a reason why everyone is so excited. Capture has many problems to overcome → it has to be quick, it should be in context, it has to work offline, it has to work with multiple modes. Capture can be classified into two categories →capture from integrations or basically data input into a different app that is then pulled into your personal knowledge management system. Snippets on the other hand are content that is meant to be as a direct input into the knowledge system.
 
 ![](images/pkm_components/The_Components_of_a_Personal_Knowledge_Management-ba3a3016f15.webp)
 
-### Integrations
+## Integrations
 
-Linking your Personal Knowledge Management (PKM) system with a mix of resources like Health, Email, Blogposts/RSS, Music, and Calendar has the power to change how you handle information. This process is made more effortless, aware, and auto-set when you integrate an AI assistant, leading to higher effectiveness and simplicity.
+Integrations refer to the general idea of having different apps that are specialized; to be later fed into your personal knowledge management system There can be multiple integrations that people have --- the most common ones being chat and email. No one expects to be talking through their personal knowledge system (unless you are Google Chat and Spaces), but having integrations ensures that you still get the best experience for the particular component.
 
-Let\'s take health data connected to your PKM system, for instance. By tapping into AI, your assistant can monitor trends in your health data - factors like exercise, sleep, or nutrition. Using this context, the assistant can bring up tailor-made reminders and tips to maintain healthy habits, contributing to your wellness.
+Integrations tie into various aspects of content primitives. For example, an email integration ideally integrates with person, text and files primitives. The special aspect of any great app is this idea of integration being automated through LLMs or AI; converting this unstructured data input into structured tags or relations with the baseline or user defined content primitives.
 
-The integration of your PKM system with your email, blog posts, RSS feeds, music, and calendar brings more advantages. Picture your AI assistant going through your emails and pulling out critical information like deadlines, meeting summaries, or tasks automatically. This info can then be classified and arranged in your PKM system, allowing you to find and access it when necessary. Furthermore, integrating your PKM system with blogposts, RSS feeds, and other content can mean your AI assistant can fetch information important to you based on your taste and preferences.
+## Snippets
 
-### Snippets
+Snippets are direct input of data. These can either be standalone snippets --- for example that note you create about your partner, or can be positioned snippets. Positioned snippets tie back into the content primitives, that is, you have a particular kind of content, their position.
 
-Consider snippets as your pocket assistants for personal knowledge management. Think of them as the tools in your digital toolbox, each tailored to different mediums like images, text from documents or webpages, or even audio files - not unlike the varied knickknacks you might stow away in a physical scrapbook. Have you ever found yourself staring at a bursting-at-the-seams document or a webpage, trying to engulf information that seems akin to drinking from a firehose? Here\'s where snippets, those lifesavers, swoop in. Imagine how much easier it is to have just the sections that piqued your interest neatly tucked away in your PKM system, like a beaver selecting the best sticks for its dam.
-
-Now let\'s take a quick detour from words to pictures. Are you engaged in some serious visual research or simply getting lost in an enchanting photo album? Snippets allow you to cherry-pick those parts of images that appeal to you the most, whether it\'s quirky street art, a picturesque sunset, or a helpful data visualization. File these snippets away into your PKM toolbox, and use them as visual cues that you can pull out when you need a memory jog. And don\'t forget about audio - maybe you\'re attending an insightful lecture or interviewing someone. Snippets let you skim the cream off these levels of audial rivers, turning lengthy recordings into digestible morsels of wisdom. Thus, in the world of PKM, snippets become your invaluable companions in carving a path through the informational jungle.
+There are certain aspects of snippets that are best helped by AI. Consider standalone snippets. OCR, transcription, object recognition are some basic actions that can be performed on these snippets to improve the utility of a PKM. For positioned snippets, something that extracts context and embeds the context within the the captured input is possibly the north star of utility for a PKM app. You want a house in a meme vs house on a street show up in the same context during search or filtering.
 
 # Unlocking Knowledge Through Processing
-
-Second comes the turn of processing. This isn't just a tedious laundry-list compiling. It\'s you, as a goldsmith, refining the gold (content) by various processes explicit and implicit, before it\'s ready to be fashioned into ornaments (actions).
 
 ![](images/pkm_components/The_Components_of_a_Personal_Knowledge_Management-63fd62d11fd.webp)
 
 ## Explicit Processing
 
-Kudos to you, if you have ever put tags on your blog, created hyperlinks between your web pages, or constructed an outline for your report. You have already taken your first step in explicit processing. The joy of seeing related information clustered via tags, the context being built around a link, and the clarity achieved through outlines---all of them are rewards of this process.
+Explicit processing refers to the idea of a person manually organizing the content in their PKM in a way that best makes sense. There are multiple ways this kind of processing is facilitated; for example, in the very basic apps, tags and folders are the most prominent methods of explicit processing. Bear and obsidian support hierarchical tags and that improves the kind of organization an app can provide. More complex apps provide linking between "snippets", rolling up associated information, table of contents as possible processing of the input content.
 
-## Implicit Processing with AI
+## Implicit Processing
 
-Wanting to manage everything can be exhausting, especially with the constant stream of data. We need to lean on systems that can sift through this massive load in the background. Here\'s where artificial intelligence (AI) steps in. It\'s amazing how AI uses its magic to make sense of hidden patterns, extract meaning, find what\'s similar, and understand the underlying message.
-
-The perks of AI are numerous. For example, AI can tag items or even enable auto-tagging by analyzing content thoroughly. Not only that, but AI can also identify links between different data and assist in creating related connections. It can even outline your content by understanding its structure. Basically, AI is your go-to tool, letting you concentrate on your main job, much like how a unique tool gives a hand to a jeweler.
-
-Picture this: you\'re scrolling through your photos and find that they\'ve been grouped automatically due to similar characteristics. You\'d say, \"Cool, all my beach holiday snaps are in one place!\" This is how AI quietly does its work. It\'s as if there\'s a crew member behind-the-scenes, ensuring everything is spot-on while you wow your audience. It\'s like an AI-powered owl delivering your personal notes in the wide universe of information, a bit like how owls deliver mail in the Harry Potter series.
+Implicit processing on the other hand is something that a PKM performs in the background. Most apps that exist at the moment have none or barely existent implicit processing. Let's try an analogy to understand what the very basic ideas of implicit processing is. --- "Oh you open google keep everytime you come back from this location" or "It seems like you are not home. Should I turn off all lights" is a self inferred rule by an operating system or through a smart home system. For PKM, this can look like --- oh, we create this scrollable mini map on the side that extracts the main theme/idea from each paragraph. Implicit processing is what makes any app seem seamless. While you can go along a fair bit with handcrafted rules, the best implicit processors are guided structuring processes that align with a user's desired behavior and still run in the background.
 
 # Actions - The Grand Finale {#actions-the-grand-finale}
 
-Finally, moving onto actions! Remember the gold extracted and refined? It\'s time to make it into ornaments now. Actions, thus, shape your processed knowledge into structures like galleries, cards, timelines, or boards, or processes such as searching, plotting, or filtering. Actions also contain modifications in your content, like cutting, deletion, editing, or status change.
+Actions, as I speak of, are interactions that can occur with or on the data that is stored in a PKM. Actions define how you use the system that you are engaging with. Actions can occur not only on a singular snippet but on a combination of them. Actions and processing are also the key differentiators between choosing different applications.
 
 ![](images/pkm_components/The_Components_of_a_Personal_Knowledge_Management-5cf51abe08d.webp)
 
-## Render
-
-Picture your personal knowledge management as a vibrant ecosystem of visual and interactive structures, brimming with galleries, boards, timelines, groups, and flashcards. They\'re like hidden treasure chests, each brimming with knowledge curated for easy comprehension and interaction. Galleries are your personalized exhibition spaces, housing your carefully chosen images, diagrams, or other multimedia content in a way that\'s pleasing to the eye and the mind. Boards resemble your very own brainstorming hub, allowing you to arrange different nuggets of knowledge, be it cards, notes, or snippets, mimicking the organic process of pinning ideas on a bulletin board.
-
-Now, imagine seamlessly sifting through the linear thread of time with the help of timelines, enjoying the clarity they bring to your sequences and progressions. Lean into the beauty of groups and the sense of ordered coherence they lend to your thematic collections. Embrace the compact efficiency of flashcards for their strength in breaking down chunks of information into digestible, enthusiastic bouts of self-learning. As your weave this tapestry of knowledge structure, artificial intelligence plays a crucial role as your behind-the-scenes co-designer. Whether it\'s crafting engaging timelines or devising strategic flashcards, AI is your trusted aide, helping you chart your knowledge journey with an artist\'s finesse.
-
-## Modify
-
-Modification actions are essentially changes applied to your content - it could be as simple as editing a typo or deleting an unnecessary file. They could also be higher-level actions, such as marking a task complete or archiving an old document.
-
-With AI working in tandem, you have an additional pair of eagle eyes. AI functionalities can catch your grammatical errors while editing, suggest deletions based on redundancy checks, auto-archive your completed tasks, and even monitor and manage the status of ongoing projects. It\'s akin to bringing in a scrupulous editor who has an eye for both macro-level content refinement and micro-level textual details.
-
 ## Create
 
-Broad in its opportunities for creative content generation, a Personal Knowledge Management (PKM) system is an immersive platform propelling both complexity and simplicity. It\'s where users can cultivate long-form content like extensive reports or articles, dissecting intricate subjects and sharing deep insights. Imbued with rich text formatting, media embedding, and organizational elements, these systems shape the process of knowledge crafting into an art. After leveraging the refining and editing powers of PKMs, users can present their masterpieces to their network with confidence.
-
-Not just a haven for extensive content, PKMs are also effective for creating concise cards or notes. Users can swiftly catalog key concepts or ideas in custom or predefined formats, employing tagging or labeling for efficient search and retrieval. It\'s a boon for summarizing knowledge or dispensing crisp, insightful snippets. But PKMs aren\'t just about solo journeys; they serve the social facet of learning by transforming into interactive platforms. Discussion forums or knowledge-sharing communities thrive here, nurturing enriching exchanges of thoughts and ideas. Finally, a PKM system transcends the textual realm, inviting multimedia expressions for delivering content, such as infographics or presentations. Users can harness integrated tools or external media to create engaging and richly informative visual narratives, thus reaching audiences in novel, captivating ways.
+Creating is one of the primary actions that everyone here probably identifies with. Whether you are a content creator or not, creation of notes, long form content, sharing a set of snippets in a post, a listicle, creating easily glanceable information, creating a website, creating a repository, all of forms of creation actions. Creating directly feeds back into processing, given how it is at direct user-level interaction. It is an active action (funny, how active should usually imply actions anyway).
 
 ## Consume
 
+Consumption is usually the other side of coin for primary actions. Consumption though is a passive action. This hence, does not usually correlate with explicit processing. Learning the behavior of consumption though is a huge deal of processing --- for example, if you look up "house", what do you want to come up in search. This is mostly a form of data log modelling, and beyond the scope of this post.
+
 ### Structured
 
-Now, let\'s dive right into the realm of structured consumption from a Personal Knowledge Management (PKM) system. You know when you neatly categorize and organize information, much like the systematic arrangement of books in a library? That\'s structured consumption. Structured consumption taps into methods such as Filtering, Retrieving, Correlating, Searching, and Plotting. Allow me to walk you through it.
-
-Filtering is like having a personal librarian who knows exactly what books you want read. Within a structured PKM, you format data in a way that lets you filter out irrelevant information. When we\'re talking about retrieving information, think of it as a real-time, personalized book recommendation engine that fetches specific data points relevant to your query -- basically, your librarian friend again. And when you correlate, that\'s your librarian cross-referencing genres, authors, or publication years to predict your next best read based on your reading history. Are you seeing a pattern here?
-
-Search and Plot functions can be best visualised as magic spells that can summon any book at your command, and a literal plot generator, respectively. Now, where does AI tie into this neatly-bound package? Well, AI makes the \"librarian\" work efficiently. It brings in Machine Learning to predict, understand, and improve the retrieval of data, thereby saving your time and effort.
+Structured consumption in my perspective refers to a retrieval based action. This can be structured in either its attributes that can be used to filter or correlate, to search or bring up related to information or snippets, plot information on a graph for two related variables etc. I use the word structure specifically to refer to something that has no creation of information. The information all exists and is surfaced as needed.
 
 ### Unstructured
 
-Shifting gears to unstructured consumption, we\'re now dealing with a dynamic, fluid structure, much like an ever-changing story. In unstructured consumption, we focus on Summarizing, Expanding, Augmenting, and Attributing information. Imagine an AI entity summarizing a book for you, or expanding upon a cliffhanger. Isn\'t that exciting?
+Unstructured consumption in my opinion is when the app does some kind of synthesis of information. This can be as basic as synthesizing the summary of the snippet (as Notion AI and a million other PKM apps do), can be summarizing or conversing with the content stored in the PKM (such as mem) or can be more integrated into the creation process (such as expand, augment this content). While this is the lowest hanging fruit form of integration, getting a great unstructured integration using AI requires more than just dumping embeddings into a prompt interface, something that many of the current apps do not seem to onboard for.
 
-The Augment function could be like your personal AI fanfiction writer, relating and adding extra layers to your favorite storylines. Attribution might resemble an outspoken critic, finding sources and attributing credit wherever necessary. This shifting, evolving nature of unstructured consumption requires more creative AI solutions, such as Natural Language Processing, to dissect, understand, and maneuver text, and in turn, provide you with a rich, unstructured, yet organized consumption experience.
+## Render
 
-# Conclusion
+Any personal knowledge management system is a dynamic ecosystem of practical and user-friendly structures. Within this system, you will usually find galleries, boards, timelines, groups (for example in Notion), and flashcards (for example in Anki). These structures serve as valuable resources, containing carefully curated knowledge that is easily accessible and interactive. Galleries act as personalized exhibition spaces, housing a collection of images, diagrams, and multimedia content that are visually appealing and intellectually stimulating. Boards function as brainstorming hubs, enabling you to organize various pieces of information, such as cards, notes, or snippets, in a way that mirrors the natural process of pinning ideas on a bulletin board.
 
-And it\'s a wrap! As we\'ve braved the journey together, hopefully, the foggy landscape of PKM seems clearer now. And with AI, it seems less daunting than exciting. However, remember that we discussed the components of a PKM system and how AI can be the wizard\'s apprentice making the process smoother. But as always, the wizard is still you.
+## Modify
 
-*Content creation* leads to *processing*, and that guides the *capture* method. The *processing* cycle repeats further, culminating in *actions*.
+Modification actions are essentially changes applied to your content - it could be as simple as editing a typo or deleting an unnecessary file. They could also be higher-level actions, such as marking a task complete or archiving an old document. Modification also has a deep integration with implicit processing, which is what makes processing so difficult to execute correctly. If you add a name to your meeting note attendees, it should record the new information, but now that changes related notes and unstructured consumption of information about this person.
 
 # tl;dr {#tl-dr}
 
-Personal Knowledge Management (PKM) is the process of collecting, organizing, and making sense of knowledge. It involves using app and content primitives to manage information. Processing knowledge includes explicit actions like tagging and linking, as well as implicit actions using AI to analyze and understand patterns. Capture involves grabbing specific information and integrating various resources. Snippets are useful tools for capturing different types of media. Actions shape processed knowledge into structures and modify content. Render actions create visual and interactive structures, while modify actions make changes to content. Create actions involve generating creative content, and consume actions involve filtering, searching, and summarizing knowledge. AI can assist in these actions by providing suggestions and automating tasks.
+Personal Knowledge Management (PKM) involves capturing, processing, and taking actions on information. App primitives and content primitives are the building blocks of PKM systems. Integrations and snippets are two types of capture methods, with integrations pulling data from other apps and snippets being direct input. Processing can be explicit (manual organization) or implicit (background processing by the PKM). Actions, such as creating and consuming content, are how users interact with the PKM. Rendering structures the information for easy access, while modification allows for changes and updates. AI can enhance PKM by providing context, recognition and automation to improve the efficiency and effectiveness of the PKM system.
