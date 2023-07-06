@@ -1,6 +1,6 @@
 [
   {
-    "listing": "/posts/index.html",
+    "listing": "/index.html",
     "items": [
       "/posts/pkm_components.html",
       "/posts/textsvsbeeper.html",
@@ -12,7 +12,7 @@
     ]
   },
   {
-    "listing": "/index.html",
+    "listing": "/posts/index.html",
     "items": [
       "/posts/pkm_components.html",
       "/posts/textsvsbeeper.html",
@@ -27,8 +27,9 @@
     "listing": "/stream/index.html",
     "items": [
       "/stream/i_have_been_avoiding_notion.html",
-      "/stream/notion_new_project_launch.html",
       "/stream/nothing_comes_close_to_muse.html",
+      "/stream/notion_new_project_launch.html",
+      "/stream/avoiding_switching_till_AI_integrations.html",
       "/stream/url_shorteners.html"
     ]
   }
