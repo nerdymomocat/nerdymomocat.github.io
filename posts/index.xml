@@ -43,32 +43,30 @@
 </section>
 <section id="content-primitives" class="level2">
 <h2 class="anchored" data-anchor-id="content-primitives">Content Primitives</h2>
-<p>Content primitives are smaller building blocks that can combine together to create better or more complex systems. Content primitives define a set of actions associated to those “blocks” as well. the content primitives defined above should cover most cases, but one of the best abilities that an app can provide is creating new content primitives specific to the user, such as Notion. One of the missing aspect for all of these content primitives is default actions and default recognition. For example, task is a common content primitive in many apps — the idea there being that it has at least two states of not done vs done. Or a timestamp has a “change date” action. But there is a dire dearth of content primitives recognized by apps.</p>
+<p>Content primitives are smaller building blocks that can combine together to create better or more complex systems. Content primitives define a set of actions associated to those “blocks” as well. the content primitives defined above should cover most cases, but one of the best abilities that an app can provide is creating new content primitives specific to the user, such as Notion or Tana. One of the missing aspect for all of these content primitives is default actions and default recognition. For example, task is a common content primitive in many apps — the idea there being that it has at least two states of not done vs done. Or a timestamp has a “change date” action. But there is a dire dearth of content primitives recognized by apps.</p>
 </section>
 </section>
 <section id="the-art-of-capture" class="level1">
 <h1>The Art of Capture</h1>
-<p>Caught an interesting headline while scrolling through your news feed? Came across a golden nugget in a podcast? Want to save that hilarious meme from your chat? Capture comes in play in such instances where specific information pieces are to be grabbed and brought into your PKM system.</p>
+<p>Capture is a largely unsolved problem. Every time a new capture app comes into picture; there is a reason why everyone is so excited. Capture has many problems to overcome → it has to be quick, it should be in context, it has to work offline, it has to work with multiple modes. Capture can be classified into two categories →capture from integrations or basically data input into a different app that is then pulled into your personal knowledge management system. Snippets on the other hand are content that is meant to be as a direct input into the knowledge system.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><a href="images/pkm_components/The_Components_of_a_Personal_Knowledge_Management-ba3a3016f15.webp" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="https://nerdymomocat.github.io/posts/images/pkm_components/The_Components_of_a_Personal_Knowledge_Management-ba3a3016f15.webp" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
-<section id="integrations" class="level3">
-<h3 class="anchored" data-anchor-id="integrations">Integrations</h3>
-<p>Linking your Personal Knowledge Management (PKM) system with a mix of resources like Health, Email, Blogposts/RSS, Music, and Calendar has the power to change how you handle information. This process is made more effortless, aware, and auto-set when you integrate an AI assistant, leading to higher effectiveness and simplicity.</p>
-<p>Let's take health data connected to your PKM system, for instance. By tapping into AI, your assistant can monitor trends in your health data - factors like exercise, sleep, or nutrition. Using this context, the assistant can bring up tailor-made reminders and tips to maintain healthy habits, contributing to your wellness.</p>
-<p>The integration of your PKM system with your email, blog posts, RSS feeds, music, and calendar brings more advantages. Picture your AI assistant going through your emails and pulling out critical information like deadlines, meeting summaries, or tasks automatically. This info can then be classified and arranged in your PKM system, allowing you to find and access it when necessary. Furthermore, integrating your PKM system with blogposts, RSS feeds, and other content can mean your AI assistant can fetch information important to you based on your taste and preferences.</p>
+<section id="integrations" class="level2">
+<h2 class="anchored" data-anchor-id="integrations">Integrations</h2>
+<p>Integrations refer to the general idea of having different apps that are specialized; to be later fed into your personal knowledge management system There can be multiple integrations that people have — the most common ones being chat and email. No one expects to be talking through their personal knowledge system (unless you are Google Chat and Spaces), but having integrations ensures that you still get the best experience for the particular component.</p>
+<p>Integrations tie into various aspects of content primitives. For example, an email integration ideally integrates with person, text and files primitives. The special aspect of any great app is this idea of integration being automated through LLMs or AI; converting this unstructured data input into structured tags or relations with the baseline or user defined content primitives.</p>
 </section>
-<section id="snippets" class="level3">
-<h3 class="anchored" data-anchor-id="snippets">Snippets</h3>
-<p>Consider snippets as your pocket assistants for personal knowledge management. Think of them as the tools in your digital toolbox, each tailored to different mediums like images, text from documents or webpages, or even audio files - not unlike the varied knickknacks you might stow away in a physical scrapbook. Have you ever found yourself staring at a bursting-at-the-seams document or a webpage, trying to engulf information that seems akin to drinking from a firehose? Here's where snippets, those lifesavers, swoop in. Imagine how much easier it is to have just the sections that piqued your interest neatly tucked away in your PKM system, like a beaver selecting the best sticks for its dam.</p>
-<p>Now let's take a quick detour from words to pictures. Are you engaged in some serious visual research or simply getting lost in an enchanting photo album? Snippets allow you to cherry-pick those parts of images that appeal to you the most, whether it's quirky street art, a picturesque sunset, or a helpful data visualization. File these snippets away into your PKM toolbox, and use them as visual cues that you can pull out when you need a memory jog. And don't forget about audio - maybe you're attending an insightful lecture or interviewing someone. Snippets let you skim the cream off these levels of audial rivers, turning lengthy recordings into digestible morsels of wisdom. Thus, in the world of PKM, snippets become your invaluable companions in carving a path through the informational jungle.</p>
+<section id="snippets" class="level2">
+<h2 class="anchored" data-anchor-id="snippets">Snippets</h2>
+<p>Snippets are direct input of data. These can either be standalone snippets — for example that note you create about your partner, or can be positioned snippets. Positioned snippets tie back into the content primitives, that is, you have a particular kind of content, their position.</p>
+<p>There are certain aspects of snippets that are best helped by AI. Consider standalone snippets. OCR, transcription, object recognition are some basic actions that can be performed on these snippets to improve the utility of a PKM. For positioned snippets, something that extracts context and embeds the context within the the captured input is possibly the north star of utility for a PKM app. You want a house in a meme vs house on a street show up in the same context during search or filtering.</p>
 </section>
 </section>
 <section id="unlocking-knowledge-through-processing" class="level1">
 <h1>Unlocking Knowledge Through Processing</h1>
-<p>Second comes the turn of processing. This isn’t just a tedious laundry-list compiling. It's you, as a goldsmith, refining the gold (content) by various processes explicit and implicit, before it's ready to be fashioned into ornaments (actions).</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><a href="images/pkm_components/The_Components_of_a_Personal_Knowledge_Management-63fd62d11fd.webp" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="https://nerdymomocat.github.io/posts/images/pkm_components/The_Components_of_a_Personal_Knowledge_Management-63fd62d11fd.webp" class="img-fluid figure-img"></a></p>
@@ -76,61 +74,49 @@
 </div>
 <section id="explicit-processing" class="level2">
 <h2 class="anchored" data-anchor-id="explicit-processing">Explicit Processing</h2>
-<p>Kudos to you, if you have ever put tags on your blog, created hyperlinks between your web pages, or constructed an outline for your report. You have already taken your first step in explicit processing. The joy of seeing related information clustered via tags, the context being built around a link, and the clarity achieved through outlines—all of them are rewards of this process.</p>
+<p>Explicit processing refers to the idea of a person manually organizing the content in their PKM in a way that best makes sense. There are multiple ways this kind of processing is facilitated; for example, in the very basic apps, tags and folders are the most prominent methods of explicit processing. Bear and obsidian support hierarchical tags and that improves the kind of organization an app can provide. More complex apps provide linking between “snippets”, rolling up associated information, table of contents as possible processing of the input content.</p>
 </section>
-<section id="implicit-processing-with-ai" class="level2">
-<h2 class="anchored" data-anchor-id="implicit-processing-with-ai">Implicit Processing with AI</h2>
-<p>Wanting to manage everything can be exhausting, especially with the constant stream of data. We need to lean on systems that can sift through this massive load in the background. Here's where artificial intelligence (AI) steps in. It's amazing how AI uses its magic to make sense of hidden patterns, extract meaning, find what's similar, and understand the underlying message.</p>
-<p>The perks of AI are numerous. For example, AI can tag items or even enable auto-tagging by analyzing content thoroughly. Not only that, but AI can also identify links between different data and assist in creating related connections. It can even outline your content by understanding its structure. Basically, AI is your go-to tool, letting you concentrate on your main job, much like how a unique tool gives a hand to a jeweler.</p>
-<p>Picture this: you're scrolling through your photos and find that they've been grouped automatically due to similar characteristics. You'd say, "Cool, all my beach holiday snaps are in one place!" This is how AI quietly does its work. It's as if there's a crew member behind-the-scenes, ensuring everything is spot-on while you wow your audience. It's like an AI-powered owl delivering your personal notes in the wide universe of information, a bit like how owls deliver mail in the Harry Potter series.</p>
+<section id="implicit-processing" class="level2">
+<h2 class="anchored" data-anchor-id="implicit-processing">Implicit Processing</h2>
+<p>Implicit processing on the other hand is something that a PKM performs in the background. Most apps that exist at the moment have none or barely existent implicit processing. Let’s try an analogy to understand what the very basic ideas of implicit processing is. — “Oh you open google keep everytime you come back from this location” or “It seems like you are not home. Should I turn off all lights” is a self inferred rule by an operating system or through a smart home system. For PKM, this can look like — oh, we create this scrollable mini map on the side that extracts the main theme/idea from each paragraph. Implicit processing is what makes any app seem seamless. While you can go along a fair bit with handcrafted rules, the best implicit processors are guided structuring processes that align with a user’s desired behavior and still run in the background.</p>
 </section>
 </section>
 <section id="actions-the-grand-finale" class="level1">
 <h1>Actions - The Grand Finale</h1>
-<p>Finally, moving onto actions! Remember the gold extracted and refined? It's time to make it into ornaments now. Actions, thus, shape your processed knowledge into structures like galleries, cards, timelines, or boards, or processes such as searching, plotting, or filtering. Actions also contain modifications in your content, like cutting, deletion, editing, or status change.</p>
+<p>Actions, as I speak of, are interactions that can occur with or on the data that is stored in a PKM. Actions define how you use the system that you are engaging with. Actions can occur not only on a singular snippet but on a combination of them. Actions and processing are also the key differentiators between choosing different applications.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><a href="images/pkm_components/The_Components_of_a_Personal_Knowledge_Management-5cf51abe08d.webp" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="https://nerdymomocat.github.io/posts/images/pkm_components/The_Components_of_a_Personal_Knowledge_Management-5cf51abe08d.webp" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
-<section id="render" class="level2">
-<h2 class="anchored" data-anchor-id="render">Render</h2>
-<p>Picture your personal knowledge management as a vibrant ecosystem of visual and interactive structures, brimming with galleries, boards, timelines, groups, and flashcards. They're like hidden treasure chests, each brimming with knowledge curated for easy comprehension and interaction. Galleries are your personalized exhibition spaces, housing your carefully chosen images, diagrams, or other multimedia content in a way that's pleasing to the eye and the mind. Boards resemble your very own brainstorming hub, allowing you to arrange different nuggets of knowledge, be it cards, notes, or snippets, mimicking the organic process of pinning ideas on a bulletin board.</p>
-<p>Now, imagine seamlessly sifting through the linear thread of time with the help of timelines, enjoying the clarity they bring to your sequences and progressions. Lean into the beauty of groups and the sense of ordered coherence they lend to your thematic collections. Embrace the compact efficiency of flashcards for their strength in breaking down chunks of information into digestible, enthusiastic bouts of self-learning. As your weave this tapestry of knowledge structure, artificial intelligence plays a crucial role as your behind-the-scenes co-designer. Whether it's crafting engaging timelines or devising strategic flashcards, AI is your trusted aide, helping you chart your knowledge journey with an artist's finesse.</p>
-</section>
-<section id="modify" class="level2">
-<h2 class="anchored" data-anchor-id="modify">Modify</h2>
-<p>Modification actions are essentially changes applied to your content - it could be as simple as editing a typo or deleting an unnecessary file. They could also be higher-level actions, such as marking a task complete or archiving an old document.</p>
-<p>With AI working in tandem, you have an additional pair of eagle eyes. AI functionalities can catch your grammatical errors while editing, suggest deletions based on redundancy checks, auto-archive your completed tasks, and even monitor and manage the status of ongoing projects. It's akin to bringing in a scrupulous editor who has an eye for both macro-level content refinement and micro-level textual details.</p>
-</section>
 <section id="create" class="level2">
 <h2 class="anchored" data-anchor-id="create">Create</h2>
-<p>Broad in its opportunities for creative content generation, a Personal Knowledge Management (PKM) system is an immersive platform propelling both complexity and simplicity. It's where users can cultivate long-form content like extensive reports or articles, dissecting intricate subjects and sharing deep insights. Imbued with rich text formatting, media embedding, and organizational elements, these systems shape the process of knowledge crafting into an art. After leveraging the refining and editing powers of PKMs, users can present their masterpieces to their network with confidence.</p>
-<p>Not just a haven for extensive content, PKMs are also effective for creating concise cards or notes. Users can swiftly catalog key concepts or ideas in custom or predefined formats, employing tagging or labeling for efficient search and retrieval. It's a boon for summarizing knowledge or dispensing crisp, insightful snippets. But PKMs aren't just about solo journeys; they serve the social facet of learning by transforming into interactive platforms. Discussion forums or knowledge-sharing communities thrive here, nurturing enriching exchanges of thoughts and ideas. Finally, a PKM system transcends the textual realm, inviting multimedia expressions for delivering content, such as infographics or presentations. Users can harness integrated tools or external media to create engaging and richly informative visual narratives, thus reaching audiences in novel, captivating ways.</p>
+<p>Creating is one of the primary actions that everyone here probably identifies with. Whether you are a content creator or not, creation of notes, long form content, sharing a set of snippets in a post, a listicle, creating easily glanceable information, creating a website, creating a repository, all of forms of creation actions. Creating directly feeds back into processing, given how it is at direct user-level interaction. It is an active action (funny, how active should usually imply actions anyway).</p>
 </section>
 <section id="consume" class="level2">
 <h2 class="anchored" data-anchor-id="consume">Consume</h2>
+<p>Consumption is usually the other side of coin for primary actions. Consumption though is a passive action. This hence, does not usually correlate with explicit processing. Learning the behavior of consumption though is a huge deal of processing — for example, if you look up “house”, what do you want to come up in search. This is mostly a form of data log modelling, and beyond the scope of this post.</p>
 <section id="structured" class="level3">
 <h3 class="anchored" data-anchor-id="structured">Structured</h3>
-<p>Now, let's dive right into the realm of structured consumption from a Personal Knowledge Management (PKM) system. You know when you neatly categorize and organize information, much like the systematic arrangement of books in a library? That's structured consumption. Structured consumption taps into methods such as Filtering, Retrieving, Correlating, Searching, and Plotting. Allow me to walk you through it.</p>
-<p>Filtering is like having a personal librarian who knows exactly what books you want read. Within a structured PKM, you format data in a way that lets you filter out irrelevant information. When we're talking about retrieving information, think of it as a real-time, personalized book recommendation engine that fetches specific data points relevant to your query – basically, your librarian friend again. And when you correlate, that's your librarian cross-referencing genres, authors, or publication years to predict your next best read based on your reading history. Are you seeing a pattern here?</p>
-<p>Search and Plot functions can be best visualised as magic spells that can summon any book at your command, and a literal plot generator, respectively. Now, where does AI tie into this neatly-bound package? Well, AI makes the "librarian" work efficiently. It brings in Machine Learning to predict, understand, and improve the retrieval of data, thereby saving your time and effort.</p>
+<p>Structured consumption in my perspective refers to a retrieval based action. This can be structured in either its attributes that can be used to filter or correlate, to search or bring up related to information or snippets, plot information on a graph for two related variables etc. I use the word structure specifically to refer to something that has no creation of information. The information all exists and is surfaced as needed.</p>
 </section>
 <section id="unstructured" class="level3">
 <h3 class="anchored" data-anchor-id="unstructured">Unstructured</h3>
-<p>Shifting gears to unstructured consumption, we're now dealing with a dynamic, fluid structure, much like an ever-changing story. In unstructured consumption, we focus on Summarizing, Expanding, Augmenting, and Attributing information. Imagine an AI entity summarizing a book for you, or expanding upon a cliffhanger. Isn't that exciting?</p>
-<p>The Augment function could be like your personal AI fanfiction writer, relating and adding extra layers to your favorite storylines. Attribution might resemble an outspoken critic, finding sources and attributing credit wherever necessary. This shifting, evolving nature of unstructured consumption requires more creative AI solutions, such as Natural Language Processing, to dissect, understand, and maneuver text, and in turn, provide you with a rich, unstructured, yet organized consumption experience.</p>
+<p>Unstructured consumption in my opinion is when the app does some kind of synthesis of information. This can be as basic as synthesizing the summary of the snippet (as Notion AI and a million other PKM apps do), can be summarizing or conversing with the content stored in the PKM (such as mem) or can be more integrated into the creation process (such as expand, augment this content). While this is the lowest hanging fruit form of integration, getting a great unstructured integration using AI requires more than just dumping embeddings into a prompt interface, something that many of the current apps do not seem to onboard for.</p>
 </section>
 </section>
+<section id="render" class="level2">
+<h2 class="anchored" data-anchor-id="render">Render</h2>
+<p>Any personal knowledge management system is a dynamic ecosystem of practical and user-friendly structures. Within this system, you will usually find galleries, boards, timelines, groups (for example in Notion), and flashcards (for example in Anki). These structures serve as valuable resources, containing carefully curated knowledge that is easily accessible and interactive. Galleries act as personalized exhibition spaces, housing a collection of images, diagrams, and multimedia content that are visually appealing and intellectually stimulating. Boards function as brainstorming hubs, enabling you to organize various pieces of information, such as cards, notes, or snippets, in a way that mirrors the natural process of pinning ideas on a bulletin board.</p>
 </section>
-<section id="conclusion" class="level1">
-<h1>Conclusion</h1>
-<p>And it's a wrap! As we've braved the journey together, hopefully, the foggy landscape of PKM seems clearer now. And with AI, it seems less daunting than exciting. However, remember that we discussed the components of a PKM system and how AI can be the wizard's apprentice making the process smoother. But as always, the wizard is still you.</p>
-<p><em>Content creation</em> leads to <em>processing</em>, and that guides the <em>capture</em> method. The <em>processing</em> cycle repeats further, culminating in <em>actions</em>.</p>
+<section id="modify" class="level2">
+<h2 class="anchored" data-anchor-id="modify">Modify</h2>
+<p>Modification actions are essentially changes applied to your content - it could be as simple as editing a typo or deleting an unnecessary file. They could also be higher-level actions, such as marking a task complete or archiving an old document. Modification also has a deep integration with implicit processing, which is what makes processing so difficult to execute correctly. If you add a name to your meeting note attendees, it should record the new information, but now that changes related notes and unstructured consumption of information about this person.</p>
+</section>
 </section>
 <section id="tl-dr" class="level1">
 <h1>tl;dr</h1>
-<p>Personal Knowledge Management (PKM) is the process of collecting, organizing, and making sense of knowledge. It involves using app and content primitives to manage information. Processing knowledge includes explicit actions like tagging and linking, as well as implicit actions using AI to analyze and understand patterns. Capture involves grabbing specific information and integrating various resources. Snippets are useful tools for capturing different types of media. Actions shape processed knowledge into structures and modify content. Render actions create visual and interactive structures, while modify actions make changes to content. Create actions involve generating creative content, and consume actions involve filtering, searching, and summarizing knowledge. AI can assist in these actions by providing suggestions and automating tasks.</p>
+<p>Personal Knowledge Management (PKM) involves capturing, processing, and taking actions on information. App primitives and content primitives are the building blocks of PKM systems. Integrations and snippets are two types of capture methods, with integrations pulling data from other apps and snippets being direct input. Processing can be explicit (manual organization) or implicit (background processing by the PKM). Actions, such as creating and consuming content, are how users interact with the PKM. Rendering structures the information for easy access, while modification allows for changes and updates. AI can enhance PKM by providing context, recognition and automation to improve the efficiency and effectiveness of the PKM system.</p>
 
 
 </section>
@@ -154,14 +140,14 @@
 <p>When <a href="https://twitter.com/pkmbeth">@Beth</a> messaged me that she has invites for <a href="https://texts.com/">Texts</a>; I was excited.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-b352b61b0d2.webp" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Texts invitation from Beth 2023-06-24"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-b352b61b0d2.webp" class="img-fluid figure-img"></a></p>
+<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-b352b61b0d2.webp" class="lightbox" title="Texts invitation from Beth 2023-06-24" data-gallery="quarto-lightbox-gallery-1"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-b352b61b0d2.webp" class="img-fluid figure-img"></a></p>
 <figcaption class="figure-caption">Texts invitation from Beth 2023-06-24</figcaption>
 </figure>
 </div>
 <p>I was equally excited about getting off Beeper’s waitlist a little over a month ago.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-9192cf69508.webp" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Invitation from Beeper 2023-05-18"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-9192cf69508.webp" class="img-fluid figure-img"></a></p>
+<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-9192cf69508.webp" class="lightbox" title="Invitation from Beeper 2023-05-18" data-gallery="quarto-lightbox-gallery-2"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-9192cf69508.webp" class="img-fluid figure-img"></a></p>
 <figcaption class="figure-caption">Invitation from Beeper 2023-05-18</figcaption>
 </figure>
 </div>
@@ -185,13 +171,13 @@
 <p>In case all you want is a quick look at what they can do or not do, the two graphics below almost cover everything. You can also go through each section/sub-section and look for checkmarks (has this option), meh (kinda), cross (does not have this option), plus (additional benefits) and minus (poor implementation).</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-f18160c8b1f.webp" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Texts UI out of box"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-f18160c8b1f.webp" class="img-fluid figure-img"></a></p>
+<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-f18160c8b1f.webp" class="lightbox" title="Texts UI out of box" data-gallery="quarto-lightbox-gallery-3"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-f18160c8b1f.webp" class="img-fluid figure-img"></a></p>
 <figcaption class="figure-caption">Texts UI out of box</figcaption>
 </figure>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-c00abdf1836.webp" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Beeper UI out of box"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-c00abdf1836.webp" class="img-fluid figure-img"></a></p>
+<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-c00abdf1836.webp" class="lightbox" title="Beeper UI out of box" data-gallery="quarto-lightbox-gallery-4"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-c00abdf1836.webp" class="img-fluid figure-img"></a></p>
 <figcaption class="figure-caption">Beeper UI out of box</figcaption>
 </figure>
 </div>
@@ -206,7 +192,7 @@
 <p>There are of course differences in the setup page, but I do not care about it. You need to setup things ONCE. And yes, texts looks much better in that regard. Reduced number of popups, consistent design etc. But again, you will access it only once.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-c322b22e3cb.webp" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="Texts UI out of box looks way cleaner than Beeper’s"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-c322b22e3cb.webp" class="img-fluid figure-img"></a></p>
+<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-c322b22e3cb.webp" class="lightbox" title="Texts UI out of box looks way cleaner than Beeper’s" data-gallery="quarto-lightbox-gallery-5"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-c322b22e3cb.webp" class="img-fluid figure-img"></a></p>
 <figcaption class="figure-caption">Texts UI out of box looks way cleaner than Beeper’s</figcaption>
 </figure>
 </div>
@@ -224,7 +210,7 @@
 </ul>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-94e785d25c2.gif" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="Click on the gif to see the menu bar actions and search UX"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-94e785d25c2.gif" class="img-fluid figure-img"></a></p>
+<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-94e785d25c2.gif" class="lightbox" title="Click on the gif to see the menu bar actions and search UX" data-gallery="quarto-lightbox-gallery-6"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-94e785d25c2.gif" class="img-fluid figure-img"></a></p>
 <figcaption class="figure-caption">Click on the gif to see the menu bar actions and search UX</figcaption>
 </figure>
 </div>
@@ -251,7 +237,7 @@
 <div class="no-row-height column-margin column-container"><div class="">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-49aec96a87e.webp" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="Update speed in Beeper"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-49aec96a87e.webp" class="img-fluid figure-img"></a></p>
+<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-49aec96a87e.webp" class="lightbox" title="Update speed in Beeper" data-gallery="quarto-lightbox-gallery-7"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-49aec96a87e.webp" class="img-fluid figure-img"></a></p>
 <figcaption class="figure-caption">Update speed in Beeper</figcaption>
 </figure>
 </div>
@@ -425,13 +411,13 @@
 <div class="no-row-height column-margin column-container"><div class="">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-5f2083e3bff.webp" class="lightbox" data-gallery="quarto-lightbox-gallery-12" title="Schedule send UI in Beeper and how the scheduled send ends up looking like inside the Beeper interface"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-5f2083e3bff.webp" class="img-fluid figure-img"></a></p>
+<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-5f2083e3bff.webp" class="lightbox" title="Schedule send UI in Beeper and how the scheduled send ends up looking like inside the Beeper interface" data-gallery="quarto-lightbox-gallery-12"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-5f2083e3bff.webp" class="img-fluid figure-img"></a></p>
 <figcaption class="figure-caption">Schedule send UI in Beeper and how the scheduled send ends up looking like inside the Beeper interface</figcaption>
 </figure>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-986c5d0f5d7.webp" class="lightbox" data-gallery="quarto-lightbox-gallery-13" title="Send Later UI in Texts and how the scheduled send ends up looking like inside the Beeper interface"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-986c5d0f5d7.webp" class="img-fluid figure-img"></a></p>
+<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-986c5d0f5d7.webp" class="lightbox" title="Send Later UI in Texts and how the scheduled send ends up looking like inside the Beeper interface" data-gallery="quarto-lightbox-gallery-13"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-986c5d0f5d7.webp" class="img-fluid figure-img"></a></p>
 <figcaption class="figure-caption">Send Later UI in Texts and how the scheduled send ends up looking like inside the Beeper interface</figcaption>
 </figure>
 </div>
@@ -494,7 +480,7 @@
 <div class="no-row-height column-margin column-container"><div class="">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-c34224e60d1.webp" class="lightbox" data-gallery="quarto-lightbox-gallery-15" title="Creating quick replies in Texts"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-c34224e60d1.webp" class="img-fluid figure-img"></a></p>
+<p><a href="images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-c34224e60d1.webp" class="lightbox" title="Creating quick replies in Texts" data-gallery="quarto-lightbox-gallery-15"><img src="https://nerdymomocat.github.io/posts/images/textsvsbeeper/Texts_vs._Beeper_The_Appsolute_Winner_Is-c34224e60d1.webp" class="img-fluid figure-img"></a></p>
 <figcaption class="figure-caption">Creating quick replies in Texts</figcaption>
 </figure>
 </div>
@@ -1227,7 +1213,7 @@ Thorsten Ball talks about variables in Google Docs
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
-<p></p><div id="tweet-12438"></div><script>tweet={"url":"https:\/\/twitter.com\/thorstenball\/status\/1673636222626050048","author_name":"Thorsten Ball","author_url":"https:\/\/twitter.com\/thorstenball","html":"\u003Cblockquote class=\"twitter-tweet\" align=\"center\"\u003E\u003Cp lang=\"en\" dir=\"ltr\"\u003EGoogle Docs now has variables? Wow\u003Cbr\u003E\u003Cbr\u003EDoes someone have an explanation for what happened with Google Docs?\u003Cbr\u003E\u003Cbr\u003EFor years and years it seemed stagnant and since, what, last year, there&#39;s all these new, very nice features popping up on a regular basis.\u003Cbr\u003E\u003Cbr\u003EI need the inside story here. \u003Ca href=\"https:\/\/t.co\/EQXa8p9SiJ\"\u003Epic.twitter.com\/EQXa8p9SiJ\u003C\/a\u003E\u003C\/p\u003E&mdash; Thorsten Ball (@thorstenball) \u003Ca href=\"https:\/\/twitter.com\/thorstenball\/status\/1673636222626050048?ref_src=twsrc%5Etfw\"\u003EJune 27, 2023\u003C\/a\u003E\u003C\/blockquote\u003E\n\u003Cscript async src=\"https:\/\/platform.twitter.com\/widgets.js\" charset=\"utf-8\"\u003E\u003C\/script\u003E\n","width":550,"height":null,"type":"rich","cache_age":"3153600000","provider_name":"Twitter","provider_url":"https:\/\/twitter.com","version":"1.0"};document.getElementById("tweet-12438").innerHTML = tweet["html"];</script><p></p>
+<p></p><div id="tweet-87322"></div><script>tweet={"url":"https:\/\/twitter.com\/thorstenball\/status\/1673636222626050048","author_name":"Thorsten Ball","author_url":"https:\/\/twitter.com\/thorstenball","html":"\u003Cblockquote class=\"twitter-tweet\" align=\"center\"\u003E\u003Cp lang=\"en\" dir=\"ltr\"\u003EGoogle Docs now has variables? Wow\u003Cbr\u003E\u003Cbr\u003EDoes someone have an explanation for what happened with Google Docs?\u003Cbr\u003E\u003Cbr\u003EFor years and years it seemed stagnant and since, what, last year, there&#39;s all these new, very nice features popping up on a regular basis.\u003Cbr\u003E\u003Cbr\u003EI need the inside story here. \u003Ca href=\"https:\/\/t.co\/EQXa8p9SiJ\"\u003Epic.twitter.com\/EQXa8p9SiJ\u003C\/a\u003E\u003C\/p\u003E&mdash; Thorsten Ball (@thorstenball) \u003Ca href=\"https:\/\/twitter.com\/thorstenball\/status\/1673636222626050048?ref_src=twsrc%5Etfw\"\u003EJune 27, 2023\u003C\/a\u003E\u003C\/blockquote\u003E\n\u003Cscript async src=\"https:\/\/platform.twitter.com\/widgets.js\" charset=\"utf-8\"\u003E\u003C\/script\u003E\n","width":550,"height":null,"type":"rich","cache_age":"3153600000","provider_name":"Twitter","provider_url":"https:\/\/twitter.com","version":"1.0"};document.getElementById("tweet-87322").innerHTML = tweet["html"];</script><p></p>
 </div>
 </div>
 </div>
@@ -1346,7 +1332,7 @@ Tiago Forte talks about graph based PKM apps
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p></p><div id="tweet-92586"></div><script>tweet={"url":"https:\/\/twitter.com\/fortelabs\/status\/1616173350778441729","author_name":"Tiago Forte","author_url":"https:\/\/twitter.com\/fortelabs","html":"\u003Cblockquote class=\"twitter-tweet\" align=\"center\"\u003E\u003Cp lang=\"en\" dir=\"ltr\"\u003EWe really need a graph-based PKM app built by a serious company for mainstream users\u003Cbr\u003E\u003Cbr\u003E• Roam is a religion\u003Cbr\u003E• Obsidian is a side hobby\u003Cbr\u003E• Logseq is an open-source project\u003Cbr\u003E• Tana is barely in alpha\u003Cbr\u003E\u003Cbr\u003EIf there was just one reliable app in this space I’d refer so much traffic to it\u003C\/p\u003E&mdash; Tiago Forte (@fortelabs) \u003Ca href=\"https:\/\/twitter.com\/fortelabs\/status\/1616173350778441729?ref_src=twsrc%5Etfw\"\u003EJanuary 19, 2023\u003C\/a\u003E\u003C\/blockquote\u003E\n\u003Cscript async src=\"https:\/\/platform.twitter.com\/widgets.js\" charset=\"utf-8\"\u003E\u003C\/script\u003E\n","width":550,"height":null,"type":"rich","cache_age":"3153600000","provider_name":"Twitter","provider_url":"https:\/\/twitter.com","version":"1.0"};document.getElementById("tweet-92586").innerHTML = tweet["html"];</script><p></p>
+<p></p><div id="tweet-61281"></div><script>tweet={"url":"https:\/\/twitter.com\/fortelabs\/status\/1616173350778441729","author_name":"Tiago Forte","author_url":"https:\/\/twitter.com\/fortelabs","html":"\u003Cblockquote class=\"twitter-tweet\" align=\"center\"\u003E\u003Cp lang=\"en\" dir=\"ltr\"\u003EWe really need a graph-based PKM app built by a serious company for mainstream users\u003Cbr\u003E\u003Cbr\u003E• Roam is a religion\u003Cbr\u003E• Obsidian is a side hobby\u003Cbr\u003E• Logseq is an open-source project\u003Cbr\u003E• Tana is barely in alpha\u003Cbr\u003E\u003Cbr\u003EIf there was just one reliable app in this space I’d refer so much traffic to it\u003C\/p\u003E&mdash; Tiago Forte (@fortelabs) \u003Ca href=\"https:\/\/twitter.com\/fortelabs\/status\/1616173350778441729?ref_src=twsrc%5Etfw\"\u003EJanuary 19, 2023\u003C\/a\u003E\u003C\/blockquote\u003E\n\u003Cscript async src=\"https:\/\/platform.twitter.com\/widgets.js\" charset=\"utf-8\"\u003E\u003C\/script\u003E\n","width":550,"height":null,"type":"rich","cache_age":"3153600000","provider_name":"Twitter","provider_url":"https:\/\/twitter.com","version":"1.0"};document.getElementById("tweet-61281").innerHTML = tweet["html"];</script><p></p>
 </div>
 </div>
 </div>
