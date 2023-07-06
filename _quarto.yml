@@ -68,8 +68,3 @@ comments:
     loading: lazy
     input-position: top
     reactions-enabled: true
-  
-  hypothesis:
-    theme: clean
-    openSidebar: false
-    showHighlights: whenSidebarOpen
