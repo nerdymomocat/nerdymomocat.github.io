@@ -1,0 +1,8 @@
+---
+title: I'll be avoiding switching my PKM till AI integrations are finalized
+date: 2023-05-31
+categories: [Notion, Opinion]
+# image: ../posts/theme-images/academia.png
+subtitle: Based on my experience with Notion, I hve quickly realized, I do not really like how Notion handles pages. But I am waiting to switch.
+---
+There is obviously a hint of -- I really like Notion and I do not want to leave. But I think a lot of my hesitation comes from the fact that I want to see how different apps integrate AI. The low hanging fruit of integration -- synthesis during creation is really boring for me, and I absolutely do not care about it. So, I am waiting to see how different apps will work with unstructured -> structured content pipeline and semantic searches.
