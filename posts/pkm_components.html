@@ -66,14 +66,6 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script type="application/json" class="js-hypothesis-config">
-{
-  "theme": "clean",
-  "openSidebar": false,
-  "showHighlights": "whenSidebarOpen"
-}
-</script>
-<script async="" src="https://hypothes.is/embed.js"></script>
 <script>
     
 </script>
@@ -230,7 +222,7 @@ ul.task-list li input[type="checkbox"] {
 <p><a href="images/pkm_components/The_Components_of_a_Personal_Knowledge_Management-6bf1a93d980.webp" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="images/pkm_components/The_Components_of_a_Personal_Knowledge_Management-6bf1a93d980.webp" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
-<p>Hello, readers! Grab a cup of coffee, settle in, and join me today as we explore a fascinating world, the world of Personal Knowledge Management (PKM). And for those who sigh at the prospect of manual efforts, fear not, we’ll also delve into the ways AI can serve as our digital butler, all set to ease our journey. Ready to dive in?</p>
+<p>Personal Knowledge management has remained a subject of discussion since ages. One of the most common way people manage their personal knowledge is spread across email, drive and notes apps. Most people end up using google docs, apple notes, or google keep as a starter. If they want to do something more complicated, they end up with something like Evernote or OneNote. Add another level of complexity and you end up with something similar to Notion, Tana etc. No matter the app chosen and the management philosophy, it all boils down to primitives, capture, processing and actions. So this post is a generalized discussion of these components. I also talk about how AI can contribute or interact with these components in short and long term.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><a href="images/pkm_components/The_Components_of_a_Personal_Knowledge_Management-e5352d24449.webp" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="images/pkm_components/The_Components_of_a_Personal_Knowledge_Management-e5352d24449.webp" class="img-fluid figure-img"></a></p>
@@ -238,7 +230,7 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <section id="understanding-the-pkm-primitives" class="level1">
 <h1>Understanding the PKM Primitives</h1>
-<p>PKM starts from seemingly mundane yet indispensable primitives. They are the building blocks, the foundation stones, shaping up the infrastructure where you collect, curate, organize, and eventually, make sense of your knowledge. Let's delve into their specifics.</p>
+<p>Primitives in my viewpoint are the basic building blocks of any system. In this case we are talking about personal knowledge management systems. Building blocks usually have 2 characteristics: they can be combined to build more complex systems; and they can be used to define the possibilities or infrastructure of any system.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><a href="images/pkm_components/The_Components_of_a_Personal_Knowledge_Management-4cc6496d691.webp" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="images/pkm_components/The_Components_of_a_Personal_Knowledge_Management-4cc6496d691.webp" class="img-fluid figure-img"></a></p>
@@ -246,11 +238,11 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <section id="app-primitives" class="level2">
 <h2 class="anchored" data-anchor-id="app-primitives">App Primitives</h2>
-<p>Imagine these as virtual rooms where you perform a plethora of tasks. These are places where you share interesting articles with your colleagues or access critical documents on the go. You collaborate on projects, publish your knowledge, store your bits and pieces of information safely, and even keep track of your changes on files or data.</p>
+<p>App primitives, in my viewpoint are the capabilities or possibilities of a system. These are often implemented on a backend level and not on a content level. It does not matter what the content is, app primitives are most content-agnostic. Some common examples of these are share, collaboration. permissions, history etc. These apply to any content that is present in the app. This is also an implementation that many people are divisive over. For example files over app is a philosophy that is still relevant to app primitives, just that the storage is plaintext or markdown files.</p>
 </section>
 <section id="content-primitives" class="level2">
 <h2 class="anchored" data-anchor-id="content-primitives">Content Primitives</h2>
-<p>From a task to be done, a reminder for a friend’s birthday, to a fascinating code snippet you stumbled upon—these are the content primitives. They are the ‘what’ of your PKM: the kind of information you capture, hold, and process. Images, audio and visual clips, your next cooking recipe as text, or fun polls you conduct amongst friends—they all fall under this category.</p>
+<p>Content primitives are smaller building blocks that can combine together to create better or more complex systems. Content primitives define a set of actions associated to those “blocks” as well. the content primitives defined above should cover most cases, but one of the best abilities that an app can provide is creating new content primitives specific to the user, such as Notion. One of the missing aspect for all of these content primitives is default actions and default recognition. For example, task is a common content primitive in many apps — the idea there being that it has at least two states of not done vs done. Or a timestamp has a “change date” action. But there is a dire dearth of content primitives recognized by apps.</p>
 </section>
 </section>
 <section id="the-art-of-capture" class="level1">
@@ -579,7 +571,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <script src="https://giscus.app/client.js" data-repo="nerdymomocat/nerdymomocat.github.io" data-repo-id="R_kgDOJoxbeA" data-category="Announcements" data-category-id="DIC_kwDOJoxbeM4CWzrO" data-mapping="pathname" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="en" crossorigin="anonymous" data-loading="lazy" async="">
 </script>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"loop":true,"openEffect":"zoom","closeEffect":"zoom","descPosition":"bottom","selector":".lightbox"});</script>
+<script>var lightboxQuarto = GLightbox({"loop":true,"descPosition":"bottom","selector":".lightbox","closeEffect":"zoom","openEffect":"zoom"});</script>
 
 
 
