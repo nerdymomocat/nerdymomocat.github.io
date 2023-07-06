@@ -27,10 +27,10 @@ filters:
 format: html
 lightbox: auto
 reference-location: margin
-threeword: 'PKM Components
+threeword: 'PKMS Components
 
   '
-title: The Components of a Personal Knowledge Management
+title: The Components of a Personal Knowledge Management System
 ---
 ![](images/pkm_components/The_Components_of_a_Personal_Knowledge_Management-6bf1a93d980.webp)
 
