@@ -49,6 +49,9 @@ import Icon from "@/components/Icon";
 		private closeBtn: HTMLButtonElement;
 		private dialog: HTMLDialogElement;
 		private dialogFrame: HTMLDivElement;
+		private observer: MutationObserver;
+		private initialized: boolean = false;
+		private idleCallbackId: number | null = null;
 
 		constructor() {
 			super();
@@ -60,13 +63,14 @@ import Icon from "@/components/Icon";
 			this.openBtn.addEventListener("click", this.openModal);
 			this.openBtn.disabled = false;
 			this.closeBtn.addEventListener("click", this.closeModal);
+
+			// Initialize MutationObserver
+			this.observer = new MutationObserver(this.queueDOMCheck);
 		}
 
 		connectedCallback() {
-			// Listen for keyboard shortcut
 			window.addEventListener("keydown", this.onWindowKeydown);
 
-			// only add pagefind in production
 			if (import.meta.env.DEV) return;
 			const onIdle = window.requestIdleCallback || ((cb) => setTimeout(cb, 1));
 			onIdle(async () => {
@@ -84,17 +88,55 @@ import Icon from "@/components/Icon";
 						zero_results: "Couldn't find [SEARCH_TERM]",
 					},
 				});
+
+				// Start observing the dialog for changes
+				this.observer.observe(this.dialog, { childList: true, subtree: true });
 			});
 		}
 
 		disconnectedCallback() {
 			window.removeEventListener("keydown", this.onWindowKeydown);
+			this.observer.disconnect();
+			if (this.idleCallbackId !== null) {
+				(window.cancelIdleCallback || clearTimeout)(this.idleCallbackId);
+			}
 		}
 
+		queueDOMCheck = () => {
+			if (this.initialized) return;
+
+			if (this.idleCallbackId !== null) {
+				(window.cancelIdleCallback || clearTimeout)(this.idleCallbackId);
+			}
+
+			const onIdle = window.requestIdleCallback || ((cb) => setTimeout(cb, 0));
+			this.idleCallbackId = onIdle(this.checkForFilterBlocks);
+		};
+
+		checkForFilterBlocks = () => {
+			this.idleCallbackId = null;
+			if (this.initialized) return;
+
+			const filterBlocks = this.dialog.querySelectorAll(".pagefind-ui__filter-block");
+			if (filterBlocks.length >= 2) {
+				this.initializeFilterBlocks(filterBlocks);
+				this.initialized = true;
+				this.observer.disconnect();
+			}
+		};
+
+		initializeFilterBlocks = (filterBlocks: NodeListOf<Element>) => {
+			const secondFilterBlock = filterBlocks[1] as HTMLDetailsElement;
+			if (window.innerWidth >= 640) {
+				// Tailwind's sm breakpoint
+				secondFilterBlock.setAttribute("open", "");
+			} else {
+				secondFilterBlock.removeAttribute("open");
+			}
+		};
+
 		onWindowClick = (event: MouseEvent) => {
-			// check if it's a link
 			const isLink = "href" in (event.target || {});
-			// make sure the click is either a link or outside of the dialog
 			if (
 				isLink ||
 				(document.body.contains(event.target as Node) &&
@@ -104,8 +146,7 @@ import Icon from "@/components/Icon";
 		};
 
 		onWindowKeydown = (e: KeyboardEvent) => {
-			// check if it's the / key
-			if ((((e.metaKey || e.ctrlKey) && e.key === "k") || e.key === "/") && !this.dialog.open) {
+			if ((e.metaKey || e.ctrlKey) && e.key === "k" && !this.dialog.open) {
 				this.openModal();
 				e.preventDefault();
 			}
@@ -158,6 +199,7 @@ import Icon from "@/components/Icon";
 	#webtrotion__search .pagefind-ui__result {
 		padding: 12px;
 		border: 0;
+		overflow-x: hidden;
 	}
 	@media (max-width: 640px) {
 		#webtrotion__search .pagefind-ui__drawer {
