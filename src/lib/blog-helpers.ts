@@ -158,7 +158,10 @@ const _filterRichTexts = (
 		}, [] as RichText[]) || [],
 	external_hrefs:
 		rich_texts.reduce((acc, richText) => {
-			if (!richText.InternalHref && !richText.Mention && richText.Href) {
+			if (
+				(!richText.InternalHref && !richText.Mention && richText.Href) ||
+				(richText.Mention && richText.Mention.LinkMention)
+			) {
 				acc.push(richText);
 			}
 			return acc;
