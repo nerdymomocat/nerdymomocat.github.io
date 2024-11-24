@@ -80,10 +80,10 @@
 			}
 		},
 		"fontfamily-google-fonts": {
-			"combined-url": "https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Roboto:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap",
-			"sans-font-name": "Roboto",
+			"combined-url": "https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&family=Geist:wght@100..900&display=swap",
+			"sans-font-name": "Geist",
 			"serif-font-name": "",
-			"mono-font-name": "Roboto\\ Mono"
+			"mono-font-name": "Geist\\ Mono"
 		}
 	},
 	"webmention": {
