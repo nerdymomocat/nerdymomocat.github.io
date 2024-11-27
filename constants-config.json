@@ -1,10 +1,10 @@
 {
-	"database-id": "169b6e632b7448529120599281265ac5",
-	"author": "",
+	"database-id": "34be304850014e9e9ced341c9627371b",
+	"author": "Nerdy Momo Cat",
 	"tracking": {
 		"google-analytics": {
 			"use-ga": true,
-			"public-ga-tracking-id": ""
+			"public-ga-tracking-id": "G-J7JWVG489F"
 		},
 		"umami": {
 			"use-umami": false,
@@ -13,42 +13,42 @@
 			"self-hosted-umami-url": ""
 		}
 	},
-	"google-search-console-html-tag": "",
+	"google-search-console-html-tag": "KIPm1JP9iHIMjr94kOr3t1nyRaPn43dyT9h_dk7ZeCk",
 	"socials": {
-		"email": "",
-		"github": "",
+		"email": "mailto:nerdymomocat@gmail.com",
+		"github": "https://github.com/nerdymomocat",
 		"googlescholar": "",
 		"semanticscholar": "",
 		"dblp": "",
 		"substack": "",
 		"facebook": "",
-		"twitter": "",
-		"threads": "",
+		"twitter": "https://twitter.com/nerdymomocat",
+		"threads": "https://www.threads.net/@nerdymomocat",
 		"instagram": "",
 		"mastodon": "",
-		"bluesky": "",
+		"bluesky": "https://bsky.app/profile/nerdymomocat.bsky.social",
 		"calendar": "",
-		"kofi": "",
+		"kofi": "https://ko-fi.com/nerdymomocat",
 		"buy-me-a-coffee": "",
-		"this-github-repo": "https://github.com/nerdymomocat-templates/webtrotion-astro-notion-cms-website-blog"
+		"this-github-repo": "https://github.com/nerdymomocat/nerdymomocat.github.io"
 	},
 	"custom-domain": "",
 	"base-path": "",
 	"giscus": {
-		"data-repo": "nerdymomocat-templates/webtrotion-astro-notion-cms-website-blog",
-		"data-repo-id": "R_kgDOK0FuUA",
+		"data-repo": "nerdymomocat/nerdymomocat.github.io",
+		"data-repo-id": "R_kgDOK0JDGg",
 		"data-category": "Announcements",
-		"data-category-id": "DIC_kwDOK0FuUM4CbZ5A",
+		"data-category-id": "DIC_kwDOK0JDGs4CbZ9k",
 		"data-mapping": "pathname",
 		"data-input-position": "top",
 		"data-reactions-enabled": true
 	},
 	"bluesky-comments": {
-		"show-comments-from-bluesky": false,
+		"show-comments-from-bluesky": true,
 		"auto-search-for-match": {
-			"turn-on-auto-search": false,
-			"author": "",
-			"echo-feed-emoji": ""
+			"turn-on-auto-search": true,
+			"author": "nerdymomocat.bsky.social",
+			"echo-feed-emoji": "💬"
 		}
 	},
 	"references": {
@@ -73,39 +73,39 @@
 		"shiki-transform": "<<shiki-transform>>",
 		"table": "<<🗂️>>"
 	},
-	"recent-posts-on-home-page": false,
+	"recent-posts-on-home-page": true,
 	"theme": {
 		"colors": {
 			"bg": {
-				"light": "249 249 249",
-				"dark": "28 30 32"
+				"light": "248 248 248",
+				"dark": "21 21 21"
 			},
 			"text": {
-				"light": "34 39 42",
-				"dark": "255 255 255"
+				"light": "19 21 22",
+				"dark": "242 243 244"
 			},
 			"link": {
-				"light": "85 123 118",
-				"dark": "199 200 203"
+				"light": "19 69 137",
+				"dark": "136 207 243"
 			},
 			"accent": {
-				"light": "203 41 65",
-				"dark": "41 188 136"
+				"light": "208 83 0",
+				"dark": "243 172 136"
 			},
 			"accent-2": {
-				"light": "17 17 17",
-				"dark": "237 237 237"
+				"light": "184 5 59",
+				"dark": "243 136 154"
 			},
 			"quote": {
-				"light": "203 41 65",
-				"dark": "205 254 183"
+				"light": "113 135 47",
+				"dark": "207 243 136"
 			}
 		},
 		"fontfamily-google-fonts": {
-			"combined-url": "https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Roboto:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap",
-			"sans-font-name": "Roboto",
+			"combined-url": "https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&family=Geist:wght@100..900&display=swap",
+			"sans-font-name": "Geist",
 			"serif-font-name": "",
-			"mono-font-name": "Roboto\\ Mono"
+			"mono-font-name": "Geist\\ Mono"
 		}
 	},
 	"webmention": {
@@ -122,12 +122,23 @@
 	"home-page-slug": "",
 	"all-footnotes-page-slug": "_all-footnotes",
 	"og-setup": {
-		"columns": 1,
-		"excerpt": false,
-		"title-font-url": "https://fonts.googleapis.com/css2?family=Kreon:wght@500&display=swap",
+		"columns": 2,
+		"excerpt": true,
+		"title-font-url": "https://fonts.googleapis.com/css2?family=Fredericka+the+Great&display=swap",
 		"footnote-font-url": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700&display=swap"
 	},
 	"full-width-social-embeds": false,
 	"optimize-images": true,
-	"redirects": {}
+	"redirects": {
+		"/stream.html": "collections/stream/",
+		"/posts/scratches_and_scribbles.html": "/posts/scratches_and_scribbles/",
+		"/posts/self_organizing_bookmarks.html": "posts/self_organizing_bookmarks/",
+		"/posts/graph_based_notetaking_opinion.html": "posts/graph_based_notetaking_opinion/",
+		"/posts/notion_latex_resume.html": "posts/notion_latex_resume/",
+		"/posts/textsvsbeeper.html": "/posts/textsvsbeeper/",
+		"/posts/choose_your_notetaking_app.html": "/posts/choose_your_notetaking_app/",
+		"/posts/pkm_components.html": "/posts/pkm_components/",
+		"/posts/gdocs_are_underrated.html": "/posts/gdocs_are_underrated/",
+		"/code-and-snippets": "/posts/code-and-snippets/"
+	}
 }
