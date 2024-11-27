@@ -7,8 +7,8 @@
 			"public-ga-tracking-id": "G-J7JWVG489F"
 		},
 		"umami": {
-			"use-umami": false,
-			"data-website-id": "",
+			"use-umami": true,
+			"data-website-id": "ed76135b-e6d0-4009-863f-d5f3d59ca396",
 			"self-hosted": false,
 			"self-hosted-umami-url": ""
 		}
