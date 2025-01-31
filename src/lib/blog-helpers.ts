@@ -370,7 +370,7 @@ export const getAnchorLinkAndBlock = async (
 		};
 	} else if (block_linked_id && post && post.PageId === track_current_page_id) {
 		return {
-			hreflink: `${getPostLink(post.Slug, post.Collection === MENU_PAGES_COLLECTION)}/#${block_linked_id}`,
+			hreflink: `${getPostLink(post.Slug, post.Collection === MENU_PAGES_COLLECTION)}#${block_linked_id}`,
 			blocklinked: block_linked,
 			conditionmatch: "block_current_page",
 			post: post,
@@ -378,7 +378,7 @@ export const getAnchorLinkAndBlock = async (
 		};
 	} else if (block_linked_id && post) {
 		return {
-			hreflink: `${getPostLink(post.Slug, post.Collection === MENU_PAGES_COLLECTION)}/#${block_linked_id}`,
+			hreflink: `${getPostLink(post.Slug, post.Collection === MENU_PAGES_COLLECTION)}#${block_linked_id}`,
 			blocklinked: block_linked,
 			conditionmatch: "block_other_page",
 			post: post,
@@ -441,13 +441,14 @@ export const getReferenceLink = async (
 	return [null, null];
 };
 
-export const getPostLink = (slug: string, isRoot: boolean = false) => {
+export const getPostLink = (slug: string, isRoot: boolean = false): string => {
 	const linkedPath = isRoot
 		? slug === HOME_PAGE_SLUG
-			? path.join(BASE_PATH, `/`)
-			: path.join(BASE_PATH, `/${slug}`)
-		: path.join(BASE_PATH, `/posts/${slug}`);
-	return linkedPath;
+			? path.posix.join(BASE_PATH, "/")
+			: path.posix.join(BASE_PATH, slug)
+		: path.posix.join(BASE_PATH, "posts", slug);
+
+	return linkedPath.endsWith("/") ? linkedPath : `${linkedPath}/`; // Ensure trailing slash
 };
 
 export const buildHeadingId = (heading: Heading1 | Heading2 | Heading3) => {
@@ -554,20 +555,20 @@ export const isAmazonURL = (url: URL): boolean => {
 };
 
 export const isNotionEmbedURL = (url: URL): boolean => {
-    // Ensure the pathname starts with "/ebd/"
-    const pathname = url.pathname;
-    if (!pathname.startsWith("/ebd/")) {
-        return false;
-    }
+	// Ensure the pathname starts with "/ebd/"
+	const pathname = url.pathname;
+	if (!pathname.startsWith("/ebd/")) {
+		return false;
+	}
 
-    // Regular expression to match the expected pattern after "/ebd/"
-    const notionEmbedPattern = /^\/ebd\/.*[a-zA-Z0-9]{32}(\/|\?|$)/;
-    if (!notionEmbedPattern.test(pathname)) {
-        return false;
-    }
+	// Regular expression to match the expected pattern after "/ebd/"
+	const notionEmbedPattern = /^\/ebd\/.*[a-zA-Z0-9]{32}(\/|\?|$)/;
+	if (!notionEmbedPattern.test(pathname)) {
+		return false;
+	}
 
-    // All checks passed
-    return true;
+	// All checks passed
+	return true;
 };
 
 export const isYouTubeURL = (url: URL): boolean => {
