@@ -1,5 +1,6 @@
 import { defineConfig } from "astro/config";
-import tailwind from "@astrojs/tailwind";
+import tailwindcss from "@tailwindcss/vite";
+
 import path from "path";
 import { CUSTOM_DOMAIN, BASE_PATH } from "./src/constants";
 const getSite = function () {
@@ -59,11 +60,6 @@ export default defineConfig({
 		? modifyRedirectPaths(key_value_from_json["redirects"], process.env.BASE || BASE_PATH)
 		: {},
 	integrations: [
-		// mdx({}),
-		tailwind({
-			applyBaseStyles: false,
-		}),
-		// astroImageTools,
 		buildTimestampRecorder(),
 		CustomIconDownloader(),
 		EntryCacheEr(),
@@ -86,7 +82,7 @@ export default defineConfig({
 	},
 	prefetch: true,
 	vite: {
-		plugins: [],
+		plugins: [tailwindcss()],
 		optimizeDeps: {
 			exclude: ["@resvg/resvg-js"],
 		},
