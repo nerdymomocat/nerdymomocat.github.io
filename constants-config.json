@@ -130,10 +130,10 @@
 	"full-width-social-embeds": false,
 	"optimize-images": true,
 	"redirects": {
-		"/stream.html": "collections/stream/",
+		"/stream.html": "/collections/stream/",
 		"/posts/scratches_and_scribbles.html": "/posts/scratches_and_scribbles/",
-		"/posts/self_organizing_bookmarks.html": "posts/self_organizing_bookmarks/",
-		"/posts/graph_based_notetaking_opinion.html": "posts/graph_based_notetaking_opinion/",
+		"/posts/self_organizing_bookmarks.html": "/posts/self_organizing_bookmarks/",
+		"/posts/graph_based_notetaking_opinion.html": "/posts/graph_based_notetaking_opinion/",
 		"/posts/notion_latex_resume.html": "posts/notion_latex_resume/",
 		"/posts/textsvsbeeper.html": "/posts/textsvsbeeper/",
 		"/posts/choose_your_notetaking_app.html": "/posts/choose_your_notetaking_app/",
