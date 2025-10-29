@@ -725,7 +725,10 @@ export function extractCitationsFromBlock(
 
 			// Split RichTexts at match boundaries
 			const { before, after } = splitRichTextsAtCharPosition(newRichTexts, m.start);
-			const { before: markerBefore } = splitRichTextsAtCharPosition(after, m.end - m.start);
+			const { before: markerBefore, after: afterMarker } = splitRichTextsAtCharPosition(
+				after,
+				m.end - m.start,
+			);
 
 			// Create marker RichText
 			const markerText: RichText = {
@@ -746,7 +749,6 @@ export function extractCitationsFromBlock(
 			};
 
 			// Reconstruct RichTexts
-			const afterMarker = after.slice(markerBefore.length);
 			newRichTexts = [...before, markerText, ...afterMarker];
 		}
 
