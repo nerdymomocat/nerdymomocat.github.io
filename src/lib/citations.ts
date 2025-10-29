@@ -666,6 +666,25 @@ export function extractCitationsFromBlock(
 		// Find all matches
 		let match: RegExpExecArray | null;
 		while ((match = pattern.exec(fullText)) !== null) {
+			const charStart = match.index;
+
+			let currentPos = 0;
+			let inCode = false;
+			for (const richText of location.richTexts) {
+				const rtEnd = currentPos + richText.PlainText.length;
+				if (charStart >= currentPos && charStart < rtEnd) {
+					if (richText.Annotation.Code) {
+						inCode = true;
+					}
+					break;
+				}
+				currentPos = rtEnd;
+			}
+
+			if (inCode) {
+				continue;
+			}
+
 			matches.push({
 				key: match[1],
 				start: match.index,

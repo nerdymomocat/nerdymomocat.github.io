@@ -221,13 +221,21 @@ export function findAllFootnoteMarkers(
 			// Find which RichText element this marker is in
 			let currentPos = 0;
 			let richTextIndex = -1;
+			let inCode = false;
 			for (let i = 0; i < location.richTexts.length; i++) {
 				const len = location.richTexts[i].PlainText.length;
 				if (currentPos <= charStart && charStart < currentPos + len) {
 					richTextIndex = i;
+					if (location.richTexts[i].Annotation.Code) {
+						inCode = true;
+					}
 					break;
 				}
 				currentPos += len;
+			}
+
+			if (inCode) {
+				continue;
 			}
 
 			if (richTextIndex >= 0) {
