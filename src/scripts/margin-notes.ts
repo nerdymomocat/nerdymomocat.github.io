@@ -13,53 +13,77 @@
  * - Hover marker or note: Highlights both
  * - Overlapping notes: Automatically stacked with gaps
  */
-window.addEventListener("load", () => {
+
+/**
+ * Initializes margin notes after ensuring fonts are loaded
+ * This prevents position miscalculations due to font swapping
+ */
+async function initializeMarginNotes() {
+	// Wait for page load
+	if (document.readyState === "loading") {
+		await new Promise((resolve) => {
+			window.addEventListener("load", resolve, { once: true });
+		});
+	}
+
+	// Wait for fonts to finish loading to prevent layout shifts
+	await document.fonts.ready;
+
 	// Initialize margin notes if on large screen
 	if (window.matchMedia("(min-width: 1024px)").matches) {
 		positionMarginNotes();
 	}
+}
 
-	// Handle window resize
-	let resizeTimeout;
-	window.addEventListener("resize", () => {
-		clearTimeout(resizeTimeout);
-		resizeTimeout = setTimeout(() => {
-			const isLargeScreen = window.matchMedia("(min-width: 1024px)").matches;
+// Start initialization
+initializeMarginNotes();
 
-			if (isLargeScreen) {
-				// Switched to large screen - remove margin notes and recreate them
-				document.querySelectorAll(".footnote-margin-note").forEach((n) => n.remove());
-				positionMarginNotes();
+// Handle window resize
+let resizeTimeout;
+window.addEventListener("resize", () => {
+	clearTimeout(resizeTimeout);
+	resizeTimeout = setTimeout(async () => {
+		const isLargeScreen = window.matchMedia("(min-width: 1024px)").matches;
 
-				// Hide any open popovers for footnote markers and mark them as non-interactive
-				document.querySelectorAll("[data-margin-note]").forEach((marker) => {
-					const popoverId = marker.getAttribute("data-popover-target");
-					if (popoverId) {
-						const popover = document.getElementById(popoverId);
-						if (popover) {
-							popover.style.display = "none";
-							popover.style.visibility = "hidden";
-							popover.classList.add("hidden");
-						}
+		if (isLargeScreen) {
+			// Wait for fonts to be ready before repositioning
+			await document.fonts.ready;
+
+			// Switched to large screen - remove margin notes and recreate them
+			document.querySelectorAll(".footnote-margin-note").forEach((n) => n.remove());
+			positionMarginNotes();
+
+			// Hide any open popovers for footnote markers and mark them as non-interactive
+			document.querySelectorAll("[data-margin-note]").forEach((marker) => {
+				const popoverId = marker.getAttribute("data-popover-target");
+				if (popoverId) {
+					const popover = document.getElementById(popoverId);
+					if (popover) {
+						popover.style.display = "none";
+						popover.style.visibility = "hidden";
+						popover.classList.add("hidden");
 					}
-				});
-			} else {
-				// Switched to small screen - remove margin notes and reinitialize popover listeners for footnotes only
-				document.querySelectorAll(".footnote-margin-note").forEach((n) => n.remove());
+				}
+			});
+		} else {
+			// Switched to small screen - remove margin notes and reinitialize popover listeners for footnotes only
+			document.querySelectorAll(".footnote-margin-note").forEach((n) => n.remove());
 
-				// Re-enable popovers for footnote markers
-				document.querySelectorAll("[data-margin-note]").forEach((marker) => {
-					const popoverId = marker.getAttribute("data-popover-target");
-					if (popoverId) {
-						const popover = document.getElementById(popoverId);
-						if (popover) {
-							popover.style.display = "";
-						}
+			// Re-enable popovers for footnote markers by fully resetting their state
+			document.querySelectorAll("[data-margin-note]").forEach((marker) => {
+				const popoverId = marker.getAttribute("data-popover-target");
+				if (popoverId) {
+					const popover = document.getElementById(popoverId);
+					if (popover) {
+						// Reset all styles that were set when hiding popovers on large screens
+						popover.style.display = "";
+						popover.style.visibility = "";
+						popover.classList.remove("hidden");
 					}
-				});
-			}
-		}, 250);
-	});
+				}
+			});
+		}
+	}, 250);
 });
 
 function positionMarginNotes() {

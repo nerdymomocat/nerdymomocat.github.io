@@ -109,49 +109,6 @@ export function get_bib_source_info(url: string): BibSourceInfo {
 // BibTeX File Fetching with Caching
 // ============================================================================
 
-/**
- * Updates the BibTeX files mapping to track URL → cached filename
- */
-function updateBibFilesMapping(url: string, urlHash: string, downloadUrl: string): void {
-	const cacheDir = BUILD_FOLDER_PATHS.bibFilesCache;
-	const mappingPath = path.join(cacheDir, "bib-files-mapping.json");
-
-	// Load existing mapping
-	let mapping: Record<string, any> = {};
-	if (fs.existsSync(mappingPath)) {
-		try {
-			mapping = JSON.parse(fs.readFileSync(mappingPath, "utf-8"));
-		} catch (error) {
-			console.warn("Failed to parse bib-files-mapping.json, creating new one");
-			mapping = {};
-		}
-	}
-
-	// Extract original filename from URL
-	let originalName = "unknown.bib";
-	try {
-		const urlPath = new URL(downloadUrl).pathname;
-		const parts = urlPath.split("/");
-		const lastPart = parts[parts.length - 1];
-		if (lastPart && lastPart.endsWith(".bib")) {
-			originalName = lastPart;
-		}
-	} catch (error) {
-		// Use hash if URL parsing fails
-		originalName = `${urlHash}.bib`;
-	}
-
-	// Update mapping
-	mapping[url] = {
-		cached_as: `${urlHash}.bib`,
-		original_name: originalName,
-		download_url: downloadUrl,
-		last_updated: new Date().toISOString(),
-	};
-
-	// Save mapping
-	fs.writeFileSync(mappingPath, JSON.stringify(mapping, null, 2), "utf-8");
-}
 
 /**
  * Gets last-updated timestamp for a GitHub source
@@ -186,7 +143,6 @@ export async function fetchBibTeXFile(url: string): Promise<string> {
 	const sourceInfo = get_bib_source_info(url);
 	const urlHash = crypto.createHash("md5").update(url).digest("hex");
 	const cacheDir = BUILD_FOLDER_PATHS.bibFilesCache;
-	const bibFilePath = path.join(cacheDir, `${urlHash}.bib`);
 	const metaFilePath = path.join(cacheDir, `${urlHash}.meta.json`);
 
 	// Ensure cache directory exists
@@ -194,9 +150,9 @@ export async function fetchBibTeXFile(url: string): Promise<string> {
 		fs.mkdirSync(cacheDir, { recursive: true });
 	}
 
-	// Check if cached file exists
+	// Check if cached metadata exists (we don't save the raw .bib file, only parsed JSON)
 	let existingMeta: BibFileMeta | null = null;
-	if (fs.existsSync(bibFilePath) && fs.existsSync(metaFilePath)) {
+	if (fs.existsSync(metaFilePath)) {
 		try {
 			existingMeta = JSON.parse(fs.readFileSync(metaFilePath, "utf-8"));
 		} catch (error) {
@@ -294,9 +250,6 @@ export async function fetchBibTeXFile(url: string): Promise<string> {
 			parsed_file: `parsed_${urlHash}.json`,
 		};
 		fs.writeFileSync(metaFilePath, JSON.stringify(meta, null, 2), "utf-8");
-
-		// Update mapping file
-		updateBibFilesMapping(url, urlHash, sourceInfo.download_url);
 
 		console.log(`✓ Fetched, parsed, and cached ${entryCount} citations from ${url}`);
 		return "success";
