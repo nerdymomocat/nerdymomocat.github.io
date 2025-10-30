@@ -26,8 +26,8 @@ if (block.Footnotes && footnoteRef) {
 	footnote = block.Footnotes.find((fn) => fn.Marker === footnoteRef);
 }
 
-// Generate unique ID for this footnote marker
-const uniqueId = `footnote-${block.Id}-${footnoteRef}`;
+// Generate unique ID for this footnote marker (using random component to avoid duplicates when same content appears multiple times)
+const uniqueId = `footnote-${Math.random().toString(16).slice(2)}-${block.Id}-${footnoteRef}`;
 
 // Determine what symbol to display:
 // - Use † ONLY when isMarginMode is false AND generate-footnotes-section is false

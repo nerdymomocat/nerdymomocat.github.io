@@ -19,8 +19,8 @@ if (block.Citations && citationRef) {
 	citation = block.Citations.find((c) => c.Key === citationRef);
 }
 
-// Generate unique ID for this citation marker
-const uniqueId = `citation-${block.Id}-${citationRef}`;
+// Generate unique ID for this citation marker (using random component to avoid duplicates when same content appears multiple times)
+const uniqueId = `citation-${Math.random().toString(16).slice(2)}-${block.Id}-${citationRef}`;
 
 // Determine what to display:
 // - IEEE: [1], [2], etc. (using Index)
