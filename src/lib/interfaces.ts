@@ -447,10 +447,7 @@ export interface FootnotesConfig {
 		};
 		"marker-prefix": string; // e.g., "ft_" → markers like [^ft_a]
 		"generate-footnotes-section": boolean; // Collated list at page end
-		"intext-display": {
-			"always-popover": boolean; // Always show as popover
-			"small-popover-large-margin": boolean; // Responsive: margin on large screens (≥1024px), popover on mobile
-		};
+		"show-in-margin-on-large-screens": boolean; // Responsive: margin on large screens (≥1024px), popover on mobile
 	};
 }
 

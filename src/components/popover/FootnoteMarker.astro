@@ -13,11 +13,9 @@ const { richText, block } = Astro.props;
 
 // Get footnote configuration
 const config = adjustedFootnotesConfig?.["in-page-footnotes-settings"];
-const displayMode = config?.["intext-display"];
 
 // Determine display mode
-const isAlwaysPopover = displayMode?.["always-popover"] === true;
-const isMarginMode = displayMode?.["small-popover-large-margin"] === true;
+const isMarginMode = config?.["show-in-margin-on-large-screens"] === true;
 
 // Get the footnote marker reference (e.g., "ft_a")
 const footnoteRef = richText.FootnoteRef;
@@ -32,10 +30,10 @@ if (block.Footnotes && footnoteRef) {
 const uniqueId = `footnote-${block.Id}-${footnoteRef}`;
 
 // Determine what symbol to display:
-// - Use † ONLY when always-popover is true AND generate-footnotes-section is false
+// - Use † ONLY when isMarginMode is false AND generate-footnotes-section is false
 // - Otherwise use sequential numbers [1], [2], etc.
 const generateSection = config?.["generate-footnotes-section"];
-const useNumbering = generateSection || isMarginMode || !isAlwaysPopover;
+const useNumbering = generateSection || isMarginMode;
 const displaySymbol =
 	useNumbering && footnote?.Index ? `[${numberToAlphabet(footnote.Index)}]` : "[†]";
 ---
@@ -49,18 +47,7 @@ const displaySymbol =
 	) : (
 		<>
 			{/* Render footnote marker with appropriate attributes for popover or margin mode */}
-			{isAlwaysPopover ? (
-				<span class="text-link decoration-accent-2/40 underline decoration-dotted underline-offset-2">
-					<span
-						data-popover-target={`popover-description-${uniqueId}`}
-						data-popover-placement="bottom-end"
-						class="text-quote cursor-pointer align-super font-mono text-xs"
-						aria-label="Show information for the linked content"
-					>
-						{displaySymbol}
-					</span>
-				</span>
-			) : isMarginMode ? (
+			{isMarginMode ? (
 				<span class="text-link decoration-accent-2/40 underline decoration-dotted underline-offset-2">
 					<span
 						data-margin-note={uniqueId}

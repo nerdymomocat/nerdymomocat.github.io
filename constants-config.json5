@@ -242,12 +242,8 @@
 				// If true, a collated list of all footnotes will be automatically generated at the bottom of the page.
 				"generate-footnotes-section": true,
 				// Defines how footnote markers are displayed within the text.
-				"intext-display": {
-					// If true, footnotes will always appear as a popover on click.
-					"always-popover": false,
-					// (Recommended) On large screens, displays footnotes in the margin. On smaller screens, it falls back to a popover.
-					"small-popover-large-margin": true,
-				},
+				// (Recommended) On large screens, displays footnotes in the margin. On smaller screens, it falls back to a popover.
+				"show-in-margin-on-large-screens": true,
 			},
 		},
 
