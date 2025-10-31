@@ -321,7 +321,9 @@ function parseAndFormatBibTeXContent(content: string): Map<string, ParsedCitatio
 		// Format as IEEE
 		let ieeeFormatted = "";
 		try {
-			const cite = new Cite([entry]);
+			const entryForFormatting = { ...entry };
+			delete entryForFormatting.URL;
+			const cite = new Cite([entryForFormatting]);
 			ieeeFormatted = cite.format("bibliography", {
 				format: "html",
 				template: "ieee",
@@ -337,7 +339,9 @@ function parseAndFormatBibTeXContent(content: string): Map<string, ParsedCitatio
 		// Format as APA
 		let apaFormatted = "";
 		try {
-			const cite = new Cite([entry]);
+			const entryForFormatting = { ...entry };
+			delete entryForFormatting.URL;
+			const cite = new Cite([entryForFormatting]);
 			apaFormatted = cite.format("bibliography", {
 				format: "html",
 				template: "apa",
