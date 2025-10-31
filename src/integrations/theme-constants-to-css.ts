@@ -369,7 +369,11 @@ ${createCssVariables("dark")}
   }
 }
 
-.post-preview-full-container .footnote-margin-note {
+.post-preview-full-container .footnote-margin-note,
+.post-preview-full-container .cite-this-page-section,
+.post-preview-full-container .bibliography-section,
+.post-preview-full-container .footnotes-section,
+.post-preview-full-container .jump-to-bibliography {
   display: none !important;
 }
 

@@ -160,21 +160,5 @@ const postLink = getPostLink(
 	class="post-body post-preview-full-container"
 	data-html-type={shouldUseCache && cachedHtml ? "cached" : "new"}
 >
-	{
-		shouldUseCache && cachedHtml ? (
-			<div set:html={cachedHtml} />
-		) : (
-			<>
-				<NotionBlocks blocks={blocks} />
-				{/* Footnotes section - only render when NOT using cache (cached HTML already includes it) */}
-				{adjustedFootnotesConfig?.["in-page-footnotes-settings"]?.enabled &&
-					adjustedFootnotesConfig?.["in-page-footnotes-settings"]?.["generate-footnotes-section"] &&
-					footnotesInPage && <FootnotesSection footnotes={footnotesInPage} />}
-				{/* Bibliography section */}
-				{CITATIONS?.["extract-and-process-bibtex-citations"]?.["generate-bibliography-section"] &&
-					citationsInPage &&
-					citationsInPage.length > 0 && <BibliographySection citations={citationsInPage} />}
-			</>
-		)
-	}
+	{shouldUseCache && cachedHtml ? <div set:html={cachedHtml} /> : <NotionBlocks blocks={blocks} />}
 </section>
