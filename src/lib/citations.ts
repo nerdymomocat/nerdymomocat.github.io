@@ -142,78 +142,46 @@ export async function fetchBibTeXFile(url: string): Promise<string> {
 	const sourceInfo = get_bib_source_info(url);
 	const urlHash = crypto.createHash("md5").update(url).digest("hex");
 	const cacheDir = BUILD_FOLDER_PATHS.bibFilesCache;
-	const metaFilePath = path.join(cacheDir, `${urlHash}.meta.json`);
+	const parsedFilePath = path.join(cacheDir, `parsed_${urlHash}.json`);
 
 	// Ensure cache directory exists
 	if (!fs.existsSync(cacheDir)) {
 		fs.mkdirSync(cacheDir, { recursive: true });
 	}
 
-	// Check if cached metadata exists (we don't save the raw .bib file, only parsed JSON)
-	let existingMeta: BibFileMeta | null = null;
-	if (fs.existsSync(metaFilePath)) {
-		try {
-			existingMeta = JSON.parse(fs.readFileSync(metaFilePath, "utf-8"));
-		} catch (error) {
-			console.warn(`Failed to parse metadata for ${url}, will re-fetch`);
-			existingMeta = null;
-		}
-	}
+	const isCached = fs.existsSync(parsedFilePath);
 
 	// Determine if we should refetch
-	let shouldRefetch = !existingMeta;
+	let shouldRefetch = !isCached;
 
-	if (existingMeta) {
+	if (isCached) {
 		// Dropbox/Drive: ALWAYS refetch (no public timestamp API to verify changes)
 		if (!sourceInfo.updated_url) {
 			console.log(`BibTeX file ${url} from Dropbox/Drive, re-fetching (cannot verify changes)...`);
 			shouldRefetch = true;
 		}
-		// GitHub sources: Can check remote timestamp and use LAST_BUILD_TIME optimization
-		else if (LAST_BUILD_TIME) {
-			const lastFetched = new Date(existingMeta.last_fetched);
-
-			// If cached file was fetched AFTER last build, use cache without checking remote
-			if (lastFetched >= LAST_BUILD_TIME) {
-				console.log(`BibTeX file ${url} already fetched in this build (cached)`);
-				shouldRefetch = false;
+		// GitHub sources: Can check remote timestamp
+		else {
+			// If LAST_BUILD_TIME is not available, we have to be safe and refetch
+			if (!LAST_BUILD_TIME) {
+				console.log(`LAST_BUILD_TIME not available, re-fetching ${url}...`);
+				shouldRefetch = true;
 			} else {
-				// Cached before last build: check remote timestamp
 				const remoteLastUpdated = await getGitHubLastUpdated(sourceInfo.updated_url);
-				if (
-					remoteLastUpdated &&
-					existingMeta.last_updated &&
-					remoteLastUpdated !== existingMeta.last_updated
-				) {
+				if (remoteLastUpdated && new Date(remoteLastUpdated) > LAST_BUILD_TIME) {
 					console.log(`BibTeX file ${url} has been updated remotely, re-fetching...`);
 					shouldRefetch = true;
-				} else if (remoteLastUpdated) {
+				} else {
 					console.log(`BibTeX file ${url} is up-to-date (cached)`);
 					shouldRefetch = false;
 				}
 			}
 		}
-		// GitHub without LAST_BUILD_TIME: check remote timestamp
-		else {
-			const remoteLastUpdated = await getGitHubLastUpdated(sourceInfo.updated_url);
-			if (
-				remoteLastUpdated &&
-				existingMeta.last_updated &&
-				remoteLastUpdated !== existingMeta.last_updated
-			) {
-				console.log(`BibTeX file ${url} has been updated remotely, re-fetching...`);
-				shouldRefetch = true;
-			} else if (remoteLastUpdated) {
-				console.log(`BibTeX file ${url} is up-to-date (cached)`);
-				shouldRefetch = false;
-			}
-		}
 	}
 
-	// Return success if we don't need to refetch (parsed file already exists)
-	if (!shouldRefetch && existingMeta) {
+	if (!shouldRefetch) {
 		console.log(`Using cached parsed citations for ${url}`);
-		return "cached"; // We don't need the raw content anymore
+		return "cached";
 	}
 
 	// Fetch from remote
@@ -222,45 +190,17 @@ export async function fetchBibTeXFile(url: string): Promise<string> {
 		const response = await axios.get(sourceInfo.download_url, { timeout: 10000 });
 		const content = response.data;
 
-		// Parse and format citations immediately
-		let entryCount = 0;
-		let remoteLastUpdated: string | null = null;
-		try {
-			const parsedCitations = parseAndFormatBibTeXContent(content);
-			entryCount = parsedCitations.size;
+		// Parse and save citations
+		const parsedCitations = parseAndFormatBibTeXContent(content);
+		saveParsedCitations(urlHash, parsedCitations);
 
-			// Save parsed citations to parsed_{urlHash}.json
-			saveParsedCitations(urlHash, parsedCitations);
-		} catch (error) {
-			console.warn(`Failed to parse and format BibTeX from ${url}:`, error);
-		}
-
-		// Get remote timestamp if available
-		if (sourceInfo.updated_url) {
-			remoteLastUpdated = await getGitHubLastUpdated(sourceInfo.updated_url);
-		}
-
-		// Save metadata
-		const meta: BibFileMeta = {
-			url: url,
-			last_updated: remoteLastUpdated,
-			entry_count: entryCount,
-			last_fetched: new Date().toISOString(),
-			parsed_file: `parsed_${urlHash}.json`,
-		};
-		fs.writeFileSync(metaFilePath, JSON.stringify(meta, null, 2), "utf-8");
-
-		console.log(`✓ Fetched, parsed, and cached ${entryCount} citations from ${url}`);
+		console.log(`✓ Fetched, parsed, and cached ${parsedCitations.size} citations from ${url}`);
 		return "success";
 	} catch (error) {
 		console.error(`Failed to fetch BibTeX file from ${url}:`, error);
-		// Check if we have cached parsed citations as fallback
-		if (existingMeta) {
-			const cachedParsed = loadParsedCitations(urlHash);
-			if (cachedParsed) {
-				console.log(`Using cached parsed citations as fallback`);
-				return "cached-fallback";
-			}
+		if (isCached) {
+			console.log(`Using cached parsed citations as fallback`);
+			return "cached-fallback";
 		}
 		throw error;
 	}

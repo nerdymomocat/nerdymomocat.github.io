@@ -529,17 +529,6 @@ export interface BibSourceInfo {
 }
 
 /**
- * Metadata for a cached BibTeX file
- */
-export interface BibFileMeta {
-	url: string;
-	last_updated: string | null;
-	entry_count: number;
-	last_fetched: string; // ISO timestamp
-	parsed_file: string; // Filename of the parsed_{md5}.json file
-}
-
-/**
  * Result from extracting citations from a block
  */
 export interface CitationExtractionResult {
