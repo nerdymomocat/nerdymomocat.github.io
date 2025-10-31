@@ -109,7 +109,6 @@ export function get_bib_source_info(url: string): BibSourceInfo {
 // BibTeX File Fetching with Caching
 // ============================================================================
 
-
 /**
  * Gets last-updated timestamp for a GitHub source
  * Returns null if unavailable or on error
@@ -286,6 +285,9 @@ function parseAndFormatBibTeXContent(content: string): Map<string, ParsedCitatio
 		// Extract year
 		const year = entry.issued?.["date-parts"]?.[0]?.[0]?.toString() || entry.year || "n.d.";
 
+		// Extract URL
+		const url = entry.URL;
+
 		// Extract and format authors
 		let authors = "Unknown";
 		if (entry.author && entry.author.length > 0) {
@@ -352,6 +354,7 @@ function parseAndFormatBibTeXContent(content: string): Map<string, ParsedCitatio
 			key,
 			authors,
 			year,
+			url,
 			ieee_formatted: ieeeFormatted,
 			apa_formatted: apaFormatted,
 		});
@@ -672,6 +675,7 @@ export function extractCitationsFromBlock(
 				FormattedEntry: formatted.bibliography,
 				Authors: formatted.authors,
 				Year: formatted.year,
+				Url: entry.url,
 				SourceBlockIds: [], // Will be populated later
 			};
 			citations.push(citation);

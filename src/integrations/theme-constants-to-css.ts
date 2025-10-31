@@ -305,7 +305,7 @@ ${createCssVariables("dark")}
 
 @layer components {
   .site-page-link {
-    @apply underline decoration-wavy decoration-from-font decoration-accent-2/20 hover:decoration-accent-2/40 underline-offset-2 hover:underline;
+    @apply underline decoration-wavy decoration-from-font decoration-accent-2/40 hover:decoration-accent-2/60 underline-offset-2;
   }
 
   .title {

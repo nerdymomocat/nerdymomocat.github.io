@@ -48,7 +48,7 @@ const displaySymbol =
 		<>
 			{/* Render footnote marker with appropriate attributes for popover or margin mode */}
 			{isMarginMode ? (
-				<span class="text-link decoration-accent-2/40 underline decoration-dotted underline-offset-2">
+				<span class="decoration-quote/40 underline decoration-dotted -underline-offset-2">
 					<span
 						data-margin-note={uniqueId}
 						data-popover-target={`popover-description-${uniqueId}`}
@@ -60,7 +60,7 @@ const displaySymbol =
 					</span>
 				</span>
 			) : (
-				<span class="text-link decoration-accent-2/40 underline decoration-dotted underline-offset-2">
+				<span class="decoration-quote/40 underline decoration-dotted -underline-offset-2">
 					<span
 						data-popover-target={`popover-description-${uniqueId}`}
 						data-popover-placement="bottom-end"

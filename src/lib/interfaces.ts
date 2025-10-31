@@ -482,6 +482,7 @@ export interface Citation {
 	FormattedEntry: string; // HTML formatted bibliography entry (dynamically selected based on style)
 	Authors: string; // "Smith et al." or "Smith, J."
 	Year: string; // "2020"
+	Url?: string; // URL to the cited work
 	SourceBlockIds: string[]; // ARRAY of all block IDs where this key appears
 	SourceBlocks?: Block[]; // ARRAY of actual Block objects where this key appears (like interlinked content)
 	FirstAppearanceIndex?: number; // Order of first occurrence in document
@@ -495,6 +496,7 @@ export interface ParsedCitationEntry {
 	key: string; // Citation key (e.g., "smith2020")
 	authors: string; // Formatted authors string
 	year: string; // Publication year
+	url?: string; // URL to the citation source
 	ieee_formatted: string; // HTML formatted entry in IEEE style
 	apa_formatted: string; // HTML formatted entry in APA style
 }

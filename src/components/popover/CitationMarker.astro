@@ -54,7 +54,7 @@ const showBibliography =
 	) : (
 		<>
 			{/* Render citation marker with popover on click */}
-			<span class="text-link decoration-accent-2/40 underline decoration-dotted underline-offset-2">
+			<span class="decoration-quote/40 underline decoration-dotted underline-offset-2">
 				<span
 					data-popover-target={`popover-description-${uniqueId}`}
 					data-popover-placement="bottom-end"
@@ -76,7 +76,18 @@ const showBibliography =
 					class="popoverEl border-accent-2/20 bg-popover-bg/95 text-textColor/80 invisible absolute z-40 hidden inline-block w-72 rounded-lg border text-sm opacity-0 shadow-xs backdrop-blur-sm transition-opacity duration-300"
 				>
 					<div class="space-y-2 p-2">
-						<div class="citation-content" set:html={citation.FormattedEntry} />
+						{citation.Url ? (
+							<a
+								href={citation.Url}
+								target="_blank"
+								rel="noopener noreferrer"
+								class="text-link site-page-link decoration-solid"
+							>
+								<div class="citation-content" set:html={citation.FormattedEntry} />
+							</a>
+						) : (
+							<div class="citation-content" set:html={citation.FormattedEntry} />
+						)}
 						{showBibliography && (
 							<div class="pt-2">
 								<a
