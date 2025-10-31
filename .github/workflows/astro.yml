@@ -92,7 +92,7 @@ jobs:
                   PUSH_NEEDED="true"
                 else
                   # --- Case B: Merge-based sync (different SHA but merge commit)
-                  LAST_COMMIT_MSG=$(git log -1 --pretty=%B || echo "")
+                  LAST_COMMIT_MSG=$(git log -1 --pretty=%B) || LAST_COMMIT_MSG=""
                   if echo "$LAST_COMMIT_MSG" | grep -Eiq "merge pull request|sync fork|update from|template"; then
                     echo "✅ Detected merge-based sync via commit message. Cleanup push is required."
                     PUSH_NEEDED="true"
