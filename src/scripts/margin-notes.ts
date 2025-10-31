@@ -15,28 +15,41 @@
  */
 
 /**
- * Initializes margin notes after ensuring fonts are loaded
- * This prevents position miscalculations due to font swapping
+ * Positions margin notes if on large screen
  */
-async function initializeMarginNotes() {
-	// Wait for page load
-	if (document.readyState === "loading") {
-		await new Promise((resolve) => {
-			window.addEventListener("load", resolve, { once: true });
-		});
-	}
-
-	// Wait for fonts to finish loading to prevent layout shifts
-	await document.fonts.ready;
-
-	// Initialize margin notes if on large screen
+function initializeMarginNotes() {
 	if (window.matchMedia("(min-width: 1024px)").matches) {
+		// Clean up any existing margin notes before repositioning
+		document.querySelectorAll(".footnote-margin-note").forEach((n) => n.remove());
 		positionMarginNotes();
 	}
 }
 
-// Start initialization
-initializeMarginNotes();
+/**
+ * Initialize margin notes progressively:
+ * 1. First when DOM is ready (fast but potentially wrong positions)
+ * 2. Then after images load (correct positions)
+ */
+async function setupMarginNotes() {
+	// Quick first render when DOM is ready
+	if (document.readyState === "loading") {
+		await new Promise((resolve) => {
+			document.addEventListener("DOMContentLoaded", resolve, { once: true });
+		});
+	}
+	initializeMarginNotes();
+
+	// Reposition after all images load for accurate positions
+	if (document.readyState === "loading" || document.readyState === "interactive") {
+		await new Promise((resolve) => {
+			window.addEventListener("load", resolve, { once: true });
+		});
+	}
+	initializeMarginNotes();
+}
+
+// Start progressive initialization
+setupMarginNotes();
 
 // Handle window resize
 let resizeTimeout;

@@ -15,8 +15,9 @@ document.addEventListener("DOMContentLoaded", () => {
 	// Create the selector based on the device type
 	function getPopoverSelector() {
 		if (lgBreakpointQuery.matches) {
-			// Disable popover on the footnote marker itself when margin note is visible
-			return "[data-popover-target]:not([data-margin-note])";
+			// Enable popovers for footnotes in collection stream pages (no margin notes there)
+			// Disable popovers for footnotes elsewhere (margin notes handle them)
+			return "[data-popover-target]:not([data-margin-note]), .post-preview-full-container [data-margin-note][data-popover-target]";
 		}
 
 		if (smBreakpointQuery.matches) {
