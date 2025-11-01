@@ -1,12 +1,8 @@
-import {
-	computePosition,
-	offset,
-	shift,
-	flip,
-	autoUpdate,
-} from "https://cdn.jsdelivr.net/npm/@floating-ui/dom@1.7.4/+esm";
-
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+	// Dynamically import floating-ui to avoid blocking initial page load
+	const { computePosition, offset, shift, flip, autoUpdate } = await import(
+		"https://cdn.jsdelivr.net/npm/@floating-ui/dom@1.7.4/+esm"
+	);
 	// State variables for popovers
 
 	const smBreakpointQuery = window.matchMedia("(max-width: 639px)");
@@ -54,8 +50,6 @@ document.addEventListener("DOMContentLoaded", () => {
 			popoverEl.style.visibility = "hidden";
 			popoverEl.classList.add("hidden");
 			popoverEl.style.opacity = "0";
-			popoverEl.style.top = "0px";
-			popoverEl.style.left = "0px";
 
 			const cleanup = cleanupAutoUpdate.get(popoverEl);
 			if (cleanup) {
@@ -98,6 +92,12 @@ document.addEventListener("DOMContentLoaded", () => {
 		const template = document.getElementById(`template-${popoverID}`);
 		if (!template) return null;
 		const popoverEl = template.content.firstElementChild.cloneNode(true);
+
+		// Remove data-margin-note from footnotes inside popovers so they use popover behavior instead
+		popoverEl.querySelectorAll("[data-margin-note]").forEach((footnote) => {
+			footnote.removeAttribute("data-margin-note");
+		});
+
 		triggerEl.parentNode.insertBefore(popoverEl, triggerEl.nextSibling);
 		addLeaveListeners(triggerEl, popoverEl);
 		return popoverEl;

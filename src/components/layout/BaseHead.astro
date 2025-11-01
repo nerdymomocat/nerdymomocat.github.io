@@ -49,6 +49,11 @@ const umamiSrc = isBuildOrPreviewMode
 
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+
+{/* Preconnect to external CDN resources for faster loading */}
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+
 {theme_config_font_url && <GoogleFontsOptimizer url={theme_config_font_url} />}
 {
 	ENABLE_LIGHTBOX && (
