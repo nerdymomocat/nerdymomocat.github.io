@@ -293,7 +293,7 @@
 				// If true, a collated bibliography section will be automatically generated at the bottom of the page.
 				"generate-bibliography-section": false,
 				// If true, show citations in the right margin on large screens (≥1024px). On smaller screens, citations will display as popovers.
-				"show-in-margin-on-large-screens": false,
+				"show-in-margin-on-large-screens": true,
 			},
 		},
 	},
