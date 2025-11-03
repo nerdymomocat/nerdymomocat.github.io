@@ -10,32 +10,31 @@ import File from "@/components/notion-blocks/File.astro";
 export interface Props {
 	content: Footnote["Content"];
 	sourceBlockId?: string;
+	sourceBlock?: BlockType;
 }
 
-const { content, sourceBlockId } = Astro.props;
+const { content, sourceBlockId, sourceBlock } = Astro.props;
 ---
 
 {
 	content.Type === "rich_text" && content.RichTexts && (
 		<div>
 			{content.RichTexts.map((rt) => (
-				<RichText richText={rt} blockID={sourceBlockId} />
+				<RichText richText={rt} blockID={sourceBlockId} block={sourceBlock} />
 			))}
 		</div>
 	)
 }
 {
 	content.Type === "blocks" && content.Blocks && (
-		<div class="prose prose-sm dark:prose-invert max-w-none">
-			<NotionBlocks blocks={content.Blocks} renderChildren={true} setId={false} />
-		</div>
+		<NotionBlocks blocks={content.Blocks} renderChildren={true} setId={false} />
 	)
 }
 {
 	content.Type === "comment" && content.RichTexts && (
 		<div>
 			{content.RichTexts.map((rt) => (
-				<RichText richText={rt} blockID={sourceBlockId} />
+				<RichText richText={rt} blockID={sourceBlockId} block={sourceBlock} />
 			))}
 			{content.CommentAttachments && content.CommentAttachments.length > 0 && (
 				<div class="mt-2 space-y-1">

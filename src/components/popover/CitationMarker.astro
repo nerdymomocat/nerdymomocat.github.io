@@ -1,6 +1,7 @@
 ---
 import type { RichText, Block, Citation } from "@/lib/interfaces";
-import { BIBLIOGRAPHY_STYLE, CITATIONS } from "@/constants";
+import { BIBLIOGRAPHY_STYLE, CITATIONS, BIBTEX_CITATIONS_ENABLED } from "@/constants";
+import { adjustedFootnotesConfig } from "@/lib/notion/client";
 
 export interface Props {
 	richText: RichText;
@@ -25,11 +26,10 @@ const uniqueId = `citation-${Math.random().toString(16).slice(2)}-${block.Id}-${
 // Determine what to display:
 // - IEEE: [1], [2], etc. (using Index)
 // - APA: (Author et al, Year)
-const bibliographyStyle = BIBLIOGRAPHY_STYLE || "simplified-ieee";
 let displayText = "";
 
 if (citation) {
-	if (bibliographyStyle === "simplified-ieee" && citation.Index) {
+	if (BIBLIOGRAPHY_STYLE === "simplified-ieee" && citation.Index) {
 		// IEEE: Show numbers
 		displayText = `[${citation.Index}]`;
 	} else {
@@ -42,7 +42,31 @@ if (citation) {
 
 // Check if bibliography section is being generated
 const showBibliography =
+	BIBTEX_CITATIONS_ENABLED &&
 	CITATIONS?.["extract-and-process-bibtex-citations"]?.["generate-bibliography-section"] === true;
+
+// Determine if citation should show in margin
+const footnoteMargin =
+	adjustedFootnotesConfig?.["in-page-footnotes-settings"]?.["show-in-margin-on-large-screens"] ===
+	true;
+const citationMargin =
+	CITATIONS?.["extract-and-process-bibtex-citations"]?.["show-in-margin-on-large-screens"] === true;
+
+const shouldShowInMargin = (() => {
+	if (!citation) return false; // Broken citation → no margin
+	if (!citationMargin) return false; // Citation margin disabled → always popover
+
+	// When both margins are enabled: show first occurrence anywhere
+	if (footnoteMargin) {
+		if (!citation.FirstAppearanceIndex) return false; // Not first occurrence globally → popover
+		return true; // First occurrence (anywhere) → margin
+	}
+
+	// When footnote margin is disabled but citation margin is enabled:
+	// Only show first occurrence in main content (not first in footnote)
+	if (!footnoteMargin && !citation.FirstAppearanceInMainContentIndex) return false; // Not first in main content → popover
+	return true; // First occurrence in main content → margin
+})();
 ---
 
 {/* If no citation content found, render as muted text (broken reference) */}
@@ -53,17 +77,33 @@ const showBibliography =
 		</span>
 	) : (
 		<>
-			{/* Render citation marker with popover on click */}
-			<span class="decoration-quote/40 underline decoration-dotted underline-offset-2">
-				<span
-					data-popover-target={`popover-description-${uniqueId}`}
-					data-popover-placement="bottom-end"
-					class="text-quote cursor-pointer font-mono text-xs"
-					aria-label="Show information for the linked content"
-				>
-					{displayText}
+			{/* Render citation marker with appropriate attributes for popover or margin mode */}
+			{shouldShowInMargin ? (
+				<span class="decoration-quote/40 underline decoration-dotted underline-offset-2">
+					<span
+						data-margin-note={uniqueId}
+						data-citation-key={citation.Key}
+						data-popover-target={`popover-description-${uniqueId}`}
+						data-popover-placement="bottom-end"
+						class="text-quote cursor-pointer font-mono text-xs"
+						aria-label="Show information for the linked content"
+					>
+						{displayText}
+					</span>
 				</span>
-			</span>
+			) : (
+				<span class="decoration-quote/40 underline decoration-dotted underline-offset-2">
+					<span
+						data-popover-target={`popover-description-${uniqueId}`}
+						data-citation-key={citation.Key}
+						data-popover-placement="bottom-end"
+						class="text-quote cursor-pointer font-mono text-xs"
+						aria-label="Show information for the linked content"
+					>
+						{displayText}
+					</span>
+				</span>
+			)}
 
 			{/* Template for popover content */}
 			<template id={`template-popover-description-${uniqueId}`}>
@@ -116,7 +156,7 @@ const showBibliography =
 								>
 									{"Jump to bibliography"}
 									<svg
-										class="ms-1.5 h-2 w-2 rtl:rotate-180"
+										class="text-accent group-hover:text-accent-2 ms-1.5 h-2 w-2 rtl:rotate-180"
 										aria-hidden="true"
 										xmlns="http://www.w3.org/2000/svg"
 										fill="none"
@@ -136,6 +176,65 @@ const showBibliography =
 					</div>
 				</div>
 			</template>
+
+			{/* Template for margin notes content (same structure, used by margin notes script) */}
+			{shouldShowInMargin && (
+				<template id={`template-margin-${uniqueId}`}>
+					<div class="text-sm!">
+						<span class="text-quote font-mono text-xs!">{displayText}</span>{" "}
+						{citation.Url ? (
+							<a
+								href={citation.Url}
+								target="_blank"
+								rel="noopener noreferrer"
+								class="text-link site-page-link decoration-solid"
+							>
+								<span class="citation-content" set:html={citation.FormattedEntry} />
+							</a>
+						) : (
+							<span class="citation-content" set:html={citation.FormattedEntry} />
+						)}
+						{showBibliography && (
+							<a
+								href={`#citation-def-${citation.Key}`}
+								class="text-link/90 ml-1 inline-block align-middle hover:underline"
+								onclick={`
+									event.preventDefault();
+
+									// Clear any previously active back buttons
+									document.querySelectorAll('li[data-show-back-button]').forEach(li => {
+										delete li.dataset.showBackButton;
+										delete li.dataset.backToBlock;
+									});
+
+									// Set active on target
+									const target = document.getElementById('citation-def-${citation.Key}');
+									if (target) {
+										target.dataset.showBackButton = 'true';
+										target.dataset.backToBlock = '${blockID}';
+									}
+
+									window.location.hash = '#citation-def-${citation.Key}';
+									target?.scrollIntoView({ behavior: 'smooth' });
+								`}
+							>
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									width="12"
+									height="12"
+									viewBox="0 0 24 24"
+									class="inline-block"
+								>
+									<path
+										fill="currentColor"
+										d="M22 4V2H2v2h9v14.17l-5.5-5.5l-1.42 1.41L12 22l7.92-7.92l-1.42-1.41l-5.5 5.5V4z"
+									/>
+								</svg>
+							</a>
+						)}
+					</div>
+				</template>
+			)}
 		</>
 	)
 }

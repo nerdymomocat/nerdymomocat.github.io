@@ -26,6 +26,7 @@ import {
 	LAST_BUILD_TIME,
 	BUILD_FOLDER_PATHS,
 	CITATIONS,
+	BIBTEX_CITATIONS_ENABLED,
 } from "@/constants";
 import PostPreview from "@/components/listing-layout/PostPreview.astro";
 import Icon from "@/components/ui/Icon.astro";
@@ -213,9 +214,10 @@ if (pageFound && page.Slug === HOME_PAGE_SLUG && RECENT_POSTS_ON_HOME_PAGE) {
 									] &&
 									footnotesInPage && <FootnotesSection footnotes={footnotesInPage} />}
 								{/* Bibliography section */}
-								{CITATIONS?.["extract-and-process-bibtex-citations"]?.[
-									"generate-bibliography-section"
-								] &&
+								{BIBTEX_CITATIONS_ENABLED &&
+									CITATIONS?.["extract-and-process-bibtex-citations"]?.[
+										"generate-bibliography-section"
+									] &&
 									citationsInPage &&
 									citationsInPage.length > 0 && (
 										<BibliographySection citations={citationsInPage} />

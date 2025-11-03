@@ -99,9 +99,14 @@ export const IN_PAGE_FOOTNOTES_ENABLED =
  */
 export const CITATIONS = key_value_from_json?.["auto-extracted-sections"]?.citations || null;
 
-// Helper to check if citations are enabled
-export const CITATIONS_ENABLED =
-	CITATIONS?.["extract-and-process-bibtex-citations"]?.enabled === true;
+// Helper to check if BibTeX citation extraction is enabled and has URL list
+export const BIBTEX_CITATIONS_ENABLED = (() => {
+	if (CITATIONS?.["extract-and-process-bibtex-citations"]?.enabled !== true) {
+		return false;
+	}
+	const urlList = CITATIONS["extract-and-process-bibtex-citations"]["bibtex-file-url-list"];
+	return Array.isArray(urlList) && urlList.length > 0;
+})();
 
 // Get bibliography style (either "apa" or "simplified-ieee")
 export const BIBLIOGRAPHY_STYLE = (() => {

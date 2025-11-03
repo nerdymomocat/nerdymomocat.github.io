@@ -766,9 +766,9 @@ export function extractPageContent(
 
 	// Tracking for citations
 	const keyToIndex = new Map<string, number>();
+	const keyToMainContentIndex = new Map<string, number>(); // Track first appearance in main content
 	let firstAppearanceCounter = 0;
-	const bibliographyStyle = (BIBLIOGRAPHY_STYLE as "apa" | "simplified-ieee") || "simplified-ieee";
-
+	let firstAppearanceInMainContentCounter = 0;
 	/**
 	 * Recursive function that processes a single block and all its children
 	 */
@@ -798,7 +798,19 @@ export function extractPageContent(
 					// Already seen this key - reuse existing index
 					const existingIndex = keyToIndex.get(key)!;
 					citation.Index = existingIndex; // MUTATE directly
-					citation.FirstAppearanceIndex = existingIndex;
+					// DO NOT overwrite FirstAppearanceIndex - it should remain undefined for subsequent occurrences
+					// This allows CitationMarker.astro to distinguish first vs subsequent occurrences
+
+					// Check if this is the first time seeing this key in main content (not in footnote)
+					if (!keyToMainContentIndex.has(key) && !citation.IsInFootnoteContent) {
+						firstAppearanceInMainContentCounter++;
+						citation.FirstAppearanceInMainContentIndex = firstAppearanceInMainContentCounter;
+						keyToMainContentIndex.set(key, firstAppearanceInMainContentCounter);
+
+						// Also update the existing citation in the map
+						const existing = citationMap.get(key)!;
+						existing.FirstAppearanceInMainContentIndex = firstAppearanceInMainContentCounter;
+					}
 
 					// Add this block ID and Block object to the citation's SourceBlockIds and SourceBlocks
 					const existing = citationMap.get(key)!;
@@ -813,13 +825,20 @@ export function extractPageContent(
 					// First time seeing this key - assign new index
 					firstAppearanceCounter++;
 					const index =
-						bibliographyStyle === "simplified-ieee" ? firstAppearanceCounter : undefined;
+						BIBLIOGRAPHY_STYLE === "simplified-ieee" ? firstAppearanceCounter : undefined;
 
 					// MUTATE the citation directly
 					citation.Index = index;
 					citation.FirstAppearanceIndex = firstAppearanceCounter;
 					citation.SourceBlockIds = [block.Id];
 					citation.SourceBlocks = [block];
+
+					// Also track FirstAppearanceInMainContentIndex if this is in main content
+					if (!citation.IsInFootnoteContent) {
+						firstAppearanceInMainContentCounter++;
+						citation.FirstAppearanceInMainContentIndex = firstAppearanceInMainContentCounter;
+						keyToMainContentIndex.set(key, firstAppearanceInMainContentCounter);
+					}
 
 					// Track this key's index
 					if (index !== undefined) {
@@ -867,8 +886,8 @@ export function extractPageContent(
 			});
 		}
 
-		// Also process citations in footnote content blocks (if extracting citations)
-		if (options.extractCitations && block.Footnotes) {
+		// Also process footnote content blocks (for footnotes, interlinked content, etc.)
+		if (block.Footnotes) {
 			block.Footnotes.forEach((footnote) => {
 				if (footnote.Content.Type === "blocks" && footnote.Content.Blocks) {
 					footnote.Content.Blocks.forEach(processBlock);
@@ -901,7 +920,7 @@ export function extractPageContent(
 	let citations: Citation[] = [];
 	if (options.extractCitations) {
 		citations = Array.from(citationMap.values());
-		citations = prepareBibliography(citations, bibliographyStyle);
+		citations = prepareBibliography(citations);
 	}
 
 	return {

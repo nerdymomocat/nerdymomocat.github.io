@@ -29,12 +29,17 @@ import type {
 	Citation,
 	CitationsConfig,
 	BibSourceInfo,
-	BibFileMeta,
 	CitationExtractionResult,
 	ParsedCitationEntry,
+	Footnote,
 } from "./interfaces";
-import { getAllRichTextLocations, cloneRichText, joinPlainText } from "./footnotes";
-import { BUILD_FOLDER_PATHS, LAST_BUILD_TIME } from "../constants";
+import {
+	getAllRichTextLocations,
+	cloneRichText,
+	joinPlainText,
+	getChildrenFromBlock,
+} from "./footnotes";
+import { BUILD_FOLDER_PATHS, LAST_BUILD_TIME, BIBLIOGRAPHY_STYLE } from "../constants";
 
 // ============================================================================
 // URL Normalization and Source Detection
@@ -515,6 +520,220 @@ function splitRichTextsAtCharPosition(
 }
 
 /**
+ * Extracts citations from a single RichText array
+ * Core logic shared by extractCitationsFromBlock and block-comments footnotes
+ *
+ * Splits RichTexts at citation positions into [before, marker, after]
+ * Markers are tagged with IsCitationMarker and CitationRef
+ *
+ * @param richTexts - RichText array to process
+ * @param citationFormat - Format to match ([@key], \cite{key}, or #cite(key))
+ * @param bibEntries - Map of citation entries
+ * @returns { modifiedRichTexts, citations } - Modified array with split markers and Citation objects
+ */
+export function extractCitationsFromRichTextArray(
+	richTexts: RichText[],
+	citationFormat: string,
+	bibEntries: Map<string, ParsedCitationEntry>,
+	isInFootnoteContent: boolean = false,
+): { modifiedRichTexts: RichText[]; citations: Citation[] } {
+	const citations: Citation[] = [];
+	const fullText = joinPlainText(richTexts);
+	const matches: { key: string; start: number; end: number; fullMatch: string }[] = [];
+
+	// Build regex based on format
+	let pattern: RegExp;
+	if (citationFormat === "[@key]") {
+		pattern = /\[@([a-zA-Z0-9_\-:]+)\]/g;
+	} else if (citationFormat === "\\cite{key}") {
+		pattern = /\\cite\{([a-zA-Z0-9_\-:]+)\}/g;
+	} else if (citationFormat === "#cite(key)") {
+		pattern = /#cite\(([a-zA-Z0-9_\-:]+)\)/g;
+	} else {
+		console.warn(`Unknown citation format: ${citationFormat}`);
+		return { modifiedRichTexts: richTexts, citations: [] };
+	}
+
+	// Find all matches
+	let match: RegExpExecArray | null;
+	while ((match = pattern.exec(fullText)) !== null) {
+		const charStart = match.index;
+
+		// Check if citation is inside code block (skip if so)
+		let currentPos = 0;
+		let inCode = false;
+		for (const richText of richTexts) {
+			const rtEnd = currentPos + richText.PlainText.length;
+			if (charStart >= currentPos && charStart < rtEnd) {
+				if (richText.Annotation.Code) {
+					inCode = true;
+				}
+				break;
+			}
+			currentPos = rtEnd;
+		}
+
+		if (inCode) {
+			continue;
+		}
+
+		matches.push({
+			key: match[1],
+			start: match.index,
+			end: match.index + match[0].length,
+			fullMatch: match[0],
+		});
+	}
+
+	if (matches.length === 0) {
+		return { modifiedRichTexts: richTexts, citations: [] };
+	}
+
+	// Replace matches with citation markers
+	// Process in reverse order to maintain positions
+	matches.reverse();
+
+	let newRichTexts = [...richTexts];
+	for (const m of matches) {
+		// Look up citation key in bibEntries
+		const entry = bibEntries.get(m.key);
+		if (!entry) {
+			console.warn(`Citation key "${m.key}" not found in BibTeX entries`);
+			continue;
+		}
+
+		// Format citation
+		const formatted = formatCitation(entry);
+
+		// Create Citation object
+		const citation: Citation = {
+			Key: m.key,
+			FormattedEntry: formatted.bibliography,
+			Authors: formatted.authors,
+			Year: formatted.year,
+			Url: entry.url,
+			SourceBlockIds: [], // Will be populated later
+			IsInFootnoteContent: isInFootnoteContent,
+		};
+		citations.push(citation);
+
+		// Split RichTexts at match boundaries
+		const { before, after } = splitRichTextsAtCharPosition(newRichTexts, m.start);
+		const { before: markerBefore, after: afterMarker } = splitRichTextsAtCharPosition(
+			after,
+			m.end - m.start,
+		);
+
+		// Create marker RichText
+		const markerText: RichText = {
+			PlainText: m.fullMatch,
+			Text: {
+				Content: m.fullMatch,
+			},
+			Annotation: {
+				Bold: false,
+				Italic: false,
+				Strikethrough: false,
+				Underline: false,
+				Code: false,
+				Color: "default",
+			},
+			IsCitationMarker: true,
+			CitationRef: m.key,
+		};
+
+		// Reconstruct RichTexts
+		newRichTexts = [...before, markerText, ...afterMarker];
+	}
+
+	return { modifiedRichTexts: newRichTexts, citations };
+}
+
+/**
+ * Recursively extracts citations from a block and all its descendants
+ * Used for start-of-child-blocks footnote content
+ */
+function extractCitationsFromBlockRecursive(
+	block: Block,
+	citationFormat: string,
+	bibEntries: Map<string, ParsedCitationEntry>,
+	isInFootnoteContent: boolean,
+): Citation[] {
+	const citations: Citation[] = [];
+	const locations = getAllRichTextLocations(block);
+
+	// Extract from this block's RichTexts
+	for (const location of locations) {
+		const result = extractCitationsFromRichTextArray(
+			location.richTexts,
+			citationFormat,
+			bibEntries,
+			isInFootnoteContent,
+		);
+		if (result.citations.length > 0) {
+			citations.push(...result.citations);
+			location.setter(result.modifiedRichTexts);
+		}
+	}
+
+	// Recursively process children
+	const children = getChildrenFromBlock(block);
+	if (children) {
+		for (const child of children) {
+			const childCitations = extractCitationsFromBlockRecursive(
+				child,
+				citationFormat,
+				bibEntries,
+				isInFootnoteContent,
+			);
+			citations.push(...childCitations);
+		}
+	}
+
+	return citations;
+}
+
+/**
+ * Extracts citations from footnote content
+ * Handles all three content types: rich_text, comment, blocks
+ */
+function extractCitationsFromFootnote(
+	footnote: Footnote,
+	citationFormat: string,
+	bibEntries: Map<string, ParsedCitationEntry>,
+): Citation[] {
+	const citations: Citation[] = [];
+
+	// Handle rich_text and comment types (both have RichTexts)
+	if (
+		(footnote.Content.Type === "rich_text" || footnote.Content.Type === "comment") &&
+		footnote.Content.RichTexts
+	) {
+		const result = extractCitationsFromRichTextArray(
+			footnote.Content.RichTexts,
+			citationFormat,
+			bibEntries,
+			true, // isInFootnoteContent = true
+		);
+		citations.push(...result.citations);
+		footnote.Content.RichTexts = result.modifiedRichTexts; // Update with citation markers
+	} else if (footnote.Content.Type === "blocks" && footnote.Content.Blocks) {
+		// Handle blocks type (start-of-child-blocks) - extract recursively
+		for (const childBlock of footnote.Content.Blocks) {
+			const childCitations = extractCitationsFromBlockRecursive(
+				childBlock,
+				citationFormat,
+				bibEntries,
+				true, // isInFootnoteContent = true
+			);
+			citations.push(...childCitations);
+		}
+	}
+
+	return citations;
+}
+
+/**
  * Extracts citations from a block's RichText arrays
  *
  * Supports three formats:
@@ -537,124 +756,42 @@ export function extractCitationsFromBlock(
 	}
 
 	const citationFormat = config["extract-and-process-bibtex-citations"]["in-text-citation-format"];
-	const bibliographyStyle = config["extract-and-process-bibtex-citations"]["bibliography-format"][
-		"simplified-ieee"
-	]
-		? "simplified-ieee"
-		: "apa";
-
-	// Build regex based on format
-	let pattern: RegExp;
-	if (citationFormat === "[@key]") {
-		pattern = /\[@([a-zA-Z0-9_\-:]+)\]/g;
-	} else if (citationFormat === "\\cite{key}") {
-		pattern = /\\cite\{([a-zA-Z0-9_\-:]+)\}/g;
-	} else if (citationFormat === "#cite(key)") {
-		pattern = /#cite\(([a-zA-Z0-9_\-:]+)\)/g;
-	} else {
-		console.warn(`Unknown citation format: ${citationFormat}`);
-		return { citations: [], processedRichTexts: false };
-	}
 
 	let processedAny = false;
 
-	// Process each RichText location
+	// Process each RichText location in the block
 	for (const location of locations) {
-		const fullText = joinPlainText(location.richTexts);
-		const matches: { key: string; start: number; end: number; fullMatch: string }[] = [];
-
-		// Find all matches
-		let match: RegExpExecArray | null;
-		while ((match = pattern.exec(fullText)) !== null) {
-			const charStart = match.index;
-
-			let currentPos = 0;
-			let inCode = false;
-			for (const richText of location.richTexts) {
-				const rtEnd = currentPos + richText.PlainText.length;
-				if (charStart >= currentPos && charStart < rtEnd) {
-					if (richText.Annotation.Code) {
-						inCode = true;
+		// FIRST: Check for footnote markers and extract citations from footnote content
+		for (const rt of location.richTexts) {
+			if (rt.IsFootnoteMarker && rt.FootnoteRef && block.Footnotes) {
+				const footnote = block.Footnotes.find((fn) => fn.Marker === rt.FootnoteRef);
+				if (footnote) {
+					const footnoteCitations = extractCitationsFromFootnote(
+						footnote,
+						citationFormat,
+						bibEntries,
+					);
+					if (footnoteCitations.length > 0) {
+						processedAny = true;
+						citations.push(...footnoteCitations);
 					}
-					break;
 				}
-				currentPos = rtEnd;
 			}
-
-			if (inCode) {
-				continue;
-			}
-
-			matches.push({
-				key: match[1],
-				start: match.index,
-				end: match.index + match[0].length,
-				fullMatch: match[0],
-			});
 		}
 
-		if (matches.length === 0) continue;
+		// THEN: Process main content citations normally
+		const result = extractCitationsFromRichTextArray(
+			location.richTexts,
+			citationFormat,
+			bibEntries,
+			false, // isInFootnoteContent = false (main content)
+		);
 
-		processedAny = true;
-
-		// Replace matches with citation markers
-		// Process in reverse order to maintain positions
-		matches.reverse();
-
-		let newRichTexts = [...location.richTexts];
-		for (const m of matches) {
-			// Look up citation key in bibEntries
-			const entry = bibEntries.get(m.key);
-			if (!entry) {
-				console.warn(`Citation key "${m.key}" not found in BibTeX entries`);
-				continue;
-			}
-
-			// Format citation
-			const formatted = formatCitation(entry, bibliographyStyle as "apa" | "simplified-ieee");
-
-			// Create Citation object
-			const citation: Citation = {
-				Key: m.key,
-				FormattedEntry: formatted.bibliography,
-				Authors: formatted.authors,
-				Year: formatted.year,
-				Url: entry.url,
-				SourceBlockIds: [], // Will be populated later
-			};
-			citations.push(citation);
-
-			// Split RichTexts at match boundaries
-			const { before, after } = splitRichTextsAtCharPosition(newRichTexts, m.start);
-			const { before: markerBefore, after: afterMarker } = splitRichTextsAtCharPosition(
-				after,
-				m.end - m.start,
-			);
-
-			// Create marker RichText
-			const markerText: RichText = {
-				PlainText: m.fullMatch,
-				Text: {
-					Content: m.fullMatch,
-				},
-				Annotation: {
-					Bold: false,
-					Italic: false,
-					Strikethrough: false,
-					Underline: false,
-					Code: false,
-					Color: "default",
-				},
-				IsCitationMarker: true,
-				CitationRef: m.key,
-			};
-
-			// Reconstruct RichTexts
-			newRichTexts = [...before, markerText, ...afterMarker];
+		if (result.citations.length > 0) {
+			processedAny = true;
+			citations.push(...result.citations);
+			location.setter(result.modifiedRichTexts); // Update block's RichTexts
 		}
-
-		// Update the block's RichTexts
-		location.setter(newRichTexts);
 	}
 
 	return { citations, processedRichTexts: processedAny };
@@ -670,13 +807,10 @@ export function extractCitationsFromBlock(
  * - IEEE: By Index (order of first appearance) - [1], [2], [3]...
  * - APA: Alphabetically by Authors field
  */
-export function prepareBibliography(
-	citations: Citation[],
-	style: "apa" | "simplified-ieee",
-): Citation[] {
+export function prepareBibliography(citations: Citation[]): Citation[] {
 	const sorted = [...citations];
 
-	if (style === "simplified-ieee") {
+	if (BIBLIOGRAPHY_STYLE === "simplified-ieee") {
 		// Sort by Index (first appearance order)
 		sorted.sort((a, b) => (a.Index || 0) - (b.Index || 0));
 	} else {

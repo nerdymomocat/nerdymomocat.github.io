@@ -1,13 +1,13 @@
 {
 	"name": "webtrotion-astro-notion-cms-website-blog",
-	"version": "2.1.1",
+	"version": "2.1.2",
 	"private": false,
 	"cacheVersion": {
-		"tmpJSONCache": "v4",
-		"tmpHTMLCache": "vH",
+		"tmpJSONCache": "v5",
+		"tmpHTMLCache": "vI",
 		"tmpOGImagesCache": "v4",
 		"publicNotion": "v4",
-		"lastBuildTimestampStore": "vD"
+		"lastBuildTimestampStore": "vE"
 	},
 	"scripts": {
 		"predev": "rm -rf buildcache && for folder in blocks-html-cache blocks-json-cache rss-cache bib-files-cache; do if [ -d \"./tmp/$folder\" ]; then echo \"Deleting $folder folder\"; rm -rf \"./tmp/$folder\"; else echo \"No $folder folder to delete\"; fi; done",

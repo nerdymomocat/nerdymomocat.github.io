@@ -16,36 +16,37 @@
 
 /**
  * Positions margin notes if on large screen
+ * @param limit - Optional limit on number of notes to position (for initial fast render)
  */
-function initializeMarginNotes() {
+function initializeMarginNotes(limit?: number) {
 	if (window.matchMedia("(min-width: 1024px)").matches) {
 		// Clean up any existing margin notes before repositioning
 		document.querySelectorAll(".footnote-margin-note").forEach((n) => n.remove());
-		positionMarginNotes();
+		positionMarginNotes(limit);
 	}
 }
 
 /**
  * Initialize margin notes progressively:
- * 1. First when DOM is ready (fast but potentially wrong positions)
- * 2. Then after images load (correct positions)
+ * 1. First when DOM is ready - render only first 4 notes (fast, viewport-likely)
+ * 2. Then after images load - render all notes (correct positions)
  */
 async function setupMarginNotes() {
-	// Quick first render when DOM is ready
+	// Quick first render when DOM is ready - only position first 4 notes for speed
 	if (document.readyState === "loading") {
 		await new Promise((resolve) => {
 			document.addEventListener("DOMContentLoaded", resolve, { once: true });
 		});
 	}
-	initializeMarginNotes();
+	initializeMarginNotes(4); // Limit to 4 notes on fast initial render
 
-	// Reposition after all images load for accurate positions
+	// Reposition after all images load for accurate positions - render ALL notes
 	if (document.readyState === "loading" || document.readyState === "interactive") {
 		await new Promise((resolve) => {
 			window.addEventListener("load", resolve, { once: true });
 		});
 	}
-	initializeMarginNotes();
+	initializeMarginNotes(); // No limit - render all notes with correct positions
 }
 
 // Start progressive initialization
@@ -99,15 +100,31 @@ window.addEventListener("resize", () => {
 	}, 250);
 });
 
-function positionMarginNotes() {
+function positionMarginNotes(limit?: number) {
 	const markers = document.querySelectorAll("[data-margin-note]");
+	let positioned = 0;
+	const processedCitationKeys = new Set<string>();
 
 	markers.forEach((markerEl) => {
+		// Stop after reaching limit (if specified)
+		if (limit !== undefined && positioned >= limit) return;
 		const footnoteId = markerEl.getAttribute("data-margin-note");
 		if (!footnoteId) return;
 
 		const template = document.getElementById(`template-margin-${footnoteId}`);
 		if (!template) return;
+
+		//Deduplicate citations based on citation key to avoid multiple margin notes for same citation in same block in a page.
+		const citationKey = markerEl.getAttribute("data-citation-key");
+		if (citationKey) {
+			// Skip if this citation key has already been processed
+			if (processedCitationKeys.has(citationKey)) {
+				markerEl.removeAttribute("data-margin-note");
+				template.remove(); // Remove unused template
+				return;
+			}
+			processedCitationKeys.add(citationKey);
+		}
 
 		const postBody = markerEl.closest(".post-body");
 		if (!postBody) return;
@@ -127,6 +144,52 @@ function positionMarginNotes() {
 		const content = template.content.cloneNode(true);
 		marginNote.appendChild(content);
 
+		// Check if there are nested citation markers in the cloned content
+		// Query marginNote (not content) since content is now empty after appendChild
+		const nestedCitationMarkers = marginNote.querySelectorAll('[data-margin-note^="citation-"]');
+
+		nestedCitationMarkers.forEach((citationMarker) => {
+			const citationId = citationMarker.getAttribute("data-margin-note");
+			if (!citationId) return;
+
+			// Find the citation's margin template (search in marginNote)
+			const citationTemplate = marginNote.querySelector(`#template-margin-${citationId}`);
+			if (!citationTemplate) return;
+
+			const nestedCitationKey = citationMarker.getAttribute("data-citation-key");
+			if (nestedCitationKey) {
+				// Skip if this citation key has already been processed
+				if (processedCitationKeys.has(nestedCitationKey)) {
+					citationMarker.removeAttribute("data-margin-note");
+					citationTemplate.remove(); // Remove unused template
+					return;
+				}
+				processedCitationKeys.add(nestedCitationKey);
+			}
+
+			// Remove interactive attributes from the nested citation marker
+			// since it's rendered inline in the margin note (no cursor, aria-label, or underline needed on large screens)
+			citationMarker.removeAttribute("aria-label");
+			citationMarker.classList.remove("cursor-pointer");
+
+			// Remove underline from parent span if it exists
+			const parentSpan = citationMarker.parentElement;
+			if (parentSpan && parentSpan.tagName === "SPAN") {
+				parentSpan.classList.remove(
+					"decoration-quote/40",
+					"underline",
+					"decoration-dotted",
+					"underline-offset-2",
+				);
+			}
+
+			// Clone the citation template content and append to margin note
+			const citationContent = citationTemplate.content.cloneNode(true);
+			marginNote.appendChild(citationContent);
+
+			citationTemplate.remove(); // Remove the citation template from the content
+		});
+
 		const postBodyRect = postBody.getBoundingClientRect();
 		const markerRect = markerEl.getBoundingClientRect();
 		const topOffset = markerRect.top - postBodyRect.top + postBody.scrollTop;
@@ -136,6 +199,9 @@ function positionMarginNotes() {
 		postBody.appendChild(marginNote);
 
 		setupHoverHighlight(markerEl, marginNote);
+
+		// Increment counter after successfully positioning a note
+		positioned++;
 	});
 
 	// After all notes are created, stack them globally to prevent overlaps

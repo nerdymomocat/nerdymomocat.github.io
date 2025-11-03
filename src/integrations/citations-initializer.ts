@@ -1,5 +1,5 @@
 import type { AstroIntegration } from "astro";
-import { CITATIONS_ENABLED, CITATIONS } from "../constants";
+import { BIBTEX_CITATIONS_ENABLED, CITATIONS } from "../constants";
 import { parseBibTeXFiles } from "../lib/citations";
 
 /**
@@ -18,16 +18,11 @@ export default (): AstroIntegration => ({
 	name: "citations-initializer",
 	hooks: {
 		"astro:build:start": async () => {
-			if (!CITATIONS_ENABLED || !CITATIONS) {
+			if (!BIBTEX_CITATIONS_ENABLED) {
 				return;
 			}
 
-			const bibUrls = CITATIONS["extract-and-process-bibtex-citations"]?.["bibtex-file-url-list"];
-			if (!bibUrls || bibUrls.length === 0) {
-				console.log("Citations: No BibTeX URLs configured");
-				return;
-			}
-
+			const bibUrls = CITATIONS?.["extract-and-process-bibtex-citations"]?.["bibtex-file-url-list"];
 			console.log(`\nCitations: Initializing BibTeX cache with ${bibUrls.length} source(s)...`);
 			try {
 				const bibEntriesCache = await parseBibTeXFiles(bibUrls);

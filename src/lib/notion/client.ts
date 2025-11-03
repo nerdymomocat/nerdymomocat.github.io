@@ -17,9 +17,8 @@ import {
 	BUILD_FOLDER_PATHS,
 	IN_PAGE_FOOTNOTES_ENABLED,
 	FOOTNOTES,
-	CITATIONS_ENABLED,
+	BIBTEX_CITATIONS_ENABLED,
 	CITATIONS,
-	BIBLIOGRAPHY_STYLE,
 } from "../../constants";
 import { extractFootnotesFromBlock } from "../../lib/footnotes";
 import { extractCitationsFromBlock } from "../../lib/citations";
@@ -188,7 +187,7 @@ function getBibEntriesCache(): Map<string, ParsedCitationEntry> {
 		return bibEntriesCache;
 	}
 
-	if (!CITATIONS_ENABLED || !CITATIONS) {
+	if (!BIBTEX_CITATIONS_ENABLED) {
 		bibEntriesCache = new Map();
 		return bibEntriesCache;
 	}
@@ -446,7 +445,6 @@ export async function getPostContentByPostId(post: Post): Promise<{
 
 	const shouldExtractFootnotes =
 		adjustedFootnotesConfig?.["in-page-footnotes-settings"]?.enabled || false;
-	const shouldExtractCitations = (CITATIONS_ENABLED && BIBLIOGRAPHY_STYLE) || false;
 
 	if (!isPostUpdatedAfterLastBuild && fs.existsSync(cacheFilePath)) {
 		// CACHE HIT PATH: Post was not updated, try to load all caches
@@ -462,7 +460,7 @@ export async function getPostContentByPostId(post: Post): Promise<{
 		const allCachesExist =
 			hasInterlinkedCache &&
 			(!shouldExtractFootnotes || hasFootnotesCache) &&
-			(!shouldExtractCitations || hasCitationsCache);
+			(!BIBTEX_CITATIONS_ENABLED || hasCitationsCache);
 
 		if (allCachesExist) {
 			// Load all from cache
@@ -472,14 +470,14 @@ export async function getPostContentByPostId(post: Post): Promise<{
 			if (shouldExtractFootnotes) {
 				footnotesInPage = superjson.parse(fs.readFileSync(cacheFootnotesInPageFilePath, "utf-8"));
 			}
-			if (shouldExtractCitations) {
+			if (BIBTEX_CITATIONS_ENABLED) {
 				citationsInPage = superjson.parse(fs.readFileSync(cacheCitationsInPageFilePath, "utf-8"));
 			}
 		} else {
 			// Some caches missing - use unified extraction for missing pieces
 			const extracted = extractPageContent(post.PageId, blocks, {
 				extractFootnotes: shouldExtractFootnotes && !hasFootnotesCache,
-				extractCitations: shouldExtractCitations && !hasCitationsCache,
+				extractCitations: BIBTEX_CITATIONS_ENABLED && !hasCitationsCache,
 				extractInterlinkedContent: !hasInterlinkedCache,
 			});
 
@@ -496,7 +494,7 @@ export async function getPostContentByPostId(post: Post): Promise<{
 
 			citationsInPage = hasCitationsCache
 				? superjson.parse(fs.readFileSync(cacheCitationsInPageFilePath, "utf-8"))
-				: shouldExtractCitations
+				: BIBTEX_CITATIONS_ENABLED
 					? extracted.citations
 					: null;
 
@@ -515,7 +513,7 @@ export async function getPostContentByPostId(post: Post): Promise<{
 					"utf-8",
 				);
 			}
-			if (!hasCitationsCache && shouldExtractCitations && citationsInPage) {
+			if (!hasCitationsCache && BIBTEX_CITATIONS_ENABLED && citationsInPage) {
 				fs.writeFileSync(
 					cacheCitationsInPageFilePath,
 					superjson.stringify(citationsInPage),
@@ -526,7 +524,7 @@ export async function getPostContentByPostId(post: Post): Promise<{
 			// Re-save blocks if footnotes or citations were extracted (they mutate blocks)
 			if (
 				(!hasFootnotesCache && shouldExtractFootnotes) ||
-				(!hasCitationsCache && shouldExtractCitations)
+				(!hasCitationsCache && BIBTEX_CITATIONS_ENABLED)
 			) {
 				fs.writeFileSync(cacheFilePath, superjson.stringify(blocks), "utf-8");
 			}
@@ -538,7 +536,7 @@ export async function getPostContentByPostId(post: Post): Promise<{
 		// Use unified extraction for all three types in ONE tree traversal
 		const extracted = extractPageContent(post.PageId, blocks, {
 			extractFootnotes: shouldExtractFootnotes,
-			extractCitations: shouldExtractCitations,
+			extractCitations: BIBTEX_CITATIONS_ENABLED,
 			extractInterlinkedContent: true,
 		});
 
@@ -560,7 +558,7 @@ export async function getPostContentByPostId(post: Post): Promise<{
 			fs.writeFileSync(cacheFootnotesInPageFilePath, superjson.stringify(footnotesInPage), "utf-8");
 		}
 
-		if (shouldExtractCitations && citationsInPage) {
+		if (BIBTEX_CITATIONS_ENABLED && citationsInPage) {
 			fs.writeFileSync(cacheCitationsInPageFilePath, superjson.stringify(citationsInPage), "utf-8");
 		}
 	}
@@ -727,25 +725,11 @@ export async function getAllBlocksByBlockId(blockId: string): Promise<Block[]> {
 			block.Callout.Children = await getAllBlocksByBlockId(block.Id);
 		}
 
-		// CRITICAL ORDER: Extract citations BEFORE footnotes
-		// Footnote content blocks can contain citation markers, so we must process citations first
-		try {
-			if (CITATIONS_ENABLED && CITATIONS) {
-				const bibCache = getBibEntriesCache();
-				if (bibCache.size > 0) {
-					const citationResult = extractCitationsFromBlock(block, CITATIONS, bibCache);
-					if (citationResult.citations.length > 0) {
-						block.Citations = citationResult.citations;
-					}
-				}
-			}
-		} catch (error) {
-			console.error(`Failed to extract citations from block ${block.Id}:`, error);
-			// Continue without citations rather than failing the entire build
-		}
+		// Get bibCache once for both citation extraction and footnote comment citations
+		let bibCache: Map<string, ParsedCitationEntry> | undefined;
 
-		// Extract footnotes AFTER children are fetched and citations are extracted
-		// This is critical for start-of-child-blocks mode which needs the Children array populated
+		// CRITICAL ORDER: Extract footnotes BEFORE citations
+		// This allows us to detect footnote markers in RichTexts and extract citations from footnote content inline
 		try {
 			if (
 				adjustedFootnotesConfig &&
@@ -763,6 +747,23 @@ export async function getAllBlocksByBlockId(blockId: string): Promise<Block[]> {
 		} catch (error) {
 			console.error(`Failed to extract footnotes from block ${block.Id}:`, error);
 			// Continue without footnotes rather than failing the entire build
+		}
+
+		// Extract citations AFTER footnotes are extracted
+		// extractCitationsFromBlock() will detect footnote markers and extract citations from footnote content
+		try {
+			if (BIBTEX_CITATIONS_ENABLED) {
+				bibCache = getBibEntriesCache();
+				if (bibCache.size > 0) {
+					const citationResult = extractCitationsFromBlock(block, CITATIONS!, bibCache);
+					if (citationResult.citations.length > 0) {
+						block.Citations = citationResult.citations;
+					}
+				}
+			}
+		} catch (error) {
+			console.error(`Failed to extract citations from block ${block.Id}:`, error);
+			// Continue without citations rather than failing the entire build
 		}
 	}
 

@@ -23,9 +23,9 @@ import type {
 	RichTextLocation,
 	Mention,
 	InterlinkedContent,
+	CommentAttachment,
 } from "./interfaces";
 import { downloadFile, isConvImageType } from "./notion/client";
-import { buildTimeFilePath } from "./blog-helpers";
 import { OPTIMIZE_IMAGES } from "../constants";
 
 // ============================================================================
@@ -626,7 +626,7 @@ function createContentPattern(markerPrefix: string): RegExp {
 /**
  * Gets children array from a block (various block types have children)
  */
-function getChildrenFromBlock(block: Block): Block[] | null {
+export function getChildrenFromBlock(block: Block): Block[] | null {
 	if (block.Paragraph?.Children) return block.Paragraph.Children;
 	if (block.Heading1?.Children) return block.Heading1.Children;
 	if (block.Heading2?.Children) return block.Heading2.Children;

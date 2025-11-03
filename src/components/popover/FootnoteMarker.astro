@@ -81,7 +81,11 @@ const displaySymbol =
 					class="popoverEl border-accent-2/20 bg-popover-bg/95 text-textColor/80 invisible absolute z-40 hidden inline-block w-72 rounded-lg border text-sm opacity-0 shadow-xs backdrop-blur-sm transition-opacity duration-300"
 				>
 					<div class="space-y-2 p-3">
-						<FootnoteContent content={footnote.Content} sourceBlockId={block.Id} />
+						<FootnoteContent
+							content={footnote.Content}
+							sourceBlockId={block.Id}
+							sourceBlock={block}
+						/>
 						<span data-popover-link>{""}</span>
 					</div>
 				</div>
@@ -92,7 +96,11 @@ const displaySymbol =
 				<template id={`template-margin-${uniqueId}`}>
 					<div class="text-sm!">
 						<span class="text-quote align-super font-mono text-xs!">{displaySymbol}</span>{" "}
-						<FootnoteContent content={footnote.Content} sourceBlockId={block.Id} />
+						<FootnoteContent
+							content={footnote.Content}
+							sourceBlockId={block.Id}
+							sourceBlock={block}
+						/>
 					</div>
 				</template>
 			)}

@@ -487,6 +487,8 @@ export interface Citation {
 	SourceBlockIds: string[]; // ARRAY of all block IDs where this key appears
 	SourceBlocks?: Block[]; // ARRAY of actual Block objects where this key appears (like interlinked content)
 	FirstAppearanceIndex?: number; // Order of first occurrence in document
+	FirstAppearanceInMainContentIndex?: number; // Sequential index for first appearance in main content specifically (ignoring footnote content)
+	IsInFootnoteContent?: boolean; // True if citation appears in footnote content
 }
 
 /**
@@ -516,6 +518,7 @@ export interface CitationsConfig {
 			apa: boolean;
 		};
 		"generate-bibliography-section": boolean;
+		"show-in-margin-on-large-screens": boolean;
 	};
 }
 

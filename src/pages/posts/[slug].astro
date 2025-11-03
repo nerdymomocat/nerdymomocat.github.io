@@ -15,7 +15,7 @@ import {
 import { getAllPosts, getPostContentByPostId, processFileBlocks } from "@/lib/notion/client";
 import type { Post } from "@/lib/interfaces";
 import { buildHeadings } from "@/utils";
-import { LAST_BUILD_TIME, CITATIONS } from "@/constants";
+import { LAST_BUILD_TIME, CITATIONS, BIBTEX_CITATIONS_ENABLED } from "@/constants";
 import { adjustedFootnotesConfig } from "@/lib/notion/client";
 import FootnotesSection from "@/components/auto-added-sections/FootnotesSection.astro";
 import BibliographySection from "@/components/auto-added-sections/BibliographySection.astro";
@@ -164,9 +164,10 @@ if (postFound) {
 							] &&
 							footnotesInPage && <FootnotesSection footnotes={footnotesInPage} />}
 						{/* Bibliography section */}
-						{CITATIONS?.["extract-and-process-bibtex-citations"]?.[
-							"generate-bibliography-section"
-						] &&
+						{BIBTEX_CITATIONS_ENABLED &&
+							CITATIONS?.["extract-and-process-bibtex-citations"]?.[
+								"generate-bibliography-section"
+							] &&
 							citationsInPage &&
 							citationsInPage.length > 0 && <BibliographySection citations={citationsInPage} />}
 					</>
