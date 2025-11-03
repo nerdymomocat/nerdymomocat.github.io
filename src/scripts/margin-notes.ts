@@ -38,7 +38,7 @@ async function setupMarginNotes() {
 			document.addEventListener("DOMContentLoaded", resolve, { once: true });
 		});
 	}
-	initializeMarginNotes(4); // Limit to 4 notes on fast initial render
+	initializeMarginNotes(8); // Limit to 8 notes on fast initial render
 
 	// Reposition after all images load for accurate positions - render ALL notes
 	if (document.readyState === "loading" || document.readyState === "interactive") {
@@ -46,6 +46,10 @@ async function setupMarginNotes() {
 			window.addEventListener("load", resolve, { once: true });
 		});
 	}
+	//Wait for fonts and layout to settle completely
+	await document.fonts.ready;
+	await new Promise(resolve => requestAnimationFrame(resolve));
+	await new Promise((resolve) => setTimeout(resolve, 100));
 	initializeMarginNotes(); // No limit - render all notes with correct positions
 }
 
