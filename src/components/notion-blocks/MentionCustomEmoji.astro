@@ -20,7 +20,7 @@ if (!Url) {
 }
 
 const downloadedEmoji = await getNotionImage(new URL(Url));
-const externalEmojiPath = downloadedEmoji ? null : filePath(new URL(Url));
+const externalEmojiPath = downloadedEmoji ? null : URL.toString();
 ---
 
 {

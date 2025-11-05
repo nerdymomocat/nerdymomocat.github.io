@@ -28,10 +28,14 @@ const hreflink = post ? getPostLink(post.Slug, post.Collection === MENU_PAGES_CO
 let downloadedIcon = null;
 let externalIconPath = null;
 
-if (post?.Icon && (post.Icon.Type === "external" || post.Icon.Type === "file") && post.Icon.Url) {
-	downloadedIcon = await getNotionImage(new URL(post.Icon.Url));
-	if (!downloadedIcon) {
-		externalIconPath = filePath(new URL(post.Icon.Url));
+if (post?.Icon && post.Icon.Url) {
+	if (post.Icon.Type === "file" || post.Icon.Type === "cstom_emoji") {
+		downloadedIcon = await getNotionImage(new URL(post.Icon.Url));
+		if (!downloadedIcon) {
+			externalIconPath = filePath(new URL(post.Icon.Url));
+		}
+	} else if (post.Icon.Type === "external") {
+		externalIconPath = post.Icon.Url;
 	}
 }
 ---
@@ -43,7 +47,10 @@ if (post?.Icon && (post.Icon.Type === "external" || post.Icon.Type === "file") &
 				<span class="mr-1 inline">
 					{post.Icon && post.Icon.Type === "emoji" ? (
 						post.Icon.Emoji
-					) : post.Icon && (post.Icon.Type === "external" || post.Icon.Type === "file") ? (
+					) : post.Icon &&
+					  (post.Icon.Type === "external" ||
+							post.Icon.Type === "file" ||
+							post.Icon.Type === "custom_emoji") ? (
 						downloadedIcon ? (
 							<Image
 								src={downloadedIcon}

@@ -1428,20 +1428,6 @@ async function _buildBlock(blockObject: responses.BlockObject): Promise<Block> {
 							Type: blockObject.callout.icon.type,
 							Url: iconUrl,
 						};
-
-						// Download icon if it doesn't exist
-						if (iconUrl) {
-							try {
-								const url = new URL(iconUrl);
-								const isImage = isImageTypeForAstro(url.pathname);
-								const filepath = generateFilePath(url, isImage);
-								if (!fs.existsSync(filepath)) {
-									await downloadFile(url, isImage);
-								}
-							} catch (err) {
-								console.log(`Error downloading callout icon: ${err}`);
-							}
-						}
 					} else if (
 						blockObject.callout.icon.type === "file" &&
 						"file" in blockObject.callout.icon
@@ -1474,7 +1460,7 @@ async function _buildBlock(blockObject: responses.BlockObject): Promise<Block> {
 						const emojiUrl = blockObject.callout.icon.custom_emoji?.url || "";
 
 						icon = {
-							Type: "external", // Store as external type since it's a URL-based icon
+							Type: blockObject.callout.icon.type,
 							Url: emojiUrl,
 						};
 
@@ -1766,20 +1752,6 @@ async function _buildPost(pageObject: responses.PageObject): Promise<Post> {
 				Type: pageObject.icon.type,
 				Url: iconUrl,
 			};
-
-			// Download icon if it doesn't exist
-			if (iconUrl) {
-				try {
-					const url = new URL(iconUrl);
-					const isImage = isImageTypeForAstro(url.pathname);
-					const filepath = generateFilePath(url, isImage);
-					if (!fs.existsSync(filepath)) {
-						await downloadFile(url, isImage);
-					}
-				} catch (err) {
-					console.log(`Error downloading page icon: ${err}`);
-				}
-			}
 		} else if (pageObject.icon.type === "file" && "file" in pageObject.icon) {
 			const iconUrl = pageObject.icon.file?.url || "";
 
@@ -1806,7 +1778,7 @@ async function _buildPost(pageObject: responses.PageObject): Promise<Post> {
 			const emojiUrl = pageObject.icon.custom_emoji?.url || "";
 
 			icon = {
-				Type: "external", // Store as external type since it's a URL-based icon
+				Type: pageObject.icon.type,
 				Url: emojiUrl,
 			};
 

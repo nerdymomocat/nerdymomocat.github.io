@@ -18,15 +18,15 @@ const hasRichTexts = block.Callout && block.Callout.RichTexts && block.Callout.R
 let externalIconPath = null;
 let downloadedIcon = null;
 
-if (
-	block.Callout?.Icon &&
-	(block.Callout.Icon.Type === "external" || block.Callout.Icon.Type === "file") &&
-	block.Callout.Icon.Url
-) {
-	downloadedIcon = await getNotionImage(new URL(block.Callout.Icon.Url));
+if (block.Callout?.Icon && block.Callout.Icon.Url) {
+	if (block.Callout.Icon.Type === "file" || block.Callout.Icon.Type === "custom_emoji") {
+		downloadedIcon = await getNotionImage(new URL(block.Callout.Icon.Url));
 
-	if (!downloadedIcon) {
-		externalIconPath = filePath(new URL(block.Callout.Icon.Url));
+		if (!downloadedIcon) {
+			externalIconPath = filePath(new URL(block.Callout.Icon.Url));
+		}
+	} else if (block.Callout.Icon.Type === "external") {
+		externalIconPath = block.Callout.Icon.Url;
 	}
 }
 ---
@@ -47,7 +47,9 @@ if (
 			<div class="m-0 mr-2 leading-6">
 				{block.Callout.Icon.Type === "emoji" ? (
 					block.Callout.Icon.Emoji
-				) : block.Callout.Icon.Type === "external" || block.Callout.Icon.Type === "file" ? (
+				) : block.Callout.Icon.Type === "external" ||
+				  block.Callout.Icon.Type === "file" ||
+				  block.Callout.Icon.Type === "custom_emoji" ? (
 					downloadedIcon ? (
 						<Image
 							src={downloadedIcon}
