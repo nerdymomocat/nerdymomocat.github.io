@@ -1851,7 +1851,7 @@ async function _buildPost(pageObject: responses.PageObject): Promise<Post> {
 	return post;
 }
 
-async function _buildRichText(richTextObject: responses.RichTextObject): Promise<RichText> {
+export async function _buildRichText(richTextObject: responses.RichTextObject): Promise<RichText> {
 	const annotation: Annotation = {
 		Bold: richTextObject.annotations.bold,
 		Italic: richTextObject.annotations.italic,

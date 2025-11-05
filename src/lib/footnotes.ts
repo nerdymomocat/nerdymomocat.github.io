@@ -26,7 +26,7 @@ import type {
 	InterlinkedContent,
 	CommentAttachment,
 } from "./interfaces";
-import { downloadFile } from "./notion/client";
+import { downloadFile, _buildRichText } from "./notion/client";
 import crypto from "crypto";
 
 // ============================================================================
@@ -815,86 +815,6 @@ function extractStartOfChildBlocksFootnotes(
 // ============================================================================
 
 /**
- * Converts Notion API rich_text format to our RichText interface
- * This mirrors the logic from client.ts: _buildRichText()
- */
-function convertNotionRichTextToOurFormat(notionRichTexts: any[]): RichText[] {
-	return notionRichTexts.map((nrt: any) => {
-		const richText: RichText = {
-			Annotation: {
-				Bold: nrt.annotations?.bold || false,
-				Italic: nrt.annotations?.italic || false,
-				Strikethrough: nrt.annotations?.strikethrough || false,
-				Underline: nrt.annotations?.underline || false,
-				Code: nrt.annotations?.code || false,
-				Color: nrt.annotations?.color || "default",
-			},
-			PlainText: nrt.plain_text || "",
-			Href: nrt.href,
-		};
-
-		if (nrt.type === "text" && nrt.text) {
-			richText.Text = {
-				Content: nrt.text.content || "",
-				Link: nrt.text.link ? { Url: nrt.text.link.url } : undefined,
-			};
-		}
-
-		// Handle equations if present
-		if (nrt.type === "equation" && nrt.equation) {
-			richText.Equation = {
-				Expression: nrt.equation.expression || "",
-			};
-		}
-
-		// Handle mentions if present - PROPERLY structured like client.ts does
-		if (nrt.type === "mention" && nrt.mention) {
-			const mention: Mention = {
-				Type: nrt.mention.type,
-			};
-
-			if (nrt.mention.type === "page" && nrt.mention.page) {
-				const interlinkedContent: InterlinkedContent = {
-					PageId: nrt.mention.page.id,
-					Type: nrt.mention.type,
-				};
-				mention.Page = interlinkedContent;
-			} else if (nrt.mention.type === "date") {
-				// For dates, we need to format them
-				// Using simple ISO format since we don't have getFormattedDateWithTime here
-				let formatted_date = nrt.mention.date?.start || "Invalid Date";
-				if (nrt.mention.date?.end) {
-					formatted_date += " to " + nrt.mention.date.end;
-				}
-				mention.DateStr = formatted_date;
-			} else if (nrt.mention.type === "link_mention" && nrt.mention.link_mention) {
-				const linkMention = nrt.mention.link_mention;
-				mention.LinkMention = {
-					Href: linkMention.href,
-					Title: linkMention.title,
-					IconUrl: linkMention.icon_url,
-					Description: linkMention.description,
-					LinkAuthor: linkMention.link_author,
-					ThumbnailUrl: linkMention.thumbnail_url,
-					Height: linkMention.height,
-					IframeUrl: linkMention.iframe_url,
-					LinkProvider: linkMention.link_provider,
-				};
-			} else if (nrt.mention.type === "custom_emoji" && nrt.mention.custom_emoji) {
-				mention.CustomEmoji = {
-					Name: nrt.mention.custom_emoji.name,
-					Url: nrt.mention.custom_emoji.url,
-				};
-			}
-
-			richText.Mention = mention;
-		}
-
-		return richText;
-	});
-}
-
-/**
  * Extracts footnotes from Notion block comments
  *
  * PERFORMANCE OPTIMIZATION: Only calls Comments API if markers are found in block.
@@ -960,7 +880,7 @@ async function extractBlockCommentsFootnotes(
 			const marker = match[1];
 
 			// Convert Notion comment rich_text to our RichText format
-			const contentRichTexts = convertNotionRichTextToOurFormat(richTextArray);
+			const contentRichTexts = await Promise.all(richTextArray.map(_buildRichText));
 
 			// Remove the [^marker]: prefix from first RichText
 			const cleanedRichTexts = removeMarkerPrefix(contentRichTexts, match[0].length);
