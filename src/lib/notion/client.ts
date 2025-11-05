@@ -1020,8 +1020,7 @@ export function isImageTypeForAstro(filepath: string): boolean {
 		lowerPath.includes(".jpeg") ||
 		lowerPath.includes(".avif") ||
 		lowerPath.includes(".svg") ||
-		lowerPath.includes(".webp") ||
-		lowerPath.includes(".gif")
+		lowerPath.includes(".webp")
 	) {
 		return true;
 	}

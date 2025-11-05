@@ -55,6 +55,8 @@ if (post?.Icon && post.Icon.Url) {
 							<Image
 								src={downloadedIcon}
 								class={`no-rss inline h-4 w-4 shrink-0 align-sub ${getIconTailwindFilterStyle(post.Icon.Url)}`}
+								widths={[100]}
+								sizes="40px"
 								alt=""
 								format={getImageComponentFormat(downloadedIcon)}
 							/>

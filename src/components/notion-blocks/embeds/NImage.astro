@@ -2,8 +2,14 @@
 import { Image, getImage, inferRemoteSize } from "astro:assets";
 import { ENABLE_LIGHTBOX, OPTIMIZE_IMAGES } from "@/constants.ts";
 import * as interfaces from "@/lib/interfaces.ts";
-import { getFirstImage, getNotionImage, getImageComponentFormat } from "@/lib/blog-helpers";
+import {
+	getFirstImage,
+	getNotionImage,
+	getImageComponentFormat,
+	filePath,
+} from "@/lib/blog-helpers";
 import Caption from "@/components/notion-blocks/Caption.astro";
+import { isImageTypeForAstro } from "@/lib/notion/client";
 
 export interface Props {
 	block: interfaces.Block;
@@ -14,19 +20,17 @@ const { block, setId = true } = Astro.props;
 
 let externalImageUrl = "";
 let downloadedImage = null;
+let lightboxImageUrl = null;
 
 if (block.NImage?.External) {
 	externalImageUrl = block.NImage.External.Url;
+} else if (block.NImage?.File && !isImageTypeForAstro(block.NImage.File.Url)) {
+	externalImageUrl = filePath(new URL(block.NImage.File.Url));
 } else if (block.NImage?.File) {
 	downloadedImage = await getNotionImage(new URL(block.NImage.File.Url));
-	if (!downloadedImage) {
-		// If download failed, don't render anything
-		console.warn(`Could not load downloaded image for block ${block.Id}`);
-	}
 }
 
 // Generate optimized image for lightbox (only if OPTIMIZE_IMAGES is enabled)
-let lightboxImageUrl = null;
 if (downloadedImage && OPTIMIZE_IMAGES) {
 	const optimizedImage = await getImage({
 		src: downloadedImage,
@@ -41,7 +45,7 @@ if (downloadedImage && OPTIMIZE_IMAGES) {
 
 // Infer size for external images to prevent CLS
 let externalImageDimensions = null;
-if (externalImageUrl) {
+if (externalImageUrl && !block.NImage?.File) {
 	try {
 		externalImageDimensions = await inferRemoteSize(externalImageUrl);
 	} catch (err) {
@@ -102,10 +106,8 @@ const imageSizes =
 								fetchpriority={isFirstImage ? "high" : undefined}
 								src={externalImageUrl}
 								alt={altText}
-								{...(externalImageDimensions && {
-									width: externalImageDimensions.width,
-									height: externalImageDimensions.height,
-								})}
+								width={externalImageDimensions ? externalImageDimensions.width : undefined}
+								height={externalImageDimensions ? externalImageDimensions.height : undefined}
 							/>
 						)}
 					</a>
@@ -132,10 +134,8 @@ const imageSizes =
 						decoding={isFirstImage ? "sync" : "async"}
 						fetchpriority={isFirstImage ? "high" : undefined}
 						alt={altText}
-						{...(externalImageDimensions && {
-							width: externalImageDimensions.width,
-							height: externalImageDimensions.height,
-						})}
+						width={externalImageDimensions ? externalImageDimensions.width : undefined}
+						height={externalImageDimensions ? externalImageDimensions.height : undefined}
 					/>
 				)}
 			</div>

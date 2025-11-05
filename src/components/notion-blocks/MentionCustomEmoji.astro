@@ -2,6 +2,7 @@
 import { Image } from "astro:assets";
 import type { Mention } from "@/lib/interfaces.ts";
 import { filePath, getNotionImage, getImageComponentFormat } from "@/lib/blog-helpers.ts";
+import { file } from "astro/loaders";
 
 export interface Props {
 	mention: Mention;
@@ -20,7 +21,7 @@ if (!Url) {
 }
 
 const downloadedEmoji = await getNotionImage(new URL(Url));
-const externalEmojiPath = downloadedEmoji ? null : URL.toString();
+const externalEmojiPath = downloadedEmoji ? null : filePath(new URL(Url));
 ---
 
 {
@@ -31,6 +32,8 @@ const externalEmojiPath = downloadedEmoji ? null : URL.toString();
 			aria-label={`custom emoji with name ${Name}`}
 			class="no-rss mb-0.5 inline h-4 w-4 object-contain align-sub text-transparent"
 			format={getImageComponentFormat(downloadedEmoji)}
+			widths={[100]}
+			sizes="40px"
 		/>
 	) : (
 		<img

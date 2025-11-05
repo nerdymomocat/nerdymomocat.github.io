@@ -54,6 +54,8 @@ if (block.Callout?.Icon && block.Callout.Icon.Url) {
 						<Image
 							src={downloadedIcon}
 							class={`no-rss h-5 w-5 max-w-none ${getIconTailwindFilterStyle(block.Callout.Icon.Url)}`}
+							widths={[100]}
+							sizes="40px"
 							alt=""
 							format={getImageComponentFormat(downloadedIcon)}
 						/>
