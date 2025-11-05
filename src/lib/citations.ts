@@ -559,21 +559,22 @@ export function extractCitationsFromRichTextArray(
 	while ((match = pattern.exec(fullText)) !== null) {
 		const charStart = match.index;
 
-		// Check if citation is inside code block (skip if so)
+		// Check if citation is inside code, equation, or mention (skip if so)
 		let currentPos = 0;
-		let inCode = false;
+		let shouldSkip = false;
 		for (const richText of richTexts) {
 			const rtEnd = currentPos + richText.PlainText.length;
 			if (charStart >= currentPos && charStart < rtEnd) {
-				if (richText.Annotation.Code) {
-					inCode = true;
+				// Skip if in code, equation, or mention
+				if (richText.Annotation.Code || richText.Equation || richText.Mention) {
+					shouldSkip = true;
 				}
 				break;
 			}
 			currentPos = rtEnd;
 		}
 
-		if (inCode) {
+		if (shouldSkip) {
 			continue;
 		}
 

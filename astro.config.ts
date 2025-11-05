@@ -36,6 +36,8 @@ import rssContentEnhancer from "./src/integrations/rss-content-enhancer";
 import CSSWriter from "./src/integrations/theme-constants-to-css";
 import createFoldersIfMissing from "./src/integrations/create-folders-if-missing";
 import citationsInitializer from "./src/integrations/citations-initializer";
+import removeOriginalImages from "./src/integrations/remove-original-images";
+import astroImageCacheCopier from "./src/integrations/astro-image-cache-copier";
 import { fontProviders } from "astro/config";
 import robotsTxt from "astro-robots-txt";
 import partytown from "@astrojs/partytown";
@@ -76,6 +78,7 @@ function modifyRedirectPaths(
 export default defineConfig({
 	site: getSite(),
 	base: process.env.BASE || BASE_PATH,
+	cacheDir: "./tmp/.astro",
 	redirects: key_value_from_json?.redirects
 		? modifyRedirectPaths(key_value_from_json.redirects, process.env.BASE || BASE_PATH)
 		: {},
@@ -159,6 +162,8 @@ export default defineConfig({
 		rssContentEnhancer(),
 		blocksHtmlCacher(),
 		PublicNotionCopier(),
+		astroImageCacheCopier(),
+		removeOriginalImages(),
 		DeleteBuildCache(),
 	],
 	image: {

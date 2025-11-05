@@ -28,6 +28,7 @@ yarn-error.log*
 .vscode/
 public/notion/**/*
 public/assets/preloaded/*
+src/assets/notion/**/*
 tmp/*
 !tmp/.gitkeep
 src/styles/global.css

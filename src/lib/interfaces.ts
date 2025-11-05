@@ -157,7 +157,6 @@ export interface File {
 export interface FileObject {
 	Type: string;
 	Url: string;
-	OptimizedUrl?: string;
 	ExpiryTime?: string;
 	Size?: number;
 }
@@ -333,7 +332,6 @@ export interface LinkMention {
 export interface CustomEmojiMention {
 	Name: string;
 	Url?: string;
-	OptimizedUrl?: string;
 }
 
 export interface InterlinkedContent {
@@ -403,7 +401,7 @@ export interface Footnote {
  */
 export interface FootnoteContent {
 	Type: "rich_text" | "blocks" | "comment";
-	RichTexts?: RichText[]; // For end-of-block and block-comments
+	RichTexts?: RichText[]; // For end-of-block, inline-latex-footnote-command, and block-comments
 	Blocks?: Block[]; // For start-of-child-blocks
 	CommentAttachments?: CommentAttachment[]; // For images in comments
 }
@@ -414,7 +412,6 @@ export interface FootnoteContent {
 export interface CommentAttachment {
 	Category: string;
 	Url: string;
-	OptimizedUrl?: string;
 	Name?: string;
 	ExpiryTime: string;
 }
@@ -445,6 +442,7 @@ export interface FootnotesConfig {
 			"start-of-child-blocks": boolean;
 			"block-comments": boolean;
 			"block-inline-text-comments": boolean;
+			"inline-latex-footnote-command": boolean;
 		};
 		"marker-prefix": string; // e.g., "ft_" → markers like [^ft_a]
 		"generate-footnotes-section": boolean; // Collated list at page end

@@ -202,6 +202,14 @@ jobs:
           key: public-webtrotion-${{ github.repository_id }}-${{ github.run_id }}-${{ github.run_attempt }}
           restore-keys: public-webtrotion-${{ github.repository_id }}-
 
+      - name: Restore Cached `src/assets/notion`
+        id: cache-src-assets-notion-restore
+        uses: actions/cache/restore@v4
+        with:
+          path: ./src/assets/notion
+          key: src-assets-notion-${{ github.repository_id }}-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: src-assets-notion-${{ github.repository_id }}-
+
       - name: Restore Cached constants-config
         id: restore-constants-config
         uses: actions/cache/restore@v4
@@ -228,9 +236,10 @@ jobs:
             echo "Old lastBuildTimestampStore: $OLD_LAST_BUILD_STORE"
             echo "New lastBuildTimestampStore: $NEW_LAST_BUILD_STORE"
             if [ "$OLD_LAST_BUILD_STORE" != "$NEW_LAST_BUILD_STORE" ]; then
-              echo "lastBuildTimestampStore changed, trimming tmp (except .gitkeep) and deleting public/notion..."
+              echo "lastBuildTimestampStore changed, trimming tmp (except .gitkeep) and deleting public/notion and src/assets/notion..."
               find tmp -mindepth 1 -not -name '.gitkeep' -exec rm -rf {} +
               rm -rf public/notion
+              rm -rf src/assets/notion
             fi
 
             # Check tmpJSONCache (original logic)
@@ -239,10 +248,12 @@ jobs:
             echo "Old tmpJSONCache: $OLD_TMPJSON"
             echo "New tmpJSONCache: $NEW_TMPJSON"
             if [ "$OLD_TMPJSON" != "$NEW_TMPJSON" ]; then
-              echo "tmpJSONCache changed, trimming blocks-html-cache, blocks-json-cache, rss-cache..."
+              echo "tmpJSONCache changed, trimming blocks-html-cache, blocks-json-cache, rss-cache, src/assets/notion and tmp/.astro..."
               rm -rf tmp/blocks-html-cache
               rm -rf tmp/blocks-json-cache
               rm -rf tmp/rss-cache
+              rm -rf tmp/.astro/
+              rm -rf src/assets/notion
             fi
 
             # If tmpHTMLCache has changed, delete tmp/blocks-html-cache and tmp/rss-cache
@@ -251,9 +262,10 @@ jobs:
             echo "Old tmpHTMLCache: $OLD_TMPHTML"
             echo "New tmpHTMLCache: $NEW_TMPHTML"
             if [ "$OLD_TMPHTML" != "$NEW_TMPHTML" ]; then
-              echo "tmpHTMLCache changed, deleting tmp/blocks-html-cache and tmp/rss-cache..."
+              echo "tmpHTMLCache changed, deleting tmp/blocks-html-cache and tmp/rss-cache and tmp/.astro..."
               rm -rf tmp/blocks-html-cache
               rm -rf tmp/rss-cache
+              rm -rf tmp/.astro/
             fi
 
             # If tmpOGImagesCache has changed, delete tmp/og-images
@@ -266,21 +278,13 @@ jobs:
               rm -rf tmp/og-images
             fi
 
-            # If publicNotion has changed, delete public/notion
-            OLD_PUBLIC_NOTION=$(jq -r '.cacheVersion.publicNotion' ./old_package.json)
-            NEW_PUBLIC_NOTION=$(jq -r '.cacheVersion.publicNotion' ./package.json)
-            echo "Old publicNotion: $OLD_PUBLIC_NOTION"
-            echo "New publicNotion: $NEW_PUBLIC_NOTION"
-            if [ "$OLD_PUBLIC_NOTION" != "$NEW_PUBLIC_NOTION" ]; then
-              echo "publicNotion changed, deleting public/notion..."
-              rm -rf public/notion
-            fi
           else
             echo "old_package.json not found."
             if [ "$CACHE_HIT" != "true" ]; then
-              echo "No cache hit for package-lock.json detected; trimming tmp and deleting public/notion..."
+              echo "No cache hit for package-lock.json detected; trimming tmp and deleting public/notion and src/assets/notion..."
               find tmp -mindepth 1 -not -name '.gitkeep' -exec rm -rf {} +
               rm -rf public/notion
+              rm -rf src/assets/notion
             else
               echo "Cache hit for package-lock.json detected; skipping trimming."
             fi
@@ -304,6 +308,13 @@ jobs:
         if: env.DELETE_CACHES_GH_TOKEN != ''
         run: |
           gh cache list --json key --jq '.[].key' | grep -E '.*(tmp|public).*(web|blog)trotion' | xargs -I {} gh cache delete {}
+        env:
+          GH_TOKEN: ${{ env.DELETE_CACHES_GH_TOKEN }}
+
+      - name: Clear Previous `src/assets/notion` Cache (if needed)
+        if: env.DELETE_CACHES_GH_TOKEN != ''
+        run: |
+          gh cache list --json key --jq '.[].key' | grep -E 'src-assets-notion' | xargs -I {} gh cache delete {}
         env:
           GH_TOKEN: ${{ env.DELETE_CACHES_GH_TOKEN }}
 
@@ -342,6 +353,13 @@ jobs:
         with:
           path: ./public
           key: public-webtrotion-${{ github.repository_id }}-${{ github.run_id }}-${{ github.run_attempt }}
+
+      - name: Save New `src/assets/notion` Cache
+        id: cache-src-assets-notion-save
+        uses: actions/cache/save@v4
+        with:
+          path: ./src/assets/notion
+          key: src-assets-notion-${{ github.repository_id }}-${{ github.run_id }}-${{ github.run_attempt }}
 
       - name: Copy package.json to old_package.json
         run: cp ./package.json ./old_package.json

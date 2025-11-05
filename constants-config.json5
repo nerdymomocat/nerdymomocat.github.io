@@ -233,6 +233,8 @@
 				source: {
 					// Looks for definitions at the end of a text block, like `[^ft_1]: My footnote content.`Sepearate it by two soft new lines (using shift+enter). This is the method that will work when you export Notion content to Markdown.
 					"end-of-block": true,
+					// Uses inline LaTeX-style footnote command: \footnote{content here}. Use \{ and \} for literal braces (useful for LaTeX compatibility).
+					"inline-latex-footnote-command": false,
 					// Treats the first n set of child block(s) indented under a parent block as the footnote content. (n = number of footnote markers in the parent block)
 					"start-of-child-blocks": false,
 					// Uses Notion comments on a block as footnote content.
@@ -242,6 +244,7 @@
 					"block-inline-text-comments": false,
 				},
 				// The prefix for footnote markers in your Notion text. e.g., `[^ft_1]` for a prefix of `ft_`.
+				// Note: This setting does NOT apply to inline-latex-footnote-command source (which uses auto-generated markers).
 				"marker-prefix": "ft_",
 				// If true, a collated list of all footnotes will be automatically generated at the bottom of the page.
 				"generate-footnotes-section": true,

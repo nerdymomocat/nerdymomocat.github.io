@@ -1,8 +1,9 @@
 ---
+import { Image } from "astro:assets";
 import Search from "@/components/ui/Search.astro";
 import { getMenu } from "@/utils";
 import { siteInfo } from "@/site.config";
-import { filePath, getNavLink } from "@/lib/blog-helpers";
+import { getNavLink, getNotionImage } from "@/lib/blog-helpers";
 import Icon from "@/components/ui/Icon.astro";
 import ThemeIcon from "@/components/ui/ThemeIcon.astro";
 
@@ -10,10 +11,10 @@ const menuLinks = await getMenu();
 
 const url = new URL(Astro.request.url);
 
-let customIconURL: string = "";
+let customIconImage = null;
 if (siteInfo.logo && siteInfo.logo.Type === "file") {
 	try {
-		customIconURL = filePath(new URL(siteInfo.logo.Url));
+		customIconImage = await getNotionImage(new URL(siteInfo.logo.Url));
 	} catch (err) {
 		console.log("Invalid DB custom icon URL");
 	}
@@ -45,16 +46,21 @@ const rss_path = getNavLink("/rss.xml");
 						<img
 							class="me-3 h-10 w-10 object-contain sm:absolute sm:start-[-4.5rem] sm:me-0 sm:h-15 sm:w-15"
 							loading="eager"
+							fetchpriority="high"
+							width="60"
+							height="60"
 							src={siteInfo.logo.Url}
 							alt="Site header image"
 						/>
 						<span class="text-xl font-bold sm:text-2xl">{siteInfo.title}</span>
 					</>
-				) : siteInfo.logo && siteInfo.logo.Type === "file" && customIconURL ? (
+				) : siteInfo.logo && siteInfo.logo.Type === "file" && customIconImage ? (
 					<>
-						<img
-							loading="eager"
-							src={customIconURL}
+						<Image
+							priority
+							src={customIconImage}
+							widths={[200]}
+							sizes="60px"
 							class="me-3 h-10 w-10 object-contain sm:absolute sm:start-[-4.5rem] sm:me-0 sm:h-15 sm:w-15"
 							alt="Site header image"
 						/>

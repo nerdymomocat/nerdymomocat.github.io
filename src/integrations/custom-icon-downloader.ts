@@ -21,7 +21,11 @@ export default (): AstroIntegration => ({
 				return Promise.resolve();
 			}
 
-			return downloadFile(url, false, true);
+			// Download to BOTH locations:
+			// 1. src/assets/notion for Astro image optimization (header)
+			// 2. public/notion for OG image generation
+			await downloadFile(url, true, true); // to src/assets/notion
+			await downloadFile(url, false, true); // to public/notion
 		},
 	},
 });

@@ -159,6 +159,7 @@ async function initializeFootnotesConfig(): Promise<void> {
 								...FOOTNOTES["in-page-footnotes-settings"].source,
 								"block-comments": false,
 								"block-inline-text-comments": false,
+								"inline-latex-footnote-command": false,
 								"end-of-block": true,
 							},
 						},
@@ -531,7 +532,11 @@ export async function getPostContentByPostId(post: Post): Promise<{
 		}
 	} else {
 		// CACHE MISS PATH: Post was updated or no cache exists
-		blocks = await getAllBlocksByBlockId(post.PageId);
+		const { blocks: allBlocks, fileBlocks } = await getAllBlocksByBlockId(post.PageId);
+		blocks = allBlocks;
+
+		// Download all files in parallel
+		await processFileBlocks(fileBlocks);
 
 		// Use unified extraction for all three types in ONE tree traversal
 		const extracted = extractPageContent(post.PageId, blocks, {
@@ -652,7 +657,9 @@ export function createInterlinkedContentToThisEntry(
 	});
 }
 
-export async function getAllBlocksByBlockId(blockId: string): Promise<Block[]> {
+export async function getAllBlocksByBlockId(
+	blockId: string,
+): Promise<{ blocks: Block[]; fileBlocks: Block[] }> {
 	let results: responses.BlockObject[] = [];
 
 	const params: requestParams.RetrieveBlockChildren = {
@@ -693,6 +700,14 @@ export async function getAllBlocksByBlockId(blockId: string): Promise<Block[]> {
 	}
 
 	const allBlocks = await Promise.all(results.map((blockObject) => _buildBlock(blockObject)));
+	// Filter blocks that have files to download
+	const allFileBlocks = allBlocks.filter(
+		(block) =>
+			block.Video?.File?.Url ||
+			block.NImage?.File?.Url ||
+			block.NAudio?.File?.Url ||
+			block.File?.File?.Url,
+	);
 
 	for (let i = 0; i < allBlocks.length; i++) {
 		const block = allBlocks[i];
@@ -700,29 +715,74 @@ export async function getAllBlocksByBlockId(blockId: string): Promise<Block[]> {
 		if (block.Type === "table" && block.Table) {
 			block.Table.Rows = await _getTableRows(block.Id);
 		} else if (block.Type === "column_list" && block.ColumnList) {
-			block.ColumnList.Columns = await _getColumns(block.Id);
+			const { columns, fileBlocks: columnFileBlocks } = await _getColumns(block.Id);
+			block.ColumnList.Columns = columns;
+			allFileBlocks.push(...columnFileBlocks);
 		} else if (block.Type === "bulleted_list_item" && block.BulletedListItem && block.HasChildren) {
-			block.BulletedListItem.Children = await getAllBlocksByBlockId(block.Id);
+			const { blocks: children, fileBlocks: childFileBlocks } = await getAllBlocksByBlockId(
+				block.Id,
+			);
+			block.BulletedListItem.Children = children;
+			allFileBlocks.push(...childFileBlocks);
 		} else if (block.Type === "numbered_list_item" && block.NumberedListItem && block.HasChildren) {
-			block.NumberedListItem.Children = await getAllBlocksByBlockId(block.Id);
+			const { blocks: children, fileBlocks: childFileBlocks } = await getAllBlocksByBlockId(
+				block.Id,
+			);
+			block.NumberedListItem.Children = children;
+			allFileBlocks.push(...childFileBlocks);
 		} else if (block.Type === "to_do" && block.ToDo && block.HasChildren) {
-			block.ToDo.Children = await getAllBlocksByBlockId(block.Id);
+			const { blocks: children, fileBlocks: childFileBlocks } = await getAllBlocksByBlockId(
+				block.Id,
+			);
+			block.ToDo.Children = children;
+			allFileBlocks.push(...childFileBlocks);
 		} else if (block.Type === "synced_block" && block.SyncedBlock) {
-			block.SyncedBlock.Children = await _getSyncedBlockChildren(block);
+			const { blocks: syncedChildren, fileBlocks: syncedFileBlocks } =
+				await _getSyncedBlockChildren(block);
+			block.SyncedBlock.Children = syncedChildren;
+			allFileBlocks.push(...syncedFileBlocks);
 		} else if (block.Type === "toggle" && block.Toggle) {
-			block.Toggle.Children = await getAllBlocksByBlockId(block.Id);
+			const { blocks: children, fileBlocks: childFileBlocks } = await getAllBlocksByBlockId(
+				block.Id,
+			);
+			block.Toggle.Children = children;
+			allFileBlocks.push(...childFileBlocks);
 		} else if (block.Type === "paragraph" && block.Paragraph && block.HasChildren) {
-			block.Paragraph.Children = await getAllBlocksByBlockId(block.Id);
+			const { blocks: children, fileBlocks: childFileBlocks } = await getAllBlocksByBlockId(
+				block.Id,
+			);
+			block.Paragraph.Children = children;
+			allFileBlocks.push(...childFileBlocks);
 		} else if (block.Type === "heading_1" && block.Heading1 && block.HasChildren) {
-			block.Heading1.Children = await getAllBlocksByBlockId(block.Id);
+			const { blocks: children, fileBlocks: childFileBlocks } = await getAllBlocksByBlockId(
+				block.Id,
+			);
+			block.Heading1.Children = children;
+			allFileBlocks.push(...childFileBlocks);
 		} else if (block.Type === "heading_2" && block.Heading2 && block.HasChildren) {
-			block.Heading2.Children = await getAllBlocksByBlockId(block.Id);
+			const { blocks: children, fileBlocks: childFileBlocks } = await getAllBlocksByBlockId(
+				block.Id,
+			);
+			block.Heading2.Children = children;
+			allFileBlocks.push(...childFileBlocks);
 		} else if (block.Type === "heading_3" && block.Heading3 && block.HasChildren) {
-			block.Heading3.Children = await getAllBlocksByBlockId(block.Id);
+			const { blocks: children, fileBlocks: childFileBlocks } = await getAllBlocksByBlockId(
+				block.Id,
+			);
+			block.Heading3.Children = children;
+			allFileBlocks.push(...childFileBlocks);
 		} else if (block.Type === "quote" && block.Quote && block.HasChildren) {
-			block.Quote.Children = await getAllBlocksByBlockId(block.Id);
+			const { blocks: children, fileBlocks: childFileBlocks } = await getAllBlocksByBlockId(
+				block.Id,
+			);
+			block.Quote.Children = children;
+			allFileBlocks.push(...childFileBlocks);
 		} else if (block.Type === "callout" && block.Callout && block.HasChildren) {
-			block.Callout.Children = await getAllBlocksByBlockId(block.Id);
+			const { blocks: children, fileBlocks: childFileBlocks } = await getAllBlocksByBlockId(
+				block.Id,
+			);
+			block.Callout.Children = children;
+			allFileBlocks.push(...childFileBlocks);
 		}
 
 		// Get bibCache once for both citation extraction and footnote comment citations
@@ -767,10 +827,14 @@ export async function getAllBlocksByBlockId(blockId: string): Promise<Block[]> {
 		}
 	}
 
-	return allBlocks;
+	return { blocks: allBlocks, fileBlocks: allFileBlocks };
 }
 
-export async function getBlock(blockId: string, forceRefresh = false): Promise<Block | null> {
+export async function getBlock(
+	blockId: string,
+	forceRefresh = false,
+	skipFileDownload = false,
+): Promise<Block | null> {
 	if (!forceRefresh) {
 		// First, check if the block-id exists in our mapping
 		const blockIdPostIdMap = getBlockIdPostIdMap();
@@ -822,6 +886,17 @@ export async function getBlock(blockId: string, forceRefresh = false): Promise<B
 		);
 
 		const block = await _buildBlock(res);
+
+		// If this is a file block, download it (unless skipFileDownload is true)
+		if (
+			!skipFileDownload &&
+			(block.Video?.File?.Url ||
+				block.NImage?.File?.Url ||
+				block.NAudio?.File?.Url ||
+				block.File?.File?.Url)
+		) {
+			await processFileBlocks([block]);
+		}
 
 		// Update our mapping and cache with this new block
 		const blockIdPostIdMap = getBlockIdPostIdMap();
@@ -913,60 +988,51 @@ export async function getAllTagsWithCounts(): Promise<
 	return sortedTagCounts;
 }
 
-export function generateFilePath(url: URL, convertoWebp: boolean = false) {
-	const BASE_DIR = BUILD_FOLDER_PATHS["publicNotion"];
+export function generateFilePath(url: URL, isImageForAstro: boolean = false) {
+	// Route images to src/assets/notion, everything else to public/notion
+	const BASE_DIR = isImageForAstro
+		? BUILD_FOLDER_PATHS["srcAssetsNotion"]
+		: BUILD_FOLDER_PATHS["publicNotion"];
+
 	// Get the directory name from the second last segment of the path
 	const segments = url.pathname.split("/");
 	const dirName = segments.slice(-2)[0];
 	const dir = path.join(BASE_DIR, dirName);
 
 	if (!fs.existsSync(dir)) {
-		fs.mkdirSync(dir);
+		fs.mkdirSync(dir, { recursive: true });
 	}
 
 	// Get the file name and decode it
 	const filename = decodeURIComponent(segments.slice(-1)[0]);
-	let filepath = path.join(dir, filename);
-
-	if (convertoWebp && isConvImageType(filename)) {
-		// Remove original extension and append .webp
-		const extIndex = filename.lastIndexOf(".");
-		if (extIndex !== -1) {
-			const nameWithoutExt = filename.substring(0, extIndex);
-			filepath = path.join(dir, `${nameWithoutExt}.webp`);
-		}
-	}
+	// No webp conversion - let Astro handle it
+	const filepath = path.join(dir, filename);
 
 	return filepath;
 }
-export function isConvImageType(filepath: string) {
+
+// Helper function to check if file is an image type for Astro (includes SVG)
+export function isImageTypeForAstro(filepath: string): boolean {
+	const lowerPath = filepath.toLowerCase();
 	if (
-		filepath.includes(".png") ||
-		filepath.includes(".jpg") ||
-		filepath.includes(".jpeg") ||
-		filepath.includes(".avif")
+		lowerPath.includes(".png") ||
+		lowerPath.includes(".jpg") ||
+		lowerPath.includes(".jpeg") ||
+		lowerPath.includes(".avif") ||
+		lowerPath.includes(".svg") ||
+		lowerPath.includes(".webp") ||
+		lowerPath.includes(".gif")
 	) {
 		return true;
 	}
 	return false;
 }
 
-// Helper function to check if an icon should be optimized to WebP
-// SVG icons are preserved in original format
-export function shouldOptimizeIcon(url: string): boolean {
-	const lowerUrl = url.toLowerCase();
-	if (lowerUrl.includes(".svg")) {
-		return false; // Preserve SVG
-	}
-	return isConvImageType(url); // Optimize PNG/JPG/JPEG
-}
-
 export async function downloadFile(
 	url: URL,
-	optimize_img: boolean = true,
+	isImageForAstro: boolean = false,
 	isFavicon: boolean = false,
 ) {
-	optimize_img = optimize_img ? OPTIMIZE_IMAGES : optimize_img;
 	let res!: AxiosResponse;
 	try {
 		res = await axios({
@@ -985,14 +1051,9 @@ export async function downloadFile(
 		return Promise.resolve();
 	}
 
-	const filepath = generateFilePath(url);
+	const filepath = generateFilePath(url, isImageForAstro);
 
 	let stream = res.data;
-	if (res.headers["content-type"] === "image/jpeg") {
-		stream = stream.pipe(sharp().rotate());
-	}
-
-	const isImage = res.headers["content-type"]?.startsWith("image/");
 
 	const processFavicon = async (sourcePath: string) => {
 		const favicon16Path = path.join(BUILD_FOLDER_PATHS["public"], "favicon16.png");
@@ -1018,48 +1079,32 @@ export async function downloadFile(
 		}
 	};
 
-	if (isImage && isConvImageType(filepath) && optimize_img) {
-		// Process and write only the optimized webp image
-		const webpPath = generateFilePath(url, true);
-		// console.log('Writing to', webpPath);
-		await stream
-			.pipe(
-				sharp()
-					// .resize({ width: 1024 }) // Adjust the size as needed for "medium"
-					.webp({ quality: 80 }),
-			)
-			.toFile(webpPath)
-			.catch((err) => {
-				console.error("Error processing image:", err);
-			});
-	} else {
-		// Original behavior for non-image files or when not optimizing
-		const writeStream = fs.createWriteStream(filepath);
-		stream.pipe(new ExifTransformer()).pipe(writeStream);
-
-		const writeStreamPromise = new Promise<void>((resolve) => {
-			// After the file is written, check if favicon processing is needed
-			writeStream.on("finish", async () => {
-				if (isFavicon) {
-					const fav = await processFavicon(filepath);
-				}
-
-				resolve();
-			});
-
-			stream.on("error", function (err) {
-				console.error("Error reading stream:", err);
-				resolve();
-			});
-
-			writeStream.on("error", function (err) {
-				console.error("Error writing file:", err);
-				resolve();
-			});
-		});
-
-		await writeStreamPromise;
+	// Handle favicon special case (rotate if JPEG, then process)
+	if (isFavicon && res.headers["content-type"] === "image/jpeg") {
+		stream = stream.pipe(sharp().rotate());
 	}
+
+	const writeStream = fs.createWriteStream(filepath);
+
+	// Apply EXIF transformer for everything
+	stream.pipe(new ExifTransformer()).pipe(writeStream);
+
+	await new Promise<void>((resolve) => {
+		writeStream.on("finish", async () => {
+			if (isFavicon) {
+				await processFavicon(filepath);
+			}
+			resolve();
+		});
+		stream.on("error", function (err) {
+			console.error("Error reading stream:", err);
+			resolve();
+		});
+		writeStream.on("error", function (err) {
+			console.error("Error writing file:", err);
+			resolve();
+		});
+	});
 }
 
 export async function processFileBlocks(fileAttachedBlocks: Block[]) {
@@ -1069,7 +1114,10 @@ export async function processFileBlocks(fileAttachedBlocks: Block[]) {
 			const expiryTime = fileDetails.ExpiryTime;
 			let url = new URL(fileDetails.Url);
 
-			const cacheFilePath = generateFilePath(url, isConvImageType(url.pathname) && OPTIMIZE_IMAGES);
+			// Determine if this is an image for Astro
+			const isImage = block.NImage && isImageTypeForAstro(url.pathname);
+
+			const cacheFilePath = generateFilePath(url, isImage);
 
 			const shouldDownload = LAST_BUILD_TIME
 				? block.LastUpdatedTimeStamp > LAST_BUILD_TIME || !fs.existsSync(cacheFilePath)
@@ -1078,7 +1126,7 @@ export async function processFileBlocks(fileAttachedBlocks: Block[]) {
 			if (shouldDownload) {
 				if (Date.parse(expiryTime) < Date.now()) {
 					// If the file is expired, get the block again and extract the new URL
-					const updatedBlock = await getBlock(block.Id, true);
+					const updatedBlock = await getBlock(block.Id, true, true); // skipFileDownload = true to avoid circular call
 					if (!updatedBlock) {
 						return null;
 					}
@@ -1092,7 +1140,7 @@ export async function processFileBlocks(fileAttachedBlocks: Block[]) {
 					);
 				}
 
-				return downloadFile(url); // Download the file
+				return downloadFile(url, isImage); // Download the file
 			}
 
 			return null;
@@ -1292,13 +1340,6 @@ async function _buildBlock(blockObject: responses.BlockObject): Promise<Block> {
 					image.File = {
 						Type: blockObject.image.type,
 						Url: blockObject.image.file.url,
-						OptimizedUrl:
-							isConvImageType(blockObject.image.file.url) && OPTIMIZE_IMAGES
-								? blockObject.image.file.url.substring(
-										0,
-										blockObject.image.file.url.lastIndexOf("."),
-									) + ".webp"
-								: blockObject.image.file.url,
 						ExpiryTime: blockObject.image.file.expiry_time,
 					};
 				}
@@ -1382,27 +1423,20 @@ async function _buildBlock(blockObject: responses.BlockObject): Promise<Block> {
 						"external" in blockObject.callout.icon
 					) {
 						const iconUrl = blockObject.callout.icon.external?.url || "";
-						const shouldOptimize = shouldOptimizeIcon(iconUrl);
-						// Strip query parameters before changing extension
-						const urlWithoutQuery = iconUrl.split("?")[0];
-						const optimizedUrl =
-							shouldOptimize && OPTIMIZE_IMAGES
-								? urlWithoutQuery.substring(0, urlWithoutQuery.lastIndexOf(".")) + ".webp"
-								: iconUrl;
 
 						icon = {
 							Type: blockObject.callout.icon.type,
 							Url: iconUrl,
-							OptimizedUrl: optimizedUrl,
 						};
 
 						// Download icon if it doesn't exist
 						if (iconUrl) {
 							try {
 								const url = new URL(iconUrl);
-								const filepath = generateFilePath(url, shouldOptimize && OPTIMIZE_IMAGES);
+								const isImage = isImageTypeForAstro(url.pathname);
+								const filepath = generateFilePath(url, isImage);
 								if (!fs.existsSync(filepath)) {
-									await downloadFile(url, shouldOptimize);
+									await downloadFile(url, isImage);
 								}
 							} catch (err) {
 								console.log(`Error downloading callout icon: ${err}`);
@@ -1413,18 +1447,10 @@ async function _buildBlock(blockObject: responses.BlockObject): Promise<Block> {
 						"file" in blockObject.callout.icon
 					) {
 						const iconUrl = blockObject.callout.icon.file?.url || "";
-						const shouldOptimize = shouldOptimizeIcon(iconUrl);
-						// For file URLs, strip query parameters before changing extension
-						const urlWithoutQuery = iconUrl.split("?")[0];
-						const optimizedUrl =
-							shouldOptimize && OPTIMIZE_IMAGES
-								? urlWithoutQuery.substring(0, urlWithoutQuery.lastIndexOf(".")) + ".webp"
-								: iconUrl;
 
 						icon = {
 							Type: blockObject.callout.icon.type,
 							Url: iconUrl,
-							OptimizedUrl: optimizedUrl,
 							ExpiryTime: blockObject.callout.icon.file?.expiry_time,
 						};
 
@@ -1432,9 +1458,10 @@ async function _buildBlock(blockObject: responses.BlockObject): Promise<Block> {
 						if (iconUrl) {
 							try {
 								const url = new URL(iconUrl);
-								const filepath = generateFilePath(url, shouldOptimize && OPTIMIZE_IMAGES);
+								const isImage = isImageTypeForAstro(url.pathname);
+								const filepath = generateFilePath(url, isImage);
 								if (!fs.existsSync(filepath)) {
-									await downloadFile(url, shouldOptimize);
+									await downloadFile(url, isImage);
 								}
 							} catch (err) {
 								console.log(`Error downloading callout icon: ${err}`);
@@ -1445,27 +1472,20 @@ async function _buildBlock(blockObject: responses.BlockObject): Promise<Block> {
 						"custom_emoji" in blockObject.callout.icon
 					) {
 						const emojiUrl = blockObject.callout.icon.custom_emoji?.url || "";
-						const shouldOptimize = shouldOptimizeIcon(emojiUrl);
-						// Strip query parameters before changing extension
-						const urlWithoutQuery = emojiUrl.split("?")[0];
-						const optimizedUrl =
-							shouldOptimize && OPTIMIZE_IMAGES
-								? urlWithoutQuery.substring(0, urlWithoutQuery.lastIndexOf(".")) + ".webp"
-								: emojiUrl;
 
 						icon = {
 							Type: "external", // Store as external type since it's a URL-based icon
 							Url: emojiUrl,
-							OptimizedUrl: optimizedUrl,
 						};
 
 						// Download custom emoji if it doesn't exist
 						if (emojiUrl) {
 							try {
 								const url = new URL(emojiUrl);
-								const filepath = generateFilePath(url, shouldOptimize && OPTIMIZE_IMAGES);
+								const isImage = isImageTypeForAstro(url.pathname);
+								const filepath = generateFilePath(url, isImage);
 								if (!fs.existsSync(filepath)) {
-									await downloadFile(url, shouldOptimize);
+									await downloadFile(url, isImage);
 								}
 							} catch (err) {
 								console.log(`Error downloading callout custom emoji: ${err}`);
@@ -1642,7 +1662,7 @@ async function _getTableRows(blockId: string): Promise<TableRow[]> {
 	);
 }
 
-async function _getColumns(blockId: string): Promise<Column[]> {
+async function _getColumns(blockId: string): Promise<{ columns: Column[]; fileBlocks: Block[] }> {
 	let results: responses.BlockObject[] = [];
 
 	const params: requestParams.RetrieveBlockChildren = {
@@ -1682,9 +1702,14 @@ async function _getColumns(blockId: string): Promise<Column[]> {
 		params["start_cursor"] = res.next_cursor as string;
 	}
 
-	return await Promise.all(
+	const allFileBlocks: Block[] = [];
+
+	const columns = await Promise.all(
 		results.map(async (blockObject) => {
-			const children = await getAllBlocksByBlockId(blockObject.id);
+			const { blocks: children, fileBlocks: childFileBlocks } = await getAllBlocksByBlockId(
+				blockObject.id,
+			);
+			allFileBlocks.push(...childFileBlocks);
 
 			const column: Column = {
 				Id: blockObject.id,
@@ -1696,20 +1721,24 @@ async function _getColumns(blockId: string): Promise<Column[]> {
 			return column;
 		}),
 	);
+
+	return { columns, fileBlocks: allFileBlocks };
 }
 
-async function _getSyncedBlockChildren(block: Block): Promise<Block[]> {
+async function _getSyncedBlockChildren(
+	block: Block,
+): Promise<{ blocks: Block[]; fileBlocks: Block[] }> {
 	let originalBlock: Block | null = block;
 	if (block.SyncedBlock && block.SyncedBlock.SyncedFrom && block.SyncedBlock.SyncedFrom.BlockId) {
 		originalBlock = await getBlock(block.SyncedBlock.SyncedFrom.BlockId);
 		if (!originalBlock) {
 			console.log("Could not retrieve the original synced_block");
-			return [];
+			return { blocks: [], fileBlocks: [] };
 		}
 	}
 
-	const children = await getAllBlocksByBlockId(originalBlock.Id);
-	return children;
+	const { blocks: children, fileBlocks } = await getAllBlocksByBlockId(originalBlock.Id);
+	return { blocks: children, fileBlocks };
 }
 
 function _validPageObject(pageObject: responses.PageObject): boolean {
@@ -1732,27 +1761,20 @@ async function _buildPost(pageObject: responses.PageObject): Promise<Post> {
 			};
 		} else if (pageObject.icon.type === "external" && "external" in pageObject.icon) {
 			const iconUrl = pageObject.icon.external?.url || "";
-			const shouldOptimize = shouldOptimizeIcon(iconUrl);
-			// Strip query parameters before changing extension
-			const urlWithoutQuery = iconUrl.split("?")[0];
-			const optimizedUrl =
-				shouldOptimize && OPTIMIZE_IMAGES
-					? urlWithoutQuery.substring(0, urlWithoutQuery.lastIndexOf(".")) + ".webp"
-					: iconUrl;
 
 			icon = {
 				Type: pageObject.icon.type,
 				Url: iconUrl,
-				OptimizedUrl: optimizedUrl,
 			};
 
 			// Download icon if it doesn't exist
 			if (iconUrl) {
 				try {
 					const url = new URL(iconUrl);
-					const filepath = generateFilePath(url, shouldOptimize && OPTIMIZE_IMAGES);
+					const isImage = isImageTypeForAstro(url.pathname);
+					const filepath = generateFilePath(url, isImage);
 					if (!fs.existsSync(filepath)) {
-						await downloadFile(url, shouldOptimize);
+						await downloadFile(url, isImage);
 					}
 				} catch (err) {
 					console.log(`Error downloading page icon: ${err}`);
@@ -1760,18 +1782,10 @@ async function _buildPost(pageObject: responses.PageObject): Promise<Post> {
 			}
 		} else if (pageObject.icon.type === "file" && "file" in pageObject.icon) {
 			const iconUrl = pageObject.icon.file?.url || "";
-			const shouldOptimize = shouldOptimizeIcon(iconUrl);
-			// For file URLs, strip query parameters before changing extension
-			const urlWithoutQuery = iconUrl.split("?")[0];
-			const optimizedUrl =
-				shouldOptimize && OPTIMIZE_IMAGES
-					? urlWithoutQuery.substring(0, urlWithoutQuery.lastIndexOf(".")) + ".webp"
-					: iconUrl;
 
 			icon = {
 				Type: pageObject.icon.type,
 				Url: iconUrl,
-				OptimizedUrl: optimizedUrl,
 				ExpiryTime: pageObject.icon.file?.expiry_time,
 			};
 
@@ -1779,9 +1793,10 @@ async function _buildPost(pageObject: responses.PageObject): Promise<Post> {
 			if (iconUrl) {
 				try {
 					const url = new URL(iconUrl);
-					const filepath = generateFilePath(url, shouldOptimize && OPTIMIZE_IMAGES);
+					const isImage = isImageTypeForAstro(url.pathname);
+					const filepath = generateFilePath(url, isImage);
 					if (!fs.existsSync(filepath)) {
-						await downloadFile(url, shouldOptimize);
+						await downloadFile(url, isImage);
 					}
 				} catch (err) {
 					console.log(`Error downloading page icon: ${err}`);
@@ -1789,27 +1804,20 @@ async function _buildPost(pageObject: responses.PageObject): Promise<Post> {
 			}
 		} else if (pageObject.icon.type === "custom_emoji" && "custom_emoji" in pageObject.icon) {
 			const emojiUrl = pageObject.icon.custom_emoji?.url || "";
-			const shouldOptimize = shouldOptimizeIcon(emojiUrl);
-			// Strip query parameters before changing extension
-			const urlWithoutQuery = emojiUrl.split("?")[0];
-			const optimizedUrl =
-				shouldOptimize && OPTIMIZE_IMAGES
-					? urlWithoutQuery.substring(0, urlWithoutQuery.lastIndexOf(".")) + ".webp"
-					: emojiUrl;
 
 			icon = {
 				Type: "external", // Store as external type since it's a URL-based icon
 				Url: emojiUrl,
-				OptimizedUrl: optimizedUrl,
 			};
 
 			// Download custom emoji if it doesn't exist
 			if (emojiUrl) {
 				try {
 					const url = new URL(emojiUrl);
-					const filepath = generateFilePath(url, shouldOptimize && OPTIMIZE_IMAGES);
+					const isImage = isImageTypeForAstro(url.pathname);
+					const filepath = generateFilePath(url, isImage);
 					if (!fs.existsSync(filepath)) {
-						await downloadFile(url, shouldOptimize);
+						await downloadFile(url, isImage);
 					}
 				} catch (err) {
 					console.log(`Error downloading page custom emoji: ${err}`);
@@ -1972,27 +1980,20 @@ async function _buildRichText(richTextObject: responses.RichTextObject): Promise
 			richTextObject.mention.custom_emoji
 		) {
 			const emojiUrl = richTextObject.mention.custom_emoji.url || "";
-			const shouldOptimize = shouldOptimizeIcon(emojiUrl);
-			// Strip query parameters before changing extension
-			const urlWithoutQuery = emojiUrl.split("?")[0];
-			const optimizedUrl =
-				shouldOptimize && OPTIMIZE_IMAGES
-					? urlWithoutQuery.substring(0, urlWithoutQuery.lastIndexOf(".")) + ".webp"
-					: emojiUrl;
 
 			mention.CustomEmoji = {
 				Name: richTextObject.mention.custom_emoji.name,
 				Url: emojiUrl,
-				OptimizedUrl: optimizedUrl,
 			};
 
 			// Download custom emoji if it doesn't exist
 			if (emojiUrl) {
 				try {
 					const url = new URL(emojiUrl);
-					const filepath = generateFilePath(url, shouldOptimize && OPTIMIZE_IMAGES);
+					const isImage = isImageTypeForAstro(url.pathname);
+					const filepath = generateFilePath(url, isImage);
 					if (!fs.existsSync(filepath)) {
-						await downloadFile(url, shouldOptimize);
+						await downloadFile(url, isImage);
 					}
 				} catch (err) {
 					console.log(`Error downloading custom emoji: ${err}`);

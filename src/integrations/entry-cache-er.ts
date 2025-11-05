@@ -19,7 +19,7 @@ export default (): AstroIntegration => ({
 				entries.map(async (entry) => {
 					let tasks = [];
 
-					// Conditionally add the downloadFile task
+					// Conditionally add the downloadFile task for featured images
 					if (
 						entry.FeaturedImage &&
 						entry.FeaturedImage.Url &&
@@ -38,11 +38,13 @@ export default (): AstroIntegration => ({
 						}
 					}
 
-					// Add the getPostContentByPostId task
-					const postContentPromise = getPostContentByPostId(entry).then((result) => ({
-						interlinkedContentInPage: result.interlinkedContentInPage,
-						entryId: entry.PageId,
-					}));
+					// Get post content (which now handles all file downloads internally)
+					const postContentPromise = getPostContentByPostId(entry).then((result) => {
+						return {
+							interlinkedContentInPage: result.interlinkedContentInPage,
+							entryId: entry.PageId,
+						};
+					});
 					tasks.push(postContentPromise);
 
 					// Wait for all tasks for this entry to complete
@@ -53,7 +55,7 @@ export default (): AstroIntegration => ({
 				}),
 			);
 
-			// Once all entries are processed, call createBlockIdPostIdMap with the interlinkedContentInPages
+			// Once all entries are processed, call createInterlinkedContentToThisEntry
 			createInterlinkedContentToThisEntry(interlinkedContentInEntries);
 		},
 	},

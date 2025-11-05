@@ -33,7 +33,11 @@ const {
 			((adjustedFootnotesConfig &&
 				adjustedFootnotesConfig["in-page-footnotes-settings"]?.[
 					"show-in-margin-on-large-screens"
-				]) || (BIBTEX_CITATIONS_ENABLED && CITATIONS?.["extract-and-process-bibtex-citations"]?.["show-in-margin-on-large-screens"])) && <script src="../scripts/margin-notes.ts" />
+				]) ||
+				(BIBTEX_CITATIONS_ENABLED &&
+					CITATIONS?.["extract-and-process-bibtex-citations"]?.[
+						"show-in-margin-on-large-screens"
+					])) && <script src="../scripts/margin-notes.ts" />
 		}
 		<script src="../scripts/datatables.ts"></script>
 	</body>

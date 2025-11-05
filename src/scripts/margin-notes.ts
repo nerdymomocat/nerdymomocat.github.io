@@ -32,13 +32,15 @@ function initializeMarginNotes(limit?: number) {
  * 2. Then after images load - render all notes (correct positions)
  */
 async function setupMarginNotes() {
-	// Quick first render when DOM is ready - only position first 4 notes for speed
+	// Quick first render when DOM is ready - only position first 10 notes for speed
 	if (document.readyState === "loading") {
 		await new Promise((resolve) => {
 			document.addEventListener("DOMContentLoaded", resolve, { once: true });
 		});
 	}
 	initializeMarginNotes(10); // Limit to 10 notes on fast initial render
+	// Reload lightbox to register any images in the first batch of margin notes
+	window.lightboxInstance?.reload();
 
 	// Reposition after all images load for accurate positions - render ALL notes
 	if (document.readyState === "loading" || document.readyState === "interactive") {
@@ -48,9 +50,11 @@ async function setupMarginNotes() {
 	}
 	//Wait for fonts and layout to settle completely
 	await document.fonts.ready;
-	await new Promise(resolve => requestAnimationFrame(resolve));
-	await new Promise((resolve) => setTimeout(resolve, 1000)); // Extra delay to ensure layout stability
+	await new Promise((resolve) => requestAnimationFrame(resolve));
+	await new Promise((resolve) => setTimeout(resolve, 100)); // Extra delay to ensure layout stability
 	initializeMarginNotes(); // No limit - render all notes with correct positions
+	// Reload lightbox to register all images in margin notes
+	window.lightboxInstance?.reload();
 }
 
 // Start progressive initialization
@@ -70,6 +74,8 @@ window.addEventListener("resize", () => {
 			// Switched to large screen - remove margin notes and recreate them
 			document.querySelectorAll(".footnote-margin-note").forEach((n) => n.remove());
 			positionMarginNotes();
+			// Reload lightbox to register images in newly created margin notes
+			window.lightboxInstance?.reload();
 
 			// Hide any open popovers for footnote markers and mark them as non-interactive
 			document.querySelectorAll("[data-margin-note]").forEach((marker) => {

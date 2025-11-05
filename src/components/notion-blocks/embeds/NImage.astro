@@ -1,7 +1,8 @@
 ---
-import { ENABLE_LIGHTBOX } from "@/constants.ts";
+import { Image, getImage, inferRemoteSize } from "astro:assets";
+import { ENABLE_LIGHTBOX, OPTIMIZE_IMAGES } from "@/constants.ts";
 import * as interfaces from "@/lib/interfaces.ts";
-import { filePath, getFirstImage } from "@/lib/blog-helpers";
+import { getFirstImage, getNotionImage, getImageComponentFormat } from "@/lib/blog-helpers";
 import Caption from "@/components/notion-blocks/Caption.astro";
 
 export interface Props {
@@ -11,41 +12,130 @@ export interface Props {
 
 const { block, setId = true } = Astro.props;
 
-let image = "";
+let externalImageUrl = "";
+let downloadedImage = null;
+
 if (block.NImage?.External) {
-	image = block.NImage.External.Url;
+	externalImageUrl = block.NImage.External.Url;
 } else if (block.NImage?.File) {
-	image = filePath(new URL(block.NImage.File.OptimizedUrl));
+	downloadedImage = await getNotionImage(new URL(block.NImage.File.Url));
+	if (!downloadedImage) {
+		// If download failed, don't render anything
+		console.warn(`Could not load downloaded image for block ${block.Id}`);
+	}
+}
+
+// Generate optimized image for lightbox (only if OPTIMIZE_IMAGES is enabled)
+let lightboxImageUrl = null;
+if (downloadedImage && OPTIMIZE_IMAGES) {
+	const optimizedImage = await getImage({
+		src: downloadedImage,
+		format: getImageComponentFormat(downloadedImage),
+		quality: 85,
+		width: downloadedImage.width, // Use original width to match the <Image> component
+	});
+	lightboxImageUrl = optimizedImage.src;
+} else if (downloadedImage) {
+	lightboxImageUrl = downloadedImage.src; // Fallback to original if not optimizing
+}
+
+// Infer size for external images to prevent CLS
+let externalImageDimensions = null;
+if (externalImageUrl) {
+	try {
+		externalImageDimensions = await inferRemoteSize(externalImageUrl);
+	} catch (err) {
+		console.warn(`Could not infer size for external image: ${externalImageUrl}`);
+	}
 }
 
 const plainTextCaption = block.NImage?.Caption.map((richText) => richText.PlainText).join(" ");
+const altText =
+	plainTextCaption ||
+	(downloadedImage ? "Image uploaded to Notion" : externalImageUrl ? "External image" : "Image");
+
+const isFirstImage = getFirstImage() && setId;
+
+// Only use responsive widths if original is larger than 650px
+const imageWidths =
+	downloadedImage && downloadedImage.width > 650 ? [650, downloadedImage.width] : undefined;
+const imageSizes =
+	downloadedImage && downloadedImage.width > 650
+		? `(max-width: 640px) 650px, ${downloadedImage.width}px`
+		: undefined;
 ---
 
 {
-	image && (
+	(downloadedImage || externalImageUrl) && (
 		<figure class="mx-auto mt-1 max-w-full" id={setId ? block.Id : undefined}>
 			<div class="mx-auto min-w-0">
 				{ENABLE_LIGHTBOX ? (
 					<a
 						data-type="image"
-						href={image}
+						href={downloadedImage ? lightboxImageUrl : externalImageUrl}
 						class="mediaglightbox no-rss"
 						data-description={plainTextCaption}
 						aria-label={`Open image with alt ${plainTextCaption} in lightbox`}
 					>
-						<img
-							class="imagemedia block max-w-full rounded-md"
-							loading={getFirstImage() && setId ? "eager" : "lazy"}
-							src={image}
-							alt={plainTextCaption}
-						/>
+						{downloadedImage ? (
+							<Image
+								src={downloadedImage}
+								alt={altText}
+								priority={isFirstImage}
+								loading={isFirstImage ? undefined : "lazy"}
+								decoding={isFirstImage ? undefined : "async"}
+								quality={OPTIMIZE_IMAGES ? 85 : undefined}
+								widths={imageWidths}
+								sizes={imageSizes}
+								class="imagemedia block max-w-full rounded-md"
+								format={
+									OPTIMIZE_IMAGES
+										? getImageComponentFormat(downloadedImage)
+										: downloadedImage.format
+								}
+							/>
+						) : (
+							<img
+								class="imagemedia block max-w-full rounded-md"
+								loading={isFirstImage ? "eager" : "lazy"}
+								decoding={isFirstImage ? "sync" : "async"}
+								fetchpriority={isFirstImage ? "high" : undefined}
+								src={externalImageUrl}
+								alt={altText}
+								{...(externalImageDimensions && {
+									width: externalImageDimensions.width,
+									height: externalImageDimensions.height,
+								})}
+							/>
+						)}
 					</a>
+				) : downloadedImage ? (
+					<Image
+						src={downloadedImage}
+						alt={altText}
+						priority={isFirstImage}
+						loading={isFirstImage ? undefined : "lazy"}
+						decoding={isFirstImage ? undefined : "async"}
+						quality={OPTIMIZE_IMAGES ? 85 : undefined}
+						widths={imageWidths}
+						sizes={imageSizes}
+						class="imagemedia block max-w-full rounded-md"
+						format={
+							OPTIMIZE_IMAGES ? getImageComponentFormat(downloadedImage) : downloadedImage.format
+						}
+					/>
 				) : (
 					<img
 						class="imagemedia block max-w-full rounded-md"
-						src={image}
-						loading={getFirstImage() ? "eager" : "lazy"}
-						alt={plainTextCaption}
+						src={externalImageUrl}
+						loading={isFirstImage ? "eager" : "lazy"}
+						decoding={isFirstImage ? "sync" : "async"}
+						fetchpriority={isFirstImage ? "high" : undefined}
+						alt={altText}
+						{...(externalImageDimensions && {
+							width: externalImageDimensions.width,
+							height: externalImageDimensions.height,
+						})}
 					/>
 				)}
 			</div>

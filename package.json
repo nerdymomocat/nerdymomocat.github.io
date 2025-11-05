@@ -1,19 +1,20 @@
 {
 	"name": "webtrotion-astro-notion-cms-website-blog",
-	"version": "2.1.2",
+	"version": "2.2.0",
 	"private": false,
 	"cacheVersion": {
 		"tmpJSONCache": "v5",
 		"tmpHTMLCache": "vI",
 		"tmpOGImagesCache": "v4",
-		"publicNotion": "v4",
-		"lastBuildTimestampStore": "vE"
+		"lastBuildTimestampStore": "vF"
 	},
 	"scripts": {
-		"predev": "rm -rf buildcache && for folder in blocks-html-cache blocks-json-cache rss-cache bib-files-cache; do if [ -d \"./tmp/$folder\" ]; then echo \"Deleting $folder folder\"; rm -rf \"./tmp/$folder\"; else echo \"No $folder folder to delete\"; fi; done",
+		"predev": "rm -rf buildcache && for folder in blocks-html-cache blocks-json-cache rss-cache bib-files-cache .astro; do if [ -d \"./tmp/$folder\" ]; then echo \"Deleting $folder folder\"; rm -rf \"./tmp/$folder\"; else echo \"No $folder folder to delete\"; fi; done",
 		"dev": "astro dev",
-		"prebuild-local": "rm -rf buildcache && for folder in blocks-html-cache blocks-json-cache rss-cache bib-files-cache; do if [ -d \"./tmp/$folder\" ]; then echo \"Deleting $folder folder\"; rm -rf \"./tmp/$folder\"; else echo \"No $folder folder to delete\"; fi; done",
+		"prebuild-local": "rm -rf buildcache && for folder in blocks-html-cache blocks-json-cache rss-cache bib-files-cache .astro; do if [ -d \"./tmp/$folder\" ]; then echo \"Deleting $folder folder\"; rm -rf \"./tmp/$folder\"; else echo \"No $folder folder to delete\"; fi; done",
 		"build-local": "astro build",
+		"prebuild-localnodl": "rm -rf buildcache ./src/assets/notion/* ./node_modules/.astro/assets/* ./public/notion/* && for folder in blocks-html-cache blocks-json-cache rss-cache bib-files-cache .astro; do if [ -d \"./tmp/$folder\" ]; then echo \"Deleting $folder folder\"; rm -rf \"./tmp/$folder\"; else echo \"No $folder folder to delete\"; fi; done",
+		"build-localnodl": "astro build",
 		"start": "astro dev",
 		"build": "rm -rf buildcache && astro build",
 		"postbuild": "pagefind --site dist",

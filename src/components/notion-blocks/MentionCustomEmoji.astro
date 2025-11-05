@@ -1,6 +1,7 @@
 ---
+import { Image } from "astro:assets";
 import type { Mention } from "@/lib/interfaces.ts";
-import { filePath } from "@/lib/blog-helpers.ts";
+import { filePath, getNotionImage, getImageComponentFormat } from "@/lib/blog-helpers.ts";
 
 export interface Props {
 	mention: Mention;
@@ -12,18 +13,31 @@ if (!mention.CustomEmoji) {
 	return null;
 }
 
-const { Name, Url, OptimizedUrl } = mention.CustomEmoji;
+const { Name, Url } = mention.CustomEmoji;
 
 if (!Url) {
 	return null;
 }
 
-const iconPath = filePath(new URL(OptimizedUrl || Url));
+const downloadedEmoji = await getNotionImage(new URL(Url));
+const externalEmojiPath = downloadedEmoji ? null : filePath(new URL(Url));
 ---
 
-<img
-	src={iconPath}
-	alt={`custom emoji with name ${Name}`}
-	aria-label={`custom emoji with name ${Name}`}
-	class="no-rss mb-0.5 inline h-4 w-4 object-contain align-sub text-transparent"
-/>
+{
+	downloadedEmoji ? (
+		<Image
+			src={downloadedEmoji}
+			alt={`custom emoji with name ${Name}`}
+			aria-label={`custom emoji with name ${Name}`}
+			class="no-rss mb-0.5 inline h-4 w-4 object-contain align-sub text-transparent"
+			format={getImageComponentFormat(downloadedEmoji)}
+		/>
+	) : (
+		<img
+			src={externalEmojiPath}
+			alt={`custom emoji with name ${Name}`}
+			aria-label={`custom emoji with name ${Name}`}
+			class="no-rss mb-0.5 inline h-4 w-4 object-contain align-sub text-transparent"
+		/>
+	)
+}

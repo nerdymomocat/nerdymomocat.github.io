@@ -16,6 +16,7 @@ import type {
 	Footnote,
 	Citation,
 } from "@/lib/interfaces";
+import type { ImageMetadata } from "astro";
 import { slugify } from "../utils/slugify";
 import path from "path";
 import fs from "node:fs";
@@ -24,6 +25,7 @@ import superjson from "superjson";
 import { prepareBibliography } from "./citations";
 
 const BASE_PATH = import.meta.env.BASE_URL;
+let downloadedImagesinSrc = null;
 let interlinkedContentInPageCache: { [entryId: string]: InterlinkedContentInPage[] } | null = null;
 let interlinkedContentToPageCache: {
 	[entryId: string]: { entryId: string; block: Block }[];
@@ -31,6 +33,45 @@ let interlinkedContentToPageCache: {
 let firstImage = true;
 let track_current_page_id: string | null = null;
 let current_headings = null;
+
+function getDownloadedImagesInSrc() {
+	if (!downloadedImagesinSrc) {
+		downloadedImagesinSrc = import.meta.glob<{ default: ImageMetadata }>(
+			"/src/assets/notion/**/*.{jpeg,jpg,png,gif,webp,avif,svg}",
+			{ eager: true },
+		);
+	}
+	return downloadedImagesinSrc;
+}
+
+export async function getNotionImage(url: URL): Promise<ImageMetadata | null> {
+	// Extract the second-to-last and last segments (matches generateFilePath logic)
+	const segments = url.pathname.split("/");
+	const dirName = segments.slice(-2)[0];
+	const filename = decodeURIComponent(segments.slice(-1)[0]);
+
+	const imagePath = `/src/assets/notion/${dirName}/${filename}`;
+	let downloadedImagesinSrcUpdated = getDownloadedImagesInSrc();
+
+	// Check if image exists in the eager glob results
+	if (!downloadedImagesinSrcUpdated[imagePath]) {
+		console.warn(`Image not found in glob: ${imagePath}`);
+		return null;
+	}
+
+	// Return the eagerly loaded image
+	return downloadedImagesinSrcUpdated[imagePath].default;
+}
+
+export function getImageComponentFormat(
+	imageMetadata: ImageMetadata,
+): "svg" | "avif" | "gif" | "webp" {
+	const format = imageMetadata.format;
+	if (format === "svg" || format === "avif" || format === "gif") {
+		return format;
+	}
+	return "webp";
+}
 
 export function setCurrentHeadings(headings) {
 	current_headings = headings;
@@ -64,7 +105,7 @@ export function setTrackCurrentPageId(pageId: string) {
 
 export const filePath = (url: URL): string => {
 	const [dir, filename] = url.pathname.split("/").slice(-2);
-	return path.join(BASE_PATH, `/notion/${dir}/${filename}`);
+	return path.join(BASE_PATH, `/notion/${dir}/${decodeURIComponent(filename)}`);
 };
 
 export const buildTimeFilePath = (url: URL): string => {
@@ -252,16 +293,12 @@ const _extractInterlinkedContentInBlock = (
 	let filteredRichText = _filterRichTexts(postId, block, rich_texts);
 	let direct_media_link =
 		block.NAudio?.External?.Url ||
-		block.NAudio?.File?.OptimizedUrl ||
 		block.NAudio?.File?.Url ||
 		block.File?.External?.Url ||
-		block.File?.File?.OptimizedUrl ||
 		block.File?.File?.Url ||
 		block.NImage?.External?.Url ||
-		block.NImage?.File?.OptimizedUrl ||
 		block.NImage?.File?.Url ||
 		block.Video?.External?.Url ||
-		block.Video?.File?.OptimizedUrl ||
 		block.Video?.File?.Url;
 	let direct_nonmedia_link = block.Embed?.Url || block.LinkPreview?.Url || block.Bookmark?.Url;
 	let link_to_pageid =

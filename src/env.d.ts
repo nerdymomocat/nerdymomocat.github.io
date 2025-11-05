@@ -15,3 +15,10 @@ interface ImportMetaEnv {
 interface ImportMeta {
 	readonly env: ImportMetaEnv;
 }
+
+// GLightbox instance for dynamic reloading
+interface Window {
+	lightboxInstance?: {
+		reload: () => void;
+	};
+}

@@ -6,6 +6,7 @@
  * - End-of-block footnotes ([^ft_a]: content at end of RichText)
  * - Start-of-child-blocks footnotes (child blocks as footnote content)
  * - Block-comments footnotes (Notion comments as footnote content)
+ * - Inline LaTeX footnote command (\footnote{content} with rich text support)
  *
  * Key principles:
  * - Preserve ALL RichText formatting (bold, italic, colors, etc.)
@@ -25,8 +26,8 @@ import type {
 	InterlinkedContent,
 	CommentAttachment,
 } from "./interfaces";
-import { downloadFile, isConvImageType } from "./notion/client";
-import { OPTIMIZE_IMAGES } from "../constants";
+import { downloadFile } from "./notion/client";
+import crypto from "crypto";
 
 // ============================================================================
 // Configuration and Validation
@@ -36,11 +37,17 @@ import { OPTIMIZE_IMAGES } from "../constants";
  */
 function getActiveSource(
 	config: FootnotesConfig,
-): "end-of-block" | "start-of-child-blocks" | "block-comments" | null {
+):
+	| "end-of-block"
+	| "start-of-child-blocks"
+	| "block-comments"
+	| "inline-latex-footnote-command"
+	| null {
 	const source = config["in-page-footnotes-settings"].source;
 	if (source["end-of-block"]) return "end-of-block";
 	if (source["start-of-child-blocks"]) return "start-of-child-blocks";
 	if (source["block-comments"]) return "block-comments";
+	if (source["inline-latex-footnote-command"]) return "inline-latex-footnote-command";
 	return null;
 }
 
@@ -221,20 +228,22 @@ export function findAllFootnoteMarkers(
 			// Find which RichText element this marker is in
 			let currentPos = 0;
 			let richTextIndex = -1;
-			let inCode = false;
+			let shouldSkip = false;
 			for (let i = 0; i < location.richTexts.length; i++) {
 				const len = location.richTexts[i].PlainText.length;
 				if (currentPos <= charStart && charStart < currentPos + len) {
 					richTextIndex = i;
-					if (location.richTexts[i].Annotation.Code) {
-						inCode = true;
+					const richText = location.richTexts[i];
+					// Skip if in code, equation, or mention
+					if (richText.Annotation.Code || richText.Equation || richText.Mention) {
+						shouldSkip = true;
 					}
 					break;
 				}
 				currentPos += len;
 			}
 
-			if (inCode) {
+			if (shouldSkip) {
 				continue;
 			}
 
@@ -418,20 +427,25 @@ export function splitRichTextWithMarkers(
 	// Split from right to left to avoid position shift issues
 	for (const marker of locationMarkers) {
 		const { before, after } = splitRichTextsAtCharPosition(result, marker.Location.CharStart);
-		const { before: markerPart, after: afterMarker } = splitRichTextsAtCharPosition(
-			after,
-			marker.FullMarker.length,
-		);
+		const { after: afterMarker } = splitRichTextsAtCharPosition(after, marker.FullMarker.length);
 
-		// Create footnote marker RichText element
-		if (markerPart.length > 0) {
-			const markerRichText = markerPart[0];
-			markerRichText.IsFootnoteMarker = true;
-			markerRichText.FootnoteRef = marker.Marker;
-			// Keep original PlainText as marker text for now (will be replaced with † in component)
-		}
+		// Create fresh marker with default formatting (like citations does)
+		const markerRichText: RichText = {
+			PlainText: marker.FullMarker,
+			Text: { Content: marker.FullMarker },
+			Annotation: {
+				Bold: false,
+				Italic: false,
+				Strikethrough: false,
+				Underline: false,
+				Code: false,
+				Color: "default",
+			},
+			IsFootnoteMarker: true,
+			FootnoteRef: marker.Marker,
+		};
 
-		result = [...before, ...markerPart, ...afterMarker];
+		result = [...before, markerRichText, ...afterMarker];
 	}
 
 	return result;
@@ -966,20 +980,12 @@ async function extractBlockCommentsFootnotes(
 
 						await downloadFile(new URL(originalUrl), isImage);
 
-						let optimizedUrl = originalUrl;
-
-						if (isImage && isConvImageType(originalUrl) && OPTIMIZE_IMAGES) {
-							optimizedUrl = originalUrl.substring(0, originalUrl.lastIndexOf(".")) + ".webp";
-						}
-
 						const fileName = new URL(originalUrl).pathname.split("/").pop() || "download";
 
 						attachments.push({
 							Category: attachment.category,
 
 							Url: originalUrl,
-
-							OptimizedUrl: optimizedUrl,
 
 							Name: fileName,
 
@@ -1017,7 +1023,7 @@ async function extractBlockCommentsFootnotes(
 		if (error?.status === 403 || error?.code === "restricted_resource") {
 			console.warn(
 				"Footnotes: block-comments source is enabled but Comments API permission is not available. " +
-					"Please grant comment permissions to your Notion integration, or switch to end-of-block or start-of-child-blocks source.",
+					"Please grant comment permissions to your Notion integration, or switch to end-of-block, inline-latex-footnote-command or start-of-child-blocks as the source.",
 			);
 		} else {
 			console.error(`Footnotes: Error fetching comments for block ${block.Id}:`, error);
@@ -1032,16 +1038,231 @@ async function extractBlockCommentsFootnotes(
 }
 
 // ============================================================================
+// Inline LaTeX Footnote Command Extraction
+// ============================================================================
+
+/**
+ * Finds the matching closing brace for an opening brace, handling escaped braces
+ * Escaped braces (\{ and \}) are treated as literal characters, not structural braces
+ * This allows content to be copied to LaTeX documents while preserving escapes
+ */
+function findMatchingClosingBrace(text: string, startPos: number): number {
+	let depth = 1;
+	let pos = startPos;
+
+	while (depth > 0 && pos < text.length) {
+		const char = text[pos];
+		const prevChar = pos > 0 ? text[pos - 1] : "";
+
+		// Check if this brace is escaped (preceded by backslash)
+		const isEscaped = prevChar === "\\";
+
+		if (!isEscaped) {
+			if (char === "{") {
+				depth++;
+			} else if (char === "}") {
+				depth--;
+			}
+		}
+
+		if (depth > 0) {
+			pos++;
+		}
+	}
+
+	return depth === 0 ? pos : -1;
+}
+
+/**
+ * Extracts footnotes from inline LaTeX-style command: \footnote{content}
+ * Supports rich text formatting inside braces
+ * Escaped braces (\{ and \}) are treated as literals for LaTeX compatibility
+ *
+ * Main entry point for inline-latex-footnote-command source type
+ */
+function extractInlineLatexFootnotes(
+	block: Block,
+	config: FootnotesConfig,
+): FootnoteExtractionResult {
+	const locations = getAllRichTextLocations(block);
+	const footnotes: Footnote[] = [];
+	let autoMarkerCounter = 0;
+
+	// Generate hash of block ID for unique markers across blocks
+	const blockHash = crypto.createHash("md5").update(block.Id).digest("hex").substring(0, 8);
+
+	// Process each location
+	locations.forEach((location) => {
+		const fullText = joinPlainText(location.richTexts);
+
+		// Find all \footnote{ patterns
+		const pattern = /\\footnote\{/g;
+		const matches: Array<{
+			marker: string;
+			fullMarker: string;
+			commandStart: number;
+			commandEnd: number;
+			contentStart: number;
+			contentEnd: number;
+		}> = [];
+
+		let match: RegExpExecArray | null;
+		while ((match = pattern.exec(fullText)) !== null) {
+			const commandStart = match.index;
+			const openBracePos = match.index + match[0].length - 1; // Position of {
+			const contentStart = openBracePos + 1; // Position after {
+
+			// Check if this match is inside code, equation, or mention (skip if so)
+			let currentPos = 0;
+			let shouldSkip = false;
+			for (const richText of location.richTexts) {
+				const rtEnd = currentPos + richText.PlainText.length;
+				if (currentPos <= commandStart && commandStart < rtEnd) {
+					// Skip if in code, equation, or mention
+					if (richText.Annotation.Code || richText.Equation || richText.Mention) {
+						shouldSkip = true;
+					}
+					break;
+				}
+				currentPos = rtEnd;
+			}
+
+			if (shouldSkip) {
+				continue;
+			}
+
+			// Find matching closing brace
+			const closeBracePos = findMatchingClosingBrace(fullText, contentStart);
+
+			if (closeBracePos === -1) {
+				// No matching brace found - skip this marker
+				console.warn(
+					`Footnotes: Unmatched brace in \\footnote command at position ${commandStart} in block ${block.Id}`,
+				);
+				continue;
+			}
+
+			const contentEnd = closeBracePos;
+			const commandEnd = closeBracePos + 1; // Position after }
+
+			// Generate auto marker with block hash for uniqueness
+			const autoMarker = `inline_auto_${blockHash}_${++autoMarkerCounter}`;
+			const fullMarker = `\\footnote{...}`; // Display marker
+
+			matches.push({
+				marker: autoMarker,
+				fullMarker,
+				commandStart,
+				commandEnd,
+				contentStart,
+				contentEnd,
+			});
+		}
+
+		if (matches.length === 0) {
+			return; // No footnotes in this location
+		}
+
+		// Process matches from right to left to avoid position shifts
+		const reversedMatches = [...matches].reverse();
+		let modifiedRichTexts = [...location.richTexts];
+
+		reversedMatches.forEach((m) => {
+			// Extract footnote content (between braces)
+			const contentRichTexts = extractRichTextRange(
+				location.richTexts,
+				m.contentStart,
+				m.contentEnd,
+			);
+
+			// Unescape braces in content for display (but source preserves \{ and \})
+			// Only unescape text elements, not equations or mentions
+			const unescapedContent = contentRichTexts.map((rt) => {
+				// Skip unescaping for equations and mentions
+				if (rt.Equation || rt.Mention) {
+					return rt;
+				}
+				const unescaped = cloneRichText(rt);
+				unescaped.PlainText = rt.PlainText.replaceAll("\\{", "{").replaceAll("\\}", "}");
+				if (unescaped.Text) {
+					unescaped.Text.Content = rt.Text.Content.replaceAll("\\{", "{").replaceAll("\\}", "}");
+				}
+				return unescaped;
+			});
+
+			// Skip empty content
+			if (unescapedContent.length === 0 || joinPlainText(unescapedContent).trim() === "") {
+				console.warn(
+					`Footnotes: Empty content in \\footnote command at position ${m.commandStart} in block ${block.Id}`,
+				);
+				return;
+			}
+
+			// Create footnote object
+			footnotes.unshift({
+				// unshift to maintain left-to-right order
+				Marker: m.marker,
+				FullMarker: m.fullMarker,
+				Content: {
+					Type: "rich_text",
+					RichTexts: unescapedContent,
+				},
+				SourceLocation: location.property.includes("Caption")
+					? "caption"
+					: location.property.includes("Table")
+						? "table"
+						: "content",
+			});
+
+			// Replace \footnote{content} with marker in RichText
+			const { before, after } = splitRichTextsAtCharPosition(modifiedRichTexts, m.commandStart);
+			const { after: afterCommand } = splitRichTextsAtCharPosition(
+				after,
+				m.commandEnd - m.commandStart,
+			);
+
+			// Create fresh marker with default formatting (like citations does)
+			const markerRichText: RichText = {
+				PlainText: m.fullMarker,
+				Text: { Content: m.fullMarker },
+				Annotation: {
+					Bold: false,
+					Italic: false,
+					Strikethrough: false,
+					Underline: false,
+					Code: false,
+					Color: "default",
+				},
+				IsFootnoteMarker: true,
+				FootnoteRef: m.marker,
+			};
+
+			modifiedRichTexts = [...before, markerRichText, ...afterCommand];
+		});
+
+		// Update location with modified RichTexts
+		location.setter(modifiedRichTexts);
+	});
+
+	return {
+		footnotes,
+		hasProcessedRichTexts: true,
+		hasProcessedChildren: false,
+	};
+}
+
+// ============================================================================
 // Main Entry Point
 // ============================================================================
 
 /**
  * Extract footnotes from a block with support for all footnote sources
  *
- * Supports three modes based on configuration:
+ * Supports four modes based on configuration:
  * - "end-of-block": Inline footnotes like ^[text]
  * - "start-of-child-blocks": Child blocks as footnote content
  * - "block-comments": Footnotes from Notion Comments API
+ * - "inline-latex-footnote-command": LaTeX-style \footnote{content} commands
  *
  * Called from client.ts during block fetching (getAllBlocksByBlockId)
  */
@@ -1059,6 +1280,8 @@ export async function extractFootnotesFromBlock(
 			return extractStartOfChildBlocksFootnotes(block, config);
 		case "block-comments":
 			return await extractBlockCommentsFootnotes(block, config, notionClient);
+		case "inline-latex-footnote-command":
+			return extractInlineLatexFootnotes(block, config);
 		default:
 			return {
 				footnotes: [],

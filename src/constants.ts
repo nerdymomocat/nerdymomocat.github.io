@@ -29,8 +29,10 @@ export const BUILD_FOLDER_PATHS = {
 	rssCache: path.join("./tmp", "rss-cache"),
 	blocksHtmlCache: path.join("./tmp", "blocks-html-cache"),
 	interlinkedContentHtmlCache: path.join("./tmp", "blocks-html-cache", "interlinked-content"),
+	astroAssetsCache: path.join("./tmp", ".astro", "assets"),
 	public: path.join("./public"),
 	publicNotion: path.join("./public", "notion/"),
+	srcAssetsNotion: path.join("src", "assets", "notion"),
 };
 
 export const NOTION_API_SECRET =

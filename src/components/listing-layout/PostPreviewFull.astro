@@ -2,13 +2,8 @@
 import type { HTMLTag } from "astro/types";
 import FormattedDate from "@/components/ui/FormattedDate.astro";
 import type { Post } from "@/lib/interfaces";
-import { getPostContentByPostId, processFileBlocks } from "@/lib/notion/client";
-import {
-	extractTargetBlocks,
-	getNavLink,
-	getPostLink,
-	setCurrentHeadings,
-} from "@/lib/blog-helpers";
+import { getPostContentByPostId } from "@/lib/notion/client";
+import { getNavLink, getPostLink, setCurrentHeadings } from "@/lib/blog-helpers";
 import NotionBlocks from "@/components/NotionBlocks.astro";
 import { getNotionColorToTailwindColor } from "@/utils/style-helpers";
 import { MENU_PAGES_COLLECTION, BUILD_FOLDER_PATHS } from "@/constants";
@@ -78,19 +73,6 @@ if (shouldUseCache) {
 		cachedHtml = "";
 	}
 }
-
-const fileAtacchedBlocks = extractTargetBlocks(["image", "video", "file", "audio"], blocks).filter(
-	(block) => {
-		if (!block) return false;
-		const imageOrVideoOrAudioOrFile = block.NImage || block.File || block.Video || block.NAudio;
-		return (
-			imageOrVideoOrAudioOrFile &&
-			imageOrVideoOrAudioOrFile.File &&
-			imageOrVideoOrAudioOrFile.File.Url
-		);
-	},
-);
-await processFileBlocks(fileAtacchedBlocks);
 
 const postLink = getPostLink(
 	post_full_preview.Slug,
