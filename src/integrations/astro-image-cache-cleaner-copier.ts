@@ -35,7 +35,7 @@ export default function astroImageCacheCleanerCopier(): AstroIntegration {
 
 				// Step 1: Find all HTML files and get all available cache images in parallel
 				const [htmlFiles, cacheFiles] = await Promise.all([
-					glob("**/*.html", { cwd: dirPath, absolute: true }),
+					glob("**/*.html", { cwd: dirPath, absolute: true, nodir: true }),
 					readdir(ASTRO_ASSETS_CACHE, { withFileTypes: true }),
 				]);
 
