@@ -7,6 +7,7 @@ import EmbedGeneric from "@/components/notion-blocks/embeds/EmbedGeneric.astro";
 import Icon from "@/components/ui/Icon.astro";
 import { ENABLE_LIGHTBOX } from "@/constants";
 import YouTube from "@/components/notion-blocks/embeds/YouTube.astro";
+import { joinPlainText } from "@/utils/richtext-utils";
 
 export interface Props {
 	block: interfaces.Block;
@@ -23,7 +24,7 @@ if (block.Video.External) {
 } else if (block.Video.File) {
 	videoUrl = filePath(new URL(block.Video.File.Url));
 }
-const plainTextCaption = block.Video?.Caption.map((richText) => richText.PlainText).join(" ");
+const plainTextCaption = joinPlainText(block.Video?.Caption || []);
 const isThisYoutubeURL = url ? isYouTubeURL(url) : false;
 const youtubeVidIdTitle = isThisYoutubeURL ? await parseYouTubeVideoIdTitle(url) : ["", ""];
 ---

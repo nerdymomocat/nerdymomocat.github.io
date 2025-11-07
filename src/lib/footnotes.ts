@@ -22,19 +22,22 @@ import type {
 	FootnoteExtractionResult,
 	FootnoteMarkerInfo,
 	RichTextLocation,
-	Mention,
-	InterlinkedContent,
 	CommentAttachment,
 } from "./interfaces";
 import { downloadFile, _buildRichText } from "./notion/client";
+import {
+	cloneRichText,
+	joinPlainText,
+	splitRichTextsAtCharPosition,
+	extractRichTextRange,
+	getAllRichTextLocations,
+	getChildrenFromBlock,
+} from "../utils/richtext-utils";
 import crypto from "crypto";
 
 // ============================================================================
 // Configuration and Validation
 // ============================================================================
-/**
- * Determines which source type is active (only one can be active at a time)
- */
 function getActiveSource(
 	config: FootnotesConfig,
 ):
@@ -52,168 +55,17 @@ function getActiveSource(
 }
 
 // ============================================================================
-// RichText Helper Utilities
-// ============================================================================
-
-/**
- * Joins PlainText from RichText array into a single string
- * Used for pattern matching and character position calculations
- *
- * PERFORMANCE: This is called frequently, so results should be cached where possible
- */
-export function joinPlainText(richTexts: RichText[]): string {
-	return richTexts.map((rt) => rt.PlainText).join("");
-}
-
-/**
- * Deep clones a RichText object, preserving all annotation properties
- * CRITICAL: Must preserve Bold, Italic, Color, Code, etc.
- */
-export function cloneRichText(richText: RichText): RichText {
-	return {
-		...richText,
-		Text: richText.Text
-			? { ...richText.Text, Link: richText.Text.Link ? { ...richText.Text.Link } : undefined }
-			: undefined,
-		Annotation: { ...richText.Annotation },
-		Equation: richText.Equation ? { ...richText.Equation } : undefined,
-		Mention: richText.Mention ? { ...richText.Mention } : undefined,
-		InternalHref: richText.InternalHref ? { ...richText.InternalHref } : undefined,
-	};
-}
-
-/**
- * Splits a RichText array at a specific character position
- * Returns the part before and after the split point
- *
- * @param richTexts - Array to split
- * @param splitCharPos - Character position in the concatenated string
- * @returns { before, after } arrays
- */
-function splitRichTextsAtCharPosition(
-	richTexts: RichText[],
-	splitCharPos: number,
-): { before: RichText[]; after: RichText[] } {
-	const before: RichText[] = [];
-	const after: RichText[] = [];
-	let currentPos = 0;
-
-	for (const richText of richTexts) {
-		const length = richText.PlainText.length;
-		const rtStart = currentPos;
-		const rtEnd = currentPos + length;
-
-		if (splitCharPos <= rtStart) {
-			// Entirely after split point
-			after.push(richText);
-		} else if (splitCharPos >= rtEnd) {
-			// Entirely before split point
-			before.push(richText);
-		} else {
-			// Split occurs within this RichText
-			const splitOffset = splitCharPos - rtStart;
-
-			// First part (before split)
-			if (splitOffset > 0) {
-				const beforePart = cloneRichText(richText);
-				beforePart.PlainText = richText.PlainText.substring(0, splitOffset);
-				if (beforePart.Text) {
-					beforePart.Text.Content = beforePart.PlainText;
-				}
-				before.push(beforePart);
-			}
-
-			// Second part (after split)
-			if (splitOffset < length) {
-				const afterPart = cloneRichText(richText);
-				afterPart.PlainText = richText.PlainText.substring(splitOffset);
-				if (afterPart.Text) {
-					afterPart.Text.Content = afterPart.PlainText;
-				}
-				after.push(afterPart);
-			}
-		}
-
-		currentPos += length;
-	}
-
-	return { before, after };
-}
-
-/**
- * Extracts a character range from RichText array, preserving all annotations
- * This is the KEY function that maintains formatting in footnote content
- *
- * @param richTexts - Source array
- * @param startChar - Start position (inclusive)
- * @param endChar - End position (exclusive)
- * @returns New RichText array with the extracted range
- */
-export function extractRichTextRange(
-	richTexts: RichText[],
-	startChar: number,
-	endChar: number,
-): RichText[] {
-	const result: RichText[] = [];
-	let currentPos = 0;
-
-	for (const richText of richTexts) {
-		const length = richText.PlainText.length;
-		const rtStart = currentPos;
-		const rtEnd = currentPos + length;
-
-		// Check if this RichText overlaps with the target range
-		if (rtEnd > startChar && rtStart < endChar) {
-			const sliceStart = Math.max(0, startChar - rtStart);
-			const sliceEnd = Math.min(length, endChar - rtStart);
-			const slicedText = richText.PlainText.substring(sliceStart, sliceEnd);
-
-			if (slicedText.length > 0) {
-				const slicedRichText = cloneRichText(richText);
-				slicedRichText.PlainText = slicedText;
-				if (slicedRichText.Text) {
-					slicedRichText.Text.Content = slicedText;
-				}
-				result.push(slicedRichText);
-			}
-		}
-
-		currentPos += length;
-	}
-
-	// Trim whitespace from first/last elements
-	if (result.length > 0) {
-		const first = result[0];
-		first.PlainText = first.PlainText.trimStart();
-		if (first.Text) first.Text.Content = first.Text.Content.trimStart();
-
-		const last = result[result.length - 1];
-		last.PlainText = last.PlainText.trimEnd();
-		if (last.Text) last.Text.Content = last.Text.Content.trimEnd();
-	}
-
-	return result;
-}
-
-// ============================================================================
 // Marker Detection and Extraction
 // ============================================================================
 
-/**
- * Finds all footnote markers in RichText arrays across a block
- * Returns locations of all markers found
- *
- * Pattern: [^marker_prefix*]
- * Example: [^ft_a], [^ft_b], [^ft_intro]
- */
-export function findAllFootnoteMarkers(
+function findAllFootnoteMarkers(
 	locations: RichTextLocation[],
 	markerPrefix: string,
 ): FootnoteMarkerInfo[] {
 	const markers: FootnoteMarkerInfo[] = [];
 	// Negative lookahead (?!:) ensures we don't match [^ft_a]: (content markers in child blocks)
 	// Only match [^ft_a] without a following colon (inline markers)
-	const pattern = new RegExp(`\\[\\^${markerPrefix}([a-zA-Z0-9_]+)\\](?!:)`, "g");
+	const pattern = new RegExp(`\\[\\^${markerPrefix}([\\p{L}\\p{N}_]+)\\](?!:)`, "gu");
 
 	locations.forEach((location) => {
 		const fullText = joinPlainText(location.richTexts);
@@ -265,151 +117,7 @@ export function findAllFootnoteMarkers(
 	return markers;
 }
 
-/**
- * Gets all RichText array locations within a block
- * This includes content, captions, table cells, etc.
- */
-export function getAllRichTextLocations(block: Block): RichTextLocation[] {
-	const locations: RichTextLocation[] = [];
-
-	// Helper to add a location
-	const addLocation = (
-		property: string,
-		richTexts: RichText[],
-		setter: (newRichTexts: RichText[]) => void,
-	) => {
-		if (richTexts && richTexts.length > 0) {
-			locations.push({ property, richTexts, setter });
-		}
-	};
-
-	// Paragraph
-	if (block.Paragraph) {
-		addLocation(
-			"Paragraph.RichTexts",
-			block.Paragraph.RichTexts,
-			(rt) => (block.Paragraph!.RichTexts = rt),
-		);
-	}
-
-	// Headings
-	if (block.Heading1) {
-		addLocation(
-			"Heading1.RichTexts",
-			block.Heading1.RichTexts,
-			(rt) => (block.Heading1!.RichTexts = rt),
-		);
-	}
-	if (block.Heading2) {
-		addLocation(
-			"Heading2.RichTexts",
-			block.Heading2.RichTexts,
-			(rt) => (block.Heading2!.RichTexts = rt),
-		);
-	}
-	if (block.Heading3) {
-		addLocation(
-			"Heading3.RichTexts",
-			block.Heading3.RichTexts,
-			(rt) => (block.Heading3!.RichTexts = rt),
-		);
-	}
-
-	// List items
-	if (block.BulletedListItem) {
-		addLocation(
-			"BulletedListItem.RichTexts",
-			block.BulletedListItem.RichTexts,
-			(rt) => (block.BulletedListItem!.RichTexts = rt),
-		);
-	}
-	if (block.NumberedListItem) {
-		addLocation(
-			"NumberedListItem.RichTexts",
-			block.NumberedListItem.RichTexts,
-			(rt) => (block.NumberedListItem!.RichTexts = rt),
-		);
-	}
-
-	// ToDo
-	if (block.ToDo) {
-		addLocation("ToDo.RichTexts", block.ToDo.RichTexts, (rt) => (block.ToDo!.RichTexts = rt));
-	}
-
-	// Quote
-	if (block.Quote) {
-		addLocation("Quote.RichTexts", block.Quote.RichTexts, (rt) => (block.Quote!.RichTexts = rt));
-	}
-
-	// Callout
-	if (block.Callout) {
-		addLocation(
-			"Callout.RichTexts",
-			block.Callout.RichTexts,
-			(rt) => (block.Callout!.RichTexts = rt),
-		);
-	}
-
-	// Toggle
-	if (block.Toggle) {
-		addLocation("Toggle.RichTexts", block.Toggle.RichTexts, (rt) => (block.Toggle!.RichTexts = rt));
-	}
-
-	// Code caption (but NOT Code.RichTexts - code content is excluded)
-	if (block.Code?.Caption) {
-		addLocation("Code.Caption", block.Code.Caption, (rt) => (block.Code!.Caption = rt));
-	}
-
-	// Media captions
-	if (block.NImage?.Caption) {
-		addLocation("NImage.Caption", block.NImage.Caption, (rt) => (block.NImage!.Caption = rt));
-	}
-	if (block.Video?.Caption) {
-		addLocation("Video.Caption", block.Video.Caption, (rt) => (block.Video!.Caption = rt));
-	}
-	if (block.NAudio?.Caption) {
-		addLocation("NAudio.Caption", block.NAudio.Caption, (rt) => (block.NAudio!.Caption = rt));
-	}
-	if (block.File?.Caption) {
-		addLocation("File.Caption", block.File.Caption, (rt) => (block.File!.Caption = rt));
-	}
-
-	// Embed and bookmark captions
-	if (block.Embed?.Caption) {
-		addLocation("Embed.Caption", block.Embed.Caption, (rt) => (block.Embed!.Caption = rt));
-	}
-	if (block.Bookmark?.Caption) {
-		addLocation("Bookmark.Caption", block.Bookmark.Caption, (rt) => (block.Bookmark!.Caption = rt));
-	}
-	if (block.LinkPreview?.Caption) {
-		addLocation(
-			"LinkPreview.Caption",
-			block.LinkPreview.Caption,
-			(rt) => (block.LinkPreview!.Caption = rt),
-		);
-	}
-
-	// Tables - EVERY cell
-	if (block.Table?.Rows) {
-		block.Table.Rows.forEach((row, rowIndex) => {
-			row.Cells.forEach((cell, cellIndex) => {
-				addLocation(
-					`Table.Rows[${rowIndex}].Cells[${cellIndex}]`,
-					cell.RichTexts,
-					(rt) => (block.Table!.Rows![rowIndex].Cells[cellIndex].RichTexts = rt),
-				);
-			});
-		});
-	}
-
-	return locations;
-}
-
-/**
- * Splits RichText arrays at marker positions, creating separate RichText elements for markers
- * Sets IsFootnoteMarker and FootnoteRef properties on marker elements
- */
-export function splitRichTextWithMarkers(
+function splitRichTextWithMarkers(
 	location: RichTextLocation,
 	markers: FootnoteMarkerInfo[],
 ): RichText[] {
@@ -455,15 +163,7 @@ export function splitRichTextWithMarkers(
 // End-of-Block Extraction
 // ============================================================================
 
-/**
- * Extracts footnote definitions from end of RichText array
- * Format: \n\n[^ft_a]: content here\n\n[^ft_b]: more content
- *
- * Returns cleaned content (without definitions) and map of marker -> RichText[]
- *
- * PERFORMANCE: Caches fullText to avoid repeated joinPlainText() calls
- */
-export function extractFootnoteDefinitionsFromRichText(
+function extractFootnoteDefinitionsFromRichText(
 	richTexts: RichText[],
 	markerPrefix: string,
 	cachedFullText?: string,
@@ -510,7 +210,7 @@ function parseFootnoteDefinitionsFromRichText(
 	definitionsText: string,
 ): Map<string, RichText[]> {
 	const definitions = new Map<string, RichText[]>();
-	const pattern = new RegExp(`\\n\\n\\[\\^${markerPrefix}([a-zA-Z0-9_]+)\\]:\\s*`, "g");
+	const pattern = new RegExp(`\\n\\n\\[\\^${markerPrefix}([\\p{L}\\p{N}_]+)\\]:\\s*`, "gu");
 
 	const matches: Array<{ marker: string; start: number; end: number; matchIndex: number }> = [];
 	let match: RegExpExecArray | null;
@@ -634,30 +334,10 @@ function extractEndOfBlockFootnotes(
  */
 function createContentPattern(markerPrefix: string): RegExp {
 	const escapedPrefix = markerPrefix.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-	return new RegExp(`^\\[\\^${escapedPrefix}(\\w+)\\]:\\s*`, "gm");
+	return new RegExp(`^\\[\\^${escapedPrefix}([\\p{L}\\p{N}_]+)\\]:\\s*`, "gmu");
 }
 
-/**
- * Gets children array from a block (various block types have children)
- */
-export function getChildrenFromBlock(block: Block): Block[] | null {
-	if (block.Paragraph?.Children) return block.Paragraph.Children;
-	if (block.Heading1?.Children) return block.Heading1.Children;
-	if (block.Heading2?.Children) return block.Heading2.Children;
-	if (block.Heading3?.Children) return block.Heading3.Children;
-	if (block.Quote?.Children) return block.Quote.Children;
-	if (block.Callout?.Children) return block.Callout.Children;
-	if (block.Toggle?.Children) return block.Toggle.Children;
-	if (block.BulletedListItem?.Children) return block.BulletedListItem.Children;
-	if (block.NumberedListItem?.Children) return block.NumberedListItem.Children;
-	if (block.ToDo?.Children) return block.ToDo.Children;
-	if (block.SyncedBlock?.Children) return block.SyncedBlock.Children;
-	return null;
-}
-
-/**
- * Sets children array in a block
- */
+// Sets children array in a block
 function setChildrenInBlock(block: Block, children: Block[]): void {
 	if (block.Paragraph) block.Paragraph.Children = children;
 	else if (block.Heading1) block.Heading1.Children = children;

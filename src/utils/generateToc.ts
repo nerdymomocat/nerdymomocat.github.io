@@ -2,6 +2,7 @@ import type { MarkdownHeading } from "astro";
 import type { Block } from "@/lib/interfaces";
 import type { Heading } from "@/types";
 import { slugify } from "@/utils/slugify";
+import { joinPlainText } from "@/utils/richtext-utils";
 
 const HEADING_BLOCKS = ["heading_1", "heading_2", "heading_3"];
 
@@ -51,15 +52,15 @@ function cleanHeading(heading: Block): Heading {
 	let text = "";
 	let depth = 0;
 	if (heading.Type === "heading_1" && heading.Heading1) {
-		text = heading.Heading1?.RichTexts.map((richText) => richText.PlainText).join(" ");
+		text = joinPlainText(heading.Heading1.RichTexts);
 		depth = 1;
 	}
 	if (heading.Type === "heading_2" && heading.Heading2) {
-		text = heading.Heading2?.RichTexts.map((richText) => richText.PlainText).join(" ");
+		text = joinPlainText(heading.Heading2.RichTexts);
 		depth = 2;
 	}
 	if (heading.Type === "heading_3" && heading.Heading3) {
-		text = heading.Heading3?.RichTexts.map((richText) => richText.PlainText).join(" ");
+		text = joinPlainText(heading.Heading3.RichTexts);
 		depth = 3;
 	}
 

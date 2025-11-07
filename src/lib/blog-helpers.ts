@@ -23,6 +23,7 @@ import fs from "node:fs";
 import { getBlock, getPostByPageId } from "../lib/notion/client";
 import superjson from "superjson";
 import { prepareBibliography } from "./citations";
+import { joinPlainText } from "../utils/richtext-utils";
 
 const BASE_PATH = import.meta.env.BASE_URL;
 let downloadedImagesinSrc = null;
@@ -55,7 +56,7 @@ export async function getNotionImage(url: URL): Promise<ImageMetadata | null> {
 
 	// Check if image exists in the eager glob results
 	if (!downloadedImagesinSrcUpdated[imagePath]) {
-		console.warn(`Image not found in glob: ${imagePath}`);
+		// console.warn(`Image not found in glob: ${imagePath}`);
 		return null;
 	}
 
@@ -471,16 +472,7 @@ export const getPostLink = (slug: string, isRoot: boolean = false): string => {
 };
 
 export const buildHeadingId = (heading: Heading1 | Heading2 | Heading3) => {
-	return slugify(
-		heading.RichTexts.map((richText: RichText) => {
-			if (!richText.Text) {
-				return "";
-			}
-			return richText.Text.Content;
-		})
-			.join()
-			.trim(),
-	);
+	return slugify(joinPlainText(heading.RichTexts).trim());
 };
 
 export const isTweetURL = (url: URL): boolean => {

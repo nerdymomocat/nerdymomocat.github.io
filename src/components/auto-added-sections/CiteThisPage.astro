@@ -38,7 +38,7 @@ const getLastname = (name: string): string => {
 };
 
 const lastname = getLastname(siteInfo.author || "Unknown Author");
-const slugClean = post.Slug.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
+const slugClean = post.Slug.replace(/[-_]/g, "");
 const slugShort = slugClean.substring(0, Math.min(15, slugClean.length)); // Use first 15 chars max
 const citationKey = `${lastname}${year}${slugShort}`;
 
@@ -47,6 +47,7 @@ const citationKey = `${lastname}${year}${slugShort}`;
 const isPage = post.Collection === MENU_PAGES_COLLECTION;
 const postPath = getPostLink(post.Slug, isPage);
 const fullUrl = Astro.site ? new URL(postPath, Astro.site).toString() : postPath;
+const decodedUrl = decodeURIComponent(fullUrl);
 
 // Extract journal name from site URL (e.g., "eugeneyan.com" from "https://eugeneyan.com")
 const journal = Astro.site ? new URL(Astro.site).hostname : "unknown";
@@ -81,7 +82,7 @@ const bibtexEntry = `@article{${citationKey},
   journal = {${journal}},
   year    = {${year}},
   month   = {${month}},
-  url     = {${fullUrl}}
+  url     = {${decodedUrl}}
 }`;
 
 // Define styles matching Interlinked Content section

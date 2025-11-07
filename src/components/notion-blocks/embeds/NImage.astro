@@ -10,6 +10,7 @@ import {
 } from "@/lib/blog-helpers";
 import Caption from "@/components/notion-blocks/Caption.astro";
 import { isImageTypeForAstro } from "@/lib/notion/client";
+import { joinPlainText } from "@/utils/richtext-utils";
 
 export interface Props {
 	block: interfaces.Block;
@@ -53,7 +54,7 @@ if (externalImageUrl && !block.NImage?.File) {
 	}
 }
 
-const plainTextCaption = block.NImage?.Caption.map((richText) => richText.PlainText).join(" ");
+const plainTextCaption = joinPlainText(block.NImage?.Caption || []);
 const altText =
 	plainTextCaption ||
 	(downloadedImage ? "Image uploaded to Notion" : externalImageUrl ? "External image" : "Image");

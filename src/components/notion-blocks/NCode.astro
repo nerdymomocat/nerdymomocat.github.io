@@ -4,6 +4,7 @@ import Caption from "@/components/notion-blocks/Caption.astro";
 import { SHORTCODES, TRANSFORMER_FUNCTIONS_ARR } from "@/constants";
 import Icon from "@/components/ui/Icon.astro";
 import { Code } from "astro:components";
+import { joinPlainText } from "@/utils/richtext-utils";
 
 export interface Props {
 	block: interfaces.Block;
@@ -188,7 +189,7 @@ if (renderShortcode) {
 
 const code_render = iframeSrcDoc !== null;
 const code_inject = htmlToInject !== null;
-const plainTextCaption = block.Code?.Caption.map((richText) => richText.PlainText).join(" ");
+const plainTextCaption = joinPlainText(block.Code?.Caption || []);
 ---
 
 {

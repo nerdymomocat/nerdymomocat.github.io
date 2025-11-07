@@ -94,12 +94,7 @@ let allTagsWithCountsCache:
 	| { name: string; count: number; description: string; color: string }[]
 	| null = null;
 
-// Footnotes: Comments API permission check cache (checked once per build)
-// null = not checked yet, true = has permission, false = no permission
-let hasCommentsPermission: boolean | null = null;
-
 // Footnotes: Adjusted config (set once at module initialization, includes permission fallback)
-// Export so other files can use the same config
 export let adjustedFootnotesConfig: any = null;
 
 // Footnotes: Track initialization promise to ensure it only runs once
@@ -143,12 +138,10 @@ async function initializeFootnotesConfig(): Promise<void> {
 
 			try {
 				await client.comments.list({ block_id: "00000000-0000-0000-0000-000000000000" });
-				hasCommentsPermission = true;
 				console.log("Footnotes: ✓ Permission confirmed - block-comments source available.");
 				adjustedFootnotesConfig = FOOTNOTES;
 			} catch (error: any) {
 				if (error?.status === 403 || error?.code === "restricted_resource") {
-					hasCommentsPermission = false;
 					console.log("Footnotes: ✗ Permission denied - falling back to end-of-block source.");
 					// Create fallback config
 					adjustedFootnotesConfig = {
@@ -165,7 +158,6 @@ async function initializeFootnotesConfig(): Promise<void> {
 						},
 					};
 				} else {
-					hasCommentsPermission = true;
 					console.log("Footnotes: ✓ Permission confirmed - block-comments source available.");
 					adjustedFootnotesConfig = FOOTNOTES;
 				}
@@ -591,7 +583,7 @@ function updateBlockIdPostIdMap(postId: string, blocks: Block[]) {
 	saveBuildcache("blockIdPostIdMap.json", blockIdPostIdMap);
 }
 
-export function getBlockIdPostIdMap(): { [key: string]: string } {
+function getBlockIdPostIdMap(): { [key: string]: string } {
 	if (blockIdPostIdMap === null) {
 		blockIdPostIdMap = loadBuildcache<{ [key: string]: string }>("blockIdPostIdMap.json") || {};
 	}
@@ -1733,9 +1725,6 @@ function _validPageObject(pageObject: responses.PageObject): boolean {
 
 async function _buildPost(pageObject: responses.PageObject): Promise<Post> {
 	const prop = pageObject.properties;
-	const pageTitle = prop.Page?.title
-		? prop.Page.title.map((richText) => richText.plain_text).join("")
-		: "";
 
 	let icon: FileObject | Emoji | null = null;
 	if (pageObject.icon) {

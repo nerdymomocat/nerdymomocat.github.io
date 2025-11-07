@@ -2,6 +2,7 @@
 import { SHORTCODES } from "@/constants";
 import * as interfaces from "@/lib/interfaces.ts";
 import RichText from "@/components/notion-blocks/RichText.astro";
+import { joinPlainText } from "@/utils/richtext-utils";
 
 export interface Props {
 	block: interfaces.Block;
@@ -11,9 +12,7 @@ export interface Props {
 const { block, setId = true } = Astro.props;
 
 // Check if the first cell starts with SHORTCODES.table
-const plainTextFirstCell = block.Table?.Rows[0]?.Cells[0]?.RichTexts.map(
-	(richText) => richText.PlainText,
-).join(" ");
+const plainTextFirstCell = joinPlainText(block.Table?.Rows[0]?.Cells[0]?.RichTexts || []);
 const isDataTable =
 	plainTextFirstCell && block.Table?.HasColumnHeader
 		? plainTextFirstCell.startsWith(SHORTCODES.table)
@@ -53,7 +52,7 @@ function getColumnType(cellContent: string) {
 					<tr class="border-b border-gray-200/90 dark:border-gray-700/90">
 						{block.Table.Rows[0]?.Cells.map((cell: interfaces.TableCell, i: number) => {
 							if (isDataTable) {
-								const cellContent = cell.RichTexts.map((richText) => richText.PlainText).join(" ");
+								const cellContent = joinPlainText(cell.RichTexts);
 								const columnType = getColumnType(cellContent);
 								return (
 									<th

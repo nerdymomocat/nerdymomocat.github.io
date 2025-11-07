@@ -38,7 +38,8 @@ import {
 	cloneRichText,
 	joinPlainText,
 	getChildrenFromBlock,
-} from "./footnotes";
+	splitRichTextsAtCharPosition,
+} from "../utils/richtext-utils";
 import { BUILD_FOLDER_PATHS, LAST_BUILD_TIME, BIBLIOGRAPHY_STYLE } from "../constants";
 
 // ============================================================================
@@ -216,9 +217,31 @@ export async function fetchBibTeXFile(url: string): Promise<string> {
 // ============================================================================
 
 /**
- * Parse BibTeX content and format each entry for both APA and IEEE styles
- * Returns a Map of ParsedCitationEntry objects
+ * Formats a BibTeX entry using citation-js
  */
+function formatBibEntry(
+	entry: any,
+	template: "apa" | "ieee",
+	authors: string,
+	year: string,
+): string {
+	try {
+		const entryForFormatting = { ...entry };
+		delete entryForFormatting.URL;
+		const cite = new Cite([entryForFormatting]);
+		const formatted = cite.format("bibliography", {
+			format: "html",
+			template,
+			lang: "en-US",
+		});
+		return formatted.replace(/<div[^>]*>|<\/div>/g, "").trim();
+	} catch (error) {
+		console.warn(`Failed to format ${template.toUpperCase()} citation for ${entry.id}:`, error);
+		const title = entry.title || "Untitled";
+		return `${authors} (${year}). ${title}.`;
+	}
+}
+
 function parseAndFormatBibTeXContent(content: string): Map<string, ParsedCitationEntry> {
 	const parsed = new Cite(content);
 	const entries = new Map<string, ParsedCitationEntry>();
@@ -263,41 +286,8 @@ function parseAndFormatBibTeXContent(content: string): Map<string, ParsedCitatio
 			}
 		}
 
-		// Format as IEEE
-		let ieeeFormatted = "";
-		try {
-			const entryForFormatting = { ...entry };
-			delete entryForFormatting.URL;
-			const cite = new Cite([entryForFormatting]);
-			ieeeFormatted = cite.format("bibliography", {
-				format: "html",
-				template: "ieee",
-				lang: "en-US",
-			});
-			ieeeFormatted = ieeeFormatted.replace(/<div[^>]*>|<\/div>/g, "").trim();
-		} catch (error) {
-			console.warn(`Failed to format IEEE citation for ${key}:`, error);
-			const title = entry.title || "Untitled";
-			ieeeFormatted = `${authors} (${year}). ${title}.`;
-		}
-
-		// Format as APA
-		let apaFormatted = "";
-		try {
-			const entryForFormatting = { ...entry };
-			delete entryForFormatting.URL;
-			const cite = new Cite([entryForFormatting]);
-			apaFormatted = cite.format("bibliography", {
-				format: "html",
-				template: "apa",
-				lang: "en-US",
-			});
-			apaFormatted = apaFormatted.replace(/<div[^>]*>|<\/div>/g, "").trim();
-		} catch (error) {
-			console.warn(`Failed to format APA citation for ${key}:`, error);
-			const title = entry.title || "Untitled";
-			apaFormatted = `${authors} (${year}). ${title}.`;
-		}
+		const ieeeFormatted = formatBibEntry(entry, "ieee", authors, year);
+		const apaFormatted = formatBibEntry(entry, "apa", authors, year);
 
 		entries.set(key, {
 			key,
@@ -361,33 +351,8 @@ function saveCombinedEntries(entries: Map<string, ParsedCitationEntry>): void {
 }
 
 /**
- * Loads combined BibTeX entries from cache
- * Returns null if cache doesn't exist or is invalid
- */
-function loadCombinedEntries(): Map<string, ParsedCitationEntry> | null {
-	const cacheDir = BUILD_FOLDER_PATHS.bibFilesCache;
-	const combinedPath = path.join(cacheDir, "combined-entries.json");
-
-	if (!fs.existsSync(combinedPath)) {
-		return null;
-	}
-
-	try {
-		const content = fs.readFileSync(combinedPath, "utf-8");
-		const entriesObject = JSON.parse(content);
-		const entries = new Map<string, ParsedCitationEntry>(Object.entries(entriesObject));
-		console.log(`✓ Loaded ${entries.size} entries from combined cache`);
-		return entries;
-	} catch (error) {
-		console.warn("Failed to load combined entries cache:", error);
-		return null;
-	}
-}
-
-/**
  * Parses multiple BibTeX files and merges into a single map
  * Always recombines from individual parsed_{md5}.json files (fast operation)
- * Returns Map<key, ParsedCitationEntry> where key is the citation key (e.g., "smith2020")
  */
 export async function parseBibTeXFiles(urls: string[]): Promise<Map<string, ParsedCitationEntry>> {
 	// Always combine from individual parsed_{md5}.json files
@@ -471,67 +436,11 @@ export function formatCitation(
 // ============================================================================
 
 /**
- * Splits a RichText array at a specific character position
- * Similar to the footnotes version but for citations
- */
-function splitRichTextsAtCharPosition(
-	richTexts: RichText[],
-	splitCharPos: number,
-): { before: RichText[]; after: RichText[] } {
-	const before: RichText[] = [];
-	const after: RichText[] = [];
-	let currentPos = 0;
-
-	for (const richText of richTexts) {
-		const length = richText.PlainText.length;
-		const rtStart = currentPos;
-		const rtEnd = currentPos + length;
-
-		if (splitCharPos <= rtStart) {
-			after.push(richText);
-		} else if (splitCharPos >= rtEnd) {
-			before.push(richText);
-		} else {
-			const splitOffset = splitCharPos - rtStart;
-
-			if (splitOffset > 0) {
-				const beforePart = cloneRichText(richText);
-				beforePart.PlainText = richText.PlainText.substring(0, splitOffset);
-				if (beforePart.Text) {
-					beforePart.Text.Content = beforePart.PlainText;
-				}
-				before.push(beforePart);
-			}
-
-			if (splitOffset < length) {
-				const afterPart = cloneRichText(richText);
-				afterPart.PlainText = richText.PlainText.substring(splitOffset);
-				if (afterPart.Text) {
-					afterPart.Text.Content = afterPart.PlainText;
-				}
-				after.push(afterPart);
-			}
-		}
-
-		currentPos += length;
-	}
-
-	return { before, after };
-}
-
-/**
  * Extracts citations from a single RichText array
- * Core logic shared by extractCitationsFromBlock and block-comments footnotes
- *
  * Splits RichTexts at citation positions into [before, marker, after]
  * Markers are tagged with IsCitationMarker and CitationRef
- *
- * @param richTexts - RichText array to process
- * @param citationFormat - Format to match ([@key], \cite{key}, or #cite(key))
- * @param bibEntries - Map of citation entries
- * @returns { modifiedRichTexts, citations } - Modified array with split markers and Citation objects
  */
-export function extractCitationsFromRichTextArray(
+function extractCitationsFromRichTextArray(
 	richTexts: RichText[],
 	citationFormat: string,
 	bibEntries: Map<string, ParsedCitationEntry>,
@@ -620,10 +529,7 @@ export function extractCitationsFromRichTextArray(
 
 		// Split RichTexts at match boundaries
 		const { before, after } = splitRichTextsAtCharPosition(newRichTexts, m.start);
-		const { before: markerBefore, after: afterMarker } = splitRichTextsAtCharPosition(
-			after,
-			m.end - m.start,
-		);
+		const { after: afterMarker } = splitRichTextsAtCharPosition(after, m.end - m.start);
 
 		// Create marker RichText
 		const markerText: RichText = {
