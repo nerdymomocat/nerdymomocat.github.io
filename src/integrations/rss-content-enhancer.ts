@@ -44,9 +44,18 @@ const rssContentEnhancer = (): AstroIntegration => {
 					const slug = decodeURIComponent(encodedSlug);
 					const htmlPath = path.join(distDir, "posts", slug, "index.html");
 
+					let htmlContent: string;
 					try {
-						const htmlContent = await fs.readFile(htmlPath, "utf-8");
+						htmlContent = await fs.readFile(htmlPath, "utf-8");
+					} catch (error: any) {
+						if (error?.code === "ENOENT") {
+							// External or skipped entry, nothing was rendered
+							continue;
+						}
+						throw error;
+					}
 
+					try {
 						const lastUpdated = item.lastUpdatedTimestamp;
 						if (!lastUpdated) {
 							continue;

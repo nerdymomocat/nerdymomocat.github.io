@@ -49,7 +49,8 @@ export default function astroImageCacheCleanerCopier(): AstroIntegration {
 					htmlFiles.map(async (htmlFile) => {
 						const content = await readFile(htmlFile, "utf-8");
 						// Match _astro images in: src, srcset, href (for lightbox)
-						const astroImageRegex = /_astro\/([\p{L}\p{N}_\-\.]+\.(?:jpg|jpeg|png|webp|avif|gif|svg))/gu;
+						const astroImageRegex =
+							/_astro\/([\p{L}\p{N}_\-\.]+\.(?:jpg|jpeg|png|webp|avif|gif|svg))/gu;
 						let match;
 						while ((match = astroImageRegex.exec(content)) !== null) {
 							usedImagesSet.add(match[1]);
@@ -132,9 +133,7 @@ export default function astroImageCacheCleanerCopier(): AstroIntegration {
 				);
 
 				const finalDistImagesSet = new Set(finalDistFiles);
-				const missingImages = [...usedImagesSet].filter(
-					(img) => !finalDistImagesSet.has(img),
-				);
+				const missingImages = [...usedImagesSet].filter((img) => !finalDistImagesSet.has(img));
 
 				if (missingImages.length > 0) {
 					logger.warn(
@@ -142,7 +141,9 @@ export default function astroImageCacheCleanerCopier(): AstroIntegration {
 					);
 					logger.warn(missingImages.join("\n"));
 				} else {
-					logger.info("✓ Verification complete: All referenced images exist in the final build directory.");
+					logger.info(
+						"✓ Verification complete: All referenced images exist in the final build directory.",
+					);
 				}
 			},
 		},

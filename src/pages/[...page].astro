@@ -34,7 +34,7 @@ import FootnotesSection from "@/components/auto-added-sections/FootnotesSection.
 import BibliographySection from "@/components/auto-added-sections/BibliographySection.astro";
 
 export async function getStaticPaths() {
-	const pages = await getAllPages();
+	const pages = (await getAllPages()).filter((page) => !page.IsExternal);
 	const allPosts = await getAllPosts();
 	const allItems = [...pages, ...allPosts];
 	const allItemsMap = Object.fromEntries(allItems.map((item) => [item.PageId, item]));

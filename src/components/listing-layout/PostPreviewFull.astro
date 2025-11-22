@@ -3,7 +3,12 @@ import type { HTMLTag } from "astro/types";
 import FormattedDate from "@/components/ui/FormattedDate.astro";
 import type { Post } from "@/lib/interfaces";
 import { getPostContentByPostId } from "@/lib/notion/client";
-import { getNavLink, getPostLink, setCurrentHeadings } from "@/lib/blog-helpers";
+import {
+	getNavLink,
+	resolvePostHref,
+	setCurrentHeadings,
+	isExternalPost,
+} from "@/lib/blog-helpers";
 import NotionBlocks from "@/components/NotionBlocks.astro";
 import { getNotionColorToTailwindColor } from "@/utils/style-helpers";
 import { MENU_PAGES_COLLECTION, BUILD_FOLDER_PATHS } from "@/constants";
@@ -28,40 +33,56 @@ const {
 	as: Tag = "div",
 	withDesc = false,
 } = Astro.props;
-const { blocks, interlinkedContentInPage, footnotesInPage, citationsInPage } =
-	await getPostContentByPostId(post_full_preview);
+const external = isExternalPost(post_full_preview);
+
+let blocks = null;
+let interlinkedContentInPage = null;
+let footnotesInPage = null;
+let citationsInPage = null;
+
+if (!external) {
+	const result = await getPostContentByPostId(post_full_preview);
+	blocks = result.blocks;
+	interlinkedContentInPage = result.interlinkedContentInPage;
+	footnotesInPage = result.footnotesInPage;
+	citationsInPage = result.citationsInPage;
+}
 
 // --- Headings Cache Handling ---
 let headings = null;
 const headingsCacheDir = BUILD_FOLDER_PATHS["headingsCache"];
 const headingsCacheFile = path.join(headingsCacheDir, `${post_full_preview.Slug}.json`);
 
-let cachedHeadings = null;
-if (postLastUpdatedBeforeLastBuild) {
-	try {
-		const headingsData = await fs.readFile(headingsCacheFile, "utf-8");
-		cachedHeadings = superjson.parse(headingsData);
-	} catch (e) {
-		cachedHeadings = null;
+if (!external) {
+	let cachedHeadings = null;
+	if (postLastUpdatedBeforeLastBuild) {
+		try {
+			const headingsData = await fs.readFile(headingsCacheFile, "utf-8");
+			cachedHeadings = superjson.parse(headingsData);
+		} catch (e) {
+			cachedHeadings = null;
+		}
+	}
+
+	if (cachedHeadings) {
+		headings = cachedHeadings;
+	} else if (blocks) {
+		headings = buildHeadings(blocks);
+		try {
+			await fs.writeFile(headingsCacheFile, superjson.stringify(headings), "utf-8");
+		} catch (e) {
+			console.error("Error saving headings cache:", e);
+		}
+	}
+
+	if (headings) {
+		setCurrentHeadings(headings);
 	}
 }
-
-if (cachedHeadings) {
-	headings = cachedHeadings;
-} else {
-	headings = buildHeadings(blocks);
-	try {
-		await fs.writeFile(headingsCacheFile, superjson.stringify(headings), "utf-8");
-	} catch (e) {
-		console.error("Error saving headings cache:", e);
-	}
-}
-
-setCurrentHeadings(headings);
 
 // --- HTML Cache Handling ---
 let cachedHtml = "";
-if (shouldUseCache) {
+if (!external && shouldUseCache) {
 	const htmlCacheFile = path.join(
 		BUILD_FOLDER_PATHS["blocksHtmlCache"],
 		`${post_full_preview.Slug}.html`,
@@ -74,10 +95,7 @@ if (shouldUseCache) {
 	}
 }
 
-const postLink = getPostLink(
-	post_full_preview.Slug,
-	post_full_preview.Collection === MENU_PAGES_COLLECTION,
-);
+const postLink = resolvePostHref(post_full_preview);
 ---
 
 <FormattedDate
@@ -86,6 +104,20 @@ const postLink = getPostLink(
 />
 
 <Tag class="font-bold">
+	{
+		external && (
+			<a
+				href={postLink}
+				class="border-quote/60 text-quote hover:border-quote/80 hover:text-quote mr-2 inline-flex items-center gap-1 rounded border px-2 py-[2px] text-[11px] font-semibold tracking-wider uppercase transition"
+				target="_blank"
+				rel="nofollow noopener"
+				aria-label="Visit external site"
+			>
+				<Icon name={"external-link"} class="h-3.5 w-3.5" aria-hidden="true" />
+				Ext
+			</a>
+		)
+	}
 	{
 		post_full_preview.Pinned && (
 			<Icon
@@ -97,7 +129,12 @@ const postLink = getPostLink(
 			/>
 		)
 	}
-	<a href={postLink} class="site-page-link inline no-underline">
+	<a
+		href={postLink}
+		class="site-page-link inline no-underline"
+		target={external ? "_blank" : undefined}
+		rel={external ? "nofollow noopener" : undefined}
+	>
 		{post_full_preview.Title}
 	</a>
 </Tag>
@@ -135,9 +172,23 @@ const postLink = getPostLink(
 	)
 }
 
-<section
-	class="post-body post-preview-full-container"
-	data-html-type={shouldUseCache && cachedHtml ? "cached" : "new"}
->
-	{shouldUseCache && cachedHtml ? <div set:html={cachedHtml} /> : <NotionBlocks blocks={blocks} />}
-</section>
+{
+	external ? (
+		<section class="post-body post-preview-full-container">
+			{post_full_preview.Excerpt && (
+				<q class="line-clamp-3 block italic">{post_full_preview.Excerpt}</q>
+			)}
+		</section>
+	) : (
+		<section
+			class="post-body post-preview-full-container"
+			data-html-type={shouldUseCache && cachedHtml ? "cached" : "new"}
+		>
+			{shouldUseCache && cachedHtml ? (
+				<div set:html={cachedHtml} />
+			) : (
+				<NotionBlocks blocks={blocks} />
+			)}
+		</section>
+	)
+}

@@ -26,6 +26,17 @@ export interface Post {
 	LastUpdatedTimeStamp: Date;
 	Pinned: boolean;
 	BlueSkyPostLink: string | "";
+	IsExternal: boolean;
+	ExternalUrl: string | null;
+	ExternalContent?: ExternalContentDescriptor | null;
+}
+
+export type ExternalContentType = "html" | "markdown" | "mdx";
+
+export interface ExternalContentDescriptor {
+	type: ExternalContentType;
+	sourceId: string;
+	folderName: string;
 }
 
 export interface Block {
@@ -45,6 +56,11 @@ export interface Block {
 	NAudio?: NAudio;
 	File?: File;
 	Code?: Code;
+	MdxSnippet?: {
+		PageId: string;
+		BlockId: string;
+		Slug: string;
+	};
 	Quote?: Quote;
 	Equation?: Equation;
 	Callout?: Callout;

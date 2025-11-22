@@ -1216,7 +1216,7 @@ export async function GET(context: APIContext) {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-	const posts = await getAllEntries();
+	const posts = (await getAllEntries()).filter((entry) => !entry.IsExternal);
 
 	const postsMap = posts.map(({ Slug }) => ({ params: { slug: Slug } }));
 

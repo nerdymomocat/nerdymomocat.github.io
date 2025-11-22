@@ -39,12 +39,17 @@ export default (): AstroIntegration => ({
 					}
 
 					// Get post content (which now handles all file downloads internally)
-					const postContentPromise = getPostContentByPostId(entry).then((result) => {
-						return {
-							interlinkedContentInPage: result.interlinkedContentInPage,
-							entryId: entry.PageId,
-						};
-					});
+					const postContentPromise = entry.IsExternal
+						? Promise.resolve({
+								interlinkedContentInPage: null,
+								entryId: entry.PageId,
+							})
+						: getPostContentByPostId(entry).then((result) => {
+								return {
+									interlinkedContentInPage: result.interlinkedContentInPage,
+									entryId: entry.PageId,
+								};
+							});
 					tasks.push(postContentPromise);
 
 					// Wait for all tasks for this entry to complete

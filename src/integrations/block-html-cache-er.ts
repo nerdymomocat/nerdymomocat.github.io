@@ -24,6 +24,9 @@ const blocksHtmlCacher = (): AstroIntegration => {
 				const allPostsMap = Object.fromEntries(posts.map((p) => [p.PageId, p]));
 
 				for (const entry of allEntries) {
+					if (entry.IsExternal) {
+						continue;
+					}
 					const slug = entry.Slug;
 					let filePath: string;
 

@@ -380,6 +380,16 @@ export const getAnchorLinkAndBlock = async (
 		}
 	}
 
+	if (post && isExternalPost(post)) {
+		return {
+			hreflink: post.ExternalUrl as string,
+			blocklinked: block_linked,
+			conditionmatch: "external_post",
+			post,
+			isBlockLinkedHeading,
+		};
+	}
+
 	if (richText.Href && !richText.Mention && !richText.InternalHref) {
 		return {
 			hreflink: richText.Href,
@@ -389,24 +399,27 @@ export const getAnchorLinkAndBlock = async (
 			isBlockLinkedHeading,
 		};
 	} else if (block_linked_id && post && post.PageId === track_current_page_id) {
+		const baseHref = resolvePostHref(post);
 		return {
-			hreflink: `${getPostLink(post.Slug, post.Collection === MENU_PAGES_COLLECTION)}#${block_linked_id}`,
+			hreflink: `${baseHref}#${block_linked_id}`,
 			blocklinked: block_linked,
 			conditionmatch: "block_current_page",
 			post: post,
 			isBlockLinkedHeading,
 		};
 	} else if (block_linked_id && post) {
+		const baseHref = resolvePostHref(post);
 		return {
-			hreflink: `${getPostLink(post.Slug, post.Collection === MENU_PAGES_COLLECTION)}#${block_linked_id}`,
+			hreflink: `${baseHref}#${block_linked_id}`,
 			blocklinked: block_linked,
 			conditionmatch: "block_other_page",
 			post: post,
 			isBlockLinkedHeading,
 		};
 	} else if (post) {
+		const baseHref = resolvePostHref(post);
 		return {
-			hreflink: getPostLink(post.Slug, post.Collection === MENU_PAGES_COLLECTION),
+			hreflink: baseHref,
 			blocklinked: block_linked,
 			conditionmatch: "other_page",
 			post: post,
@@ -442,21 +455,20 @@ export const getInterlinkedContentLink = async (
 		}
 	}
 
+	if (linkedpost && isExternalPost(linkedpost)) {
+		return [linkedpost.ExternalUrl as string, linkedpost];
+	}
+
 	if (
 		block_linked_id &&
 		((linkedpost && current_page_id && linkedPageId == current_page_id) || currentOverride)
 	) {
 		return [`#${block_linked_id}`, linkedpost];
 	} else if (block_linked_id && linkedpost) {
-		return [
-			`${getPostLink(linkedpost.Slug, linkedpost.Collection === MENU_PAGES_COLLECTION)}#${block_linked_id}`,
-			linkedpost,
-		];
+		const baseHref = resolvePostHref(linkedpost);
+		return [`${baseHref}#${block_linked_id}`, linkedpost];
 	} else if (linkedpost) {
-		return [
-			getPostLink(linkedpost.Slug, linkedpost.Collection === MENU_PAGES_COLLECTION),
-			linkedpost,
-		];
+		return [resolvePostHref(linkedpost), linkedpost];
 	}
 	return [null, null];
 };
@@ -473,6 +485,36 @@ export const getPostLink = (slug: string, isRoot: boolean = false): string => {
 
 export const buildHeadingId = (heading: Heading1 | Heading2 | Heading3) => {
 	return slugify(joinPlainText(heading.RichTexts).trim());
+};
+
+export const hasExternalContentDescriptor = (post?: Post | null): boolean => {
+	return !!post?.ExternalContent;
+};
+
+export const isExternalPost = (post?: Post | null): boolean => {
+	if (!post) return false;
+	if (hasExternalContentDescriptor(post)) {
+		return false;
+	}
+	return post.IsExternal === true && !!post.ExternalUrl;
+};
+
+export const resolvePostHref = (
+	post: Post,
+	options?: {
+		forceIsRoot?: boolean;
+	},
+): string => {
+	if (isExternalPost(post)) {
+		return post.ExternalUrl as string;
+	}
+
+	const isRoot =
+		typeof options?.forceIsRoot === "boolean"
+			? options.forceIsRoot
+			: post.Collection === MENU_PAGES_COLLECTION;
+
+	return getPostLink(post.Slug, isRoot);
 };
 
 export const isTweetURL = (url: URL): boolean => {

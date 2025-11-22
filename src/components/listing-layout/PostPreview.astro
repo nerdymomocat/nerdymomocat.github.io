@@ -3,7 +3,7 @@ import type { HTMLTag } from "astro/types";
 import FormattedDate from "@/components/ui/FormattedDate.astro";
 import type { Post } from "@/lib/interfaces";
 import { getNotionColorToTailwindColor } from "@/utils/style-helpers";
-import { getNavLink, getPostLink } from "@/lib/blog-helpers";
+import { getNavLink, resolvePostHref, isExternalPost } from "@/lib/blog-helpers";
 import { MENU_PAGES_COLLECTION } from "@/constants";
 import Icon from "@/components/ui/Icon.astro";
 import { slugify } from "@/utils";
@@ -15,11 +15,26 @@ interface Props {
 }
 
 const { post, as: Tag = "div", withDesc = false } = Astro.props;
-const postLink = getPostLink(post.Slug, post.Collection === MENU_PAGES_COLLECTION);
+const postLink = resolvePostHref(post);
+const external = isExternalPost(post);
 ---
 
 <FormattedDate date={new Date(post.Date)} class="text-accent/90 min-w-[120px] text-xs" />
 <Tag>
+	{
+		external && (
+			<a
+				href={postLink}
+				class="border-quote/60 text-quote hover:border-quote/80 hover:text-quote mr-2 inline-flex items-center gap-1 rounded border px-2 py-[2px] text-[11px] font-semibold tracking-wider uppercase transition"
+				target="_blank"
+				rel="nofollow noopener"
+				aria-label="Visit external site"
+			>
+				<Icon name={"external-link"} class="h-3.5 w-3.5" aria-hidden="true" />
+				Ext
+			</a>
+		)
+	}
 	{
 		post.Pinned && (
 			<Icon
@@ -32,7 +47,13 @@ const postLink = getPostLink(post.Slug, post.Collection === MENU_PAGES_COLLECTIO
 		)
 	}
 
-	<a href={postLink} class="site-page-link" data-astro-prefetch>
+	<a
+		href={postLink}
+		class="site-page-link"
+		data-astro-prefetch={!external ? "" : undefined}
+		target={external ? "_blank" : undefined}
+		rel={external ? "nofollow noopener" : undefined}
+	>
 		{post.Title}
 	</a>
 </Tag>

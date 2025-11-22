@@ -1,5 +1,5 @@
 import { getAllPosts, getAllPages } from "@/lib/notion/client";
-import { getPostLink } from "@/lib/blog-helpers";
+import { resolvePostHref, getPostLink } from "@/lib/blog-helpers";
 import { HIDE_UNDERSCORE_SLUGS_IN_LISTS } from "@/constants";
 import { getCollections } from "@/utils";
 import { slugify } from "@/utils";
@@ -8,10 +8,12 @@ export const GET = async () => {
 	const [posts, pages] = await Promise.all([getAllPosts(), getAllPages()]);
 
 	// Filter posts and pages
-	const filterEntries = (entries) =>
-		HIDE_UNDERSCORE_SLUGS_IN_LISTS
+	const filterEntries = (entries) => {
+		const filtered = HIDE_UNDERSCORE_SLUGS_IN_LISTS
 			? entries.filter((entry) => !entry.Slug.startsWith("_"))
 			: entries;
+		return filtered.filter((entry) => !entry.IsExternal);
+	};
 
 	const filteredPosts = filterEntries(posts);
 	const filteredPages = filterEntries(pages);
@@ -21,7 +23,10 @@ export const GET = async () => {
 	const generateEntries = (entries, isPage) =>
 		entries
 			.map((entry) => {
-				const url = new URL(getPostLink(entry.Slug, isPage), import.meta.env.SITE).toString();
+				const url = new URL(
+					resolvePostHref(entry, { forceIsRoot: isPage }),
+					import.meta.env.SITE,
+				).toString();
 				return `<url><loc>${url}</loc></url>`;
 			})
 			.join("");

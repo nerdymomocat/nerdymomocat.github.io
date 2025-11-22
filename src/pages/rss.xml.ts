@@ -1,6 +1,6 @@
 import rss from "@astrojs/rss";
 import { getAllPosts, getDataSource } from "@/lib/notion/client";
-import { getPostLink } from "@/lib/blog-helpers";
+import { resolvePostHref } from "@/lib/blog-helpers";
 import { HIDE_UNDERSCORE_SLUGS_IN_LISTS, AUTHOR } from "@/constants";
 import { getNavLink } from "@/lib/blog-helpers";
 
@@ -24,7 +24,7 @@ export const GET = async () => {
 			description: post.Excerpt,
 			pubDate: new Date(post.LastUpdatedDate),
 			customData: `<lastUpdatedTimestamp>${post.LastUpdatedTimeStamp}</lastUpdatedTimestamp>`,
-			link: new URL(getPostLink(post.Slug), import.meta.env.SITE).toString(),
+			link: new URL(resolvePostHref(post), import.meta.env.SITE).toString(),
 			categories: [
 				...(post.Collection ? [post.Collection] : []),
 				...(post.Tags ? post.Tags.map((tag) => tag.name) : []),
