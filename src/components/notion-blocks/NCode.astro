@@ -194,47 +194,33 @@ const plainTextCaption = joinPlainText(block.Code?.Caption || []);
 
 {
 	code_render ? (
-		<div class="renderedcode mb-1 w-full max-w-full" id={setId ? block.Id : undefined}>
+		<div class="code-rendered" id={setId ? block.Id : undefined}>
 			<iframe
 				srcdoc={iframeSrcDoc}
-				class="h-[340px] w-full max-w-full rounded-lg border-none print:max-h-full"
+				class="code-iframe"
 				loading="lazy"
 				title={plainTextCaption}
 			/>
 		</div>
 	) : code_inject ? (
-		<div class="injectedcode mb-1 max-w-full" id={setId ? block.Id : undefined}>
+		<div class="code-injected" id={setId ? block.Id : undefined}>
 			<Fragment set:html={htmlToInject} />
 			<Caption richTexts={block.Code.Caption} block={block} />
 		</div>
 	) : (
 		<div
-			class="code group relative z-0 mb-1 w-full max-w-full text-sm"
+			class="code group"
 			id={setId ? block.Id : undefined}
 		>
 			<div
-				class={`${language === "mermaid" ? "overflow-x-scroll" : "max-h-[340px] overflow-scroll print:max-h-full"} min-w-0`}
+				class={language === "mermaid" ? "code-mermaid" : "code-scroll"}
 				{...(language !== "mermaid" && { "data-pagefind-ignore": "all" })}
 			>
 				<div class="flex max-w-full">
 					<button
-						class="copy absolute top-0 right-0 z-10 cursor-pointer border-none p-2 text-gray-500 sm:opacity-100 md:opacity-0 md:transition-opacity md:duration-200 md:group-hover:opacity-100 print:hidden"
+						class="copy"
 						data-code={modifiedCode}
 						aria-label="copy code"
-						onclick="
-                const code = this.getAttribute('data-code');
-                navigator.clipboard.writeText(code);
-                const svgBefore = this.querySelector('.copy-icon-before');
-                const svgAfter = this.querySelector('.copy-icon-done');
-                if (svgBefore && svgAfter) {
-                    svgBefore.classList.toggle('hidden');
-                    svgAfter.classList.toggle('hidden');
-                    setTimeout(() => {
-                        svgBefore.classList.toggle('hidden');
-                        svgAfter.classList.toggle('hidden');
-                    }, 1000);
-                }
-            "
 					>
 						<Icon
 							class="copy-icon-before h-6 w-6"
@@ -249,7 +235,7 @@ const plainTextCaption = joinPlainText(block.Code?.Caption || []);
 					</button>
 				</div>
 				{language === "mermaid" ? (
-					<pre class="mermaid max-w-full rounded-sm p-4 font-mono">{code}</pre>
+					<pre class="mermaid">{code}</pre>
 				) : (
 					<Code
 						code={code}
@@ -263,16 +249,20 @@ const plainTextCaption = joinPlainText(block.Code?.Caption || []);
 		</div>
 	)
 }
+
+{/* prettier-ignore */}
 {
 	language === "mermaid" && (
 		<script>
 			// Only load Mermaid after page load
 			window.addEventListener("load", () => {
-				import("mermaid").then((module) => {
-					const mermaid = module.default;
-					mermaid.initialize({ startOnLoad: false, theme: "base" });
-					mermaid.run();
-				});
+				if (document.querySelector(".mermaid")) {
+					import("mermaid").then((module) => {
+						const mermaid = module.default;
+						mermaid.initialize({ startOnLoad: false, theme: "base" });
+						mermaid.run();
+					});
+				}
 			});
 		</script>
 	)

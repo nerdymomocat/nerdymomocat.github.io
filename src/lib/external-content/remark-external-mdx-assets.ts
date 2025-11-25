@@ -1,7 +1,7 @@
 import path from "node:path";
 import { visit } from "unist-util-visit";
 import type { Root } from "mdast";
-import { isRelativePath, toPublicUrl } from "./external-html-utils";
+import { isRelativePath, toPublicUrl } from "./external-content-utils";
 
 type MdxJsxNode = {
 	type: "mdxJsxFlowElement" | "mdxJsxTextElement";

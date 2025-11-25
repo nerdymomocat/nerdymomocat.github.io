@@ -5,14 +5,9 @@ const { order = 0 } = Astro.props;
 ---
 
 <theme-toggle class:list={["ml-auto", `order-${order}`, "sm:order-3"]}>
-	<button
-		type="button"
-		id="themeToggle"
-		class="group hover:text-accent hover:ring-accent-400 relative h-10 w-10 cursor-pointer rounded-md p-2 transition-all hover:ring-2"
-		aria-label="Toggle Theme"
-	>
+	<button type="button" id="themeToggle" class="theme-toggle-btn group" aria-label="Toggle Theme">
 		<Icon
-			class="absolute top-1/2 left-1/2 h-7 w-7 -translate-x-1/2 -translate-y-1/2 scale-0 opacity-0 transition-all group-data-[theme=system]:scale-100 group-data-[theme=system]:opacity-100"
+			class="theme-icon group-data-[theme=system]:scale-100 group-data-[theme=system]:opacity-100"
 			name={"theme-system"}
 			aria-label="Use System Theme"
 			id="system-svg"
@@ -22,7 +17,7 @@ const { order = 0 } = Astro.props;
 			stroke-linecap="round"
 		/>
 		<Icon
-			class="absolute top-1/2 left-1/2 h-7 w-7 -translate-x-1/2 -translate-y-1/2 scale-0 opacity-0 transition-all group-data-[theme=light]:scale-100 group-data-[theme=light]:opacity-100"
+			class="theme-icon group-data-[theme=light]:scale-100 group-data-[theme=light]:opacity-100"
 			name={"theme-light"}
 			aria-label="Set Light Theme"
 			id="sun-svg"
@@ -32,7 +27,7 @@ const { order = 0 } = Astro.props;
 			stroke-linecap="round"
 		/>
 		<Icon
-			class="absolute top-1/2 left-1/2 h-7 w-7 -translate-x-1/2 -translate-y-1/2 scale-0 opacity-0 transition-all group-data-[theme=dark]:scale-100 group-data-[theme=dark]:opacity-100"
+			class="theme-icon group-data-[theme=dark]:scale-100 group-data-[theme=dark]:opacity-100"
 			name={"theme-dark"}
 			aria-label="Set Dark Theme"
 			id="moon-svg"

@@ -17,17 +17,19 @@ const listTypes = ["lower-roman", "decimal", "lower-alpha"];
 ---
 
 <div class="numbered-list" id={setId ? block.Id : undefined}>
-	<ol
-		class="list-outside space-y-1 pl-6"
-		style={`list-style-type: ${listTypes[level % 3]} !important;`}
-	>
+	<ol class="notion-list-ol" style={`list-style-type: ${listTypes[level % 3]} !important;`}>
 		{
 			block.ListItems.filter((b: interfaces.Block) => b.Type === "numbered_list_item").map(
 				(b: interfaces.Block) => (
 					<li
 						class:list={[
 							{
-								[`${getNotionColorToTailwindColor(b.NumberedListItem.Color)} rounded-sm px-1`]:
+								"notion-list-item-colored":
+									b.NumberedListItem.Color &&
+									!["default", "default_background", "default-background"].includes(
+										b.NumberedListItem.Color,
+									),
+								[`${getNotionColorToTailwindColor(b.NumberedListItem.Color)}`]:
 									b.NumberedListItem.Color &&
 									!["default", "default_background", "default-background"].includes(
 										b.NumberedListItem.Color,

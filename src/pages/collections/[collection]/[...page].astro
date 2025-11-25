@@ -117,10 +117,10 @@ const meta = {
 
 const paginationProps = {
 	...(page.url.prev && {
-		prevUrl: { url: getNavLink(page.url.prev), text: `← Previous Posts` },
+		prevUrl: { url: getNavLink(page.url.prev), text: "Previous Posts" },
 	}),
 	...(page.url.next && {
-		nextUrl: { url: getNavLink(page.url.next), text: `Next Posts →` },
+		nextUrl: { url: getNavLink(page.url.next), text: "Next Posts" },
 	}),
 };
 ---
@@ -186,11 +186,12 @@ const paginationProps = {
 						</ul>
 						<span class="mt-4 block sm:text-end">
 							<a
-								class="sm:hover:text-accent"
+								class="sm:hover:text-accent inline-flex items-center gap-1"
 								href={getNavLink("/tags/")}
 								aria-label="View all tags"
 							>
-								View all →
+								View all
+								<Icon class="h-4 w-4" name={"next"} aria-hidden="true" focusable="false" />
 							</a>
 						</span>
 					</aside>

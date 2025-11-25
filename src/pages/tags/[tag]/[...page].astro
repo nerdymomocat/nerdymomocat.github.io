@@ -64,13 +64,13 @@ const paginationProps = {
 	...(page.url.prev && {
 		prevUrl: {
 			url: getNavLink(page.url.prev),
-			text: `← Previous Tags`,
+			text: "Previous Tags",
 		},
 	}),
 	...(page.url.next && {
 		nextUrl: {
 			url: getNavLink(page.url.next),
-			text: `Next Tags →`,
+			text: "Next Tags",
 		},
 	}),
 };

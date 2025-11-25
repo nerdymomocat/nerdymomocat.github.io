@@ -56,10 +56,7 @@ const { hreflink, blocklinked, conditionmatch, post, isBlockLinkedHeading } =
 						<slot />
 					</NBlocksPopover>
 				) : (
-					<a
-						href={hreflink}
-						class="text-link decoration-accent-2/40 underline decoration-dashed underline-offset-2"
-					>
+					<a href={hreflink} class="anchor-link-dashed">
 						<slot />
 					</a>
 				)}

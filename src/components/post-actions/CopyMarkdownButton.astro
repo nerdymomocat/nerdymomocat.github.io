@@ -1,0 +1,147 @@
+---
+import Icon from "@/components/ui/Icon.astro";
+
+interface Props {
+	label?: string;
+	class?: string;
+	buttonClass?: string;
+}
+
+const markdownUrl = new URL("./index.md", Astro.url);
+const markdownPath = markdownUrl.pathname;
+const isDevMode = import.meta.env.MODE !== "production";
+const {
+	label = "Copy as Markdown",
+	class: className = "",
+	buttonClass: buttonClassName = "",
+} = Astro.props;
+
+const buttonClass = `${buttonClassName}`;
+---
+
+<div
+	class:list={["copy-markdown-trigger flex items-center gap-2 text-sm", className]}
+	data-copy-md-root
+>
+	{
+		isDevMode ? (
+			<button type="button" class:list={["copy-markdown-btn", buttonClass]} disabled>
+				<span class="text-textColor flex flex-col items-center justify-center text-xs">
+					Only in prod
+				</span>
+			</button>
+		) : (
+			<button
+				type="button"
+				data-copy-md-button
+				data-md-url={markdownPath}
+				class:list={["copy-markdown-btn", buttonClass]}
+				data-copy-state="idle"
+				aria-label={label}
+			>
+				<span class="text-textColor relative flex items-center justify-center">
+					<Icon
+						name="copy-as-markdown"
+						class="copy-icon-default h-6 w-6 transition"
+						data-md-icon="default"
+						aria-hidden="true"
+						focusable="false"
+					/>
+					<Icon
+						name="clipboard-copy-code-done"
+						class="copy-icon-success absolute h-6 w-6 opacity-0 transition"
+						data-md-icon="success"
+						aria-hidden="true"
+						focusable="false"
+					/>
+				</span>
+			</button>
+		)
+	}
+</div>
+
+<script>
+	(() => {
+		const init = () => {
+			document.querySelectorAll("[data-copy-md-root]").forEach((root) => {
+				const el = root;
+				if (el.dataset.initialized) return;
+				el.dataset.initialized = "true";
+				const button = el.querySelector("[data-copy-md-button]");
+				const markdownUrl = button?.getAttribute("data-md-url");
+				if (!(button instanceof HTMLButtonElement) || !markdownUrl) return;
+				const icons = {
+					default: button.querySelector('[data-md-icon="default"]'),
+					success: button.querySelector('[data-md-icon="success"]'),
+				};
+
+				button.addEventListener("click", async () => {
+					try {
+						button.disabled = true;
+						button.dataset.copyState = "loading";
+						const res = await fetch(markdownUrl);
+						if (!res.ok) throw new Error("Unable to fetch Markdown.");
+						const text = await res.text();
+
+						if (!navigator.clipboard?.writeText) {
+							throw new Error("Clipboard API is not available in this browser.");
+						}
+
+						await navigator.clipboard.writeText(text);
+
+						button.dataset.copyState = "success";
+						if (icons.default && icons.success) {
+							icons.default.classList.add("copy-icon-hidden");
+							icons.success.classList.add("copy-icon-visible");
+						}
+						setTimeout(() => {
+							button.dataset.copyState = "idle";
+							if (icons.default && icons.success) {
+								icons.default.classList.remove("copy-icon-hidden");
+								icons.success.classList.remove("copy-icon-visible");
+							}
+						}, 2000);
+					} catch (error) {
+						console.error(error);
+						button.dataset.copyState = "error";
+						setTimeout(() => {
+							button.dataset.copyState = "idle";
+							if (icons.default && icons.success) {
+								icons.default.classList.remove("copy-icon-hidden");
+								icons.success.classList.remove("copy-icon-visible");
+							}
+						}, 2000);
+					} finally {
+						button.disabled = false;
+					}
+				});
+			});
+		};
+
+		if (document.readyState !== "loading") {
+			init();
+		} else {
+			document.addEventListener("DOMContentLoaded", init, { once: true });
+		}
+	})();
+</script>
+
+<style>
+	.copy-markdown-btn .copy-icon-default,
+	.copy-markdown-btn .copy-icon-success {
+		transition:
+			opacity 150ms ease,
+			transform 150ms ease;
+	}
+	.copy-markdown-btn .copy-icon-hidden {
+		opacity: 0;
+		transform: scale(0.8);
+	}
+	.copy-markdown-btn .copy-icon-visible {
+		opacity: 1;
+		transform: scale(1);
+	}
+	.copy-markdown-btn[data-copy-state="loading"] .copy-icon-default {
+		opacity: 0.65;
+	}
+</style>

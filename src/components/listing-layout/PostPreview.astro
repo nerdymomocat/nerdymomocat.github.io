@@ -23,29 +23,13 @@ const external = isExternalPost(post);
 <Tag>
 	{
 		external && (
-			<a
-				href={postLink}
-				class="border-quote/60 text-quote hover:border-quote/80 hover:text-quote mr-2 inline-flex items-center gap-1 rounded border px-2 py-[2px] text-[11px] font-semibold tracking-wider uppercase transition"
-				target="_blank"
-				rel="nofollow noopener"
-				aria-label="Visit external site"
-			>
+			<a href={postLink} target="_blank" rel="nofollow noopener" aria-label="Visit external site">
 				<Icon name={"external-link"} class="h-3.5 w-3.5" aria-hidden="true" />
 				Ext
 			</a>
 		)
 	}
-	{
-		post.Pinned && (
-			<Icon
-				class="me-1 inline-block h-6 w-6"
-				name={"pin"}
-				aria-label="Pinned Post"
-				focusable="false"
-				fill="#D50B0D"
-			/>
-		)
-	}
+	{post.Pinned && <Icon name={"pin"} aria-label="Pinned Post" focusable="false" fill="#D50B0D" />}
 
 	<a
 		href={postLink}
@@ -70,10 +54,7 @@ const external = isExternalPost(post);
 			{post.Tags.map((tag, i) => (
 				<>
 					<a
-						class={`inline-block rounded-md px-1 text-sm ${getNotionColorToTailwindColor(
-							tag.color + "-background",
-							true,
-						)}`}
+						class={`notion-tag ${getNotionColorToTailwindColor(tag.color + "-background", true)}`}
 						aria-label={`View more blogs with the tag ${tag.name}`}
 						href={getNavLink("/tags/" + slugify(tag.name) + "/")}
 					>

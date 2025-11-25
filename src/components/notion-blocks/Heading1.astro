@@ -18,7 +18,7 @@ const id = buildHeadingId(block.Heading1);
 
 {
 	block.Heading1.IsToggleable ? (
-		<details class="toggle mt-8 mb-0">
+		<details class="toggle toggle-heading-1">
 			<summary class="flex cursor-pointer list-none gap-2">
 				<div>
 					<Icon
@@ -33,13 +33,8 @@ const id = buildHeadingId(block.Heading1);
 				</div>
 				<span class="inline">
 					<h2
-						class={`toggle-h2 mt-8 mb-1 inline cursor-pointer text-2xl font-semibold ${setId ? "hasId" : "noId"}`}
+						class={`toggle-heading notion-h1 inline ${setId ? "hasId" : "noId"}`}
 						id={setId ? id : undefined}
-						onclick="
-        var fullUrl = `${window.location.origin}${window.location.pathname}#${id}`;
-        navigator.clipboard.writeText(fullUrl);
-        window.history.pushState(null, '', fullUrl);
-        document.getElementById(`${id}`).scrollIntoView({ behavior: 'smooth' });"
 					>
 						{block.Heading1.RichTexts.map((richText: interfaces.RichText) => (
 							<RichText richText={richText} blockID={block.Id} block={block} />
@@ -58,46 +53,10 @@ const id = buildHeadingId(block.Heading1);
 			</div>
 		</details>
 	) : (
-		<h2
-			class={`mt-8 mb-1 cursor-pointer text-2xl font-semibold ${setId ? "hasId" : "noId"}`}
-			id={setId ? id : undefined}
-			onclick="
-        var fullUrl = `${window.location.origin}${window.location.pathname}#${id}`;
-        navigator.clipboard.writeText(fullUrl);
-        window.history.pushState(null, '', fullUrl);
-        document.getElementById(`${id}`).scrollIntoView({ behavior: 'smooth' });"
-		>
+		<h2 class={`notion-h1 ${setId ? "hasId" : "noId"}`} id={setId ? id : undefined}>
 			{block.Heading1.RichTexts.map((richText: interfaces.RichText) => (
 				<RichText richText={richText} blockID={block.Id} block={block} />
 			))}
 		</h2>
 	)
 }
-
-<style>
-	h2.hasId::before {
-		content: "#";
-		position: absolute;
-		color: color-mix(in srgb, var(--color-accent) 50%, transparent);
-		margin-left: -1.5rem;
-		display: inline-block;
-		opacity: 0; /* Start with invisible content */
-		transition: opacity 0.3s ease; /* Transition the opacity */
-	}
-	h2.noId::before {
-		display: none;
-	}
-
-	h2.hasId:hover::before {
-		opacity: 1; /* Make the content visible on hover */
-	}
-	h2.hasId.toggle-h2::before {
-		margin-left: -2.5rem;
-	}
-	details[open] > summary > div > .shrink-0.rotate-svg {
-		transform: rotate(90deg);
-	}
-	summary::-webkit-details-marker {
-		display: none;
-	}
-</style>

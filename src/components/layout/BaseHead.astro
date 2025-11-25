@@ -3,7 +3,13 @@ import type { SiteMeta } from "@/types";
 import "@/styles";
 import { Font } from "astro:assets";
 import { siteInfo } from "@/siteInfo";
-import { ENABLE_LIGHTBOX, TRACKING, THEME, GOOGLE_SEARCH_CONSOLE_META_TAG, GISCUS } from "@/constants";
+import {
+	ENABLE_LIGHTBOX,
+	TRACKING,
+	THEME,
+	GOOGLE_SEARCH_CONSOLE_META_TAG,
+	GISCUS,
+} from "@/constants";
 import { HOME_PAGE_SLUG } from "@/constants";
 import { getNavLink } from "@/lib/blog-helpers";
 
@@ -61,31 +67,29 @@ const useGiscus =
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
 <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
 {/*Preconnect ti giscus for faster loading */}
-{useGiscus && (<link rel="preconnect" href="https://giscus.app" crossorigin />)}
+{useGiscus && <link rel="preconnect" href="https://giscus.app" crossorigin />}
 
 {/* Astro Fonts - served locally from your domain */}
-{THEME?.["fontfamily-google-fonts"] && (
-	<>
-		{(THEME["fontfamily-google-fonts"]["sans-font-name"] || THEME["fontfamily-google-fonts"]["mono-font-name"]) && (
-			<Font
-				cssVariable="--font-sans"
-				preload={[
-					{ weight: 400, style: 'normal' },
-					{ weight: 600, style: 'normal' },
-					{ weight: 700, style: 'normal' }
-				]}
-			/>
-		)}
-		{THEME["fontfamily-google-fonts"]["mono-font-name"] && (
-			<Font
-				cssVariable="--font-mono"
-				preload={[
-					{ weight: 400, style: 'normal' }
-				]}
-			/>
-		)}
-	</>
-)}
+{
+	THEME?.["fontfamily-google-fonts"] && (
+		<>
+			{(THEME["fontfamily-google-fonts"]["sans-font-name"] ||
+				THEME["fontfamily-google-fonts"]["mono-font-name"]) && (
+				<Font
+					cssVariable="--font-sans"
+					preload={[
+						{ weight: 400, style: "normal" },
+						{ weight: 600, style: "normal" },
+						{ weight: 700, style: "normal" },
+					]}
+				/>
+			)}
+			{THEME["fontfamily-google-fonts"]["mono-font-name"] && (
+				<Font cssVariable="--font-mono" preload={[{ weight: 400, style: "normal" }]} />
+			)}
+		</>
+	)
+}
 {
 	ENABLE_LIGHTBOX && (
 		<link
@@ -195,14 +199,13 @@ const useGiscus =
 				src={`https://www.googletagmanager.com/gtag/js?id=${publicGaTrackingId}`}
 				defer
 			/>
-
 			<script type="text/partytown" define:vars={{ publicGaTrackingId }} defer>
-
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){ dataLayer.push(arguments); }
-        gtag('js', new Date());
-        gtag('config', publicGaTrackingId);
-
+				window.dataLayer = window.dataLayer || [];
+				function gtag() {
+					dataLayer.push(arguments);
+				}
+				gtag("js", new Date());
+				gtag("config", publicGaTrackingId);
 			</script>
 		</>
 	)

@@ -1,4 +1,5 @@
 ---
+import Icon from "@/components/ui/Icon.astro";
 import type { RichText, Block, Citation } from "@/lib/interfaces";
 import { BIBLIOGRAPHY_STYLE, CITATIONS, BIBTEX_CITATIONS_ENABLED } from "@/constants";
 import { adjustedFootnotesConfig } from "@/lib/notion/client";
@@ -133,43 +134,18 @@ const shouldShowInMargin = (() => {
 								<a
 									href={`#citation-def-${citation.Key}`}
 									data-popover-link
+									data-jump-to-bibliography
+									data-target-id={`citation-def-${citation.Key}`}
+									data-origin-block={blockID}
 									class="text-link/90 flex max-w-full items-center font-medium hover:underline"
-									onclick={`
-										event.preventDefault();
-
-										// Clear any previously active back buttons
-										document.querySelectorAll('li[data-show-back-button]').forEach(li => {
-											delete li.dataset.showBackButton;
-											delete li.dataset.backToBlock;
-										});
-
-										// Set active on target
-										const target = document.getElementById('citation-def-${citation.Key}');
-										if (target) {
-											target.dataset.showBackButton = 'true';
-											target.dataset.backToBlock = '${blockID}';
-										}
-
-										window.location.hash = '#citation-def-${citation.Key}';
-										target?.scrollIntoView({ behavior: 'smooth' });
-									`}
 								>
 									{"Jump to bibliography"}
-									<svg
-										class="text-accent group-hover:text-accent-2 ms-1.5 h-2 w-2 rtl:rotate-180"
+									<Icon
+										class="text-accent group-hover:text-accent-2 ms-1.5 h-3 w-3 rtl:rotate-180"
+										name={"jump"}
 										aria-hidden="true"
-										xmlns="http://www.w3.org/2000/svg"
-										fill="none"
-										viewBox="0 0 6 10"
-									>
-										<path
-											stroke="currentColor"
-											stroke-linecap="round"
-											stroke-linejoin="round"
-											stroke-width="2"
-											d="m1 9 4-4-4-4"
-										/>
-									</svg>
+										focusable="false"
+									/>
 								</a>
 							</div>
 						)}
@@ -197,39 +173,12 @@ const shouldShowInMargin = (() => {
 						{showBibliography && (
 							<a
 								href={`#citation-def-${citation.Key}`}
-								class="text-link/90 ml-1 inline-block align-middle hover:underline"
-								onclick={`
-									event.preventDefault();
-
-									// Clear any previously active back buttons
-									document.querySelectorAll('li[data-show-back-button]').forEach(li => {
-										delete li.dataset.showBackButton;
-										delete li.dataset.backToBlock;
-									});
-
-									// Set active on target
-									const target = document.getElementById('citation-def-${citation.Key}');
-									if (target) {
-										target.dataset.showBackButton = 'true';
-										target.dataset.backToBlock = '${blockID}';
-									}
-
-									window.location.hash = '#citation-def-${citation.Key}';
-									target?.scrollIntoView({ behavior: 'smooth' });
-								`}
+								data-jump-to-bibliography
+								data-target-id={`citation-def-${citation.Key}`}
+								data-origin-block={blockID}
+								class="text-link/90 ml-1 inline-flex items-center gap-1 align-middle hover:underline"
 							>
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									width="12"
-									height="12"
-									viewBox="0 0 24 24"
-									class="inline-block"
-								>
-									<path
-										fill="currentColor"
-										d="M22 4V2H2v2h9v14.17l-5.5-5.5l-1.42 1.41L12 22l7.92-7.92l-1.42-1.41l-5.5 5.5V4z"
-									/>
-								</svg>
+								<Icon class="inline-block h-3 w-3" name={"jump"} />
 							</a>
 						)}
 					</div>

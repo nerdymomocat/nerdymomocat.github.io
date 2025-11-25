@@ -37,6 +37,7 @@ import blocksHtmlCacher from "./src/integrations/block-html-cache-er";
 import DeleteBuildCache from "./src/integrations/delete-build-cache";
 import buildTimestampRecorder from "./src/integrations/build-timestamp-recorder";
 import rssContentEnhancer from "./src/integrations/rss-content-enhancer";
+import markdownExporter from "./src/integrations/markdown-exporter";
 import externalRenderCacher from "./src/integrations/external-render-cacheer";
 import CSSWriter from "./src/integrations/theme-constants-to-css";
 import createFoldersIfMissing from "./src/integrations/create-folders-if-missing";
@@ -169,6 +170,7 @@ export default defineConfig({
 			sitemapBaseFileName: "sitemap",
 		}),
 		rssContentEnhancer(),
+		markdownExporter(),
 		blocksHtmlCacher(),
 		externalRenderCacher(),
 		PublicNotionCopier(),

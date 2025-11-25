@@ -32,7 +32,7 @@ import type {
 	MdxJsxTextElement,
 } from "mdast";
 import { toString } from "mdast-util-to-string";
-import { isRelativePath, toPublicUrl } from "./external-html-utils";
+import { isRelativePath, toPublicUrl } from "./external-content-utils";
 import { SHORTCODES, BASE_PATH, CUSTOM_DOMAIN } from "@/constants";
 
 type AnnotationState = Partial<Omit<Annotation, "Color">> & {

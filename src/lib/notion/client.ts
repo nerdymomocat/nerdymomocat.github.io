@@ -22,7 +22,7 @@ import {
 	MDX_SNIPPET_TRIGGER,
 	EXTERNAL_CONTENT_CONFIG,
 } from "../../constants";
-import { resolveExternalContentDescriptor } from "../external-content/external-content-parsing-helpers";
+import { resolveExternalContentDescriptor } from "../external-content/external-content-utils";
 import { extractFootnotesFromBlock } from "../../lib/footnotes";
 import { extractCitationsFromBlock } from "../../lib/citations";
 import type * as responses from "@/lib/notion/responses";

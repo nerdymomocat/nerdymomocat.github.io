@@ -33,7 +33,7 @@ if (block.Callout?.Icon && block.Callout.Icon.Url) {
 
 <div
 	class={`
-    callout mx-auto my-2 flex w-full max-w-full rounded px-3 py-4 leading-6
+    callout
     ${
 			block.Callout.Color === "default"
 				? getNotionColorToTailwindColor(block.Callout.Color + "-background")
@@ -44,7 +44,7 @@ if (block.Callout?.Icon && block.Callout.Icon.Url) {
 >
 	{
 		block.Callout && block.Callout.Icon && (
-			<div class="m-0 mr-2 leading-6">
+			<div class="callout-icon">
 				{block.Callout.Icon.Type === "emoji" ? (
 					block.Callout.Icon.Emoji
 				) : block.Callout.Icon.Type === "external" ||
@@ -70,7 +70,7 @@ if (block.Callout?.Icon && block.Callout.Icon.Url) {
 			</div>
 		)
 	}
-	<div class={`m-0 min-w-0 leading-6 ${!hasRichTexts ? "*:first:mt-0" : ""}`}>
+	<div class={`callout-content ${!hasRichTexts ? "simple" : ""}`}>
 		{
 			hasRichTexts &&
 				block.Callout.RichTexts.map((richText: interfaces.RichText) => (

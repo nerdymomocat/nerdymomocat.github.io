@@ -195,6 +195,8 @@
 		// If true, images from Notion will be optimized (converted to WebP, resized).
 		// Warning: This can significantly increase build time, especially for sites with many images, but will be very helpful for your site size (because there isn't multiple size image rendering).
 		"optimize-images": true,
+		// If true, all pages/posts are converted to markdown format and saved alongside the HTML output for easy use with LLMs and other tools.
+		"process-content-to-markdown": true,
 	},
 
 	// === Shortcodes ===
@@ -310,7 +312,7 @@
 	// If it matches a prefix, the build downloads and renders it as internal Markdown/MDX/HTML.
 	"external-content": {
 		// Toggle external content pulled from remote sources via Notion’s “External URL” field. Must be true to use features below.
-		enabled: true,
+		enabled: false,
 		// Remote folders containing external content files.
 		sources: {
 			// Each subfolder is treated as a markdown post. Supports media, styled using corresponding Notion blocks.

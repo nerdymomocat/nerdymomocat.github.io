@@ -1,4 +1,6 @@
 ---
+import Icon from "@/components/ui/Icon.astro";
+
 interface Props {
 	excerpt?: string;
 	linkedTo: string;
@@ -50,20 +52,12 @@ let id = "id" + Math.random().toString(16).slice(2) + "---" + postId;
 					class="text-link/90 flex max-w-full items-center font-medium hover:underline"
 				>
 					{linkText}
-					<svg
-						class="ms-1.5 h-2 w-2 rtl:rotate-180"
+					<Icon
+						class="ms-1.5 h-3 w-3 rtl:rotate-180"
+						name={"jump"}
 						aria-hidden="true"
-						xmlns="http://www.w3.org/2000/svg"
-						fill="none"
-						viewBox="0 0 6 10"
-					>
-						<path
-							stroke="currentColor"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="m1 9 4-4-4-4"></path>
-					</svg>
+						focusable="false"
+					/>
 				</a>
 			</div>
 		</a>

@@ -1,4 +1,6 @@
 ---
+import Icon from "@/components/ui/Icon.astro";
+
 interface Props {
 	description: string;
 }
@@ -7,8 +9,12 @@ const { description } = Astro.props;
 const id = "info-popover-" + Math.random().toString(16).slice(2);
 ---
 
-<span data-popover-target={id} data-popover-placement="bottom-end" class="ml-2 cursor-pointer">
-	<span class="text-xl">ⓘ</span>
+<span
+	data-popover-target={id}
+	data-popover-placement="bottom-end"
+	class="ml-2 inline-flex cursor-pointer items-center"
+>
+	<Icon class="text-textColor/70 h-5 w-5" name={"info"} aria-hidden="true" focusable="false" />
 	<span class="sr-only">Show description</span>
 </span>
 

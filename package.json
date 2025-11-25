@@ -6,14 +6,14 @@
 		"tmpJSONCache": "v5",
 		"tmpHTMLCache": "vI",
 		"tmpOGImagesCache": "v4",
-		"lastBuildTimestampStore": "vG5"
+		"lastBuildTimestampStore": "vG6"
 	},
 	"scripts": {
-		"predev": "rm -rf buildcache ./src/external-posts ./src/components/custom-components .src/blocks-mdx-inject-snippets ./public/external-posts ./public/custom-components && mkdir -p ./src/external-posts ./src/components/custom-components ./src/posts/mdx-inject-snippets ./public/external-posts ./public/custom-components && for folder in blocks-html-cache blocks-json-cache rss-cache bib-files-cache external-content blocks-mdx-inject-snippets-cache .astro; do if [ -d \"./tmp/$folder\" ]; then echo \"Deleting $folder folder\"; rm -rf \"./tmp/$folder\"; else echo \"No $folder folder to delete\"; fi; done",
+		"predev": "rm -rf buildcache ./src/external-posts ./src/components/custom-components .src/blocks-mdx-inject-snippets ./public/external-posts ./public/custom-components && mkdir -p ./src/external-posts ./src/components/custom-components ./src/posts/mdx-inject-snippets ./public/external-posts ./public/custom-components && for folder in blocks-html-cache blocks-json-cache rss-cache bib-files-cache external-content blocks-mdx-inject-snippets-cache markdown-cache .astro; do if [ -d \"./tmp/$folder\" ]; then echo \"Deleting $folder folder\"; rm -rf \"./tmp/$folder\"; else echo \"No $folder folder to delete\"; fi; done",
 		"dev": "astro dev",
-		"prebuild-local": "rm -rf buildcache ./src/external-posts ./src/components/custom-components ./src/blocks-mdx-inject-snippets ./public/external-posts ./public/custom-components && for folder in blocks-html-cache blocks-json-cache rss-cache bib-files-cache external-content blocks-mdx-inject-snippets-cache .astro; do if [ -d \"./tmp/$folder\" ]; then echo \"Deleting $folder folder\"; rm -rf \"./tmp/$folder\"; else echo \"No $folder folder to delete\"; fi; done",
+		"prebuild-local": "rm -rf buildcache ./src/external-posts ./src/components/custom-components ./src/blocks-mdx-inject-snippets ./public/external-posts ./public/custom-components && for folder in blocks-html-cache blocks-json-cache rss-cache bib-files-cache external-content blocks-mdx-inject-snippets-cache markdown-cache .astro; do if [ -d \"./tmp/$folder\" ]; then echo \"Deleting $folder folder\"; rm -rf \"./tmp/$folder\"; else echo \"No $folder folder to delete\"; fi; done",
 		"build-local": "astro build",
-		"prebuild-localnodl": "rm -rf buildcache ./src/assets/notion/* ./src/external-posts ./src/components/custom-components ./src/blocks-mdx-inject-snippets ./public/notion/* ./public/external-posts ./public/custom-components && for folder in blocks-html-cache blocks-json-cache rss-cache bib-files-cache external-content blocks-mdx-inject-snippets-cache .astro; do if [ -d \"./tmp/$folder\" ]; then echo \"Deleting $folder folder\"; rm -rf \"./tmp/$folder\"; else echo \"No $folder folder to delete\"; fi; done",
+		"prebuild-localnodl": "rm -rf buildcache ./src/assets/notion/* ./src/external-posts ./src/components/custom-components ./src/blocks-mdx-inject-snippets ./public/notion/* ./public/external-posts ./public/custom-components && for folder in blocks-html-cache blocks-json-cache rss-cache bib-files-cache external-content blocks-mdx-inject-snippets-cache markdown-cache .astro; do if [ -d \"./tmp/$folder\" ]; then echo \"Deleting $folder folder\"; rm -rf \"./tmp/$folder\"; else echo \"No $folder folder to delete\"; fi; done",
 		"build-localnodl": "astro build",
 		"prebuild-localtest": "rm -rf buildcache ./src/external-posts ./src/components/custom-components ./src/blocks-mdx-inject-snippets",
 		"build-localtest": "astro build",
@@ -53,13 +53,15 @@
 		"remark-mdx": "^3.1.1",
 		"remark-parse": "^11.0.0",
 		"sanitize-html": "^2.17.0",
+		"satori": "^0.18.3",
 		"sharp": "^0.34.5",
 		"superjson": "^2.2.5",
-		"unified": "^11.0.5",
-		"unist-util-visit": "^5.0.0",
-		"satori": "^0.18.3",
 		"tailwindcss": "^4.1.17",
-		"typescript": "^5.9.3"
+		"turndown": "^7.2.2",
+		"turndown-plugin-gfm": "^1.0.2",
+		"typescript": "^5.9.3",
+		"unified": "^11.0.5",
+		"unist-util-visit": "^5.0.0"
 	},
 	"devDependencies": {
 		"@astrojs/check": "^0.9.5",
@@ -72,6 +74,7 @@
 		"@types/eslint": "^9.6.1",
 		"@types/katex": "^0.16.7",
 		"@types/sanitize-html": "^2.16.0",
+		"@types/turndown": "^5.0.6",
 		"@typescript-eslint/eslint-plugin": "^8.46.3",
 		"@typescript-eslint/parser": "^8.46.3",
 		"astro-eslint-parser": "^1.2.2",

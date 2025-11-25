@@ -20,9 +20,9 @@ const isTextColor = !isDefaultColor && !colorAnnotation.includes("_background");
 	richText.Annotation.Code ? (
 		<code
 			class:list={[
-				"rounded-sm border-none px-1 font-mono",
-				{ "bg-gray-100 dark:bg-gray-800": !isBackgroundColor },
-				{ "text-rose-800 dark:text-rose-300": !isTextColor },
+				"annotation-code",
+				{ "bg-default": !isBackgroundColor },
+				{ "text-default": !isTextColor },
 			]}
 		>
 			<slot />

@@ -72,8 +72,8 @@ const imageSizes =
 
 {
 	(downloadedImage || externalImageUrl) && (
-		<figure class="mx-auto mt-1 max-w-full" id={setId ? block.Id : undefined}>
-			<div class="mx-auto min-w-0">
+		<figure class="notion-image-figure" id={setId ? block.Id : undefined}>
+			<div class="notion-image-container">
 				{ENABLE_LIGHTBOX ? (
 					<a
 						data-type="image"
@@ -92,7 +92,7 @@ const imageSizes =
 								quality={OPTIMIZE_IMAGES ? 85 : undefined}
 								widths={imageWidths}
 								sizes={imageSizes}
-								class="imagemedia block max-w-full rounded-md"
+								class="imagemedia notion-image"
 								format={
 									OPTIMIZE_IMAGES
 										? getImageComponentFormat(downloadedImage)
@@ -101,7 +101,7 @@ const imageSizes =
 							/>
 						) : (
 							<img
-								class="imagemedia block max-w-full rounded-md"
+								class="imagemedia notion-image"
 								loading={isFirstImage ? "eager" : "lazy"}
 								decoding={isFirstImage ? "sync" : "async"}
 								fetchpriority={isFirstImage ? "high" : undefined}
@@ -122,14 +122,14 @@ const imageSizes =
 						quality={OPTIMIZE_IMAGES ? 85 : undefined}
 						widths={imageWidths}
 						sizes={imageSizes}
-						class="imagemedia block max-w-full rounded-md"
+						class="imagemedia notion-image"
 						format={
 							OPTIMIZE_IMAGES ? getImageComponentFormat(downloadedImage) : downloadedImage.format
 						}
 					/>
 				) : (
 					<img
-						class="imagemedia block max-w-full rounded-md"
+						class="imagemedia notion-image"
 						src={externalImageUrl}
 						loading={isFirstImage ? "eager" : "lazy"}
 						decoding={isFirstImage ? "sync" : "async"}

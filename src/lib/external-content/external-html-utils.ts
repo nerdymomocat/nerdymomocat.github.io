@@ -1,14 +1,15 @@
-import path from "node:path";
 import { parseDocument, DomUtils } from "htmlparser2";
 import type { Document, Element } from "domhandler";
 import type { ExternalContentDescriptor } from "@/lib/interfaces";
 import type { Heading } from "@/types";
-import { slugify } from "../../utils/slugify";
+import { isRelativePath, toPublicUrl, extractHeadingsFromDocument } from "./external-content-utils";
 
 export type HtmlTransformResult = {
 	html: string;
 	headings: Heading[];
 };
+
+export { isRelativePath, toPublicUrl };
 
 const ASSET_ATTRS: Record<string, string[]> = {
 	img: ["src", "data-src", "data-large-src"],
@@ -19,28 +20,6 @@ const ASSET_ATTRS: Record<string, string[]> = {
 	iframe: ["src"],
 	link: ["href"],
 };
-
-const RELATIVE_PROTOCOL_REGEX = /^[a-zA-Z][a-zA-Z0-9+\-.]*:/;
-
-export function isRelativePath(value: string): boolean {
-	if (!value) return false;
-	const trimmed = value.trim();
-	if (!trimmed) return false;
-	if (trimmed.startsWith("/") || trimmed.startsWith("#") || trimmed.startsWith("?")) return false;
-	if (trimmed.startsWith("//")) return false;
-	if (trimmed.startsWith("data:") || trimmed.startsWith("mailto:") || trimmed.startsWith("tel:")) {
-		return false;
-	}
-	return !RELATIVE_PROTOCOL_REGEX.test(trimmed);
-}
-
-export function toPublicUrl(relativePath: string, descriptor: ExternalContentDescriptor): string {
-	if (!relativePath) return relativePath;
-	const [pathPart, suffix] = relativePath.split(/(?=[?#])/);
-	const normalized = path.posix.normalize(pathPart.replace(/^.\//, ""));
-	const joined = path.posix.join("/external-posts", descriptor.folderName, normalized);
-	return suffix ? `${joined}${suffix}` : joined;
-}
 
 function rewriteSrcset(value: string, descriptor: ExternalContentDescriptor): string {
 	return value
@@ -58,7 +37,7 @@ function rewriteSrcset(value: string, descriptor: ExternalContentDescriptor): st
 function rewriteAssets(root: Document | Element, descriptor: ExternalContentDescriptor) {
 	const elements = DomUtils.findAll(
 		(elem) => elem.type === "tag" && !!ASSET_ATTRS[elem.name],
-		root.children,
+		(root as Document).children || [root as Element],
 		true,
 	);
 
@@ -80,30 +59,6 @@ function rewriteAssets(root: Document | Element, descriptor: ExternalContentDesc
 	}
 }
 
-function extractHeadings(root: Document | Element): Heading[] {
-	const headingTags = new Set(["h1", "h2", "h3", "h4", "h5", "h6"]);
-	const headingElements = DomUtils.findAll(
-		(elem) => elem.type === "tag" && headingTags.has(elem.name),
-		root.children,
-		true,
-	);
-
-	return headingElements
-		.map((elem) => {
-			const depth = parseInt(elem.name.replace("h", ""), 10);
-			const text = DomUtils.textContent(elem).trim();
-			if (!text) return null;
-			const existingId = elem.attribs?.id;
-			const headingSlug = existingId || slugify(text);
-			elem.attribs = {
-				...elem.attribs,
-				id: headingSlug,
-			};
-			return { text, slug: headingSlug, depth };
-		})
-		.filter(Boolean) as Heading[];
-}
-
 export function transformExternalHtml(
 	rawHtml: string,
 	descriptor: ExternalContentDescriptor,
@@ -111,7 +66,7 @@ export function transformExternalHtml(
 ): HtmlTransformResult {
 	const document = parseDocument(rawHtml);
 	rewriteAssets(document, descriptor);
-	const headings = extractHeadings(document);
+	const headings = extractHeadingsFromDocument(document);
 	const preferBodyContent = options?.preferBodyContent !== false;
 	if (preferBodyContent) {
 		const bodyElement = DomUtils.findOne(

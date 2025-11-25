@@ -1,5 +1,6 @@
 ---
 import type { PaginationLink } from "@/types";
+import Icon from "@/components/ui/Icon.astro";
 
 interface Props {
 	prevUrl?: PaginationLink;
@@ -11,25 +12,19 @@ const { prevUrl, nextUrl } = Astro.props;
 
 {
 	(prevUrl || nextUrl) && (
-		<nav class="mt-8 flex items-center gap-x-4">
+		<nav class="pagination-nav">
 			{prevUrl && (
-				<a
-					class="text-link me-auto py-2 no-underline hover:underline hover:underline-offset-4"
-					href={prevUrl.url}
-					data-astro-prefetch
-				>
+				<a class="prev-link inline-flex items-center gap-1" href={prevUrl.url} data-astro-prefetch>
 					{prevUrl.srLabel && <span class="sr-only">{prevUrl.srLabel}</span>}
+					<Icon class="h-5 w-5" name={"before"} aria-hidden="true" focusable="false" />
 					{prevUrl.text ? prevUrl.text : "Previous"}
 				</a>
 			)}
 			{nextUrl && (
-				<a
-					class="text-link ms-auto py-2 no-underline hover:underline hover:underline-offset-4"
-					href={nextUrl.url}
-					data-astro-prefetch
-				>
+				<a class="next-link inline-flex items-center gap-1" href={nextUrl.url} data-astro-prefetch>
 					{nextUrl.srLabel && <span class="sr-only">{nextUrl.srLabel}</span>}
 					{nextUrl.text ? nextUrl.text : "Next"}
+					<Icon class="h-5 w-5" name={"next"} aria-hidden="true" focusable="false" />
 				</a>
 			)}
 		</nav>

@@ -39,25 +39,16 @@ try {
 }
 ---
 
-<div class="bookmark no-rss pb-2" id={setId ? block.Id : undefined}>
+<div class="bookmark no-rss" id={setId ? block.Id : undefined}>
 	{
 		url && notDNSForbidden ? (
-			<div class="flex w-full max-w-full overflow-hidden text-sm">
-				<a
-					href={url.toString()}
-					target="_blank"
-					rel="noopener noreferrer"
-					class="flex w-full max-w-full min-w-0 grow items-stretch overflow-hidden rounded-sm border border-gray-200 no-underline select-none dark:border-gray-800"
-				>
-					<div class="flex-bookmark-text text-textColor/90 overflow-hidden p-3 text-left">
-						<div class="mb-0.5 h-6 truncate overflow-hidden leading-5 whitespace-nowrap">
-							{metadata && metadata.title}
-						</div>
-						<div class="h-8 overflow-hidden text-xs leading-4 opacity-80">
-							{metadata && metadata.description}
-						</div>
-						<div class="mt-1.5 flex max-w-full items-baseline">
-							<div class="mr-1.5 h-4 w-4 min-w-4">
+			<div class="bookmark-link-container">
+				<a href={url.toString()} target="_blank" rel="noopener noreferrer" class="bookmark-card">
+					<div class="bookmark-text">
+						<div class="bookmark-title">{metadata && metadata.title}</div>
+						<div class="bookmark-description">{metadata && metadata.description}</div>
+						<div class="bookmark-caption-container">
+							<div class="bookmark-icon-container">
 								<img
 									class="inline-block max-w-full"
 									loading="lazy"
@@ -66,9 +57,7 @@ try {
 									decoding="async"
 								/>
 							</div>
-							<div class="truncate overflow-hidden text-xs leading-4 whitespace-nowrap">
-								{url.toString()}
-							</div>
+							<div class="bookmark-link">{url.toString()}</div>
 						</div>
 					</div>
 
@@ -77,7 +66,7 @@ try {
 					We don't want to display it, so we filter out images from twimg.com/emoji.
 					*/}
 					{metadata && metadata.image && !metadata.image.includes("twimg.com/emoji") && (
-						<div class="flex-bookmark-image relative hidden sm:block">
+						<div class="bookmark-image-container">
 							<img
 								class="absolute! h-full w-full object-contain object-right"
 								loading="lazy"
@@ -90,16 +79,11 @@ try {
 				</a>
 			</div>
 		) : (
-			<div class="flex w-full max-w-full overflow-hidden text-sm">
-				<a
-					href={url.toString()}
-					target="_blank"
-					rel="noopener noreferrer"
-					class="flex w-full max-w-full min-w-0 grow items-stretch overflow-hidden rounded-sm border border-gray-200 no-underline select-none dark:border-gray-800"
-				>
-					<div class="flex-bookmark-text text-textColor/90 overflow-hidden p-3 text-left">
-						<div class="flex max-w-full items-baseline">
-							<div class="mr-1.5 h-4 w-4 min-w-4">
+			<div class="bookmark-link-container">
+				<a href={url.toString()} target="_blank" rel="noopener noreferrer" class="bookmark-card">
+					<div class="bookmark-text">
+						<div class="bookmark-caption-container">
+							<div class="bookmark-icon-container">
 								<img
 									class="inline-block max-w-full"
 									loading="lazy"
@@ -108,9 +92,7 @@ try {
 									decoding="async"
 								/>
 							</div>
-							<div class="truncate overflow-hidden text-xs leading-4 whitespace-nowrap">
-								{url.toString()}
-							</div>
+							<div class="bookmark-link">{url.toString()}</div>
 						</div>
 					</div>
 				</a>

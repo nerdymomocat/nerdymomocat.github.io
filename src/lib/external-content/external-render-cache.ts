@@ -1,10 +1,11 @@
 import fs from "node:fs";
 import path from "node:path";
-import { parseDocument, DomUtils } from "htmlparser2";
 import type { ExternalContentDescriptor } from "@/lib/interfaces";
 import type { Heading } from "@/types";
 import { EXTERNAL_CONTENT_PATHS } from "../../constants";
-import { slugify } from "../../utils/slugify";
+import { extractHeadingsFromHtml } from "./external-content-utils";
+
+export { extractHeadingsFromHtml };
 
 type FolderMeta = {
 	version: string;
@@ -99,26 +100,4 @@ export function loadExternalRenderCache(
 	} catch {
 		return null;
 	}
-}
-
-export function extractHeadingsFromHtml(html: string): Heading[] {
-	const document = parseDocument(html);
-	const headingTags = new Set(["h1", "h2", "h3", "h4", "h5", "h6"]);
-	const headingElements = DomUtils.findAll(
-		(elem) => elem.type === "tag" && headingTags.has(elem.name),
-		document.children,
-		true,
-	);
-
-	return headingElements
-		.map((elem) => {
-			const depth = parseInt(elem.name.replace("h", ""), 10);
-			const text = DomUtils.textContent(elem).trim();
-			if (!text) return null;
-			const existingId = elem.attribs?.id;
-			const headingSlug = existingId || slugify(text);
-			elem.attribs = { ...elem.attribs, id: headingSlug };
-			return { text, slug: headingSlug, depth };
-		})
-		.filter(Boolean) as Heading[];
 }

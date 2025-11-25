@@ -31,34 +31,30 @@ const socialLinks = mapSocialLinks(SOCIALS);
 ---
 
 <script>
-	function copyToClipboard(text) {
-		navigator.clipboard
-			.writeText(text)
-			.then(() => {
-				const toast = document.getElementById("toast");
-				toast.classList.remove("opacity-0");
-				toast.classList.add("opacity-100");
-				setTimeout(() => {
-					toast.classList.remove("opacity-100");
-					toast.classList.add("opacity-0");
-				}, 3000);
-			})
-			.catch((err) => {
-				console.error("Could not copy text: ", err);
-			});
-	}
-
-	function handleEmailClick(event, email) {
-		event.preventDefault();
-		copyToClipboard(email);
-	}
-
 	document.addEventListener("DOMContentLoaded", () => {
 		const emailLinks = document.querySelectorAll(".email-link");
 		emailLinks.forEach((link) => {
 			link.addEventListener("click", (event) => {
+				event.preventDefault();
 				const email = link.getAttribute("data-email");
-				handleEmailClick(event, email);
+				if (!email) return;
+
+				navigator.clipboard
+					.writeText(email)
+					.then(() => {
+						const toast = document.getElementById("toast");
+						if (toast) {
+							toast.classList.remove("opacity-0");
+							toast.classList.add("opacity-100");
+							setTimeout(() => {
+								toast.classList.remove("opacity-100");
+								toast.classList.add("opacity-0");
+							}, 3000);
+						}
+					})
+					.catch((err) => {
+						console.error("Could not copy text: ", err);
+					});
 			});
 		});
 	});
@@ -74,7 +70,7 @@ const socialLinks = mapSocialLinks(SOCIALS);
 						<li class="flex">
 							{friendlyName === "Email" ? (
 								<a
-									class="email-link sm:hover:text-link inline-block p-1"
+									class="email-link social-link"
 									href="#"
 									data-email={link}
 									rel={`noopener noreferrer ${isWebmention ? "me authn" : ""}`}
@@ -84,7 +80,7 @@ const socialLinks = mapSocialLinks(SOCIALS);
 								</a>
 							) : (
 								<a
-									class="sm:hover:text-link inline-block p-1"
+									class="social-link"
 									href={link}
 									target="_blank"
 									rel={`noopener noreferrer ${isWebmention ? "me authn" : ""}`}

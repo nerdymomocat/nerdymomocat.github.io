@@ -77,6 +77,7 @@ function parseGitHubTreeUrl(rawUrl: string | null | undefined): GitHubTreeInfo |
 function buildExternalContentConfig(): ExternalContentConfig {
 	const rawConfig = key_value_from_json?.["external-content"];
 	const sources: ExternalContentSourceConfig[] = [];
+	const userEnabled = rawConfig?.enabled;
 
 	if (rawConfig && typeof rawConfig === "object") {
 		const rawSources = rawConfig?.sources;
@@ -129,8 +130,10 @@ function buildExternalContentConfig(): ExternalContentConfig {
 		}
 	}
 
+	const hasSourcesConfigured = sources.length > 0 || customComponents !== null;
+
 	return {
-		enabled: sources.length > 0 || customComponents !== null,
+		enabled: userEnabled ?? hasSourcesConfigured,
 		sources,
 		customComponents,
 	};
@@ -161,6 +164,7 @@ export const BUILD_FOLDER_PATHS = {
 	rssCache: path.join("./tmp", "rss-cache"),
 	blocksHtmlCache: path.join("./tmp", "blocks-html-cache"),
 	interlinkedContentHtmlCache: path.join("./tmp", "blocks-html-cache", "interlinked-content"),
+	markdownCache: path.join("./tmp", "markdown-cache"),
 	astroAssetsCache: path.join("./tmp", ".astro", "assets"),
 	public: path.join("./public"),
 	publicNotion: path.join("./public", "notion/"),
@@ -172,8 +176,13 @@ export const BUILD_FOLDER_PATHS = {
 
 export const EXTERNAL_CONTENT_PATHS = {
 	tmpRoot: path.join(BUILD_FOLDER_PATHS.tmp, "external-content"),
-	manifestDir: path.join(BUILD_FOLDER_PATHS.tmp, "cache-manifests"),
-	manifestFile: path.join(BUILD_FOLDER_PATHS.tmp, "cache-manifests", "external-content.json"),
+	manifestDir: path.join(BUILD_FOLDER_PATHS.tmp, "external-content", "cache-manifests"),
+	manifestFile: path.join(
+		BUILD_FOLDER_PATHS.tmp,
+		"external-content",
+		"cache-manifests",
+		"external-content.json",
+	),
 	commitMetadata: path.join(BUILD_FOLDER_PATHS.tmp, "external-content", "commit-meta"),
 	renderCache: path.join(BUILD_FOLDER_PATHS.tmp, "external-content", "render-cache"),
 	externalPosts: path.join("src", "external-posts"),
@@ -293,6 +302,9 @@ const resolvedShortcodes =
 		: defaultShortcodes;
 
 export const SHORTCODES = resolvedShortcodes;
+
+export const MARKDOWN_EXPORT_ENABLED =
+	key_value_from_json?.["block-rendering"]?.["process-content-to-markdown"] === true;
 
 export const MDX_SNIPPET_TRIGGER =
 	process.env.MDX_SNIPPET_TRIGGER ||

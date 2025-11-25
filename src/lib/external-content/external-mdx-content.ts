@@ -10,35 +10,9 @@ import { extractPageContent } from "@/lib/blog-helpers";
 import { adjustedFootnotesConfig, getBibEntriesCacheSnapshot } from "@/lib/notion/client";
 import { extractCitationsFromBlock } from "@/lib/citations";
 
-function ensureBlankLineAfterImports(source: string): string {
-	const lines = source.split(/\r?\n/);
-	let idx = 0;
-	let sawImport = false;
-
-	while (idx < lines.length) {
-		const trimmed = lines[idx].trim();
-		if (!trimmed) {
-			if (!sawImport) {
-				idx += 1;
-				continue;
-			}
-			break;
-		}
-		if (/^(import|export)\s/.test(trimmed)) {
-			sawImport = true;
-			idx += 1;
-			continue;
-		}
-		break;
-	}
-
-	if (!sawImport) return source;
-	if (idx >= lines.length) return source;
-	if (lines[idx].trim() === "") return source;
-
-	lines.splice(idx, 0, "");
-	return lines.join("\n");
-}
+// Ensures that there is a blank line after imports/exports in the MDX source.
+// This prevents issues where some MDX parsers fail if content immediately follows imports.
+import { ensureBlankLineAfterImports } from "./external-content-utils";
 
 type ExternalMdxModule = {
 	default: AstroComponentFactory;

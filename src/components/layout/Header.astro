@@ -23,10 +23,7 @@ if (siteInfo.logo && siteInfo.logo.Type === "file") {
 const rss_path = getNavLink("/rss.xml");
 ---
 
-<header
-	id="main-header"
-	class="group relative mb-8 flex w-full items-center justify-between sm:ps-[4.5rem] lg:-ml-[25%] lg:w-[150%]"
->
+<header id="main-header" class="site-header group">
 	<div class="flex sm:flex-col">
 		<a
 			href={getNavLink("/")}
@@ -71,16 +68,12 @@ const rss_path = getNavLink("/rss.xml");
 				)
 			}
 		</a>
-		<nav
-			id="navigation-menu"
-			class="md bg-bgColor/90 text-accent absolute -inset-x-4 top-14 hidden flex-col items-end rounded-md py-2 text-base shadow-sm backdrop-blur-sm group-[.menu-open]:z-50 group-[.menu-open]:flex sm:static sm:z-auto sm:-ms-4 sm:mt-1 sm:flex sm:flex-row sm:items-center sm:rounded-none sm:py-0 sm:text-sm sm:shadow-none sm:backdrop-blur-none lg:text-base print:hidden"
-			aria-label="Main menu"
-		>
+		<nav id="navigation-menu" class="nav-menu" aria-label="Main menu">
 			{
 				menuLinks.map((link) => (
 					<a
 						href={link.path}
-						class="sm:hover:decoration-accent-2/40 w-full px-4 py-4 text-right underline-offset-4 sm:w-auto sm:py-0 sm:text-left sm:hover:underline sm:hover:decoration-wavy"
+						class="nav-link"
 						aria-current={url.pathname === link.path ? "page" : false}
 						data-astro-prefetch
 					>

@@ -1,39 +1,10 @@
 import fs from "node:fs";
 import path from "node:path";
 import { EXTERNAL_CONTENT_PATHS } from "../../constants";
+import { ensureBlankLineAfterImports } from "../external-content/external-content-utils";
 
 function ensureDir(dir: string) {
 	if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-}
-
-function ensureBlankLineAfterImports(source: string): string {
-	const lines = source.split(/\r?\n/);
-	let idx = 0;
-	let sawImport = false;
-
-	while (idx < lines.length) {
-		const trimmed = lines[idx].trim();
-		if (!trimmed) {
-			if (!sawImport) {
-				idx += 1;
-				continue;
-			}
-			break;
-		}
-		if (/^(import|export)\s/.test(trimmed)) {
-			sawImport = true;
-			idx += 1;
-			continue;
-		}
-		break;
-	}
-
-	if (!sawImport) return source;
-	if (idx >= lines.length) return source;
-	if (lines[idx].trim() === "") return source;
-
-	lines.splice(idx, 0, "");
-	return lines.join("\n");
 }
 
 export function writeMdxSnippet(options: {

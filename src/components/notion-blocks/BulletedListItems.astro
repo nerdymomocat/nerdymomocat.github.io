@@ -13,14 +13,19 @@ export interface Props {
 const { block, renderChildren = true, setId = true } = Astro.props;
 ---
 
-<ul class="list-outside list-disc space-y-1 pl-6" id={setId ? block.Id : undefined}>
+<ul class="notion-list-ul" id={setId ? block.Id : undefined}>
 	{
 		block.ListItems.filter((b: interfaces.Block) => b.Type === "bulleted_list_item").map(
 			(b: interfaces.Block) => (
 				<li
 					class:list={[
 						{
-							[`${getNotionColorToTailwindColor(b.BulletedListItem.Color)} rounded-sm px-1`]:
+							"notion-list-item-colored":
+								b.BulletedListItem.Color &&
+								!["default", "default_background", "default-background"].includes(
+									b.BulletedListItem.Color,
+								),
+							[`${getNotionColorToTailwindColor(b.BulletedListItem.Color)}`]:
 								b.BulletedListItem.Color &&
 								!["default", "default_background", "default-background"].includes(
 									b.BulletedListItem.Color,

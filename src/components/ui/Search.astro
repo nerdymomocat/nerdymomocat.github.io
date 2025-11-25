@@ -6,24 +6,13 @@ import Icon from "@/components/ui/Icon.astro";
 ---
 
 <site-search id="search" class="ms-auto">
-	<button
-		data-open-modal
-		disabled
-		class="hover:text-accent hover:ring-accent-400 flex h-10 w-10 cursor-pointer items-center justify-center rounded-md transition-all hover:ring-2"
-		aria-label="Open search"
-	>
+	<button data-open-modal disabled class="search-btn" aria-label="Open search">
 		<Icon class="h-7 w-7" name={"search"} />
 	</button>
-	<dialog
-		aria-label="search"
-		class="bg-bgColor/80 h-full max-h-full w-full max-w-full border border-zinc-400 shadow-sm backdrop:backdrop-blur-sm sm:mx-auto sm:mt-16 sm:mb-auto sm:h-max sm:max-h-[calc(100%-8rem)] sm:min-h-[15rem] sm:w-5/6 sm:max-w-[48rem] sm:rounded-lg"
-	>
-		<div class="dialog-frame flex flex-col gap-4 p-6 pt-12 sm:pt-6">
-			<button
-				data-close-modal
-				class="ms-auto cursor-pointer rounded-md bg-zinc-200 p-2 font-semibold dark:bg-zinc-700"
-				aria-label="Close Search"
-				><Icon class="inline h-6 w-6" name={"close"} aria-hidden="true" /></button
+	<dialog aria-label="search" class="search-dialog">
+		<div class="search-frame">
+			<button data-close-modal class="search-close-btn" aria-label="Close Search"
+				><Icon class="inline h-6 w-6" name={"close"} aria-hidden="true" focusable="false" /></button
 			>
 			{
 				import.meta.env.DEV ? (
@@ -59,7 +48,7 @@ import Icon from "@/components/ui/Icon.astro";
 			this.openBtn = this.querySelector<HTMLButtonElement>("button[data-open-modal]")!;
 			this.closeBtn = this.querySelector<HTMLButtonElement>("button[data-close-modal]")!;
 			this.dialog = this.querySelector("dialog")!;
-			this.dialogFrame = this.querySelector(".dialog-frame")!;
+			this.dialogFrame = this.querySelector(".search-frame")!;
 
 			this.openBtn.addEventListener("click", this.openModal);
 			this.openBtn.disabled = false;
@@ -178,79 +167,3 @@ import Icon from "@/components/ui/Icon.astro";
 
 	customElements.define("site-search", SiteSearch);
 </script>
-
-<style is:global>
-	:root {
-		--pagefind-ui-font: inherit;
-	}
-
-	#webtrotion__search .pagefind-ui__search-clear {
-		width: calc(60px * var(--pagefind-ui-scale));
-		padding: 0;
-		background-color: transparent;
-		overflow: hidden;
-	}
-	#webtrotion__search .pagefind-ui__search-clear:focus {
-		outline: 1px solid var(--color-accent-2);
-	}
-	#webtrotion__search .pagefind-ui__search-clear::before {
-		content: "";
-		-webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'  %3E%3Cpath d='M6 5v.18L8.82 8h2.4l-.72 1.68l2.1 2.1L14.21 8H20V5H6M3.27 5L2 6.27l6.97 6.97L6.5 19h3l1.57-3.66L16.73 21L18 19.73L3.55 5.27L3.27 5Z'%3E%3C/path%3E%3C/svg%3E")
-			center / 60% no-repeat;
-		mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' %3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M6 5v.18L8.82 8h2.4l-.72 1.68l2.1 2.1L14.21 8H20V5H6M3.27 5L2 6.27l6.97 6.97L6.5 19h3l1.57-3.66L16.73 21L18 19.73L3.55 5.27L3.27 5Z'%3E%3C/path%3E%3C/svg%3E")
-			center / 60% no-repeat;
-		background-color: var(--color-accent);
-		display: block;
-		width: 100%;
-		height: 100%;
-	}
-
-	#webtrotion__search .pagefind-ui__result {
-		padding: 12px;
-		border: 0;
-		overflow-x: hidden;
-	}
-	@media (max-width: 640px) {
-		#webtrotion__search .pagefind-ui__drawer {
-			gap: 12px !important;
-		}
-	}
-
-	#webtrotion__search .pagefind-ui__result-link {
-		background-size: 100% 6px;
-		background-position: bottom;
-		background-repeat: repeat-x;
-		background-image: linear-gradient(
-			transparent,
-			transparent 5px,
-			var(--color-textColor) 5px,
-			var(--color-textColor)
-		);
-	}
-
-	#webtrotion__search .pagefind-ui__result-link:hover {
-		text-decoration: none;
-		background-image: linear-gradient(
-			transparent,
-			transparent 4px,
-			var(--color-link) 4px,
-			var(--color-link)
-		);
-	}
-
-	#webtrotion__search mark {
-		color: var(--color-quote);
-		background-color: transparent;
-		font-weight: 600;
-	}
-</style>
-
-<style>
-	#webtrotion__search {
-		--pagefind-ui-primary: var(--color-accent);
-		--pagefind-ui-text: var(--color-textColor);
-		--pagefind-ui-background: var(--color-bgColor);
-		--pagefind-ui-border: var(--color-zinc-400);
-		--pagefind-ui-border-width: 1px;
-	}
-</style>

@@ -10,6 +10,7 @@ import { INTERLINKED_CONTENT } from "@/constants";
 import { adjustedFootnotesConfig } from "@/lib/notion/client";
 import InterlinkedContentSection from "@/components/auto-added-sections/interlinked-content/InterlinkedContentSection.astro";
 import Icon from "@/components/ui/Icon.astro";
+import CopyMarkdownButton from "@/components/post-actions/CopyMarkdownButton.astro";
 
 interface Props {
 	post: Post;
@@ -17,9 +18,17 @@ interface Props {
 	headings: Heading[];
 	shouldUseCache: boolean;
 	footnotesInPage?: any[] | null;
+	showCopyMarkdownButton?: boolean;
 }
 
-const { post, ogImage, headings, shouldUseCache, footnotesInPage } = Astro.props;
+const {
+	post,
+	ogImage,
+	headings,
+	shouldUseCache,
+	footnotesInPage,
+	showCopyMarkdownButton = false,
+} = Astro.props;
 
 // Add Interlinked Content heading to TOC if interlinked content exist
 INTERLINKED_CONTENT
@@ -53,11 +62,13 @@ const articleDate = new Date(post.Date).toISOString();
 >
 	<div class="max-w-[708px] sm:mr-20 print:mr-auto print:max-w-full">
 		<article class="break-words" data-pagefind-body>
-			<div id="blog-hero"><BlogHero post={post} /></div>
+			<div id="blog-hero">
+				<BlogHero post={post} />
+			</div>
 			<div class="mt-8">
 				<slot />
 				{/* Post body content */}
-				<hr class="divider bg-accent/30 mx-auto my-4 h-0.5 w-full rounded-sm border-none" />
+				<hr class="divider" />
 				{
 					INTERLINKED_CONTENT && (
 						<InterlinkedContentSection post={post} shouldUseCache={shouldUseCache} />
@@ -73,14 +84,14 @@ const articleDate = new Date(post.Date).toISOString();
 			<PostComments post={post} />
 		</aside>
 	</div>
-	<button
-		id="to-top-btn"
-		class="fixed end-4 bottom-20 z-30 flex h-10 w-10 translate-y-28 cursor-pointer items-center justify-center rounded-full border-2 border-transparent bg-zinc-200 text-3xl opacity-0 transition-all duration-300 hover:border-zinc-400 data-[show=true]:translate-y-0 data-[show=true]:opacity-100 sm:end-8 sm:bottom-8 sm:h-12 sm:w-12 dark:bg-zinc-700 print:hidden"
-		aria-label="Back to Top"
-		data-show="false"
-	>
+	<button id="to-top-btn" class="to-top-btn" aria-label="Back to Top" data-show="false">
 		<Icon name={"to-top"} class="h-6 w-6" aria-label="Go Back to Top" stroke-linecap="round" />
 	</button>
+	{
+		showCopyMarkdownButton && (
+			<CopyMarkdownButton class="copy-floating-btn" buttonClass="justify-center" />
+		)
+	}
 </BaseLayout>
 
 <script>

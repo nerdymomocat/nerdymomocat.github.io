@@ -12,16 +12,12 @@ const { headings } = Astro.props;
 const toc = generateToc(headings);
 ---
 
-<aside
-	class="toc-container no-rss group fixed top-auto right-4 bottom-40 z-10 block sm:top-40 sm:bottom-auto print:hidden"
->
-	<div
-		class="visual-container bg-bgColor absolute top-6 right-0 hidden w-8 flex-col items-end space-y-2 overflow-hidden p-2 transition-opacity duration-500 sm:flex"
-	>
+<aside class="toc-container no-rss group">
+	<div class="visual-container">
 		{toc.map((heading) => <TOCHeading heading={heading} visualOnly={true} />)}
 	</div>
 	<div
-		class="toc-content border-accent/10 bg-bgColor shadow-accent/5 invisible absolute right-1 bottom-0 max-h-[55vh] w-60 translate-x-4 overflow-y-auto rounded-xl border p-2 opacity-0 shadow-xl transition-all duration-200 sm:top-0 sm:bottom-auto sm:max-h-[68vh] sm:group-hover:visible sm:group-hover:translate-x-0 sm:group-hover:opacity-100"
+		class="toc-content invisible translate-x-4 opacity-0 group-hover:visible group-hover:translate-x-0 group-hover:opacity-100"
 	>
 		<ul class="mt-2 text-sm">
 			{toc.map((heading) => <TOCHeading heading={heading} />)}
@@ -29,11 +25,7 @@ const toc = generateToc(headings);
 	</div>
 </aside>
 
-<button
-	id="show-bottom-toc"
-	class="fixed end-4 bottom-8 z-30 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border-2 border-transparent bg-zinc-200 text-3xl transition-all duration-300 hover:border-zinc-400 sm:hidden dark:bg-zinc-700 print:hidden"
-	aria-label="Toggle table of contents"
->
+<button id="show-bottom-toc" class="bottom-toc-button" aria-label="Toggle table of contents">
 	<Icon
 		class="bottom-toc-icon h-6 w-6 transition-opacity duration-300"
 		name="table-of-contents"
@@ -101,7 +93,7 @@ const toc = generateToc(headings);
 
 			tocContent.addEventListener("click", (event) => {
 				const target = event.target;
-				if (target.tagName === "A" && window.innerWidth < 640) {
+				if (target instanceof HTMLElement && target.tagName === "A" && window.innerWidth < 640) {
 					tocContent.classList.add("invisible", "opacity-0", "translate-x-4");
 					bottomTocOpen.classList.remove("opacity-0");
 					bottomTocClose.classList.add("opacity-0");
@@ -111,7 +103,7 @@ const toc = generateToc(headings);
 			document.addEventListener("click", (event) => {
 				if (
 					window.innerWidth < 640 &&
-					!tocContainer.contains(event.target) &&
+					!tocContainer.contains(event.target as Node) &&
 					event.target !== bottomTocButton
 				) {
 					tocContent.classList.add("invisible", "opacity-0", "translate-x-4");
@@ -180,7 +172,9 @@ const toc = generateToc(headings);
 		tocLinks.forEach((link) => {
 			link.addEventListener("click", (event) => {
 				event.preventDefault();
-				const targetId = link.getAttribute("href").substring(1);
+				const href = link.getAttribute("href");
+				if (!href) return;
+				const targetId = href.substring(1);
 				const targetHeading = document.getElementById(targetId);
 
 				if (targetHeading) {

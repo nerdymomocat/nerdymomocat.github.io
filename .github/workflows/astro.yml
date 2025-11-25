@@ -256,6 +256,7 @@ jobs:
               rm -rf tmp/blocks-json-cache
               rm -rf tmp/rss-cache
               rm -rf tmp/.astro/
+              rm -rf tmp/markdown-cache
               rm -rf src/assets/notion
             fi
 
@@ -269,6 +270,7 @@ jobs:
               rm -rf tmp/blocks-html-cache
               rm -rf tmp/rss-cache
               rm -rf tmp/.astro/
+              rm -rf tmp/markdown-cache
             fi
 
             # If tmpOGImagesCache has changed, delete tmp/og-images

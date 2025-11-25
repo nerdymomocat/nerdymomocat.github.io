@@ -18,7 +18,7 @@ const Tag = hasChildren && renderChildren ? "div" : "p";
 
 <Tag
 	class:list={[
-		"my-1 min-h-7",
+		"notion-text",
 		{
 			[`${getNotionColorToTailwindColor(block.Paragraph.Color)} rounded-sm px-1`]:
 				block.Paragraph.Color &&

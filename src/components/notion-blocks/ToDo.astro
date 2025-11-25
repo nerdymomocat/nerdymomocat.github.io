@@ -14,34 +14,37 @@ export interface Props {
 const { block, renderChildren = true, setId = true } = Astro.props;
 ---
 
-<div class="to-do pl-2 leading-7" id={setId ? block.Id : undefined}>
+<div class="to-do" id={setId ? block.Id : undefined}>
 	{
 		block.ListItems.filter((b: interfaces.Block) => b.Type === "to_do").map(
 			(b: interfaces.Block, index) => (
-				<div class="gap-2" id={setId ? b.Id : undefined}>
+				<div class="todo-container" id={setId ? b.Id : undefined}>
 					<div
 						class:list={[
-							"flex max-w-full items-start",
+							"todo-item",
 							{
-								[`${getNotionColorToTailwindColor(b.ToDo.Color)} rounded-sm px-1`]:
+								"todo-item-colored":
+									b.ToDo.Color &&
+									!["default", "default_background", "default-background"].includes(b.ToDo.Color),
+								[`${getNotionColorToTailwindColor(b.ToDo.Color)}`]:
 									b.ToDo.Color &&
 									!["default", "default_background", "default-background"].includes(b.ToDo.Color),
 							},
 						]}
 					>
 						{/* Flex container for the checkbox and text */}
-						<div class="mt-1 pr-2">
+						<div class="todo-checkbox-wrapper">
 							{/* Padding for the checkbox */}
 
 							<Icon
-								class="text-textColor/50 h-5 w-5"
+								class="todo-checkbox-icon"
 								name={b.ToDo.Checked ? "checkbox-checked" : "checkbox-unchecked"}
 								aria-label={b.ToDo.Checked ? "checkbox-checked" : "checkbox-unchecked"}
 								focusable="false"
 							/>
 							<span class="rss-only hidden">{b.ToDo.Checked ? "✅" : "⬜"}</span>
 						</div>
-						<div class="min-w-0 flex-1">
+						<div class="todo-text">
 							{/* Container for text, taking up the rest of the space */}
 							{b.ToDo.RichTexts.map((richText: interfaces.RichText) => {
 								if (b.ToDo.Checked) {
