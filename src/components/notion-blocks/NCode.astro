@@ -2,8 +2,8 @@
 import * as interfaces from "@/lib/interfaces";
 import Caption from "@/components/notion-blocks/Caption.astro";
 import { SHORTCODES, TRANSFORMER_FUNCTIONS_ARR } from "@/constants";
+import { highlightCodeToHtml } from "@/utils/shiki-highlighter";
 import Icon from "@/components/ui/Icon.astro";
-import { Code } from "astro:components";
 import { joinPlainText } from "@/utils/richtext-utils";
 
 export interface Props {
@@ -189,6 +189,15 @@ if (renderShortcode) {
 
 const code_render = iframeSrcDoc !== null;
 const code_inject = htmlToInject !== null;
+const shouldHighlight = !code_render && !code_inject && language !== "mermaid";
+const highlightedCodeHtml = shouldHighlight
+	? await highlightCodeToHtml({
+			code,
+			lang: language,
+			defaultColor: "light",
+			transformers: TRANSFORMER_FUNCTIONS_ARR,
+		})
+	: null;
 const plainTextCaption = joinPlainText(block.Code?.Caption || []);
 ---
 
@@ -237,12 +246,7 @@ const plainTextCaption = joinPlainText(block.Code?.Caption || []);
 				{language === "mermaid" ? (
 					<pre class="mermaid">{code}</pre>
 				) : (
-					<Code
-						code={code}
-						lang={language}
-						theme={"github-dark-dimmed"}
-						transformers={TRANSFORMER_FUNCTIONS_ARR}
-					/>
+					highlightedCodeHtml && <Fragment set:html={highlightedCodeHtml} />
 				)}
 			</div>
 			<Caption richTexts={block.Code.Caption} block={block} />

@@ -33,7 +33,7 @@ import superjson from "superjson";
 import { adjustedFootnotesConfig } from "@/lib/notion/client";
 import FootnotesSection from "@/components/auto-added-sections/FootnotesSection.astro";
 import BibliographySection from "@/components/auto-added-sections/BibliographySection.astro";
-import CopyMarkdownButton from "@/components/post-actions/CopyMarkdownButton.astro";
+import CopyMarkdownButton from "@/components/auto-added-sections/CopyMarkdownButton.astro";
 
 export async function getStaticPaths() {
 	const pages = (await getAllPages()).filter((page) => !page.IsExternal);

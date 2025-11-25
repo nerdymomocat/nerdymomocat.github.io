@@ -100,26 +100,26 @@ export default function astroImageCacheCleanerCopier(): AstroIntegration {
 					);
 				}
 
-				// Step 5: Delete original unoptimized images from dist in parallel
+				// Step 5: Delete unreferenced original-looking images from dist in parallel
 				const distFiles = await readdir(destDir);
 				const reOriginalImage = new RegExp(ORIGINAL_IMAGE_HASH_PATTERN, "u");
-				const originals: string[] = [];
-
-				for (const file of distFiles) {
+				const unreferencedOriginals = distFiles.filter((file) => {
 					const { ext } = path.parse(file);
 					const fileFormat = ext.slice(1);
-					if (!(ORIGINAL_IMAGE_FORMATS as ReadonlyArray<string>).includes(fileFormat)) continue;
-					if (!reOriginalImage.test(file)) continue;
-					originals.push(file);
-				}
+					if (!(ORIGINAL_IMAGE_FORMATS as ReadonlyArray<string>).includes(fileFormat)) return false;
+					if (!reOriginalImage.test(file)) return false;
+					return !usedImagesSet.has(file);
+				});
 
 				const deleteResults = await Promise.allSettled(
-					originals.map((file) => unlink(path.join(destDir, file))),
+					unreferencedOriginals.map((file) => unlink(path.join(destDir, file))),
 				);
 
 				const deletedCount = deleteResults.filter((r) => r.status === "fulfilled").length;
 				if (deletedCount > 0) {
-					logger.info(`Removed ${deletedCount} original image(s) from dist bundle`);
+					logger.info(`Removed ${deletedCount} unreferenced original image(s) from dist bundle`);
+				} else {
+					logger.info("No unreferenced original images found in dist bundle");
 				}
 
 				logger.info(
