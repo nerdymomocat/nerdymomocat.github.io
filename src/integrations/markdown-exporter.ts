@@ -5,7 +5,7 @@ import fs from "node:fs/promises";
 import { parseDocument } from "htmlparser2";
 import { DomUtils } from "htmlparser2";
 import type { AnyNode, Element as ElementNode } from "domhandler";
-import { Element as DomElement, DataNode } from "domhandler";
+import { Element as DomElement, Text as DomText } from "domhandler";
 import TurndownService from "turndown";
 import { gfm } from "turndown-plugin-gfm";
 import superjson from "superjson";
@@ -15,6 +15,9 @@ import {
 	HOME_PAGE_SLUG,
 	AUTHOR,
 	LAST_BUILD_TIME,
+	BIBTEX_CITATIONS_ENABLED,
+	BIBLIOGRAPHY_STYLE,
+	CITATIONS,
 } from "../constants";
 import { getAllPosts, getAllPages } from "../lib/notion/client";
 import type { Post, Citation, Footnote } from "../lib/interfaces";
@@ -58,6 +61,10 @@ const markdownExporter = (): AstroIntegration => {
 				const postIdSet = new Set(posts.map((post) => post.PageId));
 				const entries = [...posts, ...pages];
 				const lastBuildTime = LAST_BUILD_TIME ? new Date(LAST_BUILD_TIME) : null;
+				const citationsSectionEnabled =
+					BIBTEX_CITATIONS_ENABLED &&
+					CITATIONS?.["extract-and-process-bibtex-citations"]?.["generate-bibliography-section"] ===
+						true;
 
 				for (const entry of entries) {
 					if (entry.IsExternal) continue;
@@ -124,9 +131,23 @@ const markdownExporter = (): AstroIntegration => {
 						const { sanitizedHtml, footnotes: extractedFootnotes } = processed;
 						const articleMarkdown = normalizeFootnoteReferences(turndown.turndown(sanitizedHtml));
 						const footnotesMarkdown = renderFootnotesMarkdown(extractedFootnotes);
-						const markdownOutput = footnotesMarkdown
-							? `${articleMarkdown.trimEnd()}\n\n${footnotesMarkdown}`
-							: articleMarkdown;
+						let markdownOutput = articleMarkdown;
+
+						if (footnotesMarkdown) {
+							markdownOutput = `${markdownOutput.trimEnd()}\n\n${footnotesMarkdown}`;
+						}
+
+						if (
+							BIBTEX_CITATIONS_ENABLED &&
+							!citationsSectionEnabled &&
+							Array.isArray(citations) &&
+							citations.length > 0
+						) {
+							const citationsMarkdown = renderCitationsMarkdown(citations);
+							if (citationsMarkdown) {
+								markdownOutput = `${markdownOutput.trimEnd()}\n\n${citationsMarkdown}`;
+							}
+						}
 
 						const metadata = buildMarkdownMetadata({
 							entry,
@@ -214,6 +235,28 @@ function renderFootnotesMarkdown(footnotes: FootnoteDefinition[]): string {
 	}
 
 	return lines.join("\n");
+}
+
+function renderCitationsMarkdown(citations: Citation[]): string {
+	if (!Array.isArray(citations) || citations.length === 0) {
+		return "";
+	}
+
+	const entries = citations.map((citation, index) => {
+		const formatted = citation.FormattedEntry
+			? turndown.turndown(citation.FormattedEntry).trim()
+			: "";
+		const base = formatted || citation.Key || `Citation ${index + 1}`;
+		const urlSuffix = citation.Url ? ` (${citation.Url})` : "";
+
+		if (BIBLIOGRAPHY_STYLE === "simplified-ieee") {
+			return `${index + 1}. ${base}${urlSuffix}`;
+		}
+
+		return `- ${base}${urlSuffix}`;
+	});
+
+	return `## Bibliography\n\n${entries.join("\n")}`;
 }
 
 function normalizeFootnoteReferences(markdown: string): string {
@@ -701,7 +744,6 @@ function normalizeDetails(element: ElementNode) {
 
 	const summaryParagraph = createElement("p", [
 		createElement("strong", [createTextNode(summaryText)]),
-		createTextNode(" (collapsible)"),
 	]);
 
 	element.name = "div";
@@ -726,6 +768,6 @@ function createElement(
 	return el;
 }
 
-function createTextNode(text: string): DataNode {
-	return new DataNode("text", text);
+function createTextNode(text: string): DomText {
+	return new DomText(text);
 }
