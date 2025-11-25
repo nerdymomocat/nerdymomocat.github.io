@@ -1105,7 +1105,6 @@ export async function GET(context: APIContext) {
 	const imagePath = path.join(BASE_DIR, `${slug}.png`);
 
 	if (fs.existsSync(imagePath) && postLastUpdatedBeforeLastBuild) {
-		console.log("\nreading existing image for og slug", slug);
 		// Read the existing image and send it in the response
 		const existingImage = fs.readFileSync(imagePath);
 		return new Response(existingImage, {

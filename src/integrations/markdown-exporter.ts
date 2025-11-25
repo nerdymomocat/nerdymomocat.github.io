@@ -2,7 +2,6 @@ import type { AstroIntegration } from "astro";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 import fs from "node:fs/promises";
-import crypto from "node:crypto";
 import { parseDocument } from "htmlparser2";
 import { DomUtils } from "htmlparser2";
 import type { AnyNode, Element as ElementNode } from "domhandler";
@@ -10,7 +9,13 @@ import { Element as DomElement, DataNode } from "domhandler";
 import TurndownService from "turndown";
 import { gfm } from "turndown-plugin-gfm";
 import superjson from "superjson";
-import { MARKDOWN_EXPORT_ENABLED, BUILD_FOLDER_PATHS, HOME_PAGE_SLUG, AUTHOR } from "../constants";
+import {
+	MARKDOWN_EXPORT_ENABLED,
+	BUILD_FOLDER_PATHS,
+	HOME_PAGE_SLUG,
+	AUTHOR,
+	LAST_BUILD_TIME,
+} from "../constants";
 import { getAllPosts, getAllPages } from "../lib/notion/client";
 import type { Post, Citation, Footnote } from "../lib/interfaces";
 
@@ -52,6 +57,7 @@ const markdownExporter = (): AstroIntegration => {
 				const pages = await getAllPages();
 				const postIdSet = new Set(posts.map((post) => post.PageId));
 				const entries = [...posts, ...pages];
+				const lastBuildTime = LAST_BUILD_TIME ? new Date(LAST_BUILD_TIME) : null;
 
 				for (const entry of entries) {
 					if (entry.IsExternal) continue;
@@ -80,40 +86,42 @@ const markdownExporter = (): AstroIntegration => {
 						pageUrl = new URL(path.posix.join(slug, "/"), siteUrl).toString();
 					}
 
-					let htmlContent: string;
-					try {
-						htmlContent = await fs.readFile(htmlPath, "utf-8");
-					} catch {
-						continue;
-					}
-
-					const contentRoot = findContentRoot(htmlContent);
-					if (!contentRoot) {
-						continue;
-					}
-
-					const rawBodyHtml = DomUtils.getInnerHTML(contentRoot);
-					const citations = await loadCitationsForEntry(entry);
-					const footnotesData = await loadFootnotesForEntry(entry);
-					const metadataSignature = buildMetadataSignature(entry, isPost, citations, footnotesData);
-					const cacheHash = crypto
-						.createHash("sha1")
-						.update(JSON.stringify({ body: rawBodyHtml, metadata: metadataSignature }))
-						.digest("hex");
+					const entryTimestamp = entry.LastUpdatedTimeStamp
+						? new Date(entry.LastUpdatedTimeStamp)
+						: null;
+					const canUseCache =
+						lastBuildTime && entryTimestamp ? entryTimestamp <= lastBuildTime : false;
 
 					let finalMarkdown: string | null = null;
-					try {
-						const cached = JSON.parse(await fs.readFile(cachePath, "utf-8"));
-						if (cached?.hash === cacheHash && typeof cached?.markdown === "string") {
-							finalMarkdown = cached.markdown;
+
+					if (canUseCache) {
+						try {
+							const cached = JSON.parse(await fs.readFile(cachePath, "utf-8"));
+							if (typeof cached?.markdown === "string") {
+								finalMarkdown = cached.markdown;
+							}
+						} catch {
+							// cache miss
 						}
-					} catch {
-						// cache miss
 					}
 
 					if (!finalMarkdown) {
+						let htmlContent: string;
+						try {
+							htmlContent = await fs.readFile(htmlPath, "utf-8");
+						} catch {
+							continue;
+						}
+
+						const contentRoot = findContentRoot(htmlContent);
+						if (!contentRoot) {
+							continue;
+						}
+
+						const citations = await loadCitationsForEntry(entry);
+						const footnotesData = await loadFootnotesForEntry(entry);
 						const processed = processContentNode(contentRoot, pageUrl, siteUrl, footnotesData);
-						const { sanitizedHtml, footnotes: extractedFootnotes, plainText } = processed;
+						const { sanitizedHtml, footnotes: extractedFootnotes } = processed;
 						const articleMarkdown = normalizeFootnoteReferences(turndown.turndown(sanitizedHtml));
 						const footnotesMarkdown = renderFootnotesMarkdown(extractedFootnotes);
 						const markdownOutput = footnotesMarkdown
@@ -130,9 +138,13 @@ const markdownExporter = (): AstroIntegration => {
 
 						await fs.writeFile(
 							cachePath,
-							JSON.stringify({ hash: cacheHash, markdown: finalMarkdown }, null, 2),
+							JSON.stringify({ markdown: finalMarkdown }, null, 2),
 							"utf-8",
 						);
+					}
+
+					if (!finalMarkdown) {
+						continue;
 					}
 
 					await fs.writeFile(mdPath, finalMarkdown, "utf-8");
@@ -169,7 +181,6 @@ function processContentNode(
 ): {
 	sanitizedHtml: string;
 	footnotes: FootnoteDefinition[];
-	plainText: string;
 } {
 	const footnotesInfo = collectFootnotes(target, fallbackFootnotes);
 	sanitizeNode(target, {
@@ -179,52 +190,10 @@ function processContentNode(
 	});
 
 	const sanitizedHtml = DomUtils.getInnerHTML(target);
-	const plainText = DomUtils.textContent(target);
 
 	return {
 		sanitizedHtml,
 		footnotes: footnotesInfo.definitions,
-		plainText,
-	};
-}
-
-function buildMetadataSignature(
-	entry: Post,
-	isPost: boolean,
-	citations: Citation[] | null,
-	footnotes: Footnote[] | null,
-) {
-	return {
-		title: entry.Title,
-		slug: entry.Slug,
-		collection: entry.Collection,
-		date: entry.Date,
-		updatedDate: entry.LastUpdatedDate,
-		lastUpdatedTimestamp: entry.LastUpdatedTimeStamp
-			? new Date(entry.LastUpdatedTimeStamp).toISOString()
-			: null,
-		tags: (entry.Tags || []).map((tag) => ({ name: tag.name, color: tag.color })),
-		excerpt: entry.Excerpt,
-		externalUrl: entry.ExternalUrl,
-		isPost,
-		author: AUTHOR,
-		citations: Array.isArray(citations)
-			? citations.map((citation) => ({
-					key: citation.Key,
-					hash: crypto
-						.createHash("sha1")
-						.update(
-							JSON.stringify({
-								authors: citation.Authors,
-								year: citation.Year,
-								entry: citation.FormattedEntry,
-								url: citation.Url,
-							}),
-						)
-						.digest("hex"),
-				}))
-			: undefined,
-		footnotes: mapFootnotesForMetadata(footnotes),
 	};
 }
 
@@ -682,19 +651,6 @@ async function loadCitationsForEntry(entry: Post): Promise<Citation[] | null> {
 	}
 
 	return null;
-}
-
-function mapFootnotesForMetadata(
-	footnotes: Footnote[] | null,
-): { marker: string; index?: number | null }[] | undefined {
-	if (!footnotes || footnotes.length === 0) {
-		return undefined;
-	}
-
-	return footnotes.map((footnote) => ({
-		marker: footnote.Marker,
-		index: footnote.Index ?? null,
-	}));
 }
 
 async function loadFootnotesForEntry(entry: Post): Promise<Footnote[] | null> {

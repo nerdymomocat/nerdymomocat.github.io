@@ -463,7 +463,6 @@ export async function getPostContentByPostId(post: Post): Promise<{
 
 	if (!isPostUpdatedAfterLastBuild && fs.existsSync(cacheFilePath)) {
 		// CACHE HIT PATH: Post was not updated, try to load all caches
-		console.log("\nHit cache for", post.Slug);
 		blocks = superjson.parse(fs.readFileSync(cacheFilePath, "utf-8"));
 
 		// Check which caches exist
