@@ -81,15 +81,15 @@ const markdownExporter = (): AstroIntegration => {
 
 					if (isPost) {
 						htmlPath = path.join(distDir, "posts", slug, "index.html");
-						mdPath = path.join(distDir, "posts", slug, "index.md");
+						mdPath = path.join(distDir, "posts", slug, "index.html.md");
 						pageUrl = new URL(path.posix.join("posts", `${slug}/`), siteUrl).toString();
 					} else if (slug === HOME_PAGE_SLUG) {
 						htmlPath = path.join(distDir, "index.html");
-						mdPath = path.join(distDir, "index.md");
+						mdPath = path.join(distDir, "index.html.md");
 						pageUrl = siteUrl;
 					} else {
 						htmlPath = path.join(distDir, slug, "index.html");
-						mdPath = path.join(distDir, slug, "index.md");
+						mdPath = path.join(distDir, slug, "index.html.md");
 						pageUrl = new URL(path.posix.join(slug, "/"), siteUrl).toString();
 					}
 
