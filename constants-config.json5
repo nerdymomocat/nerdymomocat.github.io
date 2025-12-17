@@ -4,7 +4,7 @@
 	// This section configures the connection to your Notion database.
 	notion: {
 		// (Preferred) The Data Source ID for your Notion integration. This is a more stable way to connect to your database. You can find this in UI here: https://developers.notion.com/reference/retrieve-a-data-source#finding-a-data-source-id
-		"data-source-id": "f6e3813f-eb93-4a77-bbf4-81ad653d63ba",
+		"data-source-id": "c694c45a-3a04-4ffc-83b1-87bcf2952533",
 		// (Fallback) The classic Database ID. This is used only if 'data-source-id' is empty. The integration will automatically find the Data Source ID and use the first one from this if needed.
 		"database-id": "",
 	},
@@ -13,7 +13,7 @@
 	// Basic details about your website used for metadata, RSS feeds, and SEO.
 	"site-info": {
 		// Your name or the name of your site's author. Used in RSS feeds, OG images etc and other metadata for attribution.
-		author: "",
+		author: "Nerdy Momo Cat",
 		// Your custom domain name (e.g., "example.com"). Important: Do NOT include "https://" or a trailing slash. Leave this empty if you are deploying to a service like Vercel or Netlify without a custom domain.
 		"custom-domain": "",
 		// The sub-directory your site is deployed in (e.g., "/blog"). Leave empty if your site is at the root of your domain. Must start with a forward slash "/" if used.
@@ -68,33 +68,33 @@
 		colors: {
 			// Background colors
 			bg: {
-				light: "249 249 249",
-				dark: "28 30 32",
+				light: "246 247 249",
+				dark: "18 20 22",
 			},
 			// Main text colors
 			text: {
-				light: "34 39 42",
-				dark: "255 255 255",
+				light: "26 28 30",
+				dark: "235 238 240",
 			},
 			// Link colors
 			link: {
-				light: "85 123 118",
-				dark: "199 200 203",
+				light: "45 90 150",
+				dark: "130 180 220",
 			},
 			// Primary accent color (e.g., for titles, highlights)
 			accent: {
-				light: "203 41 65",
-				dark: "41 188 136",
+				light: "180 95 55",
+				dark: "235 175 140",
 			},
 			// Secondary accent color (e.g., for borders, subtle highlights)
 			"accent-2": {
-				light: "17 17 17",
-				dark: "237 237 237",
+				light: "150 60 95",
+				dark: "225 175 190",
 			},
 			// Color for blockquotes and other special text
 			quote: {
-				light: "203 41 65",
-				dark: "205 254 183",
+				light: "80 115 90",
+				dark: "185 230 200",
 			},
 		},
 		"fontfamily-google-fonts": {
@@ -102,10 +102,10 @@
 			// We automatically load weights [400, 500, 600, 700] and styles [normal, italic] for all fonts (it is fine if they are not available).
 			// Main body/UI font - can be a sans-serif OR serif typeface (e.g., "Roboto", "Merriweather", "Inter")
 			// If empty and mono-font-name is set, mono will be used for everything.
-			"sans-font-name": "Roboto",
+			"sans-font-name": "Special Gothic",
 			// Monospace font for code blocks (e.g., "Fira Code", "JetBrains Mono")
 			// No need to escape spaces in font names!
-			"mono-font-name": "Roboto Mono",
+			"mono-font-name": "Spline Sans Mono",
 		},
 		// Enable using the cover image as the hero background (with an overlay for text readability).
 		// When enabled, displays a low-opacity tinted banner behind the title/date/tags area
@@ -117,23 +117,23 @@
 	// Add your social media profile URLs here. They will be displayed in the site's social list component.
 	// The keys (e.g., 'github', 'twitter') are fixed and correspond to specific icons.
 	socials: {
-		email: "mailto:your-email@example.com",
-		github: "",
+		email: "mailto:nerdymomocat@gmail.com",
+		github: "https://github.com/nerdymomocat",
 		googlescholar: "",
 		semanticscholar: "",
 		dblp: "",
 		substack: "",
 		facebook: "",
-		twitter: "",
-		threads: "",
+		twitter: "https://twitter.com/nerdymomocat",
+		threads: "https://www.threads.net/@nerdymomocat",
 		instagram: "",
 		mastodon: "",
-		bluesky: "",
+		bluesky: "https://bsky.app/profile/nerdymomocat.bsky.social",
 		calendar: "",
-		kofi: "",
+		kofi: "https://ko-fi.com/nerdymomocat",
 		"buy-me-a-coffee": "",
 		// This link is for forked repo you'll end up having. Feel free to change it to your needs.
-		"this-github-repo": "https://github.com/nerdymomocat-templates/webtrotion-astro-notion-cms-website-blog",
+		"this-github-repo": "https://github.com/nerdymomocat/nerdymomocat.github.io",
 	},
 
 	// === Analytics Tracking ===
@@ -141,13 +141,13 @@
 		"google-analytics": {
 			"use-ga": true,
 			// Your Google Analytics 4 Measurement ID (e.g., G-XXXXXXXXXX).
-			"public-ga-tracking-id": "",
+			"public-ga-tracking-id": "G-J7JWVG489F",
 		},
 		// Umami is a privacy-focused, open-source analytics alternative to Google Analytics.
 		umami: {
-			"use-umami": false,
+			"use-umami": true,
 			// The website ID from your Umami dashboard.
-			"data-website-id": "",
+			"data-website-id": "ed76135b-e6d0-4009-863f-d5f3d59ca396",
 			// Set to true if you are hosting your own Umami instance.
 			"self-hosted": false,
 			// The URL to your self-hosted Umami script (e.g., "https://my-umami.com/script.js").
@@ -155,21 +155,21 @@
 		},
 		// For verifying site ownership with Google.
 		// Paste the 'content' attribute from the meta tag provided by Google Search Console.
-		// e.g., <meta name="google-site-verification" content="YOUR_CODE_HERE" /> -> "YOUR_CODE_HERE"
-		"google-search-console-html-tag": "",
+		// e.g., <meta name="google-site-verification" content="YOUR_CODE_HERE" /> → "YOUR_CODE_HERE"
+		"google-search-console-html-tag": "KIPm1JP9iHIMjr94kOr3t1nyRaPn43dyT9h_dk7ZeCk",
 	},
 
 	// === Open Graph Image Generation ===
 	// Customize the appearance of automatically generated social sharing images (OG images).
 	"og-setup": {
 		// Layout style: 1 for a single column with a background image, 2 for a side-by-side layout.
-		columns: 1,
+		columns: 2,
 		// If true, the post's excerpt will be included in the OG image.
-		excerpt: false,
+		excerpt: true,
 		// Font configuration for OG images
 		// Title and footnote can be any google font
-		"title-font-name": "Kreon",
-		"title-font-weight": 500, // Default: 400 (regular)
+		"title-font-name": "Instrument Serif",
+		"title-font-weight": 400, // Default: 400 (regular)
 		// Footnote font (author, date etc)
 		"footnote-font-name": "JetBrains Mono",
 		"footnote-font-weight": 700, // Default: 400 (regular)
@@ -179,10 +179,10 @@
 	comments: {
 		// Giscus is a comments system powered by GitHub Discussions. It's free and open-source. Go here for the process of setting it up: https://giscus.app/
 		giscus: {
-			"data-repo": "nerdymomocat-templates/webtrotion-astro-notion-cms-website-blog",
-			"data-repo-id": "R_kgDOK0FuUA",
+			"data-repo": "nerdymomocat/nerdymomocat.github.io",
+			"data-repo-id": "R_kgDOK0JDGg",
 			"data-category": "Announcements",
-			"data-category-id": "DIC_kwDOK0FuUM4CbZ5A",
+			"data-category-id": "DIC_kwDOK0JDGs4CbZ9k",
 			"data-mapping": "pathname",
 			"data-input-position": "top",
 			"data-reactions-enabled": true,
@@ -190,15 +190,15 @@
 
 		// Display comments from Bluesky posts related to your blog posts.
 		"bluesky-comments": {
-			"show-comments-from-bluesky": false,
+			"show-comments-from-bluesky": true,
 			"auto-search-for-match": {
 				// If true, the site will automatically search for a Bluesky post by the specified author
 				// that contains a link to the current blog post and a specific emoji.
-				"turn-on-auto-search": false,
+				"turn-on-auto-search": true,
 				// Your Bluesky handle (e.g., "yourname.bsky.social").
-				author: "",
+				author: "nerdymomocat.bsky.social",
 				// The emoji used in your Bluesky post to signify it's a blog post "echo" and should be searched.
-				"echo-feed-emoji": "",
+				"echo-feed-emoji": "💬",
 			},
 		},
 
@@ -319,12 +319,13 @@
 			// Configure how BibTeX citations are extracted and processed.
 			"extract-and-process-bibtex-citations": {
 				// If true, enables BibTeX citation processing.
-				enabled: false,
+				enabled: true,
 				// Supported .bib file sources: GitHub Gist, GitHub repo file, Dropbox, and Google Drive public share links.
 				// Google drive and dropbox links do not provide public last-updated timestamps; these files will be fetched and processed on every build and increase processing time, but https://retorque.re/zotero-better-bibtex/ can auto-update and auto sync them.
 				//Gitub links will be checked for last-updated timestamps to avoid unnecessary re-processing but will need push or scripted auto-push to keep updated.
 				"bibtex-file-url-list": [
 					// Example: "https://gist.githubusercontent.com/username/gistid/raw/filename.bib",
+					"https://gist.github.com/nerdymomocat/01791810f0ba9e9d54406e0da9374760",
 				],
 				// The pattern for in-text citations. Supports #cite(key) for support with typst, \cite{key} for support with latex, and for support with pandoc [@key]. This will be rendered as [firstName et al, year] or [1][2] in text. Only one format is supported at a time.
 				"in-text-citation-format": "[@key]",
@@ -338,7 +339,7 @@
 				// If true, a collated bibliography section will be automatically generated at the bottom of the page.
 				"generate-bibliography-section": false,
 				// If true, show citations in the right margin on large screens (≥1024px). On smaller screens, citations will display as popovers.
-				"show-in-margin-on-large-screens": false,
+				"show-in-margin-on-large-screens": true,
 			},
 		},
 	},
@@ -372,5 +373,16 @@
 	// Create 301 redirects for old URLs to new URLs. Useful for SEO when migrating content.
 	// Format: "/old-path": "/new-path"
 	// Example: "/my-old-post.html": "/posts/my-new-post-slug/"
-	redirects: {},
+	redirects: {
+		"/stream.html": "/collections/stream/",
+		"/posts/scratches_and_scribbles.html": "/posts/scratches_and_scribbles/",
+		"/posts/self_organizing_bookmarks.html": "/posts/self_organizing_bookmarks/",
+		"/posts/graph_based_notetaking_opinion.html": "/posts/graph_based_notetaking_opinion/",
+		"/posts/notion_latex_resume.html": "/posts/notion_latex_resume/",
+		"/posts/textsvsbeeper.html": "/posts/textsvsbeeper/",
+		"/posts/choose_your_notetaking_app.html": "/posts/choose_your_notetaking_app/",
+		"/posts/pkm_components.html": "/posts/pkm_components/",
+		"/posts/gdocs_are_underrated.html": "/posts/gdocs_are_underrated/",
+		"/code-and-snippets": "/posts/code-and-snippets/",
+	},
 }
