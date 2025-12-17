@@ -65,7 +65,7 @@ function findAllFootnoteMarkers(
 	const markers: FootnoteMarkerInfo[] = [];
 	// Negative lookahead (?!:) ensures we don't match [^ft_a]: (content markers in child blocks)
 	// Only match [^ft_a] without a following colon (inline markers)
-	const pattern = new RegExp(`\\[\\^${markerPrefix}([\\p{L}\\p{N}_]+)\\](?!:)`, "gu");
+	const pattern = new RegExp(`\\[\\^${markerPrefix}([\\p{L}\\p{N}_\\-]+)\\](?!:)`, "gu");
 
 	locations.forEach((location) => {
 		const fullText = joinPlainText(location.richTexts);
@@ -210,7 +210,7 @@ function parseFootnoteDefinitionsFromRichText(
 	definitionsText: string,
 ): Map<string, RichText[]> {
 	const definitions = new Map<string, RichText[]>();
-	const pattern = new RegExp(`\\n\\n\\[\\^${markerPrefix}([\\p{L}\\p{N}_]+)\\]:\\s*`, "gu");
+	const pattern = new RegExp(`\\n\\n\\[\\^${markerPrefix}([\\p{L}\\p{N}_\\-]+)\\]:\\s*`, "gu");
 
 	const matches: Array<{ marker: string; start: number; end: number; matchIndex: number }> = [];
 	let match: RegExpExecArray | null;
@@ -334,7 +334,7 @@ function extractEndOfBlockFootnotes(
  */
 function createContentPattern(markerPrefix: string): RegExp {
 	const escapedPrefix = markerPrefix.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-	return new RegExp(`^\\[\\^${escapedPrefix}([\\p{L}\\p{N}_]+)\\]:\\s*`, "gmu");
+	return new RegExp(`^\\[\\^${escapedPrefix}([\\p{L}\\p{N}_\\-]+)\\]:\\s*`, "gmu");
 }
 
 // Sets children array in a block

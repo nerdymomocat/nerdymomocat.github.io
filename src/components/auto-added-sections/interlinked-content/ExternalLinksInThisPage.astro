@@ -43,14 +43,18 @@ if (groupedInterlinkedContent) {
 	for (const hrefLink of Object.keys(groupedInterlinkedContent)) {
 		let url: URL;
 		try {
-			url = new URL(hrefLink);
+			let urlToUse = hrefLink;
+			if (!urlToUse.startsWith("http://") && !urlToUse.startsWith("https://")) {
+				urlToUse = "https://" + urlToUse;
+			}
+			url = new URL(urlToUse);
 			urlList.push(url);
 			for (const block of groupedInterlinkedContent[hrefLink]) {
 				const result = await getInterlinkedContentLink(post.PageId, undefined, block, true);
 				blockIdLinks[block.Id] = result[0];
 			}
 		} catch (err) {
-			console.log(err);
+			console.log(`Error processing link ${hrefLink}:`, err);
 			delete groupedInterlinkedContent[hrefLink];
 			continue;
 		}
@@ -70,10 +74,17 @@ if (groupedInterlinkedContent && Object.keys(groupedInterlinkedContent).length >
 		let url: URL;
 		let metadata: Record<string, string>;
 		try {
-			url = new URL(hrefLink);
+			let urlToUse = hrefLink;
+			if (!urlToUse.startsWith("http://") && !urlToUse.startsWith("https://")) {
+				urlToUse = "https://" + urlToUse;
+			}
+			url = new URL(urlToUse);
+			// Remove ONLY text fragments for metascraper
+			const urlForMetascraper = url.toString().replace(/#:~:text=.*$/, "");
+
 			const html = urlMap[hrefLink];
 			if (html) {
-				metadata = await metascraper({ html, url });
+				metadata = await metascraper({ html, url: urlForMetascraper });
 				if (!metadata || (metadata && !metadata.title)) {
 					delete groupedInterlinkedContent[hrefLink];
 					continue;
@@ -84,7 +95,7 @@ if (groupedInterlinkedContent && Object.keys(groupedInterlinkedContent).length >
 				delete groupedInterlinkedContent[hrefLink];
 			}
 		} catch (err) {
-			console.log(err);
+			console.log(`Error processing metadata for ${hrefLink}:`, err);
 			delete groupedInterlinkedContent[hrefLink];
 			continue;
 		}

@@ -453,11 +453,11 @@ function extractCitationsFromRichTextArray(
 	// Build regex based on format
 	let pattern: RegExp;
 	if (citationFormat === "[@key]") {
-		pattern = /\[@([a-zA-Z0-9_\-:]+)\]/g;
+		pattern = /\[@([\p{L}\p{N}_\-:]+)\]/gu;
 	} else if (citationFormat === "\\cite{key}") {
-		pattern = /\\cite\{([a-zA-Z0-9_\-:]+)\}/g;
+		pattern = /\\cite\{([\p{L}\p{N}_\-:]+)\}/gu;
 	} else if (citationFormat === "#cite(key)") {
-		pattern = /#cite\(([a-zA-Z0-9_\-:]+)\)/g;
+		pattern = /#cite\(([\p{L}\p{N}_\-:]+)\)/gu;
 	} else {
 		console.warn(`Unknown citation format: ${citationFormat}`);
 		return { modifiedRichTexts: richTexts, citations: [] };

@@ -26,16 +26,23 @@ let metadata: Record<string, string>;
 let notDNSForbidden: boolean;
 notDNSForbidden = true;
 try {
-	url = new URL(urlString);
+	let urlToUse = urlString;
+	if (!urlToUse.startsWith("http://") && !urlToUse.startsWith("https://")) {
+		urlToUse = "https://" + urlToUse;
+	}
+	url = new URL(urlToUse);
+	// Remove ONLY text fragments for metascraper, preserving normal anchors
+	const urlForMetascraper = url.toString().replace(/#:~:text=.*$/, "");
+
 	const html = urlMap[urlString];
 	if (html) {
-		metadata = await metascraper({ html, url });
+		metadata = await metascraper({ html, url: urlForMetascraper });
 		if (metadata && metadata.title == "Just a moment...") {
 			notDNSForbidden = false;
 		}
 	}
 } catch (err) {
-	console.log(err);
+	console.log(`Error in Bookmark for URL: ${urlString}`, err);
 }
 ---
 
