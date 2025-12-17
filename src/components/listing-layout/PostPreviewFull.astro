@@ -220,13 +220,7 @@ if (showHeroBackground && post_full_preview.Cover?.Url) {
 	}
 </HeroBackgroundCover>
 {
-	external ? (
-		<section class="post-body post-preview-full-container">
-			{post_full_preview.Excerpt && (
-				<q class="line-clamp-3 block italic">{post_full_preview.Excerpt}</q>
-			)}
-		</section>
-	) : (
+	external ? null : (
 		<section
 			class="post-body post-preview-full-container"
 			data-html-type={shouldUseCache && cachedHtml ? "cached" : "new"}
