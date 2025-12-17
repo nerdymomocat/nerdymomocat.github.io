@@ -27,6 +27,7 @@ const showHeroBackground = COVER_AS_HERO_BACKGROUND_ENABLED && hasCover;
 
 // Get optimized cover image URL for background (use same pipeline as Notion images)
 let coverImageUrl = "";
+let coverPlaceholderUrl = "";
 if (showHeroBackground && post.Cover?.Url) {
 	try {
 		const coverUrl = new URL(post.Cover.Url);
@@ -41,18 +42,39 @@ if (showHeroBackground && post.Cover?.Url) {
 				width: downloadedImage.width,
 			});
 			coverImageUrl = optimized?.src || downloadedImage.src;
+
+			try {
+				const tiny = await getImage({
+					src: downloadedImage,
+					format: getImageComponentFormat(downloadedImage),
+					quality: 5,
+					width: downloadedImage.width,
+				});
+				coverPlaceholderUrl = tiny?.src || coverImageUrl;
+			} catch {
+				coverPlaceholderUrl = coverImageUrl;
+			}
 		} else {
 			coverImageUrl = post.Cover.Url;
+			coverPlaceholderUrl = post.Cover.Url;
 		}
 	} catch {
 		coverImageUrl = post.Cover.Url;
+		coverPlaceholderUrl = post.Cover?.Url || "";
 	}
 }
 ---
 
+{
+	showHeroBackground && coverPlaceholderUrl && (
+		<link rel="preload" as="image" href={coverPlaceholderUrl} fetchpriority="high" />
+	)
+}
+
 <HeroBackgroundCover
 	enableBackground={showHeroBackground}
 	backgroundUrl={coverImageUrl}
+	placeholderUrl={coverPlaceholderUrl}
 	class="mb-4"
 >
 	<h1

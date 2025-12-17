@@ -2,21 +2,39 @@
 interface Props {
 	enableBackground: boolean;
 	backgroundUrl?: string;
+	placeholderUrl?: string;
 	class?: string;
 }
 
-const { enableBackground, backgroundUrl = "", class: className = "" } = Astro.props;
+const {
+	enableBackground,
+	backgroundUrl = "",
+	placeholderUrl = "",
+	class: className = "",
+} = Astro.props;
+
+const backgroundImage = placeholderUrl || backgroundUrl;
+const initialState =
+	backgroundImage && backgroundUrl && backgroundImage !== backgroundUrl ? "placeholder" : "full";
 ---
 
 {
 	enableBackground ? (
-		<div class={`cover-hero-container ${className}`.trim()}>
-			<div class="cover-hero-image" style={`background-image: url('${backgroundUrl}')`} />
-			<div class="cover-hero-tint" />
-			<div class="cover-hero-content">
-				<slot />
+		<>
+			<div class={`cover-hero-container ${className}`.trim()}>
+				<div
+					class="cover-hero-image"
+					data-bg-full={backgroundUrl || undefined}
+					data-bg-state={initialState}
+					style={backgroundImage ? `background-image: url("${backgroundImage}")` : undefined}
+				/>
+				<div class="cover-hero-tint" />
+				<div class="cover-hero-content">
+					<slot />
+				</div>
 			</div>
-		</div>
+			{backgroundUrl && <script src="../../scripts/heroBackgroundSwap.ts" />}
+		</>
 	) : (
 		<slot />
 	)
