@@ -25,7 +25,7 @@ const meta = {
 
 <PageLayout meta={meta}>
 	<h1 class="title text-accent-2 mb-6">Authors</h1>
-	<div class="grid grid-cols-2 gap-4 sm:grid-cols-4">
+	<div class="grid grid-cols-2 place-items-center-safe gap-4 sm:grid-cols-4">
 		{
 			allAuthors.map((author) => {
 				// Use default photo ONLY if author name matches the site's author

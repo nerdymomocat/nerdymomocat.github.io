@@ -34,11 +34,22 @@ export const getStaticPaths = (async ({ paginate }) => {
 
 	return authors.flatMap((author) => {
 		// Filter posts by this author
-		let authorPosts = posts.filter(
-			(post) =>
-				post.Authors !== undefined &&
-				post.Authors.some((postAuthor) => postAuthor.name === author.name),
-		);
+		let authorPosts = posts.filter((post) => {
+			// Skip if Authors property doesn't exist at all
+			if (post.Authors === undefined) return false;
+
+			// Check for explicit assignment
+			const explicitMatch = post.Authors.some((postAuthor) => postAuthor.name === author.name);
+			if (explicitMatch) return true;
+
+			// Check for implicit assignment (default author)
+			// If this is the default author's page, include posts with empty Authors list
+			if (post.Authors.length === 0 && author.name === siteInfo.author) {
+				return true;
+			}
+
+			return false;
+		});
 
 		// Skip authors with no posts
 		if (authorPosts.length === 0) {

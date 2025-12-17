@@ -1213,25 +1213,49 @@ export async function getAllAuthorsWithCounts(): Promise<
 	> = {};
 
 	filteredPosts.forEach((post) => {
-		if (!post.Authors) return;
+		// Check if Authors property exists (it's undefined if property doesn't exist in schema)
+		if (post.Authors === undefined) return;
 
-		post.Authors.forEach((author) => {
-			const authorName = author.name;
-			if (authorCounts[authorName]) {
-				authorCounts[authorName].count++;
-			} else {
-				const rawDesc = authorsNameWDesc[authorName] || "";
-				const parsed = parseAuthorDescription(rawDesc);
-				authorCounts[authorName] = {
-					count: 1,
-					description: rawDesc,
-					color: authorsNameWColor[authorName] || author.color || "default",
-					url: parsed.url,
-					photo: parsed.photo,
-					bio: parsed.bio,
-				};
+		if (post.Authors.length === 0) {
+			// Implicit default author
+			const defaultName = AUTHOR;
+			if (defaultName) {
+				if (authorCounts[defaultName]) {
+					authorCounts[defaultName].count++;
+				} else {
+					const rawDesc = authorsNameWDesc[defaultName] || "";
+					const parsed = parseAuthorDescription(rawDesc);
+					authorCounts[defaultName] = {
+						count: 1,
+						description: rawDesc,
+						color: authorsNameWColor[defaultName] || "default",
+						url: parsed.url || (defaultName === AUTHOR ? AUTHORS_CONFIG.siteAuthorUrl : undefined),
+						photo:
+							parsed.photo || (defaultName === AUTHOR ? AUTHORS_CONFIG.siteAuthorPhoto : undefined),
+						bio: parsed.bio,
+					};
+				}
 			}
-		});
+		} else {
+			post.Authors.forEach((author) => {
+				const authorName = author.name;
+				if (authorCounts[authorName]) {
+					authorCounts[authorName].count++;
+				} else {
+					const rawDesc = authorsNameWDesc[authorName] || "";
+					const parsed = parseAuthorDescription(rawDesc);
+					authorCounts[authorName] = {
+						count: 1,
+						description: rawDesc,
+						color: authorsNameWColor[authorName] || author.color || "default",
+						url: parsed.url || (authorName === AUTHOR ? AUTHORS_CONFIG.siteAuthorUrl : undefined),
+						photo:
+							parsed.photo || (authorName === AUTHOR ? AUTHORS_CONFIG.siteAuthorPhoto : undefined),
+						bio: parsed.bio,
+					};
+				}
+			});
+		}
 	});
 
 	// Convert to sorted array
