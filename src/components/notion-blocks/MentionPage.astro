@@ -4,7 +4,6 @@ import { type Post } from "@/lib/interfaces.ts";
 import { getPostByPageId } from "@/lib/notion/client";
 import {
 	resolvePostHref,
-	filePath,
 	getNotionImage,
 	getImageComponentFormat,
 	isExternalPost,
@@ -12,6 +11,7 @@ import {
 import { MENU_PAGES_COLLECTION } from "@/constants";
 import { getIconTailwindFilterStyle } from "@/utils/style-helpers";
 import Icon from "@/components/ui/Icon.astro";
+import { isNotionHostedIconUrl } from "@/lib/notion/client";
 
 export interface Props {
 	pageId: string;
@@ -31,13 +31,18 @@ let downloadedIcon = null;
 let externalIconPath = null;
 
 if (!external && post?.Icon && post.Icon.Url) {
-	if (post.Icon.Type === "file" || post.Icon.Type === "cstom_emoji") {
-		downloadedIcon = await getNotionImage(new URL(post.Icon.Url));
-		if (!downloadedIcon) {
-			externalIconPath = filePath(new URL(post.Icon.Url));
-		}
-	} else if (post.Icon.Type === "external") {
-		externalIconPath = post.Icon.Url;
+	const iconUrl = post.Icon.Url;
+	const isNotionIcon = isNotionHostedIconUrl(iconUrl);
+	const canBeCachedLocally =
+		post.Icon.Type === "file" || post.Icon.Type === "custom_emoji" || isNotionIcon;
+
+	if (canBeCachedLocally) {
+		downloadedIcon = await getNotionImage(new URL(iconUrl));
+	}
+
+	if (!downloadedIcon) {
+		// Prefer local, but fall back to the remote URL if the asset wasn't found in `src/assets/notion`.
+		externalIconPath = iconUrl;
 	}
 }
 ---

@@ -95,6 +95,8 @@ const numberOfRetry = 2;
 const minTimeout = 1000; // waits 1 second before the first retry
 const factor = 2; // doubles the wait time with each retry
 
+const inFlightDownloads = new Map<string, Promise<void>>();
+
 let allEntriesCache: Post[] | null = null;
 let dsCache: Database | null = null;
 let blockIdPostIdMap: { [key: string]: string } | null = null;
@@ -1431,6 +1433,27 @@ export async function downloadFile(
 	return filepath;
 }
 
+async function ensureDownloaded(url: URL, isImageForAstro: boolean): Promise<void> {
+	const filepath = generateFilePath(url, isImageForAstro);
+	if (fs.existsSync(filepath)) return;
+
+	const key = `${isImageForAstro ? "assets" : "public"}:${url.toString()}`;
+	const existing = inFlightDownloads.get(key);
+	if (existing) {
+		await existing;
+		return;
+	}
+
+	const task = (async () => {
+		await downloadFile(url, isImageForAstro);
+	})().finally(() => {
+		inFlightDownloads.delete(key);
+	});
+
+	inFlightDownloads.set(key, task);
+	await task;
+}
+
 export async function processFileBlocks(fileAttachedBlocks: Block[]) {
 	await Promise.all(
 		fileAttachedBlocks.map(async (block) => {
@@ -1470,6 +1493,18 @@ export async function processFileBlocks(fileAttachedBlocks: Block[]) {
 			return null;
 		}),
 	);
+}
+
+export function isNotionHostedIconUrl(rawUrl: string): boolean {
+	if (!rawUrl || typeof rawUrl !== "string") return false;
+
+	try {
+		const url = new URL(rawUrl);
+		const isNotionHost = url.hostname === "www.notion.so" || url.hostname === "notion.so";
+		return isNotionHost && url.pathname.startsWith("/icons/") && url.pathname.endsWith(".svg");
+	} catch {
+		return false;
+	}
 }
 
 export async function getDataSource(): Promise<Database> {
@@ -1519,9 +1554,22 @@ export async function getDataSource(): Promise<Database> {
 				Emoji: res.icon.emoji,
 			};
 		} else if (res.icon.type === "external" && "external" in res.icon) {
+			const iconUrl = res.icon.external?.url || "";
+
+			// Notion's built-in icon set comes back as `external`, but we still want to cache it locally.
+			if (iconUrl && isNotionHostedIconUrl(iconUrl)) {
+				try {
+					const url = new URL(iconUrl);
+					const isImage = isImageTypeForAstro(url.pathname);
+					await ensureDownloaded(url, isImage);
+				} catch (err) {
+					console.log(`Error downloading database icon: ${err}`);
+				}
+			}
+
 			icon = {
 				Type: res.icon.type,
-				Url: res.icon.external?.url || "",
+				Url: iconUrl,
 			};
 		} else if (res.icon.type === "file" && "file" in res.icon) {
 			icon = {
@@ -1782,6 +1830,17 @@ async function _buildBlock(blockObject: responses.BlockObject, pageId?: string):
 							Type: blockObject.callout.icon.type,
 							Url: iconUrl,
 						};
+
+						// Notion's built-in icon set comes back as `external`, but we still want to cache it locally.
+						if (iconUrl && isNotionHostedIconUrl(iconUrl)) {
+							try {
+								const url = new URL(iconUrl);
+								const isImage = isImageTypeForAstro(url.pathname);
+								await ensureDownloaded(url, isImage);
+							} catch (err) {
+								console.log(`Error downloading callout icon: ${err}`);
+							}
+						}
 					} else if (
 						blockObject.callout.icon.type === "file" &&
 						"file" in blockObject.callout.icon
@@ -2103,6 +2162,17 @@ async function _buildPost(pageObject: responses.PageObject): Promise<Post> {
 				Type: pageObject.icon.type,
 				Url: iconUrl,
 			};
+
+			// Notion's built-in icon set comes back as `external`, but we still want to cache it locally.
+			if (iconUrl && isNotionHostedIconUrl(iconUrl)) {
+				try {
+					const url = new URL(iconUrl);
+					const isImage = isImageTypeForAstro(url.pathname);
+					await ensureDownloaded(url, isImage);
+				} catch (err) {
+					console.log(`Error downloading page icon: ${err}`);
+				}
+			}
 		} else if (pageObject.icon.type === "file" && "file" in pageObject.icon) {
 			const iconUrl = pageObject.icon.file?.url || "";
 

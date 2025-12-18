@@ -2,7 +2,8 @@
 import { Image } from "astro:assets";
 import * as interfaces from "@/lib/interfaces.ts";
 import { getNotionColorToTailwindColor, getIconTailwindFilterStyle } from "@/utils/style-helpers";
-import { filePath, getNotionImage, getImageComponentFormat } from "@/lib/blog-helpers.ts";
+import { getNotionImage, getImageComponentFormat } from "@/lib/blog-helpers.ts";
+import { isNotionHostedIconUrl } from "@/lib/notion/client";
 import RichText from "@/components/notion-blocks/RichText.astro";
 import NotionBlocks from "@/components/NotionBlocks.astro";
 
@@ -19,14 +20,21 @@ let externalIconPath = null;
 let downloadedIcon = null;
 
 if (block.Callout?.Icon && block.Callout.Icon.Url) {
-	if (block.Callout.Icon.Type === "file" || block.Callout.Icon.Type === "custom_emoji") {
-		downloadedIcon = await getNotionImage(new URL(block.Callout.Icon.Url));
+	const iconUrl = block.Callout.Icon.Url;
+	const isNotionIcon = isNotionHostedIconUrl(iconUrl);
+	const canBeCachedLocally =
+		block.Callout.Icon.Type === "file" ||
+		block.Callout.Icon.Type === "custom_emoji" ||
+		isNotionIcon;
 
-		if (!downloadedIcon) {
-			externalIconPath = filePath(new URL(block.Callout.Icon.Url));
-		}
-	} else if (block.Callout.Icon.Type === "external") {
-		externalIconPath = block.Callout.Icon.Url;
+	if (canBeCachedLocally) {
+		downloadedIcon = await getNotionImage(new URL(iconUrl));
+	}
+
+	if (!downloadedIcon) {
+		// For Notion-hosted icons we still prefer local, but fall back to the remote URL if the asset
+		// wasn't found in `src/assets/notion` for any reason.
+		externalIconPath = iconUrl;
 	}
 }
 ---
