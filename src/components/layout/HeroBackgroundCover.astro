@@ -1,4 +1,6 @@
 ---
+import { undefined } from "astro:schema";
+
 interface Props {
 	enableBackground: boolean;
 	backgroundUrl?: string;
@@ -13,28 +15,29 @@ const {
 	class: className = "",
 } = Astro.props;
 
-const backgroundImage = placeholderUrl || backgroundUrl;
-const initialState =
-	backgroundImage && backgroundUrl && backgroundImage !== backgroundUrl ? "placeholder" : "full";
+const hasPlaceholder = placeholderUrl && placeholderUrl !== backgroundUrl;
+const backgroundImageStyle = hasPlaceholder
+	? `background-image: url("${backgroundUrl}"), url("${placeholderUrl}")`
+	: backgroundUrl
+		? `background-image: url("${backgroundUrl}")`
+		: undefined;
+const initialState = hasPlaceholder ? "placeholder" : backgroundUrl ? "full" : undefined;
 ---
 
 {
 	enableBackground ? (
-		<>
-			<div class={`cover-hero-container ${className}`.trim()}>
-				<div
-					class="cover-hero-image"
-					data-bg-full={backgroundUrl || undefined}
-					data-bg-state={initialState}
-					style={backgroundImage ? `background-image: url("${backgroundImage}")` : undefined}
-				/>
-				<div class="cover-hero-tint" />
-				<div class="cover-hero-content">
-					<slot />
-				</div>
+		<div class={`cover-hero-container ${className}`.trim()}>
+			<div
+				class="cover-hero-image"
+				data-bg-full={backgroundUrl || undefined}
+				data-bg-state={initialState}
+				style={backgroundImageStyle}
+			/>
+			<div class="cover-hero-tint" />
+			<div class="cover-hero-content">
+				<slot />
 			</div>
-			{backgroundUrl && <script src="../../scripts/heroBackgroundSwap.ts" />}
-		</>
+		</div>
 	) : (
 		<slot />
 	)

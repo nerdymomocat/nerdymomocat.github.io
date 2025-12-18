@@ -51,7 +51,7 @@ export default function astroImageCacheCleanerCopier(): AstroIntegration {
 						// Match _astro images in: src, srcset, href (for lightbox)
 						// Only match relative paths, not absolute URLs
 						const astroImageRegex =
-							/_astro\/([\p{L}\p{N}_\-\.]+\.(?:jpg|jpeg|png|webp|avif|gif|svg))/gu;
+							/_astro\/([\p{L}\p{N}_\-\.\(\)\[\]@,']+\.(?:jpg|jpeg|png|webp|avif|gif|svg))/gu;
 						let match;
 						while ((match = astroImageRegex.exec(content)) !== null) {
 							// Check if this match is part of an absolute URL by looking backwards

@@ -12,6 +12,7 @@ import {
 	hasCustomAuthors,
 	downloadFile,
 	generateFilePath,
+	getDataSource,
 } from "@/lib/notion/client";
 import { getCollectionsWDesc } from "@/utils";
 import { siteInfo } from "@/siteInfo";
@@ -27,6 +28,7 @@ import {
 import fs from "fs";
 import sharp from "sharp";
 import path from "path";
+import type { Database } from "@/lib/interfaces";
 
 // --- Helpers & Configuration ---
 
@@ -60,6 +62,12 @@ const og_images_colors = {
 
 const titleFontFamily = OG_SETUP["title-font-name"] || "sans-serif";
 const footnoteFontFamily = OG_SETUP["footnote-font-name"] || "monospace";
+
+let dataSourcePromise: Promise<Database> | null = null;
+const getDataSourceCached = () => {
+	if (!dataSourcePromise) dataSourcePromise = getDataSource();
+	return dataSourcePromise;
+};
 
 // --- Image Processing ---
 
@@ -172,6 +180,12 @@ async function getOgFonts(): Promise<SatoriOptions["fonts"]> {
 		);
 	return fonts;
 }
+
+let ogFontsPromise: Promise<SatoriOptions["fonts"]> | null = null;
+const getOgFontsCached = () => {
+	if (!ogFontsPromise) ogFontsPromise = getOgFonts();
+	return ogFontsPromise;
+};
 
 // --- Layout Builders ---
 
@@ -460,6 +474,7 @@ export async function GET(context: APIContext) {
 		props,
 	} = context;
 	const BASE_DIR = BUILD_FOLDER_PATHS["ogImages"];
+	const imagePath = path.join(BASE_DIR, `${slug}.png`);
 
 	let keyStr = slug;
 	let type = "postpage";
@@ -473,31 +488,19 @@ export async function GET(context: APIContext) {
 	const isPost = type === "postpage";
 	if (isPost) {
 		post = await getPostBySlug(keyStr!);
-		if (
-			LAST_BUILD_TIME &&
-			post?.LastUpdatedTimeStamp &&
-			post.LastUpdatedTimeStamp < LAST_BUILD_TIME &&
-			fs.existsSync(path.join(BASE_DIR, `${slug}.png`))
-		) {
-			return new Response(fs.readFileSync(path.join(BASE_DIR, `${slug}.png`)), {
-				headers: {
-					"Content-Type": "image/png",
-					"Cache-Control": "public, max-age=31536000, immutable",
-				},
-			});
-		}
 	}
-
-	const fonts = await getOgFonts();
-	const ogOptions: SatoriOptions = { width: 1200, height: 630, fonts };
 
 	// Prepare Content
 	let title = siteInfo.title;
 	let desc = "";
 	let dateStr = " ";
-	let img = undefined;
 	let author = siteInfo.author?.trim() || "";
 	let layout: "split" | "simple" | "bg" = "simple";
+	const featuredUrlStr = isPost ? post?.FeaturedImage?.Url : undefined;
+	const featuredExpiry = isPost ? post?.FeaturedImage?.ExpiryTime : undefined;
+	let featuredIsValidNow = false;
+	let needsImageNormalization = false;
+	let img: string | undefined = undefined;
 
 	// Determine Data based on Type
 	if (isPost) {
@@ -516,12 +519,11 @@ export async function GET(context: APIContext) {
 		}
 		if (post?.Slug == HOME_PAGE_SLUG) author = "";
 
-		const featuredUrl = await normalizeOgImageSrc(post?.FeaturedImage?.Url);
 		const hasValidImg =
-			featuredUrl &&
-			(!post?.FeaturedImage?.ExpiryTime || Date.parse(post.FeaturedImage.ExpiryTime) > Date.now());
+			featuredUrlStr && (!featuredExpiry || Date.parse(featuredExpiry) > Date.now());
 
-		img = hasValidImg ? featuredUrl : undefined;
+		featuredIsValidNow = !!hasValidImg;
+		if (hasValidImg) needsImageNormalization = true;
 		desc = (OG_SETUP["excerpt"] && post?.Excerpt) || "";
 
 		// Layout Logic
@@ -540,11 +542,9 @@ export async function GET(context: APIContext) {
 		title = `Posts by ${keyStr}`;
 		desc = (props as any)?.description || "";
 		const photo = (props as any)?.photo;
-		if (photo && isImageUrl(photo)) {
-			img = await normalizeOgImageSrc(photo, "author");
-		}
+		if (photo && isImageUrl(photo)) needsImageNormalization = true;
 		// Author Page Layout: Always split if image exists, regardless of desc
-		layout = img ? "split" : "simple";
+		layout = photo && isImageUrl(photo) ? "split" : "simple";
 		author = ""; // Author name is in title
 	} else if (type === "tagsindex") {
 		title = "All topics I've written about";
@@ -556,6 +556,49 @@ export async function GET(context: APIContext) {
 	} else {
 		title = "All posts in one place";
 	}
+
+	// Cache reuse behavior:
+	// - Post pages: reuse if the post wasn't edited after LAST_BUILD_TIME and image exists.
+	// - Collection/tag/author pages: reuse if the *data source* wasn't edited after LAST_BUILD_TIME and image exists.
+	// - Index pages: same data source check (and file exists).
+	const canConsiderReuse = !!LAST_BUILD_TIME && fs.existsSync(imagePath);
+	if (canConsiderReuse) {
+		if (isPost) {
+			if (post?.LastUpdatedTimeStamp && post.LastUpdatedTimeStamp < LAST_BUILD_TIME) {
+				return new Response(fs.readFileSync(imagePath), {
+					headers: {
+						"Content-Type": "image/png",
+						"Cache-Control": "public, max-age=31536000, immutable",
+					},
+				});
+			}
+		} else {
+			const dataSource = await getDataSourceCached();
+			if (dataSource?.LastUpdatedTimeStamp && dataSource.LastUpdatedTimeStamp < LAST_BUILD_TIME) {
+				return new Response(fs.readFileSync(imagePath), {
+					headers: {
+						"Content-Type": "image/png",
+						"Cache-Control": "public, max-age=31536000, immutable",
+					},
+				});
+			}
+		}
+	}
+
+	// Only resolve/normalize image sources when we actually need to (regeneration path).
+	if (needsImageNormalization) {
+		if (isPost) {
+			img = await normalizeOgImageSrc(featuredUrlStr);
+		} else if (type === "authorpage") {
+			const photo = (props as any)?.photo;
+			if (photo && isImageUrl(photo)) {
+				img = await normalizeOgImageSrc(photo, "author");
+			}
+		}
+	}
+
+	const fonts = await getOgFontsCached();
+	const ogOptions: SatoriOptions = { width: 1200, height: 630, fonts };
 
 	// Generate
 	const markup = buildOgImage({ title, date: dateStr, desc, img, author, layout });
@@ -579,7 +622,6 @@ export async function GET(context: APIContext) {
 	}
 
 	let pngBuffer = new Resvg(svg).render().asPng();
-	const imagePath = path.join(BASE_DIR, `${slug}.png`);
 
 	if (pngBuffer.length > 102400) {
 		pngBuffer = await sharp(pngBuffer).png({ quality: 80 }).toBuffer();

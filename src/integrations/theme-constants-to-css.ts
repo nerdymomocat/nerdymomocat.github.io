@@ -1263,7 +1263,7 @@ html.dark :not(.datatable-ascending):not(.datatable-descending)>.datatable-sorte
 
 .cover-hero-image {
   grid-area: stack;
-  @apply absolute inset-0 bg-cover bg-center opacity-40 pointer-events-none transition-[filter,transform,opacity] duration-200 ease-in-out;
+  @apply absolute inset-0 bg-cover bg-center opacity-40 pointer-events-none;
 }
 
 .cover-hero-tint {
@@ -1279,14 +1279,6 @@ html.dark :not(.datatable-ascending):not(.datatable-descending)>.datatable-sorte
 .cover-hero-content {
   grid-area: stack;
   @apply relative z-10 min-h-[150px] p-6 flex flex-col justify-center;
-}
-
-.cover-hero-image[data-bg-state="placeholder"] {
-  @apply blur-[14px] scale-[1.02];
-}
-
-.cover-hero-image[data-bg-state="full"] {
-	@apply filter-none transform-none;
 }
 
 .glightbox-clean .gslide-description {

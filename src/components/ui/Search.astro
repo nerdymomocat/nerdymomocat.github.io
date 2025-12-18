@@ -1,7 +1,6 @@
 ---
 // Heavy inspiration taken from Astro Starlight -> https://github.com/withastro/starlight/blob/main/packages/starlight/components/Search.astro
 
-import "@pagefind/default-ui/css/ui.css";
 import Icon from "@/components/ui/Icon.astro";
 ---
 
@@ -42,6 +41,7 @@ import Icon from "@/components/ui/Icon.astro";
 		private initialized: boolean = false;
 		private idleCallbackId: number | null = null;
 		private pagefindUI: any = null;
+		private _loadPagefind: (() => Promise<void>) | null = null;
 
 		constructor() {
 			super();
@@ -60,11 +60,17 @@ import Icon from "@/components/ui/Icon.astro";
 
 		connectedCallback() {
 			window.addEventListener("keydown", this.onWindowKeydown);
-
 			if (import.meta.env.DEV) return;
-			const onIdle = window.requestIdleCallback || ((cb) => setTimeout(cb, 1));
-			onIdle(async () => {
+
+			this._loadPagefind = async () => {
+				if (this.pagefindUI) return;
 				const { PagefindUI } = await import("@pagefind/default-ui");
+				const bundlePath = import.meta.env.BASE_URL.replace(/\/$/, "") + "/pagefind/";
+				const css = document.createElement("link");
+				css.rel = "stylesheet";
+				css.href = bundlePath + "pagefind-ui.css";
+				document.head.appendChild(css);
+
 				this.pagefindUI = new PagefindUI({
 					element: "#webtrotion__search",
 					baseUrl: import.meta.env.BASE_URL,
@@ -89,7 +95,16 @@ import Icon from "@/components/ui/Icon.astro";
 					this.openModal();
 					this.pagefindUI.triggerSearch(searchTerm);
 				}
-			});
+			};
+
+			const queryParams = new URLSearchParams(window.location.search);
+			if (queryParams.get("q")) {
+				this._loadPagefind();
+			} else {
+				// Load on interaction
+				this.openBtn.addEventListener("mouseenter", () => this._loadPagefind?.(), { once: true });
+				this.openBtn.addEventListener("focus", () => this._loadPagefind?.(), { once: true });
+			}
 		}
 
 		disconnectedCallback() {
@@ -151,6 +166,9 @@ import Icon from "@/components/ui/Icon.astro";
 		};
 
 		openModal = (event?: MouseEvent) => {
+			if (!this.pagefindUI) {
+				this._loadPagefind?.();
+			}
 			this.dialog.showModal();
 			this.querySelector("input")?.focus();
 			event?.stopPropagation();
