@@ -131,7 +131,7 @@ if (showHeroBackground && post_full_preview.Cover?.Url) {
 				const tiny = await getImage({
 					src: downloadedImage,
 					format: getImageComponentFormat(downloadedImage),
-					quality: 20,
+					quality: 5,
 					width: downloadedImage.width > 2100 ? 2100 : downloadedImage.width,
 				});
 				coverPlaceholderUrl = tiny?.src || coverImageUrl;

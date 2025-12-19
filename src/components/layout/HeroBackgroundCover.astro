@@ -21,18 +21,12 @@ const backgroundImageStyle = hasPlaceholder
 	: backgroundUrl
 		? `background-image: url("${backgroundUrl}")`
 		: undefined;
-const initialState = hasPlaceholder ? "placeholder" : backgroundUrl ? "full" : undefined;
 ---
 
 {
 	enableBackground ? (
 		<div class={`cover-hero-container ${className}`.trim()}>
-			<div
-				class="cover-hero-image"
-				data-bg-full={backgroundUrl || undefined}
-				data-bg-state={initialState}
-				style={backgroundImageStyle}
-			/>
+			<div class="cover-hero-image" style={backgroundImageStyle} />
 			<div class="cover-hero-tint" />
 			<div class="cover-hero-content">
 				<slot />
