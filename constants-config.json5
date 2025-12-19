@@ -190,13 +190,13 @@
 
 		// Display comments from Bluesky posts related to your blog posts.
 		"bluesky-comments": {
-			"show-comments-from-bluesky": false,
+			"show-comments-from-bluesky": true,
 			"auto-search-for-match": {
 				// If true, the site will automatically search for a Bluesky post by the specified author
 				// that contains a link to the current blog post and a specific emoji.
-				"turn-on-auto-search": false,
+				"turn-on-auto-search": true,
 				// Your Bluesky handle (e.g., "yourname.bsky.social").
-				author: "",
+				author: "nerdymomocat.bsky.social",
 				// The emoji used in your Bluesky post to signify it's a blog post "echo" and should be searched.
 				"echo-feed-emoji": "💬",
 			},
