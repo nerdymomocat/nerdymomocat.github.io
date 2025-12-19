@@ -1304,7 +1304,14 @@ export function generateFilePath(url: URL, isImageForAstro: boolean = false) {
 
 	// Get the directory name from the second last segment of the path
 	const segments = url.pathname.split("/");
-	const dirName = segments.slice(-2)[0];
+	let dirName = segments.slice(-2)[0];
+
+	if (url.hostname.includes("unsplash")) {
+		if (!dirName || dirName === "") {
+			dirName = "page-cover";
+		}
+	}
+
 	const dir = path.join(BASE_DIR, dirName);
 
 	if (!fs.existsSync(dir)) {
@@ -1312,7 +1319,15 @@ export function generateFilePath(url: URL, isImageForAstro: boolean = false) {
 	}
 
 	// Get the file name and decode it
-	const filename = decodeURIComponent(segments.slice(-1)[0]);
+	let filename = decodeURIComponent(segments.slice(-1)[0]);
+
+	if (url.hostname.includes("unsplash") && url.searchParams.has("fm")) {
+		const ext = url.searchParams.get("fm");
+		if (ext && !path.extname(filename)) {
+			filename = `${filename}.${ext}`;
+		}
+	}
+
 	// No webp conversion - let Astro handle it
 	const filepath = path.join(dir, filename);
 

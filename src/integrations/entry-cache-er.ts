@@ -25,7 +25,12 @@ export default (): AstroIntegration => ({
 					if (COVER_AS_HERO_BACKGROUND_ENABLED && entry.Cover && entry.Cover.Url) {
 						try {
 							const url = new URL(entry.Cover.Url);
-							const isImage = isImageTypeForAstro(url.pathname);
+							const isImage =
+								isImageTypeForAstro(url.pathname) ||
+								(url.hostname.includes("unsplash") &&
+									url.searchParams.has("fm") &&
+									url.searchParams.get("fm") !== "gif");
+
 							if (isImage) {
 								const assetsPath = generateFilePath(url, true);
 								const needsAssetsDownload =

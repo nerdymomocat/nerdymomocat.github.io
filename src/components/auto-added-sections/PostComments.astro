@@ -258,20 +258,22 @@ BLUESKY_COMM && Object.keys(BLUESKY_COMM).length > 0 &&
                 }
 
                 connectedCallback() {
-                  // Set up IntersectionObserver to load immediately if tab becomes visible
-                  this.#observer = new IntersectionObserver(
-                    (entries) => {
-                      entries.forEach((entry) => {
-                        if (entry.isIntersecting && !this.#loaded) {
-                          this.#loadComments();
-                          this.#loaded = true;
-                          this.#observer.disconnect();
-                        }
-                      });
-                    },
-                    { threshold: 0.1 }
-                  );
-                  this.#observer.observe(this);
+                  const startObserver = () => {
+                    // Set up IntersectionObserver to load immediately if tab becomes visible
+                    this.#observer = new IntersectionObserver(
+                      (entries) => {
+                        entries.forEach((entry) => {
+                          if (entry.isIntersecting && !this.#loaded) {
+                            this.#loadComments();
+                            this.#loaded = true;
+                            this.#observer.disconnect();
+                          }
+                        });
+                      },
+                      { threshold: 0.1 }
+                    );
+                    this.#observer.observe(this);
+                  };
 
                   // Also schedule background check during idle time to remove tab before user clicks
                   const scheduleIdleCheck = () => {
@@ -299,9 +301,13 @@ BLUESKY_COMM && Object.keys(BLUESKY_COMM).length > 0 &&
                   };
 
                   if (document.readyState === 'complete') {
+                    startObserver();
                     scheduleIdleCheck();
                   } else {
-                    window.addEventListener('load', scheduleIdleCheck, { once: true });
+                    window.addEventListener('load', () => {
+                      startObserver();
+                      scheduleIdleCheck();
+                    }, { once: true });
                   }
                 }
 

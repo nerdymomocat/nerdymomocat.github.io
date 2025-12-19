@@ -48,8 +48,21 @@ function getDownloadedImagesInSrc() {
 export async function getNotionImage(url: URL): Promise<ImageMetadata | null> {
 	// Extract the second-to-last and last segments (matches generateFilePath logic)
 	const segments = url.pathname.split("/");
-	const dirName = segments.slice(-2)[0];
-	const filename = decodeURIComponent(segments.slice(-1)[0]);
+	let dirName = segments.slice(-2)[0];
+	let filename = decodeURIComponent(segments.slice(-1)[0]);
+
+	if (url.hostname.includes("unsplash")) {
+		if (url.searchParams.has("fm")) {
+			const ext = url.searchParams.get("fm");
+			if (ext && !path.extname(filename)) {
+				filename = `${filename}.${ext}`;
+			}
+		}
+
+		if (!dirName || dirName === "") {
+			dirName = "page-cover";
+		}
+	}
 
 	const imagePath = `/src/assets/notion/${dirName}/${filename}`;
 	let downloadedImagesinSrcUpdated = getDownloadedImagesInSrc();
