@@ -39,7 +39,7 @@ if (showHeroBackground && post.Cover?.Url) {
 				src: downloadedImage,
 				format: getImageComponentFormat(downloadedImage),
 				quality: 65,
-				width: downloadedImage.width,
+				width: downloadedImage.width > 2100 ? 2100 : downloadedImage.width,
 			});
 			coverImageUrl = optimized?.src || downloadedImage.src;
 
@@ -48,7 +48,7 @@ if (showHeroBackground && post.Cover?.Url) {
 					src: downloadedImage,
 					format: getImageComponentFormat(downloadedImage),
 					quality: 20,
-					width: downloadedImage.width,
+					width: downloadedImage.width > 2100 ? 2100 : downloadedImage.width,
 				});
 				coverPlaceholderUrl = tiny?.src || coverImageUrl;
 			} catch {
