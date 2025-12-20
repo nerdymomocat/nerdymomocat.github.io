@@ -431,7 +431,7 @@ BLUESKY_COMM && Object.keys(BLUESKY_COMM).length > 0 &&
                       const emojiQuery = BLUESKY_COMM["auto-search-for-match"]["echo-feed-emoji"] || "*";
 
                       try {
-                          const apiUrl = `https://public.api.bsky.app/xrpc/app.bsky.feed.searchPosts?q=${encodeURIComponent(
+                          const apiUrl = `https://api.bsky.app/xrpc/app.bsky.feed.searchPosts?q=${encodeURIComponent(
                               emojiQuery
                           )}&url=${encodeURIComponent(postUrl)}&author=${encodeURIComponent(
                               author
@@ -487,7 +487,7 @@ BLUESKY_COMM && Object.keys(BLUESKY_COMM).length > 0 &&
                 }
 
                 async #fetchReplies(atUri) {
-                  const apiUrl = `https://public.api.bsky.app/xrpc/app.bsky.feed.getPostThread?uri=${encodeURIComponent(
+                  const apiUrl = `https://api.bsky.app/xrpc/app.bsky.feed.getPostThread?uri=${encodeURIComponent(
                     atUri,
                   )}`;
                   const response = await fetch(apiUrl);
