@@ -258,56 +258,83 @@ BLUESKY_COMM && Object.keys(BLUESKY_COMM).length > 0 &&
                 }
 
                 connectedCallback() {
-                  const startObserver = () => {
-                    // Set up IntersectionObserver to load immediately if tab becomes visible
-                    this.#observer = new IntersectionObserver(
-                      (entries) => {
-                        entries.forEach((entry) => {
-                          if (entry.isIntersecting && !this.#loaded) {
-                            this.#loadComments();
-                            this.#loaded = true;
-                            this.#observer.disconnect();
-                          }
-                        });
-                      },
-                      { threshold: 0.1 }
-                    );
-                    this.#observer.observe(this);
-                  };
+                  const init = () => {
+                    // Prevent multiple initializations
+                    if (this.#observer) return;
 
-                  // Also schedule background check during idle time to remove tab before user clicks
-                  const scheduleIdleCheck = () => {
-                    if ('requestIdleCallback' in window) {
-                      // Wait 3 seconds after load, then use idle callback with 3s timeout
-                      setTimeout(() => {
-                        requestIdleCallback(() => {
+                    const startObserver = () => {
+                      // Set up IntersectionObserver to load immediately if tab becomes visible
+                      this.#observer = new IntersectionObserver(
+                        (entries) => {
+                          entries.forEach((entry) => {
+                            if (entry.isIntersecting && !this.#loaded) {
+                              this.#loadComments();
+                              this.#loaded = true;
+                              this.#observer.disconnect();
+                            }
+                          });
+                        },
+                        { threshold: 0.1 }
+                      );
+                      this.#observer.observe(this);
+                    };
+
+                    // Also schedule background check during idle time to remove tab before user clicks
+                    const scheduleIdleCheck = () => {
+                      if ('requestIdleCallback' in window) {
+                        // Wait 3 seconds after interaction, then use idle callback with 3s timeout
+                        setTimeout(() => {
+                          requestIdleCallback(() => {
+                            if (!this.#loaded) {
+                              this.#loadComments();
+                              this.#loaded = true;
+                              this.#observer.disconnect();
+                            }
+                          }, { timeout: 3000 }); // Force after 3 more seconds (6s total)
+                        }, 3000);
+                      } else {
+                        // Safari fallback: just wait 6 seconds after interaction
+                        setTimeout(() => {
                           if (!this.#loaded) {
                             this.#loadComments();
                             this.#loaded = true;
                             this.#observer.disconnect();
                           }
-                        }, { timeout: 3000 }); // Force after 3 more seconds (6s total)
-                      }, 3000);
+                        }, 6000);
+                      }
+                    };
+
+                    startObserver();
+                    scheduleIdleCheck();
+                  };
+
+                  const onInteraction = () => {
+                    init();
+                    // Remove listeners once initialized
+                    ['scroll', 'mousemove', 'click', 'touchstart', 'keydown'].forEach(event =>
+                      window.removeEventListener(event, onInteraction)
+                    );
+                  };
+
+                  // List of interaction events to wait for
+                  const events = ['scroll', 'mousemove', 'click', 'touchstart', 'keydown'];
+
+                  const addListeners = () => {
+                    events.forEach(event => window.addEventListener(event, onInteraction, { once: true, passive: true }));
+                  };
+
+                  const waitForIdle = () => {
+                    if ('requestIdleCallback' in window) {
+                      requestIdleCallback(() => addListeners(), { timeout: 3000 });
                     } else {
-                      // Safari fallback: just wait 6 seconds after load
-                      setTimeout(() => {
-                        if (!this.#loaded) {
-                          this.#loadComments();
-                          this.#loaded = true;
-                          this.#observer.disconnect();
-                        }
-                      }, 6000);
+                      setTimeout(addListeners, 2000); // Safari/Fallback
                     }
                   };
 
                   if (document.readyState === 'complete') {
-                    startObserver();
-                    scheduleIdleCheck();
+                    waitForIdle();
                   } else {
-                    window.addEventListener('load', () => {
-                      startObserver();
-                      scheduleIdleCheck();
-                    }, { once: true });
+                    window.addEventListener('load', waitForIdle, { once: true });
                   }
                 }
 
