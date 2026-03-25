@@ -5,6 +5,7 @@ import Paragraph from "@/components/notion-blocks/Paragraph.astro";
 import Heading1 from "@/components/notion-blocks/Heading1.astro";
 import Heading2 from "@/components/notion-blocks/Heading2.astro";
 import Heading3 from "@/components/notion-blocks/Heading3.astro";
+import Heading4 from "@/components/notion-blocks/Heading4.astro";
 import TableOfContents from "@/components/notion-blocks/TableOfContents.astro";
 import NImage from "@/components/notion-blocks/embeds/NImage.astro";
 import NAudio from "@/components/notion-blocks/embeds/NAudio.astro";
@@ -22,6 +23,7 @@ import BulletedListItems from "@/components/notion-blocks/BulletedListItems.astr
 import NumberedListItems from "@/components/notion-blocks/NumberedListItems.astro";
 import ToDo from "@/components/notion-blocks/ToDo.astro";
 import SyncedBlock from "@/components/notion-blocks/SyncedBlock.astro";
+import Tab from "@/components/notion-blocks/Tab.astro";
 import Toggle from "@/components/notion-blocks/Toggle.astro";
 import File from "@/components/notion-blocks/File.astro";
 import LinkToPage from "@/components/notion-blocks/LinkToPage.astro";
@@ -110,6 +112,8 @@ const bookmarkURLMap = await buildURLToHTMLMap(bookmarkURLs);
 				return <Heading2 block={block} renderChildren={renderChildren} setId={setId} />;
 			case "heading_3":
 				return <Heading3 block={block} renderChildren={renderChildren} setId={setId} />;
+			case "heading_4":
+				return <Heading4 block={block} renderChildren={renderChildren} setId={setId} />;
 			case "table_of_contents":
 				return <TableOfContents block={block} setId={setId} />;
 			case "image":
@@ -152,6 +156,8 @@ const bookmarkURLMap = await buildURLToHTMLMap(bookmarkURLs);
 				return <ToDo block={block} renderChildren={renderChildren} setId={setId} />;
 			case "synced_block":
 				return <SyncedBlock block={block} renderChildren={renderChildren} setId={setId} />;
+			case "tab":
+				return <Tab block={block} renderChildren={renderChildren} setId={setId} />;
 			case "toggle":
 				return <Toggle block={block} renderChildren={renderChildren} setId={setId} />;
 			case "file":

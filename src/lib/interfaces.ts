@@ -56,6 +56,7 @@ export interface Block {
 	Heading1?: Heading1;
 	Heading2?: Heading2;
 	Heading3?: Heading3;
+	Heading4?: Heading4;
 	BulletedListItem?: BulletedListItem;
 	NumberedListItem?: NumberedListItem;
 	ToDo?: ToDo;
@@ -72,6 +73,7 @@ export interface Block {
 	Equation?: Equation;
 	Callout?: Callout;
 	SyncedBlock?: SyncedBlock;
+	Tab?: Tab;
 	Toggle?: Toggle;
 	Embed?: Embed;
 	Video?: Video;
@@ -119,6 +121,13 @@ export interface Heading2 {
 }
 
 export interface Heading3 {
+	RichTexts: RichText[];
+	Color: string;
+	IsToggleable: boolean;
+	Children?: Block[];
+}
+
+export interface Heading4 {
 	RichTexts: RichText[];
 	Color: string;
 	IsToggleable: boolean;
@@ -182,6 +191,19 @@ export interface FileObject {
 	Url: string;
 	ExpiryTime?: string;
 	Size?: number;
+	Id?: string;
+	Name?: string;
+	Color?:
+		| "gray"
+		| "lightgray"
+		| "brown"
+		| "yellow"
+		| "orange"
+		| "green"
+		| "blue"
+		| "purple"
+		| "pink"
+		| "red";
 }
 
 export interface External {
@@ -218,6 +240,10 @@ export interface SyncedBlock {
 
 export interface SyncedFrom {
 	BlockId: string;
+}
+
+export interface Tab {
+	Children?: Block[];
 }
 
 export interface Toggle {
@@ -391,6 +417,7 @@ export type BlockTypes =
 	| "heading_1"
 	| "heading_2"
 	| "heading_3"
+	| "heading_4"
 	| "image"
 	| "link_preview"
 	| "link_to_page"
@@ -402,6 +429,7 @@ export type BlockTypes =
 	| "table"
 	| "table_of_contents"
 	| "table_row"
+	| "tab"
 	| "template"
 	| "to_do"
 	| "toggle"

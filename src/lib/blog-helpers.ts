@@ -9,6 +9,7 @@ import type {
 	Heading1,
 	Heading2,
 	Heading3,
+	Heading4,
 	RichText,
 	Column,
 	InterlinkedContentInPage,
@@ -182,6 +183,8 @@ export const extractTargetBlocks = (blockTypes: string[], blocks: Block[]): Bloc
 
 			if (block.ColumnList && block.ColumnList.Columns) {
 				acc = acc.concat(_extractTargetBlockFromColumns(blockTypes, block.ColumnList.Columns));
+			} else if (block.Tab && block.Tab.Children) {
+				acc = acc.concat(extractTargetBlocks(blockTypes, block.Tab.Children));
 			} else if (block.BulletedListItem && block.BulletedListItem.Children) {
 				acc = acc.concat(extractTargetBlocks(blockTypes, block.BulletedListItem.Children));
 			} else if (block.NumberedListItem && block.NumberedListItem.Children) {
@@ -200,6 +203,8 @@ export const extractTargetBlocks = (blockTypes: string[], blocks: Block[]): Bloc
 				acc = acc.concat(extractTargetBlocks(blockTypes, block.Heading2.Children));
 			} else if (block.Heading3 && block.Heading3.Children) {
 				acc = acc.concat(extractTargetBlocks(blockTypes, block.Heading3.Children));
+			} else if (block.Heading4 && block.Heading4.Children) {
+				acc = acc.concat(extractTargetBlocks(blockTypes, block.Heading4.Children));
 			} else if (block.Quote && block.Quote.Children) {
 				acc = acc.concat(extractTargetBlocks(blockTypes, block.Quote.Children));
 			} else if (block.Callout && block.Callout.Children) {
@@ -277,6 +282,7 @@ const _extractInterlinkedContentInBlock = (
 		block.Heading1?.RichTexts ||
 		block.Heading2?.RichTexts ||
 		block.Heading3?.RichTexts ||
+		block.Heading4?.RichTexts ||
 		block.LinkPreview?.Caption ||
 		block.NAudio?.Caption ||
 		block.NImage?.Caption ||
@@ -436,9 +442,18 @@ export const getAnchorLinkAndBlock = async (
 	if (post && richText.InternalHref?.BlockId) {
 		block_linked = await getBlock(richText.InternalHref?.BlockId);
 		block_linked_id = block_linked ? block_linked.Id : null;
-		if (block_linked && (block_linked.Heading1 || block_linked.Heading2 || block_linked.Heading3)) {
+		if (
+			block_linked &&
+			(block_linked.Heading1 ||
+				block_linked.Heading2 ||
+				block_linked.Heading3 ||
+				block_linked.Heading4)
+		) {
 			block_linked_id = buildHeadingId(
-				block_linked.Heading1 || block_linked.Heading2 || block_linked.Heading3,
+				block_linked.Heading1 ||
+					block_linked.Heading2 ||
+					block_linked.Heading3 ||
+					block_linked.Heading4,
 			);
 			isBlockLinkedHeading = true;
 		}
@@ -512,9 +527,18 @@ export const getInterlinkedContentLink = async (
 			: null;
 	let block_linked_id = block_linked ? block_linked.Id : null;
 	if (linkedpost || currentOverride) {
-		if (block_linked && (block_linked.Heading1 || block_linked.Heading2 || block_linked.Heading3)) {
+		if (
+			block_linked &&
+			(block_linked.Heading1 ||
+				block_linked.Heading2 ||
+				block_linked.Heading3 ||
+				block_linked.Heading4)
+		) {
 			block_linked_id = buildHeadingId(
-				block_linked.Heading1 || block_linked.Heading2 || block_linked.Heading3,
+				block_linked.Heading1 ||
+					block_linked.Heading2 ||
+					block_linked.Heading3 ||
+					block_linked.Heading4,
 			);
 		}
 	}
@@ -547,7 +571,7 @@ export const getPostLink = (slug: string, isRoot: boolean = false): string => {
 	return linkedPath.endsWith("/") ? linkedPath : `${linkedPath}/`; // Ensure trailing slash
 };
 
-export const buildHeadingId = (heading: Heading1 | Heading2 | Heading3) => {
+export const buildHeadingId = (heading: Heading1 | Heading2 | Heading3 | Heading4) => {
 	return slugify(joinPlainText(heading.RichTexts).trim());
 };
 
@@ -996,10 +1020,12 @@ export function extractPageContent(
 		const childBlocks: Block[] = [];
 
 		// Collect all possible children
+		if (block.Tab?.Children) childBlocks.push(...block.Tab.Children);
 		if (block.Paragraph?.Children) childBlocks.push(...block.Paragraph.Children);
 		if (block.Heading1?.Children) childBlocks.push(...block.Heading1.Children);
 		if (block.Heading2?.Children) childBlocks.push(...block.Heading2.Children);
 		if (block.Heading3?.Children) childBlocks.push(...block.Heading3.Children);
+		if (block.Heading4?.Children) childBlocks.push(...block.Heading4.Children);
 		if (block.Quote?.Children) childBlocks.push(...block.Quote.Children);
 		if (block.Callout?.Children) childBlocks.push(...block.Callout.Children);
 		if (block.Toggle?.Children) childBlocks.push(...block.Toggle.Children);

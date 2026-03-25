@@ -323,6 +323,10 @@ ${createCssVariables("dark")}
     @apply mt-4 mb-1 cursor-pointer text-lg font-semibold;
   }
 
+  .notion-h4 {
+    @apply mt-3 mb-1 cursor-pointer text-base font-semibold;
+  }
+
   .notion-text {
     @apply my-1 min-h-7;
   }
@@ -489,6 +493,130 @@ ${createCssVariables("dark")}
 
   details.toggle[open] .toggle-icon-box > .rotate-svg {
     @apply rotate-90;
+  }
+
+  /* Tab */
+  .notion-tab-block {
+    @apply my-4 overflow-hidden rounded border;
+    border-color: color-mix(in srgb, var(--color-accent-2) 18%, var(--color-bgColor));
+    background-color: color-mix(in srgb, var(--color-bgColor) 91%, var(--color-popover-bg));
+  }
+
+  .notion-tab-header {
+    @apply relative px-3 pb-2 pt-3;
+  }
+
+  .notion-tab-list {
+    @apply m-0 flex gap-1 overflow-x-auto scroll-smooth;
+    scrollbar-width: none;
+  }
+
+  .notion-tab-list::-webkit-scrollbar {
+    display: none;
+  }
+
+  .notion-tab-button {
+    @apply inline-flex shrink-0 cursor-pointer items-center whitespace-nowrap rounded-full bg-transparent px-3 py-2 text-sm font-semibold shadow-none outline-none transition focus-visible:ring-2 focus-visible:ring-accent/30;
+    appearance: none;
+    -webkit-appearance: none;
+    border: none;
+    color: color-mix(
+      in srgb,
+      var(--color-textColor) 72%,
+      var(--color-accent) 6%,
+      var(--color-accent-2) 8%,
+      var(--color-bgColor)
+    );
+  }
+
+  .notion-tab-button:hover {
+    border: none;
+    color: color-mix(
+      in srgb,
+      var(--color-textColor) 86%,
+      var(--color-accent-2) 12%,
+      var(--color-bgColor) 2%
+    );
+    background-color: color-mix(
+      in srgb,
+      var(--color-accent-2) 8%,
+      var(--color-bgColor)
+    );
+  }
+
+  .notion-tab-button.is-active {
+    border: none;
+    color: color-mix(
+      in srgb,
+      var(--color-textColor) 90%,
+      var(--color-accent) 12%,
+      var(--color-bgColor) 2%
+    );
+    background-color: color-mix(
+      in srgb,
+      var(--color-accent) 8%,
+      var(--color-bgColor)
+    );
+    box-shadow: none;
+  }
+
+  .notion-tab-button-text {
+    @apply inline-flex min-w-0 items-center gap-2 overflow-hidden text-ellipsis;
+  }
+
+  .notion-tab-button a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .notion-tab-button img,
+  .notion-tab-button svg {
+    @apply h-[1.1rem] w-[1.1rem] shrink-0;
+  }
+
+  .notion-tab-edge {
+    position: absolute;
+    top: 0.85rem;
+    bottom: 0.55rem;
+    width: 1.6rem;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 160ms ease;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .notion-tab-edge-left {
+    left: 0.75rem;
+    background: linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--color-bgColor) 92%, transparent) 0%,
+      color-mix(in srgb, var(--color-bgColor) 70%, transparent) 58%,
+      transparent 100%
+    );
+  }
+
+  .notion-tab-edge-right {
+    right: 0.75rem;
+    background: linear-gradient(
+      270deg,
+      color-mix(in srgb, var(--color-bgColor) 92%, transparent) 0%,
+      color-mix(in srgb, var(--color-bgColor) 70%, transparent) 58%,
+      transparent 100%
+    );
+  }
+
+  .notion-tab-header[data-can-scroll-left="true"] .notion-tab-edge-left,
+  .notion-tab-header[data-can-scroll-right="true"] .notion-tab-edge-right {
+    opacity: 1;
+  }
+
+  .notion-tab-panel {
+    @apply px-4 pb-4 pt-1;
+  }
+
+  .notion-tab-panel[hidden] {
+    display: none;
   }
 
   /* ToDo */
@@ -784,6 +912,10 @@ ${createCssVariables("dark")}
 
   .toggle-heading-3 {
     @apply mt-4 mb-1;
+  }
+
+  .toggle-heading-4 {
+    @apply mt-3 mb-1;
   }
 
   /* Pagination */

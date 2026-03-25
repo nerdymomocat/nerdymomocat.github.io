@@ -6,6 +6,7 @@ import { siteInfo } from "@/site.config";
 import { getNavLink, getNotionImage, normalizeNavPath } from "@/lib/blog-helpers";
 import Icon from "@/components/ui/Icon.astro";
 import ThemeIcon from "@/components/ui/ThemeIcon.astro";
+import { isNotionHostedIconUrl } from "@/lib/notion/client";
 
 const menuLinks = await getMenu();
 
@@ -13,7 +14,15 @@ const url = new URL(Astro.request.url);
 const currentPath = normalizeNavPath(url.pathname);
 
 let customIconImage = null;
-if (siteInfo.logo && siteInfo.logo.Type === "file") {
+const shouldUseLocalLogo =
+	siteInfo.logo &&
+	siteInfo.logo.Url &&
+	(siteInfo.logo.Type === "file" ||
+		siteInfo.logo.Type === "custom_emoji" ||
+		siteInfo.logo.Type === "icon" ||
+		isNotionHostedIconUrl(siteInfo.logo.Url));
+
+if (shouldUseLocalLogo) {
 	try {
 		customIconImage = await getNotionImage(new URL(siteInfo.logo.Url));
 	} catch (err) {
@@ -39,7 +48,19 @@ const rss_path = getNavLink("/rss.xml");
 						</span>
 						<span class="text-xl font-bold sm:text-2xl">{siteInfo.title}</span>
 					</>
-				) : siteInfo.logo && siteInfo.logo.Type === "external" ? (
+				) : customIconImage ? (
+					<>
+						<Image
+							priority
+							src={customIconImage}
+							widths={[200]}
+							sizes="60px"
+							class="me-3 h-10 w-10 object-contain sm:absolute sm:start-[-4.5rem] sm:me-0 sm:h-15 sm:w-15"
+							alt="Site header image"
+						/>
+						<span class="text-xl font-bold sm:text-2xl">{siteInfo.title}</span>
+					</>
+				) : siteInfo.logo && siteInfo.logo.Url ? (
 					<>
 						<img
 							class="me-3 h-10 w-10 object-contain sm:absolute sm:start-[-4.5rem] sm:me-0 sm:h-15 sm:w-15"
@@ -48,18 +69,6 @@ const rss_path = getNavLink("/rss.xml");
 							width="60"
 							height="60"
 							src={siteInfo.logo.Url}
-							alt="Site header image"
-						/>
-						<span class="text-xl font-bold sm:text-2xl">{siteInfo.title}</span>
-					</>
-				) : siteInfo.logo && siteInfo.logo.Type === "file" && customIconImage ? (
-					<>
-						<Image
-							priority
-							src={customIconImage}
-							widths={[200]}
-							sizes="60px"
-							class="me-3 h-10 w-10 object-contain sm:absolute sm:start-[-4.5rem] sm:me-0 sm:h-15 sm:w-15"
 							alt="Site header image"
 						/>
 						<span class="text-xl font-bold sm:text-2xl">{siteInfo.title}</span>

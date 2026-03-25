@@ -1,6 +1,6 @@
 import type { AstroIntegration } from "astro";
 import type { FileObject } from "@/lib/interfaces";
-import { getDataSource, downloadFile } from "../lib/notion/client";
+import { getDataSource, downloadFile, isNotionHostedIconUrl } from "../lib/notion/client";
 
 export default (): AstroIntegration => ({
 	name: "custom-icon-downloader",
@@ -8,16 +8,25 @@ export default (): AstroIntegration => ({
 		"astro:build:start": async () => {
 			const database = await getDataSource();
 			const icon = database.Icon as FileObject;
+			if (!database.Icon || !icon?.Url) {
+				return Promise.resolve();
+			}
+
+			const shouldCacheLocally =
+				icon.Type === "file" ||
+				icon.Type === "custom_emoji" ||
+				icon.Type === "icon" ||
+				(icon.Type === "external" && isNotionHostedIconUrl(icon.Url));
+
+			if (!shouldCacheLocally) {
+				return Promise.resolve();
+			}
+
 			let url!: URL;
 			try {
 				url = new URL(icon.Url);
 			} catch (err) {
 				console.log("Invalid Icon image URL");
-				return Promise.resolve();
-			}
-
-			// if (!database.Icon || database.Icon.Type !== 'file' || (database.LastUpdatedTimeStamp < LAST_BUILD_TIME && !fs.existsSync(generateFilePath(url)))) {
-			if (!database.Icon || database.Icon.Type !== "file") {
 				return Promise.resolve();
 			}
 

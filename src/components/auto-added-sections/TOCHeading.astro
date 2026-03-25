@@ -17,8 +17,9 @@ const getVisualStyles = (depth: number) => {
 		1: "w-4 bg-accent/25",
 		2: "mt-2 ml-1 w-[12px] bg-accent/25",
 		3: "mt-2 ml-2 w-2 bg-accent/25",
+		4: "mt-2 ml-3 w-[6px] bg-accent/25",
 	};
-	return `${styles[depth] || ""} ${baseStyle}`.trim();
+	return `${styles[Math.min(depth, 4)] || styles[4]} ${baseStyle}`.trim();
 };
 ---
 

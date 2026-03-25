@@ -101,7 +101,7 @@ export const getNotionAnnotationBackgroundVars = (s: string) => {
 };
 
 export const getIconTailwindFilterStyle = (url: string): string => {
-	// if (!url.startsWith('https://www.notion.so/icons/')) {
+	// if (!url.startsWith('https://www.notion.com/icons/')) {
 	//       return '';
 	//   }
 

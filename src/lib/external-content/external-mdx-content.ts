@@ -167,10 +167,12 @@ function getChildBlocks(block: Block): Block[] {
 		if (maybe && maybe.length) children.push(...maybe);
 	};
 
+	pushChildren(block.Tab?.Children);
 	pushChildren(block.Paragraph?.Children);
 	pushChildren(block.Heading1?.Children);
 	pushChildren(block.Heading2?.Children);
 	pushChildren(block.Heading3?.Children);
+	pushChildren(block.Heading4?.Children);
 	pushChildren(block.Quote?.Children);
 	pushChildren(block.Callout?.Children);
 	pushChildren(block.Toggle?.Children);

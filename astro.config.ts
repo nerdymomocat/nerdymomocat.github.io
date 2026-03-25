@@ -1,4 +1,4 @@
-import { defineConfig } from "astro/config";
+import { defineConfig, fontProviders } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
 import mdx from "@astrojs/mdx";
 
@@ -46,7 +46,6 @@ import createFoldersIfMissing from "./src/integrations/create-folders-if-missing
 import citationsInitializer from "./src/integrations/citations-initializer";
 import astroImageCacheCleanerCopier from "./src/integrations/astro-image-cache-cleaner-copier";
 import externalContentDownloader from "./src/integrations/external-content-downloader";
-import { fontProviders } from "astro/config";
 import robotsTxt from "astro-robots-txt";
 import partytown from "@astrojs/partytown";
 
@@ -90,72 +89,79 @@ export default defineConfig({
 	redirects: key_value_from_json?.redirects
 		? modifyRedirectPaths(key_value_from_json.redirects, process.env.BASE || BASE_PATH)
 		: {},
-	experimental: {
-		fonts: (() => {
-			const fontConfig = key_value_from_json?.theme?.["fontfamily-google-fonts"];
+	fonts: (() => {
+		const fontConfig = key_value_from_json?.theme?.["fontfamily-google-fonts"];
 
-			if (!fontConfig) {
-				return [];
-			}
+		if (!fontConfig) {
+			return [];
+		}
 
-			const fonts = [];
-			// Standard weights and styles for all fonts
-			const weights = [400, 500, 600, 700];
-			const styles = ["normal", "italic"];
+		const fonts = [];
+		const weights = [400, 500, 600, 700];
+		const styles = ["normal", "italic"];
+		const formats = ["woff2"] as const;
+		const buildGoogleFont = ({
+			name,
+			cssVariable,
+			fallbacks,
+		}: {
+			name: string;
+			cssVariable: string;
+			fallbacks: string[];
+		}) => ({
+			provider: fontProviders.google(),
+			name,
+			cssVariable,
+			weights,
+			styles,
+			formats,
+			fallbacks,
+			optimizedFallbacks: true,
+			display: "swap" as const,
+		});
 
-			const sansFontName = fontConfig["sans-font-name"];
-			const monoFontName = fontConfig["mono-font-name"];
+		const sansFontName = fontConfig["sans-font-name"];
+		const monoFontName = fontConfig["mono-font-name"];
 
-			// Add main body/UI font (can be sans or serif typeface)
-			if (sansFontName) {
-				fonts.push({
-					provider: {
-						entrypoint: new URL("./src/integrations/google-woff2-provider.mjs", import.meta.url),
-					},
+		if (sansFontName) {
+			fonts.push(
+				buildGoogleFont({
 					name: sansFontName,
 					cssVariable: "--font-sans",
-					weights,
-					styles,
 					fallbacks: ["sans-serif"],
-					optimizedFallbacks: true,
-					display: "swap",
-				});
-			}
+				}),
+			);
+		}
 
-			// Add mono font
-			if (monoFontName) {
-				// If mono is the ONLY font set, also use it for body text (--font-sans)
-				if (!sansFontName) {
-					fonts.push({
-						provider: {
-							entrypoint: new URL("./src/integrations/google-woff2-provider.mjs", import.meta.url),
-						},
+		if (monoFontName) {
+			if (!sansFontName) {
+				fonts.push(
+					buildGoogleFont({
 						name: monoFontName,
 						cssVariable: "--font-sans",
-						weights,
-						styles,
 						fallbacks: ["monospace", "sans-serif"],
-						optimizedFallbacks: true,
-						display: "swap",
-					});
-				}
-				// Always add mono to --font-mono for code blocks
-				fonts.push({
-					provider: {
-						entrypoint: new URL("./src/integrations/google-woff2-provider.mjs", import.meta.url),
-					},
-					name: monoFontName,
-					cssVariable: "--font-mono",
-					weights,
-					styles,
-					fallbacks: ["monospace"],
-					optimizedFallbacks: true,
-					display: "swap",
-				});
+					}),
+				);
 			}
 
-			return fonts;
-		})(),
+			fonts.push(
+				buildGoogleFont({
+					name: monoFontName,
+					cssVariable: "--font-mono",
+					fallbacks: ["monospace"],
+				}),
+			);
+		}
+
+		return fonts;
+	})(),
+	experimental: {
+		clientPrerender: true,
+		queuedRendering: {
+			enabled: true,
+			contentCache: true,
+		},
+		svgo: true,
 	},
 	integrations: [
 		createFoldersIfMissing(),

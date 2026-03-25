@@ -62,6 +62,14 @@ export interface Emoji {
 	emoji: string;
 }
 
+interface NativeIcon {
+	type: string;
+	icon: {
+		name: string;
+		color?: string;
+	};
+}
+
 interface Parent {
 	type: string;
 	database_id?: string;
@@ -158,7 +166,7 @@ export interface DatabaseObject {
 	last_edited_by: UserObject;
 	title: RichTextObject[];
 	description: RichTextObject[];
-	icon: FileObject | Emoji | null;
+	icon: FileObject | Emoji | NativeIcon | null;
 	cover: FileObject;
 	properties: DatabaseProperties;
 	parent: Parent;
@@ -265,7 +273,7 @@ export interface PageObject {
 	last_edited_time: string;
 	last_edited_by: UserObject;
 	archived: boolean;
-	icon: FileObject | Emoji | null;
+	icon: FileObject | Emoji | NativeIcon | null;
 	cover: FileObject;
 	properties: PageProperties;
 	parent: Parent;
@@ -356,6 +364,7 @@ export interface BlockObject {
 	heading_1?: Heading;
 	heading_2?: Heading;
 	heading_3?: Heading;
+	heading_4?: Heading;
 	callout?: Callout;
 	quote?: Quote;
 	bulleted_list_item?: ListItem;
@@ -382,6 +391,7 @@ export interface BlockObject {
 	template?: Template;
 	link_to_page?: LinkToPage;
 	synced_block?: SyncedBlock;
+	tab?: Record<string, never>;
 	table?: Table;
 	table_row?: TableRow;
 }
@@ -400,7 +410,7 @@ interface Heading {
 
 interface Callout {
 	rich_text: RichTextObject[];
-	icon: FileObject | Emoji;
+	icon: FileObject | Emoji | NativeIcon;
 	color: string;
 	children?: BlockObject[];
 }

@@ -38,6 +38,7 @@ import type {
 	Heading1,
 	Heading2,
 	Heading3,
+	Heading4,
 	BulletedListItem,
 	NumberedListItem,
 	ToDo,
@@ -86,7 +87,7 @@ import superjson from "superjson";
 
 const client = new Client({
 	auth: NOTION_API_SECRET,
-	notionVersion: "2025-09-03",
+	notionVersion: "2026-03-11",
 });
 
 let resolvedDataSourceId: string | null = null;
@@ -100,6 +101,15 @@ const inFlightDownloads = new Map<string, Promise<void>>();
 let allEntriesCache: Post[] | null = null;
 let dsCache: Database | null = null;
 let blockIdPostIdMap: { [key: string]: string } | null = null;
+type WorkspaceCustomEmoji = {
+	id: string;
+	name: string;
+	url: string;
+};
+
+let workspaceCustomEmojiCacheById: Map<string, WorkspaceCustomEmoji> | null = null;
+let workspaceCustomEmojiCacheByName: Map<string, WorkspaceCustomEmoji> | null = null;
+let workspaceCustomEmojiPromise: Promise<void> | null = null;
 let allTagsWithCountsCache:
 	| { name: string; count: number; description: string; color: string }[]
 	| null = null;
@@ -237,6 +247,33 @@ export function getBibEntriesCacheSnapshot(): Map<string, ParsedCitationEntry> {
 }
 
 const BUILDCACHE_DIR = BUILD_FOLDER_PATHS["buildcache"];
+const DEFAULT_NOTION_ICON_COLOR = "gray";
+const VALID_NOTION_ICON_COLORS = new Set([
+	"gray",
+	"lightgray",
+	"brown",
+	"yellow",
+	"orange",
+	"green",
+	"blue",
+	"purple",
+	"pink",
+	"red",
+]);
+
+function normalizeNotionIconColor(color?: string): string {
+	if (color && VALID_NOTION_ICON_COLORS.has(color)) {
+		return color;
+	}
+
+	return DEFAULT_NOTION_ICON_COLOR;
+}
+
+export function buildNotionHostedIconUrl(name: string, color?: string): string {
+	const normalizedColor = normalizeNotionIconColor(color);
+	return `https://www.notion.com/icons/${encodeURIComponent(name)}_${normalizedColor}.svg`;
+}
+
 async function getResolvedDataSourceId(): Promise<string> {
 	// Initialize config once at module load
 	await initializeFootnotesConfig();
@@ -784,6 +821,12 @@ export async function getAllBlocksByBlockId(
 			);
 			block.Toggle.Children = children;
 			allFileBlocks.push(...childFileBlocks);
+		} else if (block.Type === "tab" && block.Tab && block.HasChildren) {
+			const { blocks: children, fileBlocks: childFileBlocks } = await getAllBlocksByBlockId(
+				block.Id,
+			);
+			block.Tab.Children = children;
+			allFileBlocks.push(...childFileBlocks);
 		} else if (block.Type === "paragraph" && block.Paragraph && block.HasChildren) {
 			const { blocks: children, fileBlocks: childFileBlocks } = await getAllBlocksByBlockId(
 				block.Id,
@@ -807,6 +850,12 @@ export async function getAllBlocksByBlockId(
 				block.Id,
 			);
 			block.Heading3.Children = children;
+			allFileBlocks.push(...childFileBlocks);
+		} else if (block.Type === "heading_4" && block.Heading4 && block.HasChildren) {
+			const { blocks: children, fileBlocks: childFileBlocks } = await getAllBlocksByBlockId(
+				block.Id,
+			);
+			block.Heading4.Children = children;
 			allFileBlocks.push(...childFileBlocks);
 		} else if (block.Type === "quote" && block.Quote && block.HasChildren) {
 			const { blocks: children, fileBlocks: childFileBlocks } = await getAllBlocksByBlockId(
@@ -1515,11 +1564,174 @@ export function isNotionHostedIconUrl(rawUrl: string): boolean {
 
 	try {
 		const url = new URL(rawUrl);
-		const isNotionHost = url.hostname === "www.notion.so" || url.hostname === "notion.so";
+		const isNotionHost =
+			url.hostname === "www.notion.so" ||
+			url.hostname === "notion.so" ||
+			url.hostname === "www.notion.com" ||
+			url.hostname === "notion.com";
 		return isNotionHost && url.pathname.startsWith("/icons/") && url.pathname.endsWith(".svg");
 	} catch {
 		return false;
 	}
+}
+
+async function ensureWorkspaceCustomEmojiCache(): Promise<void> {
+	if (workspaceCustomEmojiCacheById && workspaceCustomEmojiCacheByName) {
+		return;
+	}
+
+	if (workspaceCustomEmojiPromise) {
+		return workspaceCustomEmojiPromise;
+	}
+
+	workspaceCustomEmojiPromise = (async () => {
+		const cacheFileName = "workspaceCustomEmojis.json";
+		let emojis = loadBuildcache<WorkspaceCustomEmoji[]>(cacheFileName);
+
+		if (!emojis) {
+			emojis = [];
+			let startCursor: string | undefined;
+
+			do {
+				const response = await client.customEmojis.list({
+					page_size: 100,
+					start_cursor: startCursor,
+				});
+
+				emojis.push(...response.results);
+				startCursor = response.has_more ? (response.next_cursor ?? undefined) : undefined;
+			} while (startCursor);
+
+			saveBuildcache(cacheFileName, emojis);
+		}
+
+		workspaceCustomEmojiCacheById = new Map(emojis.map((emoji) => [emoji.id, emoji]));
+		workspaceCustomEmojiCacheByName = new Map(emojis.map((emoji) => [emoji.name, emoji]));
+	})().finally(() => {
+		workspaceCustomEmojiPromise = null;
+	});
+
+	return workspaceCustomEmojiPromise;
+}
+
+async function resolveCustomEmojiUrl(customEmoji?: {
+	id?: string;
+	name?: string;
+	url?: string;
+}): Promise<string> {
+	if (customEmoji?.url) {
+		return customEmoji.url;
+	}
+
+	if (!customEmoji?.id && !customEmoji?.name) {
+		return "";
+	}
+
+	await ensureWorkspaceCustomEmojiCache();
+
+	if (customEmoji.id && workspaceCustomEmojiCacheById?.has(customEmoji.id)) {
+		return workspaceCustomEmojiCacheById.get(customEmoji.id)?.url || "";
+	}
+
+	if (customEmoji.name && workspaceCustomEmojiCacheByName?.has(customEmoji.name)) {
+		return workspaceCustomEmojiCacheByName.get(customEmoji.name)?.url || "";
+	}
+
+	return "";
+}
+
+async function ensureIconDownloaded(urlString: string, context: string): Promise<void> {
+	if (!urlString) return;
+
+	try {
+		const url = new URL(urlString);
+		const isImage = isImageTypeForAstro(url.pathname);
+		await ensureDownloaded(url, isImage);
+	} catch (err) {
+		console.log(`Error downloading ${context}: ${err}`);
+	}
+}
+
+async function buildIconObject(
+	iconResponse:
+		| responses.DatabaseObject["icon"]
+		| responses.PageObject["icon"]
+		| responses.BlockObject["callout"]["icon"]
+		| null
+		| undefined,
+	context: string,
+): Promise<FileObject | Emoji | null> {
+	if (!iconResponse) {
+		return null;
+	}
+
+	if (iconResponse.type === "emoji" && "emoji" in iconResponse) {
+		return {
+			Type: iconResponse.type,
+			Emoji: iconResponse.emoji,
+		};
+	}
+
+	if (iconResponse.type === "icon" && "icon" in iconResponse) {
+		const name = iconResponse.icon?.name || "";
+		const color = normalizeNotionIconColor(iconResponse.icon?.color);
+		const iconUrl = name ? buildNotionHostedIconUrl(name, color) : "";
+
+		if (iconUrl) {
+			await ensureIconDownloaded(iconUrl, context);
+		}
+
+		return {
+			Type: iconResponse.type,
+			Url: iconUrl,
+			Name: name,
+			Color: color,
+		};
+	}
+
+	if (iconResponse.type === "external" && "external" in iconResponse) {
+		const iconUrl = iconResponse.external?.url || "";
+
+		if (iconUrl && isNotionHostedIconUrl(iconUrl)) {
+			await ensureIconDownloaded(iconUrl, context);
+		}
+
+		return {
+			Type: iconResponse.type,
+			Url: iconUrl,
+		};
+	}
+
+	if (iconResponse.type === "file" && "file" in iconResponse) {
+		const iconUrl = iconResponse.file?.url || "";
+
+		if (iconUrl) {
+			await ensureIconDownloaded(iconUrl, context);
+		}
+
+		return {
+			Type: iconResponse.type,
+			Url: iconUrl,
+			ExpiryTime: iconResponse.file?.expiry_time,
+		};
+	}
+
+	if (iconResponse.type === "custom_emoji" && "custom_emoji" in iconResponse) {
+		const resolvedUrl = await resolveCustomEmojiUrl(iconResponse.custom_emoji);
+
+		if (resolvedUrl) {
+			await ensureIconDownloaded(resolvedUrl, context);
+		}
+
+		return {
+			Type: iconResponse.type,
+			Url: resolvedUrl,
+			Id: iconResponse.custom_emoji?.id,
+			Name: iconResponse.custom_emoji?.name,
+		};
+	}
+
+	return null;
 }
 
 export async function getDataSource(): Promise<Database> {
@@ -1561,38 +1773,7 @@ export async function getDataSource(): Promise<Database> {
 		},
 	);
 
-	let icon: FileObject | Emoji | null = null;
-	if (res.icon) {
-		if (res.icon.type === "emoji" && "emoji" in res.icon) {
-			icon = {
-				Type: res.icon.type,
-				Emoji: res.icon.emoji,
-			};
-		} else if (res.icon.type === "external" && "external" in res.icon) {
-			const iconUrl = res.icon.external?.url || "";
-
-			// Notion's built-in icon set comes back as `external`, but we still want to cache it locally.
-			if (iconUrl && isNotionHostedIconUrl(iconUrl)) {
-				try {
-					const url = new URL(iconUrl);
-					const isImage = isImageTypeForAstro(url.pathname);
-					await ensureDownloaded(url, isImage);
-				} catch (err) {
-					console.log(`Error downloading database icon: ${err}`);
-				}
-			}
-
-			icon = {
-				Type: res.icon.type,
-				Url: iconUrl,
-			};
-		} else if (res.icon.type === "file" && "file" in res.icon) {
-			icon = {
-				Type: res.icon.type,
-				Url: res.icon.file?.url || "",
-			};
-		}
-	}
+	const icon = await buildIconObject(res.icon, "database icon");
 
 	let cover: FileObject | null = null;
 	if (res.cover) {
@@ -1662,6 +1843,16 @@ async function _buildBlock(blockObject: responses.BlockObject, pageId?: string):
 					IsToggleable: blockObject.heading_3.is_toggleable,
 				};
 				block.Heading3 = heading3;
+			}
+			break;
+		case "heading_4":
+			if (blockObject.heading_4) {
+				const heading4: Heading4 = {
+					RichTexts: await Promise.all(blockObject.heading_4.rich_text.map(_buildRichText)),
+					Color: blockObject.heading_4.color,
+					IsToggleable: blockObject.heading_4.is_toggleable,
+				};
+				block.Heading4 = heading4;
 			}
 			break;
 		case "bulleted_list_item":
@@ -1828,85 +2019,7 @@ async function _buildBlock(blockObject: responses.BlockObject, pageId?: string):
 			break;
 		case "callout":
 			if (blockObject.callout) {
-				let icon: FileObject | Emoji | null = null;
-				if (blockObject.callout.icon) {
-					if (blockObject.callout.icon.type === "emoji" && "emoji" in blockObject.callout.icon) {
-						icon = {
-							Type: blockObject.callout.icon.type,
-							Emoji: blockObject.callout.icon.emoji,
-						};
-					} else if (
-						blockObject.callout.icon.type === "external" &&
-						"external" in blockObject.callout.icon
-					) {
-						const iconUrl = blockObject.callout.icon.external?.url || "";
-
-						icon = {
-							Type: blockObject.callout.icon.type,
-							Url: iconUrl,
-						};
-
-						// Notion's built-in icon set comes back as `external`, but we still want to cache it locally.
-						if (iconUrl && isNotionHostedIconUrl(iconUrl)) {
-							try {
-								const url = new URL(iconUrl);
-								const isImage = isImageTypeForAstro(url.pathname);
-								await ensureDownloaded(url, isImage);
-							} catch (err) {
-								console.log(`Error downloading callout icon: ${err}`);
-							}
-						}
-					} else if (
-						blockObject.callout.icon.type === "file" &&
-						"file" in blockObject.callout.icon
-					) {
-						const iconUrl = blockObject.callout.icon.file?.url || "";
-
-						icon = {
-							Type: blockObject.callout.icon.type,
-							Url: iconUrl,
-							ExpiryTime: blockObject.callout.icon.file?.expiry_time,
-						};
-
-						// Download icon if it doesn't exist
-						if (iconUrl) {
-							try {
-								const url = new URL(iconUrl);
-								const isImage = isImageTypeForAstro(url.pathname);
-								const filepath = generateFilePath(url, isImage);
-								if (!fs.existsSync(filepath)) {
-									await downloadFile(url, isImage);
-								}
-							} catch (err) {
-								console.log(`Error downloading callout icon: ${err}`);
-							}
-						}
-					} else if (
-						blockObject.callout.icon.type === "custom_emoji" &&
-						"custom_emoji" in blockObject.callout.icon
-					) {
-						const emojiUrl = blockObject.callout.icon.custom_emoji?.url || "";
-
-						icon = {
-							Type: blockObject.callout.icon.type,
-							Url: emojiUrl,
-						};
-
-						// Download custom emoji if it doesn't exist
-						if (emojiUrl) {
-							try {
-								const url = new URL(emojiUrl);
-								const isImage = isImageTypeForAstro(url.pathname);
-								const filepath = generateFilePath(url, isImage);
-								if (!fs.existsSync(filepath)) {
-									await downloadFile(url, isImage);
-								}
-							} catch (err) {
-								console.log(`Error downloading callout custom emoji: ${err}`);
-							}
-						}
-					}
-				}
+				const icon = await buildIconObject(blockObject.callout.icon, "callout icon");
 
 				const callout: Callout = {
 					RichTexts: await Promise.all(blockObject.callout.rich_text.map(_buildRichText)),
@@ -1930,6 +2043,11 @@ async function _buildBlock(blockObject: responses.BlockObject, pageId?: string):
 				};
 				block.SyncedBlock = syncedBlock;
 			}
+			break;
+		case "tab":
+			block.Tab = {
+				Children: [],
+			};
 			break;
 		case "toggle":
 			if (blockObject.toggle) {
@@ -2163,76 +2281,7 @@ function _validPageObject(pageObject: responses.PageObject): boolean {
 async function _buildPost(pageObject: responses.PageObject): Promise<Post> {
 	const prop = pageObject.properties;
 
-	let icon: FileObject | Emoji | null = null;
-	if (pageObject.icon) {
-		if (pageObject.icon.type === "emoji" && "emoji" in pageObject.icon) {
-			icon = {
-				Type: pageObject.icon.type,
-				Emoji: pageObject.icon.emoji,
-			};
-		} else if (pageObject.icon.type === "external" && "external" in pageObject.icon) {
-			const iconUrl = pageObject.icon.external?.url || "";
-
-			icon = {
-				Type: pageObject.icon.type,
-				Url: iconUrl,
-			};
-
-			// Notion's built-in icon set comes back as `external`, but we still want to cache it locally.
-			if (iconUrl && isNotionHostedIconUrl(iconUrl)) {
-				try {
-					const url = new URL(iconUrl);
-					const isImage = isImageTypeForAstro(url.pathname);
-					await ensureDownloaded(url, isImage);
-				} catch (err) {
-					console.log(`Error downloading page icon: ${err}`);
-				}
-			}
-		} else if (pageObject.icon.type === "file" && "file" in pageObject.icon) {
-			const iconUrl = pageObject.icon.file?.url || "";
-
-			icon = {
-				Type: pageObject.icon.type,
-				Url: iconUrl,
-				ExpiryTime: pageObject.icon.file?.expiry_time,
-			};
-
-			// Download icon if it doesn't exist
-			if (iconUrl) {
-				try {
-					const url = new URL(iconUrl);
-					const isImage = isImageTypeForAstro(url.pathname);
-					const filepath = generateFilePath(url, isImage);
-					if (!fs.existsSync(filepath)) {
-						await downloadFile(url, isImage);
-					}
-				} catch (err) {
-					console.log(`Error downloading page icon: ${err}`);
-				}
-			}
-		} else if (pageObject.icon.type === "custom_emoji" && "custom_emoji" in pageObject.icon) {
-			const emojiUrl = pageObject.icon.custom_emoji?.url || "";
-
-			icon = {
-				Type: pageObject.icon.type,
-				Url: emojiUrl,
-			};
-
-			// Download custom emoji if it doesn't exist
-			if (emojiUrl) {
-				try {
-					const url = new URL(emojiUrl);
-					const isImage = isImageTypeForAstro(url.pathname);
-					const filepath = generateFilePath(url, isImage);
-					if (!fs.existsSync(filepath)) {
-						await downloadFile(url, isImage);
-					}
-				} catch (err) {
-					console.log(`Error downloading page custom emoji: ${err}`);
-				}
-			}
-		}
-	}
+	const icon = await buildIconObject(pageObject.icon, "page icon");
 
 	let cover: FileObject | null = null;
 	if (pageObject.cover) {
@@ -2442,25 +2491,15 @@ export async function _buildRichText(richTextObject: responses.RichTextObject): 
 			richTextObject.mention.type === "custom_emoji" &&
 			richTextObject.mention.custom_emoji
 		) {
-			const emojiUrl = richTextObject.mention.custom_emoji.url || "";
+			const emojiUrl = await resolveCustomEmojiUrl(richTextObject.mention.custom_emoji);
 
 			mention.CustomEmoji = {
 				Name: richTextObject.mention.custom_emoji.name,
 				Url: emojiUrl,
 			};
 
-			// Download custom emoji if it doesn't exist
 			if (emojiUrl) {
-				try {
-					const url = new URL(emojiUrl);
-					const isImage = isImageTypeForAstro(url.pathname);
-					const filepath = generateFilePath(url, isImage);
-					if (!fs.existsSync(filepath)) {
-						await downloadFile(url, isImage);
-					}
-				} catch (err) {
-					console.log(`Error downloading custom emoji: ${err}`);
-				}
+				await ensureIconDownloaded(emojiUrl, "custom emoji");
 			}
 		}
 
