@@ -20,6 +20,7 @@ concurrency:
 
 env:
   BUILD_PATH: "."
+  NODE_VERSION: "22"
   NOTION_API_SECRET: ${{ secrets.NOTION_API_SECRET }}
   DELETE_CACHES_GH_TOKEN: ${{ secrets.DELETE_CACHES_GH_TOKEN }}
 
@@ -152,7 +153,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 21
+          node-version: ${{ env.NODE_VERSION }}
 
       # Idea from https://www.voorhoede.nl/en/blog/super-fast-npm-install-on-github-actions/
       - name: Restore Node Modules Cache
@@ -160,7 +161,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: ./node_modules
-          key: modules-${{ hashFiles(format('{0}/package-lock.json', env.BUILD_PATH)) }}
+          key: modules-node${{ env.NODE_VERSION }}-${{ hashFiles(format('{0}/package-lock.json', env.BUILD_PATH)) }}
 
       - name: Clear Previous Node Modules Cache (if needed)
         if: steps.npm-cache-restore.outputs.cache-hit != 'true' && env.DELETE_CACHES_GH_TOKEN != ''
@@ -343,7 +344,7 @@ jobs:
         uses: actions/cache/save@v4
         with:
           path: ./node_modules
-          key: modules-${{ hashFiles(format('{0}/package-lock.json', env.BUILD_PATH)) }}
+          key: modules-node${{ env.NODE_VERSION }}-${{ hashFiles(format('{0}/package-lock.json', env.BUILD_PATH)) }}
 
       - name: Save New `tmp` Cache
         id: cache-tmp-save
