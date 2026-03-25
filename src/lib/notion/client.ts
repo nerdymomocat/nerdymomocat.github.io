@@ -271,7 +271,7 @@ function normalizeNotionIconColor(color?: string): string {
 
 export function buildNotionHostedIconUrl(name: string, color?: string): string {
 	const normalizedColor = normalizeNotionIconColor(color);
-	return `https://www.notion.so/icons/${encodeURIComponent(name)}_${normalizedColor}.svg`;
+	return `https://www.notion.com/icons/${encodeURIComponent(name)}_${normalizedColor}.svg`;
 }
 
 async function getResolvedDataSourceId(): Promise<string> {
@@ -1564,7 +1564,11 @@ export function isNotionHostedIconUrl(rawUrl: string): boolean {
 
 	try {
 		const url = new URL(rawUrl);
-		const isNotionHost = url.hostname === "www.notion.so" || url.hostname === "notion.so";
+		const isNotionHost =
+			url.hostname === "www.notion.so" ||
+			url.hostname === "notion.so" ||
+			url.hostname === "www.notion.com" ||
+			url.hostname === "notion.com";
 		return isNotionHost && url.pathname.startsWith("/icons/") && url.pathname.endsWith(".svg");
 	} catch {
 		return false;
