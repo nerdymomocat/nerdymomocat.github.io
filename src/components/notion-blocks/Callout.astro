@@ -25,6 +25,7 @@ if (block.Callout?.Icon && block.Callout.Icon.Url) {
 	const canBeCachedLocally =
 		block.Callout.Icon.Type === "file" ||
 		block.Callout.Icon.Type === "custom_emoji" ||
+		block.Callout.Icon.Type === "icon" ||
 		isNotionIcon;
 
 	if (canBeCachedLocally) {
@@ -57,7 +58,8 @@ if (block.Callout?.Icon && block.Callout.Icon.Url) {
 					block.Callout.Icon.Emoji
 				) : block.Callout.Icon.Type === "external" ||
 				  block.Callout.Icon.Type === "file" ||
-				  block.Callout.Icon.Type === "custom_emoji" ? (
+				  block.Callout.Icon.Type === "custom_emoji" ||
+				  block.Callout.Icon.Type === "icon" ? (
 					downloadedIcon ? (
 						<Image
 							src={downloadedIcon}

@@ -1,0 +1,288 @@
+---
+import * as interfaces from "@/lib/interfaces.ts";
+import RichText from "@/components/notion-blocks/RichText.astro";
+import NotionBlocks from "@/components/NotionBlocks.astro";
+
+export interface Props {
+	block: interfaces.Block;
+	renderChildren?: boolean;
+	setId?: boolean;
+}
+
+const { block, renderChildren = true, setId = true } = Astro.props;
+
+const tabItems = (block.Tab?.Children ?? []).filter(
+	(child) => child.Type === "paragraph" && child.Paragraph,
+);
+
+const baseId = `notion-tab-${block.Id}`;
+---
+
+{
+	tabItems.length > 0 && (
+		<div
+			class="notion-tab-block"
+			id={setId ? block.Id : undefined}
+			data-notion-tab-block
+			data-initial-tab="0"
+		>
+			<div
+				class="notion-tab-header"
+				data-tab-header
+				data-can-scroll-left="false"
+				data-can-scroll-right="false"
+			>
+				<div class="notion-tab-edge notion-tab-edge-left" aria-hidden="true" />
+				<div class="notion-tab-edge notion-tab-edge-right" aria-hidden="true" />
+				<div class="notion-tab-list" role="tablist" aria-label="Tab block" data-tab-list>
+					{tabItems.map((tabItem, index) => {
+						const tabId = `${baseId}-tab-${tabItem.Id}`;
+						const panelId = `${baseId}-panel-${tabItem.Id}`;
+						const isActive = index === 0;
+
+						return (
+							<button
+								type="button"
+								role="tab"
+								id={tabId}
+								aria-controls={renderChildren ? panelId : undefined}
+								aria-selected={isActive ? "true" : "false"}
+								tabindex={isActive ? "0" : "-1"}
+								class:list={["notion-tab-button", { "is-active": isActive }]}
+								data-tab-index={index}
+							>
+								<span class="notion-tab-button-text">
+									{tabItem.Paragraph?.RichTexts.map((richText: interfaces.RichText) => (
+										<RichText richText={richText} blockID={tabItem.Id} block={tabItem} />
+									))}
+								</span>
+							</button>
+						);
+					})}
+				</div>
+			</div>
+
+			{renderChildren &&
+				tabItems.map((tabItem, index) => {
+					const tabId = `${baseId}-tab-${tabItem.Id}`;
+					const panelId = `${baseId}-panel-${tabItem.Id}`;
+					const isActive = index === 0;
+
+					return (
+						<div
+							role="tabpanel"
+							id={panelId}
+							aria-labelledby={tabId}
+							class="notion-tab-panel"
+							data-tab-panel
+							hidden={!isActive}
+						>
+							{tabItem.Paragraph?.Children && (
+								<NotionBlocks
+									blocks={tabItem.Paragraph.Children}
+									renderChildren={renderChildren}
+									setId={setId}
+								/>
+							)}
+						</div>
+					);
+				})}
+		</div>
+	)
+}
+
+<script>
+	function getTabList(container) {
+		return container.querySelector("[data-tab-list]");
+	}
+
+	function getTabs(container) {
+		const list = getTabList(container);
+		return list instanceof HTMLElement
+			? Array.from(list.querySelectorAll(':scope > [role="tab"]'))
+			: [];
+	}
+
+	function getPanels(container) {
+		return Array.from(container.querySelectorAll(":scope > [data-tab-panel]"));
+	}
+
+	function updateScrollState(container) {
+		const header = container.querySelector("[data-tab-header]");
+		const list = getTabList(container);
+		if (!(header instanceof HTMLElement) || !(list instanceof HTMLElement)) return;
+
+		const maxScrollLeft = Math.max(0, list.scrollWidth - list.clientWidth);
+		const threshold = 6;
+		header.dataset.canScrollLeft = String(list.scrollLeft > threshold);
+		header.dataset.canScrollRight = String(list.scrollLeft < maxScrollLeft - threshold);
+	}
+
+	function setActiveTab(container, nextIndex, shouldFocus = false) {
+		const tabs = getTabs(container);
+		const panels = getPanels(container);
+		if (!tabs.length) return;
+
+		const boundedIndex = Math.max(0, Math.min(nextIndex, tabs.length - 1));
+
+		tabs.forEach((tab, index) => {
+			const isActive = index === boundedIndex;
+			tab.setAttribute("aria-selected", String(isActive));
+			tab.setAttribute("tabindex", isActive ? "0" : "-1");
+			tab.classList.toggle("is-active", isActive);
+		});
+
+		panels.forEach((panel, index) => {
+			panel.hidden = index !== boundedIndex;
+		});
+
+		if (shouldFocus) {
+			tabs[boundedIndex]?.focus();
+		}
+
+		tabs[boundedIndex]?.scrollIntoView({
+			block: "nearest",
+			inline: "nearest",
+			behavior: shouldFocus ? "smooth" : "auto",
+		});
+
+		requestAnimationFrame(() => updateScrollState(container));
+	}
+
+	function revealTargetInTabs(target) {
+		if (!(target instanceof HTMLElement)) return null;
+
+		const activations = [];
+		let current = target.parentElement;
+
+		while (current) {
+			if (current.matches("[data-tab-panel]")) {
+				const container = current.closest("[data-notion-tab-block]");
+				if (container instanceof HTMLElement) {
+					activations.push({ container, panel: current });
+				}
+			}
+			current = current.parentElement;
+		}
+
+		activations.reverse().forEach(({ container, panel }) => {
+			const panels = getPanels(container);
+			const index = panels.indexOf(panel);
+			if (index !== -1) {
+				setActiveTab(container, index);
+			}
+		});
+
+		return target;
+	}
+
+	function resolveTarget(targetOrId) {
+		if (targetOrId instanceof HTMLElement) return targetOrId;
+		if (typeof targetOrId !== "string") return null;
+
+		const rawId = targetOrId.startsWith("#") ? targetOrId.slice(1) : targetOrId;
+		if (!rawId) return null;
+
+		const target = document.getElementById(decodeURIComponent(rawId));
+		return target instanceof HTMLElement ? target : null;
+	}
+
+	function initTabBlock(container) {
+		if (container.dataset.tabsReady === "true") return;
+		container.dataset.tabsReady = "true";
+
+		const list = container.querySelector("[data-tab-list]");
+
+		setActiveTab(container, Number(container.dataset.initialTab ?? 0));
+		updateScrollState(container);
+
+		if (list instanceof HTMLElement) {
+			list.addEventListener("scroll", () => updateScrollState(container), { passive: true });
+
+			if ("ResizeObserver" in window) {
+				const resizeObserver = new ResizeObserver(() => updateScrollState(container));
+				resizeObserver.observe(list);
+			}
+		}
+
+		window.addEventListener("resize", () => updateScrollState(container), { passive: true });
+
+		container.addEventListener("click", (event) => {
+			const tab = event.target instanceof Element ? event.target.closest('[role="tab"]') : null;
+			if (!(tab instanceof HTMLElement) || !container.contains(tab)) return;
+			const nextIndex = Number(tab.dataset.tabIndex ?? 0);
+			setActiveTab(container, nextIndex);
+		});
+
+		container.addEventListener("keydown", (event) => {
+			const currentTab =
+				event.target instanceof Element ? event.target.closest('[role="tab"]') : null;
+			if (!(currentTab instanceof HTMLElement) || !container.contains(currentTab)) return;
+
+			const tabs = getTabs(container);
+			const currentIndex = tabs.indexOf(currentTab);
+			if (currentIndex === -1) return;
+
+			let nextIndex = currentIndex;
+
+			switch (event.key) {
+				case "ArrowRight":
+				case "ArrowDown":
+					nextIndex = (currentIndex + 1) % tabs.length;
+					break;
+				case "ArrowLeft":
+				case "ArrowUp":
+					nextIndex = (currentIndex - 1 + tabs.length) % tabs.length;
+					break;
+				case "Home":
+					nextIndex = 0;
+					break;
+				case "End":
+					nextIndex = tabs.length - 1;
+					break;
+				case "Enter":
+				case " ":
+					setActiveTab(container, currentIndex);
+					event.preventDefault();
+					return;
+				default:
+					return;
+			}
+
+			event.preventDefault();
+			setActiveTab(container, nextIndex, true);
+		});
+	}
+
+	if (typeof window !== "undefined") {
+		if (!window["__ensureNotionTabTargetVisible"]) {
+			window["__ensureNotionTabTargetVisible"] = (targetOrId) => {
+				const target = resolveTarget(targetOrId);
+				return revealTargetInTabs(target);
+			};
+		}
+
+		if (!window["__notionTabHashSyncReady"]) {
+			window["__notionTabHashSyncReady"] = "true";
+
+			const syncHashTarget = (behavior = "auto") => {
+				const target = window["__ensureNotionTabTargetVisible"](window.location.hash);
+				if (!(target instanceof HTMLElement)) return;
+
+				requestAnimationFrame(() => {
+					target.scrollIntoView({ behavior, block: "start" });
+				});
+			};
+
+			window.addEventListener("hashchange", () => syncHashTarget("smooth"));
+
+			if (window.location.hash) {
+				requestAnimationFrame(() => syncHashTarget("auto"));
+			}
+		}
+	}
+
+	document.querySelectorAll("[data-notion-tab-block]").forEach((container) => {
+		initTabBlock(container);
+	});
+</script>

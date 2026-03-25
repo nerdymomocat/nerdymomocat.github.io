@@ -34,7 +34,10 @@ if (!external && post?.Icon && post.Icon.Url) {
 	const iconUrl = post.Icon.Url;
 	const isNotionIcon = isNotionHostedIconUrl(iconUrl);
 	const canBeCachedLocally =
-		post.Icon.Type === "file" || post.Icon.Type === "custom_emoji" || isNotionIcon;
+		post.Icon.Type === "file" ||
+		post.Icon.Type === "custom_emoji" ||
+		post.Icon.Type === "icon" ||
+		isNotionIcon;
 
 	if (canBeCachedLocally) {
 		downloadedIcon = await getNotionImage(new URL(iconUrl));
@@ -71,7 +74,8 @@ if (!external && post?.Icon && post.Icon.Url) {
 						) : post.Icon &&
 						  (post.Icon.Type === "external" ||
 								post.Icon.Type === "file" ||
-								post.Icon.Type === "custom_emoji") ? (
+								post.Icon.Type === "custom_emoji" ||
+								post.Icon.Type === "icon") ? (
 							downloadedIcon ? (
 								<Image
 									src={downloadedIcon}

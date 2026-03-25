@@ -379,7 +379,7 @@ export class MarkdownBlockBuilder {
 	}
 
 	private buildHeadingBlock(node: Heading): Block | null {
-		if (node.depth < 1 || node.depth > 3) {
+		if (node.depth < 1 || node.depth > 4) {
 			return this.buildParagraphBlocks({
 				type: "paragraph",
 				children: node.children,
@@ -402,8 +402,10 @@ export class MarkdownBlockBuilder {
 			base.Heading1 = { RichTexts: richTexts, Color: "default", IsToggleable: false };
 		} else if (node.depth === 2) {
 			base.Heading2 = { RichTexts: richTexts, Color: "default", IsToggleable: false };
-		} else {
+		} else if (node.depth === 3) {
 			base.Heading3 = { RichTexts: richTexts, Color: "default", IsToggleable: false };
+		} else {
+			base.Heading4 = { RichTexts: richTexts, Color: "default", IsToggleable: false };
 		}
 
 		if (footnotes.length) base.Footnotes = footnotes;

@@ -13,6 +13,7 @@ import {
 	downloadFile,
 	generateFilePath,
 	getDataSource,
+	isNotionHostedIconUrl,
 } from "@/lib/notion/client";
 import { getCollectionsWDesc } from "@/utils";
 import { siteInfo } from "@/siteInfo";
@@ -85,7 +86,15 @@ const imageToDataUrl = async (filepath: string, resize?: { w: number; h: number 
 
 // Prepare Logo
 let customIconURL = "";
-if (siteInfo.logo && siteInfo.logo.Type === "file") {
+const shouldUseLocalLogo =
+	siteInfo.logo &&
+	siteInfo.logo.Url &&
+	(siteInfo.logo.Type === "file" ||
+		siteInfo.logo.Type === "custom_emoji" ||
+		siteInfo.logo.Type === "icon" ||
+		isNotionHostedIconUrl(siteInfo.logo.Url));
+
+if (shouldUseLocalLogo) {
 	try {
 		customIconURL = path.join(
 			process.cwd(),
@@ -98,9 +107,9 @@ if (siteInfo.logo && siteInfo.logo.Type === "file") {
 }
 
 const logo_src =
-	siteInfo.logo && siteInfo.logo.Type === "external"
+	siteInfo.logo && siteInfo.logo.Type === "external" && !shouldUseLocalLogo
 		? siteInfo.logo.Url
-		: siteInfo.logo && siteInfo.logo.Type === "file" && customIconURL
+		: siteInfo.logo && customIconURL
 			? await imageToDataUrl(customIconURL, { w: 30, h: 30 })
 			: null;
 

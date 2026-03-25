@@ -339,10 +339,12 @@ function createContentPattern(markerPrefix: string): RegExp {
 
 // Sets children array in a block
 function setChildrenInBlock(block: Block, children: Block[]): void {
-	if (block.Paragraph) block.Paragraph.Children = children;
+	if (block.Tab) block.Tab.Children = children;
+	else if (block.Paragraph) block.Paragraph.Children = children;
 	else if (block.Heading1) block.Heading1.Children = children;
 	else if (block.Heading2) block.Heading2.Children = children;
 	else if (block.Heading3) block.Heading3.Children = children;
+	else if (block.Heading4) block.Heading4.Children = children;
 	else if (block.Quote) block.Quote.Children = children;
 	else if (block.Callout) block.Callout.Children = children;
 	else if (block.Toggle) block.Toggle.Children = children;

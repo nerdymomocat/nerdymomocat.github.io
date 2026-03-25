@@ -4,47 +4,41 @@ import type { Heading } from "@/types";
 import { slugify } from "@/utils/slugify";
 import { joinPlainText } from "@/utils/richtext-utils";
 
-const HEADING_BLOCKS = ["heading_1", "heading_2", "heading_3"];
+const HEADING_BLOCKS = ["heading_1", "heading_2", "heading_3", "heading_4"];
 
 export interface TocItem extends MarkdownHeading {
 	subheadings: Array<TocItem>;
 }
 
-function diveChildren(item: TocItem, depth: number): Array<TocItem> {
-	//NOTE: That did not work -> change to 0 I guess because headings 2 are not being indented
-	if (depth === 1 || !item.subheadings.length) {
-		return item.subheadings;
-	} else {
-		// e.g., 2
-		return diveChildren(item.subheadings[item.subheadings.length - 1] as TocItem, depth - 1);
-	}
-}
-
 export function generateToc(headings: ReadonlyArray<MarkdownHeading>) {
-	//NOTE: commented this because it was skipping h2s in our setup
 	const toc: Array<TocItem> = [];
+	const stack: TocItem[] = [];
 
 	headings.forEach((h) => {
 		const heading: TocItem = { ...h, subheadings: [] };
-		let ignore = false;
-
-		//NOTE: changed it to 1 for top level
-		if (heading.depth === 1) {
+		if (heading.depth <= 1) {
 			toc.push(heading);
+			stack.length = 0;
+			stack.push(heading);
+			return;
+		}
+
+		while (stack.length && stack[stack.length - 1]!.depth >= heading.depth) {
+			stack.pop();
+		}
+
+		const parent = stack[stack.length - 1];
+		if (!parent) {
+			// If the document skips heading levels, attach to the nearest available top level.
+			toc.push(heading);
+			stack.length = 0;
+			stack.push(heading);
 		} else {
-			const lastItemInToc = toc ? toc[toc.length - 1]! : null;
-			if (!lastItemInToc || heading.depth < lastItemInToc.depth) {
-				console.log(`Orphan heading found: ${heading.text}.`);
-				ignore = true;
-			}
-			if (!ignore) {
-				const gap = heading.depth - lastItemInToc.depth;
-				const target = diveChildren(lastItemInToc, gap);
-				target.push(heading);
-			}
+			parent.subheadings.push(heading);
+			stack.push(heading);
 		}
 	});
-	// console.log(toc);
+
 	return toc;
 }
 
@@ -62,6 +56,10 @@ function cleanHeading(heading: Block): Heading {
 	if (heading.Type === "heading_3" && heading.Heading3) {
 		text = joinPlainText(heading.Heading3.RichTexts);
 		depth = 3;
+	}
+	if (heading.Type === "heading_4" && heading.Heading4) {
+		text = joinPlainText(heading.Heading4.RichTexts);
+		depth = 4;
 	}
 
 	return { text, slug: slugify(text), depth };
@@ -81,11 +79,13 @@ export function buildHeadings(blocks: Block[]): Heading[] | [] | null {
 		// Note: Only direct children are extracted, NOT nested deeper than 1 level
 		if (
 			block.Type === "toggle" ||
+			block.Type === "tab" ||
 			block.Type === "column_list" ||
 			block.Type === "callout" ||
 			(block.Type === "heading_1" && block.Heading1?.IsToggleable) ||
 			(block.Type === "heading_2" && block.Heading2?.IsToggleable) ||
-			(block.Type === "heading_3" && block.Heading3?.IsToggleable)
+			(block.Type === "heading_3" && block.Heading3?.IsToggleable) ||
+			(block.Type === "heading_4" && block.Heading4?.IsToggleable)
 		) {
 			const childHeadings = getChildHeadings(block);
 			headingBlocks.push(...childHeadings);
@@ -110,7 +110,15 @@ export function buildHeadings(blocks: Block[]): Heading[] | [] | null {
 function getChildHeadings(block: Block): Block[] {
 	const childHeadings: Block[] = [];
 
-	if (block.Type === "toggle" && block.Toggle?.Children) {
+	if (block.Type === "tab" && block.Tab?.Children) {
+		block.Tab.Children.forEach((tabItem) => {
+			if (tabItem.Type === "paragraph" && tabItem.Paragraph?.Children) {
+				childHeadings.push(
+					...tabItem.Paragraph.Children.filter((child) => HEADING_BLOCKS.includes(child.Type)),
+				);
+			}
+		});
+	} else if (block.Type === "toggle" && block.Toggle?.Children) {
 		// Extract headings that are direct children of toggle blocks
 		childHeadings.push(
 			...block.Toggle.Children.filter((child) => HEADING_BLOCKS.includes(child.Type)),
@@ -155,6 +163,14 @@ function getChildHeadings(block: Block): Block[] {
 		// Extract headings that are direct children of toggleable H3 headings
 		childHeadings.push(
 			...block.Heading3.Children.filter((child) => HEADING_BLOCKS.includes(child.Type)),
+		);
+	} else if (
+		block.Type === "heading_4" &&
+		block.Heading4?.IsToggleable &&
+		block.Heading4.Children
+	) {
+		childHeadings.push(
+			...block.Heading4.Children.filter((child) => HEADING_BLOCKS.includes(child.Type)),
 		);
 	}
 

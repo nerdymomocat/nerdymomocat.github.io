@@ -228,6 +228,13 @@ export function getAllRichTextLocations(block: Block): RichTextLocation[] {
 			(rt) => (block.Heading3!.RichTexts = rt),
 		);
 	}
+	if (block.Heading4) {
+		addLocation(
+			"Heading4.RichTexts",
+			block.Heading4.RichTexts,
+			(rt) => (block.Heading4!.RichTexts = rt),
+		);
+	}
 	if (block.BulletedListItem) {
 		addLocation(
 			"BulletedListItem.RichTexts",
@@ -303,10 +310,12 @@ export function getAllRichTextLocations(block: Block): RichTextLocation[] {
  */
 export function getChildrenFromBlock(block: Block): Block[] | null {
 	return (
+		block.Tab?.Children ||
 		block.Paragraph?.Children ||
 		block.Heading1?.Children ||
 		block.Heading2?.Children ||
 		block.Heading3?.Children ||
+		block.Heading4?.Children ||
 		block.Quote?.Children ||
 		block.Callout?.Children ||
 		block.Toggle?.Children ||
