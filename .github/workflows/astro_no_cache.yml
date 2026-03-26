@@ -25,10 +25,10 @@ jobs:
     timeout-minutes: 60
     steps:
       - name: Checkout your repository using git
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODE_VERSION }}
 
@@ -98,28 +98,28 @@ jobs:
 
       - name: Save node cache manually
         id: npm-cache-save
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v5
         with:
           path: ./node_modules
           key: modules-node${{ env.NODE_VERSION }}-${{ hashFiles(format('{0}/package-lock.json', env.BUILD_PATH)) }}
 
       - name: Save New `tmp` Cache
         id: cache-tmp-save
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v5
         with:
           path: ./tmp
           key: tmp-webtrotion-${{ github.repository_id }}-${{ github.run_id }}-${{ github.run_attempt }}
 
       - name: Save New `public` Cache
         id: cache-public-save
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v5
         with:
           path: ./public
           key: public-webtrotion-${{ github.repository_id }}-${{ github.run_id }}-${{ github.run_attempt }}
 
       - name: Save New `src/assets/notion` Cache
         id: cache-src-assets-notion-save
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v5
         with:
           path: ./src/assets/notion
           key: src-assets-notion-${{ github.repository_id }}-${{ github.run_id }}-${{ github.run_attempt }}
@@ -128,19 +128,19 @@ jobs:
         run: cp ./package.json ./old_package.json
 
       - name: Save old_package.json Cache
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v5
         with:
           path: ./old_package.json
           key: old-package-json-cache-${{ github.repository_id }}-${{ github.run_id }}-${{ github.run_attempt }}
 
       - name: Save Cached constants-config
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v5
         with:
           path: ./constants-config.json5
           key: constants-config-${{ hashFiles(format('{0}/constants-config.json5', env.BUILD_PATH)) }}
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: ${{ env.BUILD_PATH }}/dist
 

@@ -46,7 +46,7 @@ jobs:
 
     steps:
       - name: "Checkout repository (shallow)"
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 1 # only fetch latest commit for speed
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -112,7 +112,7 @@ jobs:
 
       - name: "Checkout repository (full history for push)"
         if: steps.determine_cleanup.outputs.push_needed == 'true'
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -146,19 +146,19 @@ jobs:
       # This checkout step is crucial. It runs after the 'cleanup' job and pulls the
       # latest state of the branch, including the cleanup commit if one was made.
       - name: "Checkout repository"
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODE_VERSION }}
 
       # Idea from https://www.voorhoede.nl/en/blog/super-fast-npm-install-on-github-actions/
       - name: Restore Node Modules Cache
         id: npm-cache-restore
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
           path: ./node_modules
           key: modules-node${{ env.NODE_VERSION }}-${{ hashFiles(format('{0}/package-lock.json', env.BUILD_PATH)) }}
@@ -181,7 +181,7 @@ jobs:
 
       - name: Restore Cached old_package.json
         id: restore-old-package-json
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
           path: ./old_package.json
           key: old-package-json-cache-${{ github.repository_id }}-${{ github.run_id }}-${{ github.run_attempt }}
@@ -189,7 +189,7 @@ jobs:
 
       - name: Restore Cached `tmp`
         id: cache-tmp-restore
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
           path: ./tmp
           key: tmp-webtrotion-${{ github.repository_id }}-${{ github.run_id }}-${{ github.run_attempt }}
@@ -197,7 +197,7 @@ jobs:
 
       - name: Restore Cached `public`
         id: cache-public-restore
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
           path: ./public
           key: public-webtrotion-${{ github.repository_id }}-${{ github.run_id }}-${{ github.run_attempt }}
@@ -205,7 +205,7 @@ jobs:
 
       - name: Restore Cached `src/assets/notion`
         id: cache-src-assets-notion-restore
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
           path: ./src/assets/notion
           key: src-assets-notion-${{ github.repository_id }}-${{ github.run_id }}-${{ github.run_attempt }}
@@ -213,7 +213,7 @@ jobs:
 
       - name: Restore Cached constants-config
         id: restore-constants-config
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
           path: ./constants-config.json5
           key: constants-config-${{ hashFiles(format('{0}/constants-config.json5', env.BUILD_PATH)) }}
@@ -341,28 +341,28 @@ jobs:
       - name: Save node cache manually
         if: steps.npm-cache-restore.outputs.cache-hit != 'true'
         id: npm-cache-save
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v5
         with:
           path: ./node_modules
           key: modules-node${{ env.NODE_VERSION }}-${{ hashFiles(format('{0}/package-lock.json', env.BUILD_PATH)) }}
 
       - name: Save New `tmp` Cache
         id: cache-tmp-save
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v5
         with:
           path: ./tmp
           key: tmp-webtrotion-${{ github.repository_id }}-${{ github.run_id }}-${{ github.run_attempt }}
 
       - name: Save New `public` Cache
         id: cache-public-save
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v5
         with:
           path: ./public
           key: public-webtrotion-${{ github.repository_id }}-${{ github.run_id }}-${{ github.run_attempt }}
 
       - name: Save New `src/assets/notion` Cache
         id: cache-src-assets-notion-save
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v5
         with:
           path: ./src/assets/notion
           key: src-assets-notion-${{ github.repository_id }}-${{ github.run_id }}-${{ github.run_attempt }}
@@ -371,20 +371,20 @@ jobs:
         run: cp ./package.json ./old_package.json
 
       - name: Save old_package.json Cache
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v5
         with:
           path: ./old_package.json
           key: old-package-json-cache-${{ github.repository_id }}-${{ github.run_id }}-${{ github.run_attempt }}
 
       - name: Save Cached constants-config
         if: steps.restore-constants-config.outputs.cache-hit != 'true'
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v5
         with:
           path: ./constants-config.json5
           key: constants-config-${{ hashFiles(format('{0}/constants-config.json5', env.BUILD_PATH)) }}
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: ${{ env.BUILD_PATH }}/dist
 

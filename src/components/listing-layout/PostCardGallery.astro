@@ -127,10 +127,7 @@ const hasAuthors = post.Authors !== undefined && post.Authors.length > 0;
 		{/* Card Content */}
 		<div class="pt-2 pb-1">
 			{/* Date */}
-			<FormattedDate
-				date={new Date(post.Date)}
-				class="text-accent/80 mb-1 block font-mono text-[10px]"
-			/>
+			<FormattedDate date={post.Date} class="text-accent/80 mb-1 block font-mono text-[10px]" />
 
 			{/* Title */}
 			<Tag class="mb-1 text-sm leading-snug font-semibold">

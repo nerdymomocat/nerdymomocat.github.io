@@ -3,6 +3,7 @@ import { getAllPosts, getDataSource } from "@/lib/notion/client";
 import { resolvePostHref } from "@/lib/blog-helpers";
 import { HIDE_UNDERSCORE_SLUGS_IN_LISTS, AUTHOR } from "@/constants";
 import { getNavLink } from "@/lib/blog-helpers";
+import { getDateObject } from "@/utils";
 
 /**
  * Get author string for a post.
@@ -38,7 +39,7 @@ export const GET = async () => {
 			return {
 				title: post.Title,
 				description: post.Excerpt,
-				pubDate: new Date(post.LastUpdatedDate),
+				pubDate: getDateObject(post.LastUpdatedDate) ?? new Date(post.LastUpdatedTimeStamp),
 				customData: `<lastUpdatedTimestamp>${post.LastUpdatedTimeStamp}</lastUpdatedTimestamp>${postAuthor ? `<author>${postAuthor}</author>` : ""}`,
 				link: new URL(resolvePostHref(post), import.meta.env.SITE).toString(),
 				categories: [

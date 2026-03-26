@@ -1,12 +1,12 @@
 {
 	"name": "webtrotion-astro-notion-cms-website-blog",
-	"version": "2.4.0",
+	"version": "2.4.1",
 	"private": false,
 	"cacheVersion": {
-		"tmpJSONCache": "v6",
-		"tmpHTMLCache": "vJ",
-		"tmpOGImagesCache": "v5",
-		"lastBuildTimestampStore": "vG13"
+		"tmpJSONCache": "v6x",
+		"tmpHTMLCache": "vJx",
+		"tmpOGImagesCache": "v5x",
+		"lastBuildTimestampStore": "vH"
 	},
 	"scripts": {
 		"predev": "rm -rf buildcache ./src/external-posts ./src/components/custom-components .src/blocks-mdx-inject-snippets ./public/external-posts ./public/custom-components && mkdir -p ./src/external-posts ./src/components/custom-components ./src/posts/mdx-inject-snippets ./public/external-posts ./public/custom-components && for folder in blocks-html-cache blocks-json-cache rss-cache bib-files-cache external-content blocks-mdx-inject-snippets-cache markdown-cache .astro; do if [ -d \"./tmp/$folder\" ]; then echo \"Deleting $folder folder\"; rm -rf \"./tmp/$folder\"; else echo \"No $folder folder to delete\"; fi; done",

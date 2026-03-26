@@ -11,6 +11,7 @@ import { adjustedFootnotesConfig } from "@/lib/notion/client";
 import InterlinkedContentSection from "@/components/auto-added-sections/interlinked-content/InterlinkedContentSection.astro";
 import Icon from "@/components/ui/Icon.astro";
 import CopyMarkdownButton from "@/components/auto-added-sections/CopyMarkdownButton.astro";
+import { getMachineDateISOString } from "@/utils/date";
 
 interface Props {
 	post: Post;
@@ -19,6 +20,7 @@ interface Props {
 	shouldUseCache: boolean;
 	footnotesInPage?: any[] | null;
 	showCopyMarkdownButton?: boolean;
+	hasMarkdownAlternate?: boolean;
 }
 
 const {
@@ -28,6 +30,7 @@ const {
 	shouldUseCache,
 	footnotesInPage,
 	showCopyMarkdownButton = false,
+	hasMarkdownAlternate,
 } = Astro.props;
 
 // Add Interlinked Content heading to TOC if interlinked content exist
@@ -54,7 +57,7 @@ if (
 }
 
 const socialImage = ogImage ? ogImage : `/og-image/${post.Slug}.png`;
-const articleDate = new Date(post.Date).toISOString();
+const articleDate = getMachineDateISOString(post.Date) || undefined;
 
 // Get author string for meta tag (falls back to siteInfo.author in BaseHead if undefined)
 const getMetaAuthor = (): string | undefined => {
@@ -73,6 +76,7 @@ const metaAuthor = getMetaAuthor();
 		articleDate,
 		ogImage: socialImage,
 		author: metaAuthor,
+		hasMarkdownAlternate,
 	}}
 >
 	<div class="max-w-[708px] sm:mr-20 print:mr-auto print:max-w-full">
