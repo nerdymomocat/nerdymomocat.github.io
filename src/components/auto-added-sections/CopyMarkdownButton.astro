@@ -7,7 +7,7 @@ interface Props {
 	buttonClass?: string;
 }
 
-const markdownUrl = new URL("./index.md", Astro.url);
+const markdownUrl = new URL("./index.html.md", Astro.url);
 const markdownPath = markdownUrl.pathname;
 const isDevMode = import.meta.env.MODE !== "production";
 const {

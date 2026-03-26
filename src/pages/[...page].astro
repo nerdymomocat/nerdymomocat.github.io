@@ -181,6 +181,7 @@ if (pageFound && page.Slug === HOME_PAGE_SLUG && RECENT_POSTS_ON_HOME_PAGE) {
 					title: page.Title || siteInfo.title,
 					description: page.Excerpt || siteInfo.description,
 					ogImage: `/og-image/${page.Slug}.png`,
+					hasMarkdownAlternate: MARKDOWN_EXPORT_ENABLED,
 				}}
 			>
 				<div class="max-w-[708px] sm:mr-20 print:mr-auto print:max-w-full">

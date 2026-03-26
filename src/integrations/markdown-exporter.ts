@@ -18,14 +18,26 @@ import {
 	BIBTEX_CITATIONS_ENABLED,
 	BIBLIOGRAPHY_STYLE,
 	CITATIONS,
+	MENU_PAGES_COLLECTION,
 } from "../constants";
 import { getAllPosts, getAllPages } from "../lib/notion/client";
-import type { Post, Citation, Footnote } from "../lib/interfaces";
+import type { Post, Citation, Footnote, InterlinkedContentInPage } from "../lib/interfaces";
+import { getMachineDateISOString } from "../utils/date";
+import { slugify } from "../utils/slugify";
 
 type FootnoteDefinition = {
 	marker: string;
 	index: number;
 	html: string;
+};
+
+type MenuLink = {
+	title: string;
+	path: string;
+};
+
+type InterlinkedContentToPageEntry = {
+	entryId: string;
 };
 
 const turndown = new TurndownService({
@@ -60,6 +72,8 @@ const markdownExporter = (): AstroIntegration => {
 				const pages = await getAllPages();
 				const postIdSet = new Set(posts.map((post) => post.PageId));
 				const entries = [...posts, ...pages];
+				const entryById = new Map(entries.map((entry) => [entry.PageId, entry]));
+				const menuLinks = buildMenuLinks(pages, posts);
 				const lastBuildTime = LAST_BUILD_TIME ? new Date(LAST_BUILD_TIME) : null;
 				const citationsSectionEnabled =
 					BIBTEX_CITATIONS_ENABLED &&
@@ -155,7 +169,16 @@ const markdownExporter = (): AstroIntegration => {
 							slug,
 						});
 						const frontmatter = renderYamlFrontmatter(metadata);
-						finalMarkdown = `${frontmatter}\n${markdownOutput}`;
+						const navigationContext = await buildNavigationContextMarkdown({
+							entry,
+							isPost,
+							pageUrl,
+							siteUrl,
+							postIdSet,
+							entryById,
+							menuLinks,
+						});
+						finalMarkdown = `${frontmatter}\n${navigationContext}${markdownOutput}`;
 
 						await fs.writeFile(
 							cachePath,
@@ -261,6 +284,295 @@ function renderCitationsMarkdown(citations: Citation[]): string {
 
 function normalizeFootnoteReferences(markdown: string): string {
 	return markdown.replace(/\\\[\^(\d+)\\\]/g, "[^$1]");
+}
+
+async function buildNavigationContextMarkdown({
+	entry,
+	isPost,
+	pageUrl,
+	siteUrl,
+	postIdSet,
+	entryById,
+	menuLinks,
+}: {
+	entry: Post;
+	isPost: boolean;
+	pageUrl: string;
+	siteUrl: string;
+	postIdSet: Set<string>;
+	entryById: Map<string, Post>;
+	menuLinks: MenuLink[];
+}): Promise<string> {
+	const usefulNextLinks = buildUsefulNextLinks(pageUrl, siteUrl, menuLinks);
+	const pagesThatMentionThisPage = await loadPagesThatMentionThisPage(
+		entry.PageId,
+		postIdSet,
+		entryById,
+		siteUrl,
+	);
+	const otherPagesMentionedOnThisPage = await loadOtherPagesMentionedOnThisPage(
+		entry.PageId,
+		postIdSet,
+		entryById,
+		siteUrl,
+	);
+
+	const lines = [
+		"## Navigation Context",
+		"",
+		`- Canonical URL: ${pageUrl}`,
+		`- You are here: ${buildYouAreHere(entry, isPost)}`,
+	];
+
+	if (usefulNextLinks.length > 0) {
+		lines.push("", "### Useful Next Links", ...usefulNextLinks.map(renderMarkdownLinkItem));
+	}
+
+	if (pagesThatMentionThisPage.length > 0 || otherPagesMentionedOnThisPage.length > 0) {
+		lines.push("", "### Related Content");
+
+		if (pagesThatMentionThisPage.length > 0) {
+			lines.push("", "#### Pages That Mention This Page");
+			lines.push(...pagesThatMentionThisPage.map(renderMarkdownLinkItem));
+		}
+
+		if (otherPagesMentionedOnThisPage.length > 0) {
+			lines.push("", "#### Other Pages Mentioned On This Page");
+			lines.push(...otherPagesMentionedOnThisPage.map(renderMarkdownLinkItem));
+		}
+	}
+
+	return `${lines.join("\n").trimEnd()}\n\n`;
+}
+
+function buildYouAreHere(entry: Post, isPost: boolean): string {
+	const title = escapeMarkdownText(entry.Title || entry.Slug || "Untitled");
+	if (!isPost) {
+		return entry.Slug === HOME_PAGE_SLUG ? "Home" : `Home > ${title}`;
+	}
+
+	if (entry.Collection?.trim()) {
+		return `Home > Posts > ${escapeMarkdownText(entry.Collection)} > ${title}`;
+	}
+
+	return `Home > Posts > ${title}`;
+}
+
+function buildUsefulNextLinks(
+	pageUrl: string,
+	siteUrl: string,
+	menuLinks: MenuLink[],
+): Array<{ title: string; url: string }> {
+	const currentUrl = normalizeComparableUrl(pageUrl);
+	const links: Array<{ title: string; url: string }> = [];
+	const seen = new Set<string>();
+
+	for (const link of menuLinks) {
+		const absoluteUrl = resolveUrl(link.path, pageUrl, siteUrl);
+		if (!absoluteUrl) continue;
+
+		const normalizedUrl = normalizeComparableUrl(absoluteUrl);
+		if (normalizedUrl === currentUrl || seen.has(normalizedUrl)) {
+			continue;
+		}
+
+		seen.add(normalizedUrl);
+		links.push({
+			title: link.title,
+			url: absoluteUrl,
+		});
+
+		if (links.length >= 8) {
+			break;
+		}
+	}
+
+	return links;
+}
+
+function buildMenuLinks(pages: Post[], posts: Post[]): MenuLink[] {
+	const pageLinks = pages
+		.map((page) => ({
+			...page,
+			Rank:
+				page.Slug === HOME_PAGE_SLUG
+					? -1
+					: page.Rank === undefined || page.Rank === null
+						? 99
+						: page.Rank,
+		}))
+		.sort((a, b) => a.Rank - b.Rank)
+		.map((page) => ({
+			title: page.Title,
+			path: page.Slug === HOME_PAGE_SLUG ? "/" : `/${page.Slug}/`,
+		}));
+
+	const collectionLinks = dedupePreservingOrder(
+		posts
+			.map((post) => post.Collection?.trim())
+			.filter(
+				(collection): collection is string =>
+					Boolean(collection) && collection !== MENU_PAGES_COLLECTION,
+			),
+	)
+		.sort((a, b) => a.localeCompare(b))
+		.map((collection) => ({
+			title: collection,
+			path: `/collections/${slugify(collection)}/`,
+		}));
+
+	return [...pageLinks, ...collectionLinks];
+}
+
+async function loadPagesThatMentionThisPage(
+	entryId: string,
+	postIdSet: Set<string>,
+	entryById: Map<string, Post>,
+	siteUrl: string,
+): Promise<Array<{ title: string; url: string }>> {
+	const mentions = await readInterlinkedContentToPage(entryId);
+	if (!mentions?.length) {
+		return [];
+	}
+
+	const orderedEntryIds = dedupePreservingOrder(
+		mentions.map((mention) => mention.entryId).filter((sourceEntryId) => sourceEntryId !== entryId),
+	);
+
+	return orderedEntryIds
+		.map((sourceEntryId) => mapEntryIdToLink(sourceEntryId, postIdSet, entryById, siteUrl))
+		.filter((link): link is { title: string; url: string } => Boolean(link));
+}
+
+async function loadOtherPagesMentionedOnThisPage(
+	entryId: string,
+	postIdSet: Set<string>,
+	entryById: Map<string, Post>,
+	siteUrl: string,
+): Promise<Array<{ title: string; url: string }>> {
+	const interlinkedContent = await readInterlinkedContentInPage(entryId);
+	if (!interlinkedContent?.length) {
+		return [];
+	}
+
+	const targetEntryIds = dedupePreservingOrder(
+		interlinkedContent.flatMap((item) => {
+			const ids: string[] = [];
+
+			if (item.link_to_pageid && item.link_to_pageid !== entryId) {
+				ids.push(item.link_to_pageid);
+			}
+
+			for (const richText of item.other_pages) {
+				const otherPageId = richText.InternalHref?.PageId || richText.Mention?.Page?.PageId;
+				if (otherPageId && otherPageId !== entryId) {
+					ids.push(otherPageId);
+				}
+			}
+
+			return ids;
+		}),
+	);
+
+	return targetEntryIds
+		.map((targetEntryId) => mapEntryIdToLink(targetEntryId, postIdSet, entryById, siteUrl))
+		.filter((link): link is { title: string; url: string } => Boolean(link));
+}
+
+async function readInterlinkedContentInPage(
+	entryId: string,
+): Promise<InterlinkedContentInPage[] | null> {
+	const interlinkedDir = BUILD_FOLDER_PATHS["interlinkedContentInPage"];
+	if (!interlinkedDir) {
+		return null;
+	}
+
+	try {
+		const raw = await fs.readFile(path.join(interlinkedDir, `${entryId}.json`), "utf-8");
+		const parsed = superjson.parse<InterlinkedContentInPage[]>(raw);
+		return Array.isArray(parsed) ? parsed : null;
+	} catch {
+		return null;
+	}
+}
+
+async function readInterlinkedContentToPage(
+	entryId: string,
+): Promise<InterlinkedContentToPageEntry[] | null> {
+	const interlinkedDir = BUILD_FOLDER_PATHS["interlinkedContentToPage"];
+	if (!interlinkedDir) {
+		return null;
+	}
+
+	try {
+		const raw = await fs.readFile(path.join(interlinkedDir, `${entryId}.json`), "utf-8");
+		const parsed = superjson.parse<InterlinkedContentToPageEntry[]>(raw);
+		return Array.isArray(parsed) ? parsed : null;
+	} catch {
+		return null;
+	}
+}
+
+function mapEntryIdToLink(
+	entryId: string,
+	postIdSet: Set<string>,
+	entryById: Map<string, Post>,
+	siteUrl: string,
+): { title: string; url: string } | null {
+	const linkedEntry = entryById.get(entryId);
+	if (!linkedEntry) {
+		return null;
+	}
+
+	const url = resolveEntryUrl(linkedEntry, postIdSet, siteUrl);
+	if (!url) {
+		return null;
+	}
+
+	return {
+		title: linkedEntry.Title || linkedEntry.Slug || "Untitled",
+		url,
+	};
+}
+
+function resolveEntryUrl(entry: Post, postIdSet: Set<string>, siteUrl: string): string | null {
+	if (entry.IsExternal) {
+		return entry.ExternalUrl || null;
+	}
+
+	const slug = entry.Slug || "";
+	if (postIdSet.has(entry.PageId)) {
+		return new URL(path.posix.join("posts", `${slug}/`), siteUrl).toString();
+	}
+
+	if (slug === HOME_PAGE_SLUG) {
+		return siteUrl;
+	}
+
+	return new URL(path.posix.join(slug, "/"), siteUrl).toString();
+}
+
+function renderMarkdownLinkItem(link: { title: string; url: string }): string {
+	return `- [${escapeMarkdownText(link.title)}](${link.url})`;
+}
+
+function escapeMarkdownText(value: string): string {
+	return value.replace(/([\\[\]])/g, "\\$1");
+}
+
+function dedupePreservingOrder(values: string[]): string[] {
+	const seen = new Set<string>();
+	return values.filter((value) => {
+		if (!value || seen.has(value)) {
+			return false;
+		}
+		seen.add(value);
+		return true;
+	});
+}
+
+function normalizeComparableUrl(value: string): string {
+	return value.replace(/\/+$/, "");
 }
 
 function collectFootnotes(
@@ -677,11 +989,7 @@ function shouldOmitValue(value: unknown): boolean {
 
 function normalizeDate(value: string | Date | null | undefined): string | null {
 	if (!value) return null;
-	const date = typeof value === "string" ? new Date(value) : value;
-	if (!(date instanceof Date) || Number.isNaN(date.getTime())) {
-		return null;
-	}
-	return date.toISOString();
+	return getMachineDateISOString(value);
 }
 
 async function loadCitationsForEntry(entry: Post): Promise<Citation[] | null> {

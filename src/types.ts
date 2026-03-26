@@ -37,6 +37,7 @@ export type SiteMeta = {
 	ogImage?: string | undefined;
 	articleDate?: string | undefined;
 	author?: string | undefined;
+	hasMarkdownAlternate?: boolean | undefined;
 };
 
 /** Webmentions */

@@ -4,6 +4,7 @@ import { siteInfo } from "@/siteInfo";
 import { getPostLink, isExternalPost } from "@/lib/blog-helpers";
 import { MENU_PAGES_COLLECTION } from "@/constants";
 import Icon from "@/components/ui/Icon.astro";
+import { getCalendarDateParts } from "@/utils";
 
 export interface Props {
 	post: Post;
@@ -13,8 +14,8 @@ const { post } = Astro.props;
 const shouldRender = !isExternalPost(post);
 
 // Extract year and month from post date
-const postDate = new Date(post.Date);
-const year = postDate.getFullYear();
+const postDateParts = getCalendarDateParts(post.Date);
+const year = postDateParts?.year ?? new Date().getUTCFullYear();
 const monthNames = [
 	"Jan",
 	"Feb",
@@ -29,7 +30,7 @@ const monthNames = [
 	"Nov",
 	"Dec",
 ];
-const month = monthNames[postDate.getMonth()];
+const month = monthNames[(postDateParts?.month ?? 1) - 1];
 
 // Format author name for BibTeX (Lastname, Firstname Middlename)
 // Input: "Firstname Middlename Lastname" or "Firstname Lastname"

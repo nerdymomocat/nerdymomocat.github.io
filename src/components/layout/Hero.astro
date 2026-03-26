@@ -88,7 +88,7 @@ if (showHeroBackground && post.Cover?.Url) {
 	{post.Authors !== undefined && <AuthorByline authors={post.Authors} class="mb-2" />}
 	<div class="flex max-w-full flex-wrap items-center gap-x-3 gap-y-2">
 		<p class="font-semibold">
-			<FormattedDate date={new Date(post.Date)} dateTimeOptions={dateTimeOptions} />
+			<FormattedDate date={post.Date} dateTimeOptions={dateTimeOptions} />
 		</p>
 		{
 			post.Date && post.LastUpdatedDate && areDifferentDates(post.Date, post.LastUpdatedDate) && (
@@ -96,7 +96,7 @@ if (showHeroBackground && post.Cover?.Url) {
 					{"Last Updated:"}
 					<FormattedDate
 						class="ms-1"
-						date={new Date(post.LastUpdatedDate)}
+						date={post.LastUpdatedDate}
 						dateTimeOptions={dateTimeOptions}
 					/>
 				</span>

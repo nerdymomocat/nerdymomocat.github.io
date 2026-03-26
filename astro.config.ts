@@ -192,7 +192,7 @@ export default defineConfig({
 		DeleteBuildCache(),
 	],
 	image: {
-		domains: ["webmention.io"],
+		remotePatterns: [{}],
 	},
 	prefetch: true,
 	vite: {

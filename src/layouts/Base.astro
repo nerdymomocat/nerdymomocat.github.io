@@ -17,6 +17,7 @@ const {
 		ogImage,
 		articleDate,
 		author,
+		hasMarkdownAlternate,
 	},
 } = Astro.props;
 ---
@@ -29,6 +30,7 @@ const {
 			ogImage={ogImage}
 			articleDate={articleDate}
 			author={author}
+			hasMarkdownAlternate={hasMarkdownAlternate}
 		/>
 	</head>
 	<body class="max-w-3xl print:max-w-full">

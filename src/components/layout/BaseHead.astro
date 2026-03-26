@@ -15,11 +15,12 @@ import { getNavLink } from "@/lib/blog-helpers";
 
 type Props = SiteMeta;
 
-const { title, description, ogImage, articleDate, author } = Astro.props;
+const { title, description, ogImage, articleDate, author, hasMarkdownAlternate } = Astro.props;
 
 const titleSeparator = "•";
 const siteTitle = `${title} ${titleSeparator} ${siteInfo.title}`;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const markdownAlternateUrl = new URL("./index.html.md", Astro.url).href;
 const socialImageURL = new URL(
 	getNavLink(ogImage ? ogImage : `/og-image/${HOME_PAGE_SLUG}.png`),
 	Astro.url,
@@ -108,6 +109,9 @@ const useGiscus =
 {/* Icons / Favicon */}
 <link rel="icon" href={faviconLink} sizes="any" />
 <link rel="canonical" href={canonicalURL} />
+{hasMarkdownAlternate && (
+	<link rel="alternate" type="text/markdown" href={markdownAlternateUrl} />
+)}
 
 {/* Primary Meta Tags */}
 <meta name="title" content={siteTitle} />

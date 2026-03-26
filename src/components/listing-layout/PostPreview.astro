@@ -20,7 +20,7 @@ const postLink = resolvePostHref(post);
 const external = isExternalPost(post);
 ---
 
-<FormattedDate date={new Date(post.Date)} class="text-accent/90 min-w-[120px] font-mono text-xs" />
+<FormattedDate date={post.Date} class="text-accent/90 min-w-[120px] font-mono text-xs" />
 <Tag>
 	{
 		external && (

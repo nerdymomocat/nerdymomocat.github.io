@@ -79,7 +79,11 @@ import type {
 } from "@/lib/interfaces";
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 import { Client, APIResponseError } from "@notionhq/client";
-import { getFormattedDateWithTime } from "../../utils/date";
+import {
+	compareDatesDescending,
+	getCalendarDateString,
+	getFormattedDateWithTime,
+} from "../../utils/date";
 import { slugify } from "../../utils/slugify";
 import { writeMdxSnippet } from "./mdx-snippet-writer";
 import { extractPageContent } from "../../lib/blog-helpers";
@@ -260,6 +264,11 @@ const VALID_NOTION_ICON_COLORS = new Set([
 	"pink",
 	"red",
 ]);
+
+function normalizeNotionCalendarDate(value?: string | null): string {
+	if (!value) return "";
+	return getCalendarDateString(value) || "";
+}
 
 function normalizeNotionIconColor(color?: string): string {
 	if (color && VALID_NOTION_ICON_COLORS.has(color)) {
@@ -451,9 +460,7 @@ export async function getAllEntries(): Promise<Post[]> {
 			.map((pageObject) => _buildPost(pageObject)),
 	);
 
-	allEntriesCache = allEntriesCache.sort(
-		(a, b) => new Date(b.Date).getTime() - new Date(a.Date).getTime(),
-	);
+	allEntriesCache = allEntriesCache.sort((a, b) => compareDatesDescending(b.Date, a.Date));
 	//console.log("posts Cache", postsCache);
 	saveBuildcache("allEntries.json", allEntriesCache);
 	return allEntriesCache;
@@ -2368,7 +2375,7 @@ async function _buildPost(pageObject: responses.PageObject): Promise<Post> {
 		Cover: cover,
 		Collection: prop.Collection?.select ? prop.Collection.select.name : "",
 		Slug: slugValue,
-		Date: prop["Publish Date"]?.formula?.date ? prop["Publish Date"]?.formula?.date.start : "",
+		Date: normalizeNotionCalendarDate(prop["Publish Date"]?.formula?.date?.start),
 		Tags: prop.Tags?.multi_select ? prop.Tags.multi_select : [],
 		Excerpt:
 			prop.Excerpt?.rich_text && prop.Excerpt.rich_text.length > 0
@@ -2376,9 +2383,7 @@ async function _buildPost(pageObject: responses.PageObject): Promise<Post> {
 				: "",
 		FeaturedImage: featuredImage,
 		Rank: prop.Rank?.number ?? null,
-		LastUpdatedDate: prop["Last Updated Date"]?.formula?.date
-			? prop["Last Updated Date"]?.formula.date.start
-			: "",
+		LastUpdatedDate: normalizeNotionCalendarDate(prop["Last Updated Date"]?.formula?.date?.start),
 		Pinned: prop.Pinned && prop.Pinned.checkbox === true ? true : false,
 		BlueSkyPostLink:
 			prop["Bluesky Post Link"] && prop["Bluesky Post Link"].url
