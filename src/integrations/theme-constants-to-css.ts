@@ -390,6 +390,10 @@ ${createCssVariables("dark")}
      @apply border-b border-gray-200/90 dark:border-gray-700/90;
   }
 
+  .ntable table.no-column-header tbody tr:first-child {
+    @apply border-t border-gray-200/90 dark:border-gray-700/90;
+  }
+
   /* Bookmark */
   .bookmark {
     @apply pb-2;

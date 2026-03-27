@@ -6,12 +6,12 @@ import { getNavLink } from "@/lib/blog-helpers";
 export {
 	getFormattedDate,
 	getFormattedDateWithTime,
-	areDifferentDates,
-	getDateObject,
 	getCalendarDateParts,
 	getCalendarDateString,
+	getDateObject,
 	getDateTimeValue,
-	compareDatesDescending,
+	getMachineDateISOString,
+	areDifferentDates,
 } from "@/utils/date";
 export { generateToc, buildHeadings } from "@/utils/generateToc";
 export type { TocItem } from "@/utils/generateToc";

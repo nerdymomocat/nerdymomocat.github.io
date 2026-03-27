@@ -17,7 +17,12 @@ const isDataTable =
 	plainTextFirstCell && block.Table?.HasColumnHeader
 		? plainTextFirstCell.startsWith(SHORTCODES.table)
 		: false;
-const tableClass = isDataTable ? "datatable" : "";
+const tableClass = [
+	isDataTable ? "datatable" : "",
+	block.Table?.HasColumnHeader ? "" : "no-column-header",
+]
+	.filter(Boolean)
+	.join(" ");
 
 // Remove SHORTCODES.table from the first cell if it exists
 if (isDataTable && block.Table?.Rows[0]?.Cells[0]?.RichTexts[0]?.Text?.Content) {
