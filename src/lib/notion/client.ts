@@ -79,11 +79,7 @@ import type {
 } from "@/lib/interfaces";
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 import { Client, APIResponseError } from "@notionhq/client";
-import {
-	compareDatesDescending,
-	getCalendarDateString,
-	getFormattedDateWithTime,
-} from "../../utils/date";
+import { getFormattedDateWithTime } from "../../utils/date";
 import { slugify } from "../../utils/slugify";
 import { writeMdxSnippet } from "./mdx-snippet-writer";
 import { extractPageContent } from "../../lib/blog-helpers";
@@ -265,9 +261,12 @@ const VALID_NOTION_ICON_COLORS = new Set([
 	"red",
 ]);
 
+const NOTION_CALENDAR_DATE_PREFIX_PATTERN = /^(\d{4}-\d{2}-\d{2})(?:T.*)?$/;
+
 function normalizeNotionCalendarDate(value?: string | null): string {
 	if (!value) return "";
-	return getCalendarDateString(value) || "";
+	const match = value.match(NOTION_CALENDAR_DATE_PREFIX_PATTERN);
+	return match ? match[1] : "";
 }
 
 function normalizeNotionIconColor(color?: string): string {
@@ -460,7 +459,9 @@ export async function getAllEntries(): Promise<Post[]> {
 			.map((pageObject) => _buildPost(pageObject)),
 	);
 
-	allEntriesCache = allEntriesCache.sort((a, b) => compareDatesDescending(b.Date, a.Date));
+	allEntriesCache = allEntriesCache.sort(
+		(a, b) => new Date(b.Date).getTime() - new Date(a.Date).getTime(),
+	);
 	//console.log("posts Cache", postsCache);
 	saveBuildcache("allEntries.json", allEntriesCache);
 	return allEntriesCache;
