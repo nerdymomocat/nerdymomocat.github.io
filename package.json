@@ -1,10 +1,10 @@
 {
 	"name": "webtrotion-astro-notion-cms-website-blog",
-	"version": "2.4.1",
+	"version": "2.4.1b",
 	"private": false,
 	"cacheVersion": {
 		"tmpJSONCache": "v6x",
-		"tmpHTMLCache": "vJx",
+		"tmpHTMLCache": "vJa",
 		"tmpOGImagesCache": "v5x",
 		"lastBuildTimestampStore": "vH"
 	},
