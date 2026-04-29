@@ -107,37 +107,37 @@ const baseId = `notion-tab-${block.Id}`;
 		return Array.from(container.querySelectorAll(":scope > [data-tab-panel]"));
 	}
 
-		function updateScrollState(container) {
-			const header = container.querySelector("[data-tab-header]");
-			const list = getTabList(container);
-			if (!(header instanceof HTMLElement) || !(list instanceof HTMLElement)) return;
+	function updateScrollState(container) {
+		const header = container.querySelector("[data-tab-header]");
+		const list = getTabList(container);
+		if (!(header instanceof HTMLElement) || !(list instanceof HTMLElement)) return;
 
 		const maxScrollLeft = Math.max(0, list.scrollWidth - list.clientWidth);
 		const threshold = 6;
-			header.dataset.canScrollLeft = String(list.scrollLeft > threshold);
-			header.dataset.canScrollRight = String(list.scrollLeft < maxScrollLeft - threshold);
+		header.dataset.canScrollLeft = String(list.scrollLeft > threshold);
+		header.dataset.canScrollRight = String(list.scrollLeft < maxScrollLeft - threshold);
+	}
+
+	function scrollTabIntoListView(tab, behavior = "auto") {
+		const list = tab.closest("[data-tab-list]");
+		if (!(list instanceof HTMLElement)) return;
+
+		const tabLeft = tab.offsetLeft;
+		const tabRight = tabLeft + tab.offsetWidth;
+		const visibleLeft = list.scrollLeft;
+		const visibleRight = visibleLeft + list.clientWidth;
+
+		if (tabLeft < visibleLeft) {
+			list.scrollTo({ left: tabLeft, behavior });
+		} else if (tabRight > visibleRight) {
+			list.scrollTo({ left: tabRight - list.clientWidth, behavior });
 		}
+	}
 
-		function scrollTabIntoListView(tab, behavior = "auto") {
-			const list = tab.closest("[data-tab-list]");
-			if (!(list instanceof HTMLElement)) return;
-
-			const tabLeft = tab.offsetLeft;
-			const tabRight = tabLeft + tab.offsetWidth;
-			const visibleLeft = list.scrollLeft;
-			const visibleRight = visibleLeft + list.clientWidth;
-
-			if (tabLeft < visibleLeft) {
-				list.scrollTo({ left: tabLeft, behavior });
-			} else if (tabRight > visibleRight) {
-				list.scrollTo({ left: tabRight - list.clientWidth, behavior });
-			}
-		}
-
-		function setActiveTab(container, nextIndex, shouldFocus = false) {
-			const tabs = getTabs(container);
-			const panels = getPanels(container);
-			if (!tabs.length) return;
+	function setActiveTab(container, nextIndex, shouldFocus = false) {
+		const tabs = getTabs(container);
+		const panels = getPanels(container);
+		if (!tabs.length) return;
 
 		const boundedIndex = Math.max(0, Math.min(nextIndex, tabs.length - 1));
 
@@ -153,13 +153,13 @@ const baseId = `notion-tab-${block.Id}`;
 		});
 
 		if (shouldFocus) {
-				tabs[boundedIndex]?.focus();
-			}
-
-			scrollTabIntoListView(tabs[boundedIndex], shouldFocus ? "smooth" : "auto");
-
-			requestAnimationFrame(() => updateScrollState(container));
+			tabs[boundedIndex]?.focus();
 		}
+
+		scrollTabIntoListView(tabs[boundedIndex], shouldFocus ? "smooth" : "auto");
+
+		requestAnimationFrame(() => updateScrollState(container));
+	}
 
 	function revealTargetInTabs(target) {
 		if (!(target instanceof HTMLElement)) return null;
