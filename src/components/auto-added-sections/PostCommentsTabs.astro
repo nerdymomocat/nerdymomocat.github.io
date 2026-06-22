@@ -1,0 +1,42 @@
+<post-comments-tabs>
+	<slot />
+</post-comments-tabs>
+
+<script>
+	class PostCommentsTabs extends HTMLElement {
+		#initialized = false;
+
+		connectedCallback() {
+			if (this.#initialized) return;
+			this.#initialized = true;
+
+			const tabs = this.querySelectorAll<HTMLButtonElement>(".tab");
+			const panes = this.querySelectorAll<HTMLElement>(".tab-pane");
+
+			tabs.forEach((tab) => {
+				tab.addEventListener("click", () => {
+					document.startViewTransition(() => {
+						const targetTab = tab.dataset.tab;
+
+						panes.forEach((pane) => {
+							pane.hidden = pane.id !== `${targetTab}-tab`;
+						});
+
+						tabs.forEach((item) => item.classList.remove("active"));
+						tab.classList.add("active");
+					});
+				});
+			});
+
+			tabs[0]?.click();
+		}
+	}
+
+	customElements.define("post-comments-tabs", PostCommentsTabs);
+</script>
+
+<style>
+	post-comments-tabs {
+		display: block;
+	}
+</style>

@@ -1,13 +1,13 @@
-import { defineConfig, fontProviders, svgoOptimizer } from "astro/config";
+import { defineConfig, fontProviders, memoryCache, svgoOptimizer } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
 import mdx from "@astrojs/mdx";
-import { unified } from "@astrojs/markdown-remark";
+import { satteri } from "@astrojs/markdown-satteri";
 
 import path from "path";
 import fs from "fs";
 import JSON5 from "json5";
 import { CUSTOM_DOMAIN, BASE_PATH, EXTERNAL_CONTENT_CONFIG } from "./src/constants";
-import remarkExternalMdxAssets from "./src/lib/external-content/remark-external-mdx-assets";
+import satteriExternalMdxAssets from "./src/lib/external-content/satteri-external-mdx-assets";
 import { externalContentVitePlugins } from "./src/lib/vite-external-content-plugins";
 
 const getSite = function () {
@@ -87,6 +87,18 @@ export default defineConfig({
 	site: getSite(),
 	base: process.env.BASE || BASE_PATH,
 	cacheDir: "./tmp/.astro",
+	compressHTML: true,
+	cache: {
+		provider: memoryCache(),
+	},
+	routeRules: {
+		"/": { maxAge: 300, swr: 60 },
+		"/posts/[...path]": { maxAge: 300, swr: 60 },
+		"/collections/[...path]": { maxAge: 300, swr: 60 },
+		"/tags/[...path]": { maxAge: 300, swr: 60 },
+		"/authors/[...path]": { maxAge: 300, swr: 60 },
+		"/updates": { maxAge: 300, swr: 60 },
+	},
 	redirects: key_value_from_json?.redirects
 		? modifyRedirectPaths(key_value_from_json.redirects, process.env.BASE || BASE_PATH)
 		: {},
@@ -161,8 +173,8 @@ export default defineConfig({
 		svgOptimizer: svgoOptimizer(),
 	},
 	markdown: {
-		processor: unified({
-			remarkPlugins: [remarkExternalMdxAssets],
+		processor: satteri({
+			mdastPlugins: [satteriExternalMdxAssets],
 		}),
 	},
 	integrations: [

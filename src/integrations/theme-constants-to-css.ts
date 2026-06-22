@@ -986,7 +986,7 @@ ${createCssVariables("dark")}
     display: none;
   }
 
-  details.toggle[open] > summary > div > .rotate-svg {
+  details.toggle[open] > summary > span > .rotate-svg {
     @apply rotate-90;
   }
 
