@@ -1,4 +1,4 @@
-import { defineConfig, fontProviders, memoryCache, svgoOptimizer } from "astro/config";
+import { defineConfig, fontProviders, svgoOptimizer } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
 import mdx from "@astrojs/mdx";
 import { satteri } from "@astrojs/markdown-satteri";
@@ -87,18 +87,6 @@ export default defineConfig({
 	site: getSite(),
 	base: process.env.BASE || BASE_PATH,
 	cacheDir: "./tmp/.astro",
-	compressHTML: true,
-	cache: {
-		provider: memoryCache(),
-	},
-	routeRules: {
-		"/": { maxAge: 300, swr: 60 },
-		"/posts/[...path]": { maxAge: 300, swr: 60 },
-		"/collections/[...path]": { maxAge: 300, swr: 60 },
-		"/tags/[...path]": { maxAge: 300, swr: 60 },
-		"/authors/[...path]": { maxAge: 300, swr: 60 },
-		"/updates": { maxAge: 300, swr: 60 },
-	},
 	redirects: key_value_from_json?.redirects
 		? modifyRedirectPaths(key_value_from_json.redirects, process.env.BASE || BASE_PATH)
 		: {},
