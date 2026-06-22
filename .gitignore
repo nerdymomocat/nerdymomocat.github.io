@@ -41,3 +41,6 @@ buildcache/
 
 #agent conversation copies
 .agents/**/conversation.md
+
+**/.design/**
+**/.playwright-mcp/**

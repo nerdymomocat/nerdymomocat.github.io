@@ -1,6 +1,7 @@
-import { defineConfig, fontProviders } from "astro/config";
+import { defineConfig, fontProviders, svgoOptimizer } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
 import mdx from "@astrojs/mdx";
+import { unified } from "@astrojs/markdown-remark";
 
 import path from "path";
 import fs from "fs";
@@ -97,8 +98,8 @@ export default defineConfig({
 		}
 
 		const fonts = [];
-		const weights = [400, 500, 600, 700];
-		const styles = ["normal", "italic"];
+		const weights: [number, ...number[]] = [400, 500, 600, 700];
+		const styles: ["normal" | "italic", ...("normal" | "italic")[]] = ["normal", "italic"];
 		const formats = ["woff2"] as const;
 		const buildGoogleFont = ({
 			name,
@@ -157,17 +158,16 @@ export default defineConfig({
 	})(),
 	experimental: {
 		clientPrerender: true,
-		queuedRendering: {
-			enabled: true,
-			contentCache: true,
-		},
-		svgo: true,
+		svgOptimizer: svgoOptimizer(),
+	},
+	markdown: {
+		processor: unified({
+			remarkPlugins: [remarkExternalMdxAssets],
+		}),
 	},
 	integrations: [
 		createFoldersIfMissing(),
-		mdx({
-			remarkPlugins: [remarkExternalMdxAssets],
-		}),
+		mdx(),
 		EXTERNAL_CONTENT_CONFIG.enabled ? externalContentDownloader() : undefined,
 		buildTimestampRecorder(),
 		citationsInitializer(), // Initialize BibTeX cache after timestamp is recorded

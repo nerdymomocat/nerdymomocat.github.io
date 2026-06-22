@@ -15,6 +15,27 @@ function ensureVisibleInTabs(targetOrId: string | HTMLElement | null): HTMLEleme
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+	// Handle post comment provider tabs
+	const commentTabs = document.querySelectorAll<HTMLButtonElement>(".tab");
+	const commentTabPanes = document.querySelectorAll<HTMLElement>(".tab-pane");
+
+	commentTabs.forEach((tab) => {
+		tab.addEventListener("click", () => {
+			document.startViewTransition(() => {
+				const targetTab = tab.dataset.tab;
+
+				commentTabPanes.forEach((pane) => {
+					pane.hidden = pane.id !== `${targetTab}-tab`;
+				});
+
+				commentTabs.forEach((item) => item.classList.remove("active"));
+				tab.classList.add("active");
+			});
+		});
+	});
+
+	commentTabs[0]?.click();
+
 	// Handle Headings Copy Link
 	const headings = document.querySelectorAll(".hasId");
 	headings.forEach((heading) => {

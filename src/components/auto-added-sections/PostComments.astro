@@ -698,33 +698,6 @@ BLUESKY_COMM && Object.keys(BLUESKY_COMM).length > 0 &&
       </div>
     </div>
   </section>
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const tabs = document.querySelectorAll(".tab");
-      const tabPanes = document.querySelectorAll(".tab-pane");
-
-      tabs.forEach((tab) => {
-        tab.addEventListener("click", () => {
-          document.startViewTransition(() => {
-            const targetTab = tab.dataset.tab;
-
-            tabPanes.forEach((pane) => {
-              pane.hidden = pane.id !== `${targetTab}-tab`;
-            });
-
-            tabs.forEach((t) => t.classList.remove("active"));
-            tab.classList.add("active");
-          });
-        });
-      });
-
-      // Activate the first tab by default
-      if (tabs.length > 0) {
-        tabs[0].click();
-      }
-    });
-  </script>
-
   <style>
 
     .tab.active {
