@@ -183,6 +183,16 @@ function initPopovers() {
 		const popoverLink = event.target.closest("[data-popover-link]");
 		if (popoverLink) {
 			hideAllPopovers(-1);
+			return;
+		}
+
+		const popoverCardLink = event.target.closest("[data-popover-card-link]");
+		if (popoverCardLink && !event.target.closest("a, button, input, select, textarea")) {
+			const href = popoverCardLink.dataset.href;
+			if (href) {
+				window.location.href = href;
+				return;
+			}
 		} else if (!triggerEl) {
 			hideAllPopovers(-1);
 		}
@@ -191,6 +201,18 @@ function initPopovers() {
 	document.addEventListener("keydown", (event) => {
 		if (event.key === "Escape") {
 			hideAllPopovers(-1);
+			return;
+		}
+
+		if (event.key === "Enter" || event.key === " ") {
+			const popoverCardLink = event.target.closest("[data-popover-card-link]");
+			if (popoverCardLink && event.target === popoverCardLink) {
+				event.preventDefault();
+				const href = popoverCardLink.dataset.href;
+				if (href) {
+					window.location.href = href;
+				}
+			}
 		}
 	});
 }

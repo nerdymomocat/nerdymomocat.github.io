@@ -69,7 +69,13 @@ if (linkedTo && (linkedTo.includes(footnotePattern + "/") || linkedTo.endsWith(f
 					<span data-popover-link>{""}</span>
 				</div>
 			) : (
-				<div class="space-y-2 p-3">
+				<div
+					class="space-y-2 p-3 cursor-pointer"
+					data-popover-card-link
+					data-href={linkedTo}
+					role="link"
+					tabindex="0"
+				>
 					{popoverTitle && (
 						<h3 class="text-accent decoration-accent-2/20 font-semibold underline decoration-wavy">
 							{popoverTitle}

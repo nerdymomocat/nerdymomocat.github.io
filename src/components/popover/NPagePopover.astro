@@ -40,7 +40,13 @@ let id = "id" + Math.random().toString(16).slice(2) + "---" + postId;
 		role="tooltip"
 		class="popoverEl border-accent-2/20 bg-popover-bg/95 text-textColor/80 invisible absolute z-40 hidden inline-block w-72 rounded-lg border text-sm opacity-0 shadow-xs backdrop-blur-sm transition-opacity duration-300"
 	>
-		<div class="space-y-2 p-3">
+		<div
+			class="space-y-2 p-3 cursor-pointer"
+			data-popover-card-link
+			data-href={linkedTo}
+			role="link"
+			tabindex="0"
+		>
 			<h3 class="text-accent decoration-accent-2/20 font-semibold underline decoration-wavy">
 				{popoverTitle}
 			</h3>
