@@ -529,11 +529,15 @@ ${createCssVariables("dark")}
   }
 
   .toggle-summary {
-    @apply flex max-w-full cursor-pointer list-none list-image-none gap-2;
+    @apply flex max-w-full cursor-pointer list-none list-image-none items-start gap-2;
   }
 
   .toggle-summary::-webkit-details-marker {
     display: none;
+  }
+
+  .toggle-icon-box {
+    @apply inline-flex h-6 w-6 shrink-0 items-center justify-center;
   }
 
   details.toggle[open] .toggle-icon-box > .rotate-svg {
@@ -984,6 +988,19 @@ ${createCssVariables("dark")}
   /* Toggles */
   .toggle > summary::-webkit-details-marker {
     display: none;
+  }
+
+  .toggle > summary {
+    @apply items-start;
+  }
+
+  .toggle > summary .toggle-heading {
+    display: inline !important;
+    margin: 0 !important;
+  }
+
+  .toggle-icon-box {
+    @apply inline-flex h-6 w-6 shrink-0 items-center justify-center;
   }
 
   details.toggle[open] .toggle-icon-box > .rotate-svg {

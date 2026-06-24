@@ -85,10 +85,6 @@ const { block, renderChildren = true, setId = true } = Astro.props;
 	.toggle-summary > a {
 		display: inline;
 	}
-	/* This targets only the direct child SVG of the opened details */
-	details[open] .toggle-icon-box > .rotate-svg {
-		transform: rotateZ(90deg);
-	}
 	summary::-webkit-details-marker {
 		display: none;
 	}
