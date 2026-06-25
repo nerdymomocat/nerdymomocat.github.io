@@ -23,7 +23,18 @@ import Icon from "@/components/ui/Icon.astro";
 					</div>
 				) : (
 					<div class="search-container">
+						<Icon
+							class="search-field-icon h-5 w-5"
+							name={"search"}
+							aria-hidden="true"
+							focusable="false"
+						/>
 						<div id="webtrotion__search" />
+						<div class="search-shortcuts" aria-hidden="true">
+							<span>↑↓ Navigate</span>
+							<span>Enter Open</span>
+							<span>Esc Close</span>
+						</div>
 					</div>
 				)
 			}
@@ -41,6 +52,10 @@ import Icon from "@/components/ui/Icon.astro";
 		private initialized: boolean = false;
 		private idleCallbackId: number | null = null;
 		private pagefindUI: any = null;
+		private pagefindLoadPromise: Promise<void> | null = null;
+		private activeResultIndex: number = -1;
+		private loadMoreObserver: IntersectionObserver | null = null;
+		private autoLoadingMore: boolean = false;
 		private _loadPagefind: (() => Promise<void>) | null = null;
 
 		constructor() {
@@ -53,6 +68,7 @@ import Icon from "@/components/ui/Icon.astro";
 			this.openBtn.addEventListener("click", this.openModal);
 			this.openBtn.disabled = false;
 			this.closeBtn.addEventListener("click", this.closeModal);
+			this.dialog.addEventListener("keydown", this.onDialogKeydown);
 
 			// Initialize MutationObserver
 			this.observer = new MutationObserver(this.queueDOMCheck);
@@ -64,46 +80,14 @@ import Icon from "@/components/ui/Icon.astro";
 
 			this._loadPagefind = async () => {
 				if (this.pagefindUI) return;
-				const { PagefindUI } = await import("@pagefind/default-ui");
-				const bundlePath = import.meta.env.BASE_URL.replace(/\/$/, "") + "/pagefind/";
-				const css = document.createElement("link");
-				css.rel = "stylesheet";
-				css.href = bundlePath + "pagefind-ui.css";
-				document.head.appendChild(css);
-
-				this.pagefindUI = new PagefindUI({
-					element: "#webtrotion__search",
-					baseUrl: import.meta.env.BASE_URL,
-					bundlePath: import.meta.env.BASE_URL.replace(/\/$/, "") + "/pagefind/",
-					showImages: false,
-					showSubResults: true,
-					showEmptyFilters: false,
-					openFilters: ["Tags"],
-					translations: {
-						placeholder: "Tip: Use ⌘K or ^K to open search",
-						zero_results: "Couldn't find [SEARCH_TERM]",
-					},
-				});
-
-				if (this.dialog.open) {
-					requestAnimationFrame(() => this.querySelector("input")?.focus());
-				}
-
-				// Start observing the dialog for changes
-				this.observer.observe(this.dialog, { childList: true, subtree: true });
-
-				const queryParams = new URLSearchParams(window.location.search);
-				const searchTerm = queryParams.get("q");
-
-				if (searchTerm) {
-					this.openModal();
-					this.pagefindUI.triggerSearch(searchTerm);
-				}
+				if (this.pagefindLoadPromise) return this.pagefindLoadPromise;
+				this.pagefindLoadPromise = this.#initializePagefind();
+				return this.pagefindLoadPromise;
 			};
 
 			const queryParams = new URLSearchParams(window.location.search);
 			if (queryParams.get("q")) {
-				this._loadPagefind();
+				this.openModal();
 			} else {
 				// Load on interaction
 				this.openBtn.addEventListener("mouseenter", () => this._loadPagefind?.(), { once: true });
@@ -111,15 +95,55 @@ import Icon from "@/components/ui/Icon.astro";
 			}
 		}
 
+		async #initializePagefind() {
+			const { PagefindUI } = await import("@pagefind/default-ui");
+			const bundlePath = import.meta.env.BASE_URL.replace(/\/$/, "") + "/pagefind/";
+			const css = document.createElement("link");
+			css.rel = "stylesheet";
+			css.href = bundlePath + "pagefind-ui.css";
+			document.head.appendChild(css);
+
+			this.pagefindUI = new PagefindUI({
+				element: "#webtrotion__search",
+				baseUrl: import.meta.env.BASE_URL,
+				bundlePath: import.meta.env.BASE_URL.replace(/\/$/, "") + "/pagefind/",
+				showImages: false,
+				showSubResults: true,
+				showEmptyFilters: false,
+				translations: {
+					placeholder: "Search this site",
+					zero_results: "Couldn't find [SEARCH_TERM]",
+				},
+			});
+
+			if (this.dialog.open) {
+				requestAnimationFrame(() => this.#focusSearchInput());
+			}
+
+			// Start observing the dialog for changes
+			this.observer.observe(this.dialog, { childList: true, subtree: true });
+
+			const queryParams = new URLSearchParams(window.location.search);
+			const searchTerm = queryParams.get("q");
+
+			if (searchTerm) {
+				this.openModal();
+				this.pagefindUI.triggerSearch(searchTerm);
+			}
+		}
+
 		disconnectedCallback() {
 			window.removeEventListener("keydown", this.onWindowKeydown);
+			this.dialog.removeEventListener("keydown", this.onDialogKeydown);
 			this.observer.disconnect();
+			this.loadMoreObserver?.disconnect();
 			if (this.idleCallbackId !== null) {
 				(window.cancelIdleCallback || clearTimeout)(this.idleCallbackId);
 			}
 		}
 
 		queueDOMCheck = () => {
+			this.#enhanceSearchResults();
 			if (this.initialized) return;
 
 			if (this.idleCallbackId !== null) {
@@ -138,18 +162,13 @@ import Icon from "@/components/ui/Icon.astro";
 			if (filterBlocks.length >= 2) {
 				this.initializeFilterBlocks(filterBlocks);
 				this.initialized = true;
-				this.observer.disconnect();
 			}
 		};
 
 		initializeFilterBlocks = (filterBlocks: NodeListOf<Element>) => {
-			const secondFilterBlock = filterBlocks[1] as HTMLDetailsElement;
-			if (window.innerWidth >= 640) {
-				// Tailwind's sm breakpoint
-				secondFilterBlock.setAttribute("open", "");
-			} else {
-				secondFilterBlock.removeAttribute("open");
-			}
+			filterBlocks.forEach((filterBlock) => {
+				filterBlock.setAttribute("data-search-filter-ready", "true");
+			});
 		};
 
 		onWindowClick = (event: MouseEvent) => {
@@ -163,28 +182,326 @@ import Icon from "@/components/ui/Icon.astro";
 		};
 
 		onWindowKeydown = (e: KeyboardEvent) => {
-			if ((e.metaKey || e.ctrlKey) && e.key === "k" && !this.dialog.open) {
+			if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
 				this.openModal();
 				e.preventDefault();
 			}
 		};
 
-		openModal = (event?: MouseEvent) => {
-			if (!this.pagefindUI) {
-				this._loadPagefind?.();
-			}
-			this.dialog.showModal();
-			this.querySelector("input")?.focus();
+		openModal = async (event?: MouseEvent) => {
 			event?.stopPropagation();
+			if (!this.dialog.open) this.dialog.showModal();
 			window.addEventListener("click", this.onWindowClick);
+			await this._loadPagefind?.();
+			requestAnimationFrame(() => this.#focusSearchInput());
 		};
 
 		closeModal = () => {
 			if (this.dialog.open) {
 				this.dialog.close();
 				window.removeEventListener("click", this.onWindowClick);
+				this.activeResultIndex = -1;
+				this.#clearActiveResult();
 			}
 		};
+
+		onDialogKeydown = (event: KeyboardEvent) => {
+			if (event.key === "Escape") {
+				this.closeModal();
+				return;
+			}
+
+			if (
+				event.key !== "ArrowDown" &&
+				event.key !== "ArrowUp" &&
+				event.key !== "ArrowRight" &&
+				event.key !== "ArrowLeft" &&
+				event.key !== "Home" &&
+				event.key !== "End"
+			) {
+				return;
+			}
+
+			const links = this.#topLevelResultLinks();
+			if (!links.length) return;
+
+			event.preventDefault();
+			const activeElement = document.activeElement;
+			const isSearchInput = activeElement?.classList.contains("pagefind-ui__search-input") ?? false;
+			const activeLink =
+				activeElement instanceof HTMLAnchorElement &&
+				activeElement.classList.contains("pagefind-ui__result-link")
+					? activeElement
+					: null;
+			const activeResult = activeLink?.closest<HTMLElement>(".pagefind-ui__result") ?? null;
+
+			if (event.key === "ArrowRight") {
+				if (!activeResult) {
+					this.#setActiveResult(Math.max(this.activeResultIndex, 0), links);
+					return;
+				}
+				const nestedLinks = this.#nestedLinksForResult(activeResult);
+				const firstNestedLink = nestedLinks[0];
+				if (firstNestedLink) this.#setActiveNestedResult(firstNestedLink);
+				return;
+			}
+
+			if (event.key === "ArrowLeft") {
+				if (!activeLink?.closest(".pagefind-ui__result-nested") || !activeResult) return;
+				const parentLink = this.#topLevelLinkForResult(activeResult);
+				if (parentLink) this.#setActiveResult(links.indexOf(parentLink), links);
+				return;
+			}
+
+			if (event.key === "Home") {
+				this.#setActiveResult(0, links);
+				return;
+			}
+			if (event.key === "End") {
+				this.#setActiveResult(links.length - 1, links);
+				return;
+			}
+
+			if (isSearchInput) {
+				this.#setActiveResult(event.key === "ArrowDown" ? 0 : links.length - 1, links);
+				return;
+			}
+
+			const currentIndex = activeResult
+				? links.indexOf(this.#topLevelLinkForResult(activeResult)!)
+				: this.activeResultIndex >= 0
+					? this.activeResultIndex
+					: -1;
+
+			if (event.key === "ArrowDown" && currentIndex >= links.length - 1) {
+				if (this.#loadMoreButton()) {
+					this.#loadMoreResults(true, links.length);
+				}
+				return;
+			}
+
+			const nextIndex =
+				event.key === "ArrowDown" ? Math.min(currentIndex + 1, links.length - 1) : Math.max(currentIndex - 1, 0);
+			this.#setActiveResult(nextIndex, links);
+		};
+
+		#focusSearchInput() {
+			const input = this.dialog.querySelector<HTMLInputElement>(".pagefind-ui__search-input");
+			input?.focus();
+			input?.select();
+		}
+
+		#resultLinks(): HTMLAnchorElement[] {
+			return Array.from(this.dialog.querySelectorAll<HTMLAnchorElement>(".pagefind-ui__result-link"));
+		}
+
+		#topLevelResultLinks(): HTMLAnchorElement[] {
+			return Array.from(
+				this.dialog.querySelectorAll<HTMLAnchorElement>(
+					".pagefind-ui__result > .pagefind-ui__result-inner > .pagefind-ui__result-title > .pagefind-ui__result-link",
+				),
+			);
+		}
+
+		#nestedLinksForResult(result: HTMLElement): HTMLAnchorElement[] {
+			return Array.from(
+				result.querySelectorAll<HTMLAnchorElement>(".pagefind-ui__result-nested .pagefind-ui__result-link"),
+			);
+		}
+
+		#topLevelLinkForResult(result: Element): HTMLAnchorElement | null {
+			return result.querySelector<HTMLAnchorElement>(
+				":scope > .pagefind-ui__result-inner > .pagefind-ui__result-title > .pagefind-ui__result-link",
+			);
+		}
+
+		#clearActiveResult() {
+			this.dialog.querySelectorAll(".pagefind-ui__result").forEach((result) => {
+				result.classList.remove("is-keyboard-active");
+			});
+			this.dialog.querySelectorAll(".pagefind-ui__result-link").forEach((resultLink) => {
+				resultLink.classList.remove("is-keyboard-active-link");
+			});
+		}
+
+		#setActiveResult(index: number, links = this.#topLevelResultLinks()) {
+			this.activeResultIndex = index;
+			this.#clearActiveResult();
+			const link = links[index];
+			const result = link?.closest<HTMLElement>(".pagefind-ui__result") ?? null;
+			result?.classList.add("is-keyboard-active");
+			link?.classList.add("is-keyboard-active-link");
+			link?.focus();
+			result?.scrollIntoView({ block: "center" });
+			if (link) this.#updatePreview(link);
+		}
+
+		#setActiveNestedResult(link: HTMLAnchorElement) {
+			this.#clearActiveResult();
+			const result = link.closest<HTMLElement>(".pagefind-ui__result");
+			const topLevelLink = result ? this.#topLevelLinkForResult(result) : null;
+			const topLevelLinks = this.#topLevelResultLinks();
+			this.activeResultIndex = topLevelLink ? topLevelLinks.indexOf(topLevelLink) : -1;
+			result?.classList.add("is-keyboard-active");
+			link.classList.add("is-keyboard-active-link");
+			link.focus();
+			result?.scrollIntoView({ block: "center" });
+			this.#updatePreview(link);
+		}
+
+		#enhanceSearchResults() {
+			const links = this.#resultLinks();
+			this.#ensurePreviewPane();
+			this.#decorateResults();
+			this.#observeLoadMore();
+			links.forEach((link, index) => {
+				link.dataset.searchResultIndex = String(index);
+				if (link.dataset.searchEnhanced === "true") return;
+				link.dataset.searchEnhanced = "true";
+				link.addEventListener("focus", () => {
+					const result = link.closest<HTMLElement>(".pagefind-ui__result");
+					if (!result) return;
+					if (link.closest(".pagefind-ui__result-nested")) {
+						this.#setActiveNestedResult(link);
+						return;
+					}
+					const currentLinks = this.#topLevelResultLinks();
+					this.#setActiveResult(currentLinks.indexOf(link), currentLinks);
+				});
+				link.addEventListener("mouseenter", () => {
+					this.#updatePreview(link);
+				});
+			});
+			const topLevelLinks = this.#topLevelResultLinks();
+			if (this.activeResultIndex >= topLevelLinks.length) this.activeResultIndex = -1;
+			if (this.activeResultIndex < 0 && topLevelLinks[0]) this.#updatePreview(topLevelLinks[0]);
+		}
+
+		#decorateResults() {
+			this.dialog.querySelectorAll<HTMLElement>(".pagefind-ui__result").forEach((result) => {
+				if (result.dataset.searchDecorated === "true") return;
+				result.dataset.searchDecorated = "true";
+				const title = result.querySelector<HTMLElement>(
+					":scope > .pagefind-ui__result-inner > .pagefind-ui__result-title",
+				);
+				if (!title) return;
+				const icon = document.createElement("span");
+				icon.className = "search-result-icon";
+				icon.setAttribute("aria-hidden", "true");
+				icon.innerHTML =
+					'<svg viewBox="0 0 24 24" focusable="false"><path d="M6.5 3h7.1L18 7.4V21H6.5V3Zm6.4 1.7v4h4L12.9 4.7ZM8 4.5v15h8.5V10h-5V4.5H8Zm1.8 7.7h4.9v1.3H9.8v-1.3Zm0 3h4.9v1.3H9.8v-1.3Z" fill="currentColor"/></svg>';
+				title.prepend(icon);
+			});
+		}
+
+		#ensurePreviewPane(): HTMLElement | null {
+			const drawer = this.dialog.querySelector<HTMLElement>(".pagefind-ui__drawer");
+			if (!drawer) return null;
+			let preview = drawer.querySelector<HTMLElement>(".search-preview");
+			if (preview) return preview;
+
+			preview = document.createElement("aside");
+			preview.className = "search-preview";
+			preview.setAttribute("aria-label", "Selected search result preview");
+			preview.hidden = true;
+			drawer.append(preview);
+			return preview;
+		}
+
+		#updatePreview(link: HTMLAnchorElement) {
+			const preview = this.#ensurePreviewPane();
+			const result = link.closest<HTMLElement>(".pagefind-ui__result");
+			if (!preview || !result) return;
+
+			const topLevelLink = this.#topLevelLinkForResult(result) ?? link;
+			const title = topLevelLink.textContent?.trim() || "Untitled";
+			const excerpt = result.querySelector<HTMLElement>(
+				":scope > .pagefind-ui__result-inner > .pagefind-ui__result-excerpt",
+			);
+			const nestedLinks = this.#nestedLinksForResult(result).slice(0, 4);
+
+			const card = document.createElement("div");
+			card.className = "search-preview-card";
+
+			const kicker = document.createElement("p");
+			kicker.className = "search-preview-kicker";
+			kicker.textContent = topLevelLink.getAttribute("href")?.split("#")[0] || "Search result";
+
+			const heading = document.createElement("h3");
+			heading.className = "search-preview-title";
+			heading.textContent = title;
+
+			const body = document.createElement("p");
+			body.className = "search-preview-excerpt";
+			body.textContent = excerpt?.textContent?.replace(/\s+/g, " ").trim() || "Open this result to view the matching page.";
+
+			const actions = document.createElement("div");
+			actions.className = "search-preview-actions";
+			const openLabel = document.createElement("span");
+			openLabel.textContent = "Enter opens selected result";
+			actions.append(openLabel);
+
+			card.append(kicker, heading, body);
+
+			if (nestedLinks.length) {
+				const sections = document.createElement("div");
+				sections.className = "search-preview-sections";
+				const label = document.createElement("p");
+				label.className = "search-preview-section-label";
+				label.textContent = "Matching sections";
+				const list = document.createElement("ul");
+				nestedLinks.forEach((nestedLink) => {
+					const item = document.createElement("li");
+					item.textContent = nestedLink.textContent?.trim() || "Section";
+					list.append(item);
+				});
+				sections.append(label, list);
+				card.append(sections);
+			}
+
+			card.append(actions);
+			preview.replaceChildren(card);
+			preview.hidden = false;
+		}
+
+		#loadMoreButton(): HTMLButtonElement | null {
+			return this.dialog.querySelector<HTMLButtonElement>(".pagefind-ui__button");
+		}
+
+		#observeLoadMore() {
+			const button = this.#loadMoreButton();
+			if (!button) {
+				this.loadMoreObserver?.disconnect();
+				this.loadMoreObserver = null;
+				return;
+			}
+			if (button.dataset.searchLoadMoreObserved === "true") return;
+
+			this.loadMoreObserver?.disconnect();
+			const drawer = this.dialog.querySelector<HTMLElement>(".pagefind-ui__drawer");
+			this.loadMoreObserver = new IntersectionObserver(
+				(entries) => {
+					if (entries.some((entry) => entry.isIntersecting)) this.#loadMoreResults(false);
+				},
+				{ root: drawer, rootMargin: "180px 0px" },
+			);
+			button.dataset.searchLoadMoreObserved = "true";
+			this.loadMoreObserver.observe(button);
+		}
+
+		#loadMoreResults(focusNext: boolean, previousCount = this.#topLevelResultLinks().length) {
+			const button = this.#loadMoreButton();
+			if (!button || this.autoLoadingMore) return;
+			this.autoLoadingMore = true;
+			button.click();
+			window.setTimeout(() => {
+				this.autoLoadingMore = false;
+				this.#enhanceSearchResults();
+				if (!focusNext) return;
+				const links = this.#topLevelResultLinks();
+				if (links[previousCount]) this.#setActiveResult(previousCount, links);
+			}, 350);
+		}
 	}
 
 	customElements.define("site-search", SiteSearch);
