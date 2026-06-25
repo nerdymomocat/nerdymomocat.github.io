@@ -1,7 +1,7 @@
 import { fileURLToPath } from "node:url";
 import { defineMdastPlugin } from "satteri";
 import type { MdxJsxAttributeUnion, MdxJsxFlowElement, MdxJsxTextElement } from "satteri";
-import { isRelativePath, toPublicUrl } from "./external-content-utils";
+import { isRelativePath, toDeployablePublicUrl, toPublicUrl } from "./external-content-utils";
 
 const REWRITTEN_ATTRIBUTES = new Set(["src", "href", "poster", "data-src", "dataSrc"]);
 
@@ -14,7 +14,7 @@ function getFolderName(fileUrl: URL | undefined): string | null {
 
 function rewriteIfRelative(value: unknown, folderName: string): unknown {
 	if (typeof value !== "string" || !isRelativePath(value)) return value;
-	return toPublicUrl(value, { type: "mdx", sourceId: "external", folderName });
+	return toDeployablePublicUrl(toPublicUrl(value, { type: "mdx", sourceId: "external", folderName }));
 }
 
 function rewriteAttributes(

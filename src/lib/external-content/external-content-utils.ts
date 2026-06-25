@@ -4,7 +4,7 @@ import type { ExternalContentDescriptor, ExternalContentType } from "@/lib/inter
 import type { Heading } from "@/types";
 import { slugify } from "../../utils/slugify";
 import path from "node:path";
-import { EXTERNAL_CONTENT_CONFIG } from "../../constants";
+import { BASE_PATH, CUSTOM_DOMAIN, EXTERNAL_CONTENT_CONFIG } from "../../constants";
 
 export const RELATIVE_PROTOCOL_REGEX = /^[a-zA-Z][a-zA-Z0-9+\-.]*:/;
 
@@ -29,6 +29,42 @@ export function toPublicUrl(
 	const normalized = path.posix.normalize(pathPart.replace(/^.\//, ""));
 	const joined = path.posix.join("/external-posts", descriptor.folderName, normalized);
 	return suffix ? `${joined}${suffix}` : joined;
+}
+
+function getConfiguredSite(): string | null {
+	if (CUSTOM_DOMAIN) {
+		return new URL(BASE_PATH, `https://${CUSTOM_DOMAIN}`).toString();
+	}
+	if (process.env.VERCEL && process.env.VERCEL_URL) {
+		return new URL(BASE_PATH, `https://${process.env.VERCEL_URL}`).toString();
+	}
+	if (process.env.CF_PAGES && process.env.CF_PAGES_URL) {
+		if (process.env.CF_PAGES_BRANCH !== "main") {
+			return new URL(BASE_PATH, process.env.CF_PAGES_URL).toString();
+		}
+		const cfUrl = new URL(process.env.CF_PAGES_URL);
+		if (cfUrl.host.endsWith(".pages.dev")) {
+			const strippedHost = cfUrl.host.split(".").slice(1).join(".");
+			return new URL(BASE_PATH, `https://${strippedHost}`).toString();
+		}
+		return new URL(BASE_PATH, process.env.CF_PAGES_URL).toString();
+	}
+	if (process.env.GITHUB_PAGES && process.env.SITE) {
+		return new URL(process.env.BASE || BASE_PATH, process.env.SITE).toString();
+	}
+	if (process.env.SITE) {
+		return new URL(process.env.BASE || BASE_PATH, process.env.SITE).toString();
+	}
+	return null;
+}
+
+export function toDeployablePublicUrl(publicPath: string): string {
+	if (!publicPath) return publicPath;
+	if (publicPath.startsWith("http://") || publicPath.startsWith("https://")) return publicPath;
+
+	const joined = path.posix.join(process.env.BASE || BASE_PATH || "/", publicPath.replace(/^\//, ""));
+	const site = getConfiguredSite();
+	return site ? new URL(joined, site).toString() : joined;
 }
 
 export function extractHeadingsFromDocument(root: Document | Element): Heading[] {

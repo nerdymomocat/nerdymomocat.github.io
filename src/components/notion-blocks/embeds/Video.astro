@@ -20,7 +20,9 @@ let url: URL | null = null;
 let videoUrl = "";
 if (block.Video.External) {
 	videoUrl = block.Video.External?.Url;
-	url = new URL(block.Video.External?.Url);
+	if (/^https?:\/\//.test(videoUrl)) {
+		url = new URL(videoUrl);
+	}
 } else if (block.Video.File) {
 	videoUrl = filePath(new URL(block.Video.File.Url));
 }

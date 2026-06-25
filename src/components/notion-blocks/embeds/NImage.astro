@@ -46,7 +46,14 @@ if (downloadedImage && OPTIMIZE_IMAGES) {
 
 // Infer size for external images to prevent CLS
 let externalImageDimensions = null;
-if (externalImageUrl && !block.NImage?.File) {
+const isBundledExternalAsset =
+	externalImageUrl.includes("/external-posts/") || externalImageUrl.includes("/custom-components/");
+if (
+	externalImageUrl &&
+	/^https?:\/\//.test(externalImageUrl) &&
+	!isBundledExternalAsset &&
+	!block.NImage?.File
+) {
 	try {
 		externalImageDimensions = await inferRemoteSize(externalImageUrl);
 	} catch (err) {

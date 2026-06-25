@@ -27,8 +27,8 @@ import type {
 	MdxJsxFlowElement,
 	MdxJsxTextElement,
 } from "mdast";
-import { isRelativePath, toPublicUrl } from "./external-content-utils";
-import { SHORTCODES, BASE_PATH, CUSTOM_DOMAIN } from "@/constants";
+import { isRelativePath, toDeployablePublicUrl, toPublicUrl } from "./external-content-utils";
+import { SHORTCODES } from "@/constants";
 
 type AnnotationState = Partial<Omit<Annotation, "Color">> & {
 	color?: string;
@@ -164,9 +164,7 @@ export class MarkdownBlockBuilder {
 		const resolved = this.resolveUrl(raw || "");
 		if (!resolved) return "";
 		if (resolved.startsWith("http://") || resolved.startsWith("https://")) return resolved;
-		const origin = CUSTOM_DOMAIN ? `https://${CUSTOM_DOMAIN}` : "http://localhost:4321";
-		const joined = path.posix.join(BASE_PATH || "/", resolved.replace(/^\//, ""));
-		return new URL(joined, origin).toString();
+		return toDeployablePublicUrl(resolved);
 	}
 
 	private classifyMedia(url: string): "video" | "audio" | null {

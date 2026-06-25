@@ -10,11 +10,9 @@ export interface Props {
 
 const { block, setId = true } = Astro.props;
 
-let url: URL | null = null;
 let audioUrl = "";
 if (block.NAudio.External) {
 	audioUrl = block.NAudio.External?.Url;
-	url = new URL(block.NAudio.External?.Url);
 } else if (block.NAudio.File) {
 	audioUrl = filePath(new URL(block.NAudio.File.Url));
 }
