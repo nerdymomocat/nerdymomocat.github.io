@@ -51,9 +51,7 @@ BLUESKY_COMM && Object.keys(BLUESKY_COMM).length > 0 &&
             <section
               class="giscus mx-auto mt-6 w-full"
               id="--layout-div-giscus-post-comments"
-            />
-            <script
-              src="https://giscus.app/client.js"
+              data-giscus-comments
               data-repo={GISCUS["data-repo"]}
               data-repo-id={GISCUS["data-repo-id"]}
               data-category={GISCUS["data-category"]}
@@ -66,8 +64,6 @@ BLUESKY_COMM && Object.keys(BLUESKY_COMM).length > 0 &&
               data-theme="preferred_color_scheme"
               data-lang="en"
               data-loading="lazy"
-              crossorigin="anonymous"
-              async
             />
           </div>
         )}
@@ -85,7 +81,7 @@ BLUESKY_COMM && Object.keys(BLUESKY_COMM).length > 0 &&
                     : ""
               }>
             </bluesky-comments>
-            <script type="module" define:vars={{ BLUESKY_COMM }}>
+            <script is:inline type="module" define:vars={{ BLUESKY_COMM }}>
               class BlueskyComments extends HTMLElement {
                 static properties = {
                   /** The URL of the Bluesky post to use as the parent */
