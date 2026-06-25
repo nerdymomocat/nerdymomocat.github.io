@@ -1550,12 +1550,8 @@ export async function processFileBlocks(fileAttachedBlocks: Block[]) {
 						return null;
 					}
 					url = new URL(
-						(
-							updatedBlock.NImage ||
-							updatedBlock.File ||
-							updatedBlock.Video ||
-							updatedBlock.NAudio
-						).File.Url,
+						(updatedBlock.NImage || updatedBlock.File || updatedBlock.Video || updatedBlock.NAudio)
+							.File.Url,
 					);
 				}
 
