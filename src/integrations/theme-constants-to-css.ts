@@ -1387,7 +1387,6 @@ ${createCssVariables("dark")}
     max-width: min(92rem, calc(100vw - 3rem)) !important;
     height: min(52rem, calc(100vh - 6rem)) !important;
     max-height: min(52rem, calc(100vh - 6rem)) !important;
-    display: flex !important;
     flex-direction: column !important;
     padding: 0;
     overflow: hidden;
