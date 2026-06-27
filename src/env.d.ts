@@ -2,12 +2,6 @@
 /// <reference path="../.astro/types.d.ts" />
 /// <reference types="astro/client" />
 
-declare module "@pagefind/default-ui" {
-	declare class PagefindUI {
-		constructor(arg: unknown);
-	}
-}
-
 interface ImportMetaEnv {
 	readonly WEBMENTION_API_KEY: string;
 }
@@ -21,4 +15,5 @@ interface Window {
 	lightboxInstance?: {
 		reload: () => void;
 	};
+	PagefindHighlight: new (options: { highlightParam: string }) => unknown;
 }
