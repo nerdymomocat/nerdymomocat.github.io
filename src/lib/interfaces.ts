@@ -214,6 +214,11 @@ export interface Code {
 	Caption: RichText[];
 	RichTexts: RichText[];
 	Language: string;
+	RenderMode?: "iframe";
+	IframeSizing?: {
+		Height?: number;
+		AspectRatio?: string;
+	};
 }
 
 export interface Quote {

@@ -423,8 +423,7 @@ export class MarkdownBlockBuilder {
 
 	private buildListItemBlock(item: ListItem, ordered: boolean | null): Block[] {
 		const paragraphChild = item.children.find((child) => child.type === "paragraph") as
-			| Paragraph
-			| undefined;
+			Paragraph | undefined;
 		const otherChildren = item.children.filter((child) => child !== paragraphChild) as Content[];
 		const isTask = item.checked !== null && item.checked !== undefined;
 

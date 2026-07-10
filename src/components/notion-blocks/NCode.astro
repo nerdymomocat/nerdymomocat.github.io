@@ -1,7 +1,7 @@
 ---
 import * as interfaces from "@/lib/interfaces";
 import Caption from "@/components/notion-blocks/Caption.astro";
-import { SHORTCODES, TRANSFORMER_FUNCTIONS_ARR } from "@/constants";
+import { ENABLE_LIGHTBOX, SHORTCODES, TRANSFORMER_FUNCTIONS_ARR } from "@/constants";
 import { highlightCodeToHtml } from "@/utils/shiki-highlighter";
 import Icon from "@/components/ui/Icon.astro";
 import { joinPlainText } from "@/utils/richtext-utils";
@@ -172,7 +172,9 @@ let iframeSrcDoc: string | null = null;
 const renderShortcode = SHORTCODES["html-render"];
 const defaultRenderShortcode = "<!DOCTYPE html> <!-- iframe -->";
 
-if (renderShortcode) {
+if (block.Code.RenderMode === "iframe") {
+	iframeSrcDoc = code;
+} else if (renderShortcode) {
 	// Check for the standard shortcode first.
 	if (code.startsWith(renderShortcode)) {
 		iframeSrcDoc = code.substring(renderShortcode.length);
@@ -197,19 +199,54 @@ const highlightedCodeHtml = shouldHighlight
 			defaultColor: "light",
 			transformers: TRANSFORMER_FUNCTIONS_ARR,
 		})
-	: null;
+		: null;
 const plainTextCaption = joinPlainText(block.Code?.Caption || []);
+const iframeHeight = block.Code.IframeSizing?.Height;
+const iframeAspectRatio = iframeHeight ? undefined : block.Code.IframeSizing?.AspectRatio;
+const iframeStyle = iframeHeight
+	? `--html-frame-height: ${iframeHeight}px`
+	: iframeAspectRatio
+		? `--html-frame-aspect-ratio: ${iframeAspectRatio}`
+		: undefined;
+const iframeLightboxId = `html-frame-lightbox-${block.Id}`;
 ---
 
 {
 	code_render ? (
-		<div class="code-rendered" id={setId ? block.Id : undefined}>
-			<iframe
-				srcdoc={iframeSrcDoc}
-				class="code-iframe"
-				loading="lazy"
-				title={plainTextCaption}
-			/>
+			<div
+				class:list={["code-rendered", { "code-rendered-aspect": iframeAspectRatio }]}
+				id={setId ? block.Id : undefined}
+				style={iframeStyle}
+				data-html-frame
+			>
+				{ENABLE_LIGHTBOX && (
+					<a
+						href={`#${iframeLightboxId}`}
+						class="embedglightbox html-frame-lightbox-trigger no-rss"
+						data-type="inline"
+						data-glightbox="type: inline; width: 100vw; height: 100vh;"
+						aria-label="Open HTML artifact in lightbox"
+					>
+						<Icon name={"expand"} class="h-6 w-6" aria-hidden="true" />
+					</a>
+				)}
+				<iframe
+					srcdoc={iframeSrcDoc}
+					class="code-iframe"
+					loading="lazy"
+					title={plainTextCaption}
+				/>
+				{ENABLE_LIGHTBOX && (
+					<div class="hidden">
+						<div id={iframeLightboxId} class="html-frame-lightbox-content">
+							<iframe
+								srcdoc={iframeSrcDoc}
+								class="code-iframe"
+								title={plainTextCaption}
+							/>
+						</div>
+					</div>
+				)}
 		</div>
 	) : code_inject ? (
 		<div class="code-injected" id={setId ? block.Id : undefined}>
@@ -252,7 +289,7 @@ const plainTextCaption = joinPlainText(block.Code?.Caption || []);
 			<Caption richTexts={block.Code.Caption} block={block} />
 		</div>
 	)
-}
+	}
 
 {/* prettier-ignore */}
 {

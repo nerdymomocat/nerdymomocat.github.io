@@ -62,7 +62,10 @@ export function toDeployablePublicUrl(publicPath: string): string {
 	if (!publicPath) return publicPath;
 	if (publicPath.startsWith("http://") || publicPath.startsWith("https://")) return publicPath;
 
-	const joined = path.posix.join(process.env.BASE || BASE_PATH || "/", publicPath.replace(/^\//, ""));
+	const joined = path.posix.join(
+		process.env.BASE || BASE_PATH || "/",
+		publicPath.replace(/^\//, ""),
+	);
 	const site = getConfiguredSite();
 	return site ? new URL(joined, site).toString() : joined;
 }

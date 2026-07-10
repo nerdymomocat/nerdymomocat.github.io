@@ -141,8 +141,74 @@ const placeholderTemplate = String.raw`
 	const SEARCH_INSTANCE = "webtrotion-search";
 
 	class SiteSearch extends HTMLElement {
+		private resultsElement: HTMLElement | null = null;
+		private onResultsKeydown = (event: KeyboardEvent) => {
+			if (
+				event.defaultPrevented ||
+				event.altKey ||
+				event.ctrlKey ||
+				event.metaKey ||
+				event.shiftKey
+			) {
+				return;
+			}
+
+			const link = (event.target as Element | null)?.closest<HTMLAnchorElement>(
+				".webtrotion-search-result-link, .webtrotion-search-subresult-link",
+			);
+			if (!link || !this.resultsElement?.contains(link)) return;
+
+			const result = link.closest<HTMLElement>(".webtrotion-search-result");
+			if (!result) return;
+
+			const mainLinks = Array.from(
+				this.resultsElement.querySelectorAll<HTMLAnchorElement>(".webtrotion-search-result-link"),
+			);
+			const mainLink = result.querySelector<HTMLAnchorElement>(".webtrotion-search-result-link");
+			if (!mainLink) return;
+
+			const resultIndex = mainLinks.indexOf(mainLink);
+			const subLinks = Array.from(
+				result.querySelectorAll<HTMLAnchorElement>(".webtrotion-search-subresult-link"),
+			);
+			const subIndex = subLinks.indexOf(link);
+			const isSubResult = subIndex !== -1;
+			let destination: HTMLAnchorElement | undefined;
+
+			if (!isSubResult) {
+				if (event.key === "ArrowDown") destination = mainLinks[resultIndex + 1];
+				if (event.key === "ArrowUp") destination = mainLinks[resultIndex - 1];
+				if (event.key === "ArrowRight") destination = subLinks[0];
+			} else {
+				if (event.key === "ArrowDown") {
+					destination = subLinks[subIndex + 1] || mainLinks[resultIndex + 1];
+				}
+				if (event.key === "ArrowUp") {
+					destination = subLinks[subIndex - 1] || mainLink;
+				}
+				if (event.key === "ArrowLeft") destination = mainLink;
+			}
+
+			if (!destination) return;
+
+			event.preventDefault();
+			event.stopImmediatePropagation();
+			destination.focus({ preventScroll: true });
+			const scrollTarget =
+				destination.closest<HTMLElement>(".webtrotion-search-subresults li") ||
+				destination.closest<HTMLElement>(".webtrotion-search-result") ||
+				destination;
+			scrollTarget.scrollIntoView({
+				behavior: event.repeat ? "auto" : "smooth",
+				block: "nearest",
+			});
+		};
+
 		connectedCallback() {
 			if (import.meta.env.DEV) return;
+
+			this.resultsElement = this.querySelector("pagefind-results");
+			this.resultsElement?.addEventListener("keydown", this.onResultsKeydown, true);
 
 			const queryParams = new URLSearchParams(window.location.search);
 			const searchTerm = queryParams.get("q");
@@ -154,6 +220,10 @@ const placeholderTemplate = String.raw`
 				modal?.open?.();
 				instance.triggerSearch(searchTerm);
 			});
+		}
+
+		disconnectedCallback() {
+			this.resultsElement?.removeEventListener("keydown", this.onResultsKeydown, true);
 		}
 	}
 
@@ -294,8 +364,8 @@ const placeholderTemplate = String.raw`
 				${
 					subResults.length
 						? `<ul class="webtrotion-search-preview-sections">${subResults
-									.map(
-										(sub: PagefindSubResult) =>
+								.map(
+									(sub: PagefindSubResult) =>
 										`<li><span>${this.escapeHtml(sub.title || "Section")}</span>${
 											sub.excerpt ? `<p>${sub.excerpt}</p>` : ""
 										}</li>`,

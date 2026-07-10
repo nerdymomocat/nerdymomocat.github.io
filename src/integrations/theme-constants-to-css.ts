@@ -1253,7 +1253,16 @@ ${createCssVariables("dark")}
 
   /* Code Render/Inject */
   .code-rendered {
-    @apply mb-1 w-full max-w-full;
+	@apply relative mb-1 w-full max-w-full overflow-hidden rounded-lg;
+	height: var(--html-frame-height, clamp(22.5rem, 65dvh, 45rem));
+	min-height: min(18rem, 100dvh);
+	max-height: 100dvh;
+	resize: vertical;
+  }
+
+  .code-rendered-aspect {
+	height: auto;
+	aspect-ratio: var(--html-frame-aspect-ratio);
   }
 
   .code-injected {
@@ -1261,7 +1270,24 @@ ${createCssVariables("dark")}
   }
 
   .code-iframe {
-    @apply h-[340px] w-full max-w-full rounded-lg border-none print:max-h-full;
+	@apply h-full w-full max-w-full rounded-lg border-none print:max-h-full;
+  }
+
+  .html-frame-lightbox-trigger {
+    @apply bg-bgColor/85 text-textColor hover:text-accent focus-visible:ring-accent absolute top-2 right-2 z-10 flex cursor-pointer items-center justify-center rounded-full no-underline shadow-md backdrop-blur-sm transition-colors focus-visible:ring-2 focus-visible:outline-none;
+    width: 44px;
+    height: 44px;
+  }
+
+  .html-frame-lightbox-content {
+    width: 100vw;
+    height: 100dvh;
+    max-width: 100vw;
+    background: var(--color-bgColor);
+  }
+
+  .html-frame-lightbox-content .code-iframe {
+    border-radius: 0;
   }
 
   .code .mermaid {

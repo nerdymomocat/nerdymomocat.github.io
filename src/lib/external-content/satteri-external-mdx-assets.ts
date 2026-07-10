@@ -14,7 +14,9 @@ function getFolderName(fileUrl: URL | undefined): string | null {
 
 function rewriteIfRelative(value: unknown, folderName: string): unknown {
 	if (typeof value !== "string" || !isRelativePath(value)) return value;
-	return toDeployablePublicUrl(toPublicUrl(value, { type: "mdx", sourceId: "external", folderName }));
+	return toDeployablePublicUrl(
+		toPublicUrl(value, { type: "mdx", sourceId: "external", folderName }),
+	);
 }
 
 function rewriteAttributes(

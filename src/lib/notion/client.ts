@@ -111,8 +111,7 @@ let workspaceCustomEmojiCacheById: Map<string, WorkspaceCustomEmoji> | null = nu
 let workspaceCustomEmojiCacheByName: Map<string, WorkspaceCustomEmoji> | null = null;
 let workspaceCustomEmojiPromise: Promise<void> | null = null;
 let allTagsWithCountsCache:
-	| { name: string; count: number; description: string; color: string }[]
-	| null = null;
+	{ name: string; count: number; description: string; color: string }[] | null = null;
 
 // Authors: Cache for authors with counts
 let allAuthorsWithCountsCache:
@@ -1801,6 +1800,33 @@ export async function getDataSource(): Promise<Database> {
 	return database;
 }
 
+function getHtmlMetaContent(html: string, name: string): string | undefined {
+	const metaTags = html.match(/<meta\b[^>]*>/gi) || [];
+	for (const tag of metaTags) {
+		const attributes = Object.fromEntries(
+			Array.from(tag.matchAll(/([\w:-]+)\s*=\s*(["'])(.*?)\2/g), (match) => [
+				match[1].toLowerCase(),
+				match[3],
+			]),
+		);
+		if (attributes.name?.toLowerCase() === name.toLowerCase()) return attributes.content;
+	}
+	return undefined;
+}
+
+function getHtmlIframeSizing(html: string): Code["IframeSizing"] {
+	const heightValue = getHtmlMetaContent(html, "webtrotion:height");
+	const aspectRatioValue = getHtmlMetaContent(html, "webtrotion:aspect-ratio");
+	const height = heightValue ? Number.parseInt(heightValue, 10) : undefined;
+	const aspectRatio = aspectRatioValue?.match(/^\d+(?:\.\d+)?\s*\/\s*\d+(?:\.\d+)?$/)
+		? aspectRatioValue.replaceAll(" ", "")
+		: undefined;
+
+	if (height && height > 0) return { Height: height };
+	if (aspectRatio) return { AspectRatio: aspectRatio };
+	return undefined;
+}
+
 async function _buildBlock(blockObject: responses.BlockObject, pageId?: string): Promise<Block> {
 	const block: Block = {
 		Id: blockObject.id,
@@ -2065,11 +2091,57 @@ async function _buildBlock(blockObject: responses.BlockObject, pageId?: string):
 			break;
 		case "embed":
 			if (blockObject.embed) {
-				const embed: Embed = {
-					Caption: await Promise.all(blockObject.embed.caption?.map(_buildRichText) || []),
-					Url: blockObject.embed.url,
-				};
-				block.Embed = embed;
+				const embedUrl = new URL(blockObject.embed.url);
+				const isNotionHtmlArtifact =
+					embedUrl.hostname === "prod-files-secure.s3.us-west-2.amazonaws.com" &&
+					[".html", ".htm"].includes(path.extname(embedUrl.pathname).toLowerCase()) &&
+					embedUrl.searchParams.has("X-Amz-Signature");
+
+				if (isNotionHtmlArtifact) {
+					const response = await fetch(embedUrl);
+					if (!response.ok) {
+						throw new Error(
+							`Failed to fetch Notion HTML artifact ${blockObject.id}: ${response.status} ${response.statusText}`,
+						);
+					}
+
+					const contentType = response.headers.get("content-type") || "";
+					if (!contentType.toLowerCase().startsWith("text/html")) {
+						throw new Error(
+							`Notion HTML artifact ${blockObject.id} returned unexpected content type: ${contentType || "missing"}`,
+						);
+					}
+
+					const html = await response.text();
+					const iframeSizing = getHtmlIframeSizing(html);
+					block.Type = "code";
+					block.Code = {
+						Caption: await Promise.all(blockObject.embed.caption?.map(_buildRichText) || []),
+						RichTexts: [
+							{
+								Text: { Content: html },
+								Annotation: {
+									Bold: false,
+									Italic: false,
+									Strikethrough: false,
+									Underline: false,
+									Code: false,
+									Color: "default",
+								},
+								PlainText: html,
+							},
+						],
+						Language: "html",
+						RenderMode: "iframe",
+						...(iframeSizing ? { IframeSizing: iframeSizing } : {}),
+					};
+				} else {
+					const embed: Embed = {
+						Caption: await Promise.all(blockObject.embed.caption?.map(_buildRichText) || []),
+						Url: blockObject.embed.url,
+					};
+					block.Embed = embed;
+				}
 			}
 			break;
 		case "bookmark":
