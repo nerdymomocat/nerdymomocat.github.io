@@ -1,0 +1,31 @@
+---
+import type { Post } from "@/lib/interfaces";
+import { getNotionImage } from "@/lib/blog-helpers";
+
+interface Props {
+	post: Post;
+}
+
+const { post } = Astro.props;
+const icon = post.Icon;
+const emoji = icon && "Emoji" in icon ? icon.Emoji : "";
+const iconUrl = icon && "Url" in icon ? icon.Url : "";
+const downloadedIcon = iconUrl ? await getNotionImage(new URL(iconUrl)) : null;
+const image = downloadedIcon?.src || iconUrl;
+---
+
+{
+	emoji ? (
+		<span data-pagefind-meta="page_icon_emoji" data-pagefind-ignore hidden aria-hidden="true">
+			{emoji}
+		</span>
+	) : image ? (
+		<span
+			data-pagefind-meta="page_icon_image[data-pagefind-icon-url]"
+			data-pagefind-icon-url={image}
+			data-pagefind-ignore
+			hidden
+			aria-hidden="true"
+		/>
+	) : null
+}

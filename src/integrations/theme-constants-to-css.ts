@@ -1376,14 +1376,30 @@ ${createCssVariables("dark")}
     --pf-primary: var(--color-accent);
     --pf-text: var(--color-textColor);
     --pf-background: var(--color-bgColor);
-    --pf-border: color-mix(in srgb, var(--color-textColor) 18%, transparent);
-    --pf-border-radius: 0.875rem;
-    --pf-shadow: 0 24px 80px color-mix(in srgb, #000 18%, transparent);
-    --pf-highlight-background: color-mix(in srgb, var(--color-accent) 20%, transparent);
+    --pf-border: color-mix(in srgb, var(--color-textColor) 16%, transparent);
+    --pf-border-radius: 0.4rem;
+    --pf-shadow: 0 18px 56px color-mix(in srgb, #000 12%, transparent);
+    --pf-highlight-background: color-mix(in srgb, var(--color-accent) 16%, transparent);
     --pf-highlight-text: var(--color-textColor);
-    --pf-muted: color-mix(in srgb, var(--color-textColor) 62%, transparent);
-    --pf-hover: color-mix(in srgb, var(--color-accent) 8%, transparent);
-    --pf-focus: color-mix(in srgb, var(--color-accent) 16%, transparent);
+    --pf-muted: color-mix(in srgb, var(--color-textColor) 58%, transparent);
+    --pf-hover: color-mix(in srgb, var(--color-accent) 5%, transparent);
+    --pf-focus: color-mix(in srgb, var(--color-accent) 10%, transparent);
+    --webtrotion-search-rule: color-mix(in srgb, var(--color-textColor) 16%, transparent);
+    --webtrotion-search-surface: color-mix(in srgb, var(--color-bgColor) 98%, transparent);
+    --webtrotion-search-preview-width: minmax(17rem, 30%);
+    --webtrotion-search-row-padding: 0.62rem 0.8rem 0.58rem;
+    --webtrotion-search-compact-height: min(
+      45.333rem,
+      calc(100vh - 5rem),
+      calc((100vw - 4rem) * 4 / 3)
+    );
+    --webtrotion-search-compact-width: min(
+      34rem,
+      calc((100vh - 5rem) * 3 / 4),
+      calc(100vw - 4rem)
+    );
+    --webtrotion-search-expanded-width: min(58rem, calc(100vw - 4rem));
+    --webtrotion-search-ease: cubic-bezier(0.25, 1, 0.5, 1);
   }
 
   site-search pagefind-modal-trigger {
@@ -1409,30 +1425,40 @@ ${createCssVariables("dark")}
   }
 
   site-search .pf-modal {
-    width: min(92rem, calc(100vw - 3rem)) !important;
-    max-width: min(92rem, calc(100vw - 3rem)) !important;
-    height: min(52rem, calc(100vh - 6rem)) !important;
-    max-height: min(52rem, calc(100vh - 6rem)) !important;
+    width: var(--webtrotion-search-compact-width) !important;
+    max-width: var(--webtrotion-search-compact-width) !important;
+    height: var(--webtrotion-search-compact-height) !important;
+    max-height: var(--webtrotion-search-compact-height) !important;
     flex-direction: column !important;
     padding: 0;
     overflow: hidden;
-    border: 1px solid var(--pf-border);
-    border-radius: 1.25rem;
-    background: color-mix(in srgb, var(--color-bgColor) 96%, transparent);
+    border: 1px solid var(--webtrotion-search-rule);
+    border-radius: 0.5rem;
+    background: var(--webtrotion-search-surface);
     color: var(--color-textColor);
     box-shadow: var(--pf-shadow);
+    transition:
+      width 320ms var(--webtrotion-search-ease),
+      max-width 320ms var(--webtrotion-search-ease),
+      box-shadow 220ms ease;
+  }
+
+  site-search .pf-modal:has(webtrotion-search-preview[data-preview-active]) {
+    width: var(--webtrotion-search-expanded-width) !important;
+    max-width: var(--webtrotion-search-expanded-width) !important;
+    box-shadow: 0 22px 60px color-mix(in srgb, #000 16%, transparent);
   }
 
   site-search .pf-modal::backdrop {
-    background: color-mix(in srgb, #000 18%, transparent);
-    backdrop-filter: blur(6px);
+    background: color-mix(in srgb, #000 10%, transparent);
+    backdrop-filter: blur(3px);
   }
 
   site-search pagefind-modal-header {
     flex: 0 0 auto;
-    padding: 1.25rem;
-    border-bottom: 1px solid var(--pf-border);
-    background: color-mix(in srgb, var(--color-bgColor) 96%, transparent);
+    padding: 0.7rem 0.8rem;
+    border-bottom: 1px solid var(--webtrotion-search-rule);
+    background: var(--webtrotion-search-surface);
   }
 
   site-search .pf-input-wrapper {
@@ -1440,20 +1466,21 @@ ${createCssVariables("dark")}
   }
 
   site-search .pf-input {
-    min-height: 4rem;
-    padding-inline: 3.25rem 3rem;
-    border: 1px solid var(--pf-border);
-    border-radius: 1rem;
-    background: color-mix(in srgb, var(--color-bgColor) 88%, var(--color-textColor) 3%);
+    height: 2.9rem !important;
+    min-height: 2.9rem !important;
+    padding-inline: 2.55rem 2.5rem !important;
+    border: 1px solid var(--pf-border) !important;
+    border-radius: 0.35rem !important;
+    background: color-mix(in srgb, var(--color-bgColor) 94%, var(--color-textColor) 2%) !important;
     color: var(--color-textColor);
     font: inherit;
-    font-size: clamp(1.05rem, 1.6vw, 1.35rem);
+    font-size: 1rem !important;
     box-shadow: inset 0 0 0 1px transparent;
   }
 
   site-search .pf-input:focus {
     border-color: var(--color-accent);
-    box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-accent) 18%, transparent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent) 12%, transparent);
     outline: none;
   }
 
@@ -1462,12 +1489,12 @@ ${createCssVariables("dark")}
   }
 
   site-search .pf-input-icon {
-    inset-inline-start: 1.125rem;
+    inset-inline-start: 0.8rem;
     color: var(--pf-muted);
   }
 
   site-search .pf-clear-button {
-    inset-inline-end: 0.85rem;
+    inset-inline-end: 0.65rem;
     color: var(--pf-muted);
   }
 
@@ -1479,31 +1506,30 @@ ${createCssVariables("dark")}
   }
 
   .webtrotion-search-shell {
-    display: flex;
-    min-height: 0;
-    height: 100%;
-    flex-direction: column;
+    @apply flex h-full min-h-0 flex-col;
   }
 
   .webtrotion-search-filters {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.625rem;
-    padding: 1rem 1.25rem 0.75rem;
-    border-bottom: 1px solid var(--pf-border);
+    gap: 0.4rem;
+    padding: 0.5rem 0.8rem;
+    border-bottom: 1px solid var(--webtrotion-search-rule);
   }
 
   site-search pagefind-filter-dropdown {
-    min-width: min(18rem, 100%);
+    min-width: 0;
   }
 
   site-search .pf-dropdown-trigger {
-    min-height: 2.5rem;
-    border: 1px solid var(--pf-border);
+    height: 1.9rem !important;
+    min-height: 1.9rem !important;
+    border: 1px solid var(--pf-border) !important;
     border-radius: 999px;
-    background: color-mix(in srgb, var(--color-bgColor) 92%, var(--color-textColor) 4%);
+    background: color-mix(in srgb, var(--color-bgColor) 94%, var(--color-textColor) 2%);
     color: var(--color-textColor);
     font: inherit;
+    font-size: 0.76rem !important;
   }
 
   site-search .pf-dropdown-trigger:hover,
@@ -1513,15 +1539,18 @@ ${createCssVariables("dark")}
   }
 
   site-search .pf-dropdown-menu {
-    border: 1px solid var(--pf-border);
-    border-radius: 0.9rem;
-    background: var(--color-bgColor);
-    box-shadow: 0 18px 50px color-mix(in srgb, #000 18%, transparent);
+    border: 1px solid var(--pf-border) !important;
+    border-radius: 0.4rem !important;
+    background: var(--color-bgColor) !important;
+    box-shadow: 0 12px 32px color-mix(in srgb, #000 12%, transparent) !important;
     overflow: hidden;
   }
 
   site-search .pf-dropdown-option {
     color: var(--color-textColor);
+    min-height: 2rem !important;
+    padding: 0.45rem 0.55rem !important;
+    font-size: 0.8rem !important;
   }
 
   site-search .pf-dropdown-option:hover,
@@ -1530,31 +1559,137 @@ ${createCssVariables("dark")}
   }
 
   .webtrotion-search-content {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(20rem, 34%);
-    gap: 1rem;
-    min-height: 0;
-    flex: 1;
-    padding: 1rem 1.25rem 1.25rem;
+    @apply grid min-h-0 flex-1;
+    grid-template-columns: minmax(0, 1fr) 0fr;
+    gap: 0;
+    padding: 0;
+    transition: grid-template-columns 320ms var(--webtrotion-search-ease);
+  }
+
+  .webtrotion-search-content:has(webtrotion-search-preview[data-preview-active]) {
+    grid-template-columns: minmax(0, 1fr) var(--webtrotion-search-preview-width);
   }
 
   .webtrotion-search-results-pane {
-    min-width: 0;
-    min-height: 0;
+    @apply min-w-0 min-h-0;
     overflow: auto;
-    padding-inline-end: 0.25rem;
+    padding: 0.7rem 0;
+  }
+
+  webtrotion-search-navigation {
+    display: block;
+    margin: -0.7rem 0 0.7rem;
+    padding: 0.55rem 0.8rem 0;
+    border-bottom: 1px solid var(--webtrotion-search-rule);
+  }
+
+  .webtrotion-search-navigation-label {
+    margin: 0 0 0.38rem;
+    color: var(--pf-muted);
+    font-size: 0.68rem;
+    font-weight: 650;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .webtrotion-search-navigation-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+    gap: 0;
+    margin: 0 -0.8rem;
+    padding: 0;
+    list-style: none;
+  }
+
+  .webtrotion-search-navigation-link {
+    display: block;
+    padding: 0.42rem 0.8rem;
+    border-top: 1px solid var(--webtrotion-search-rule);
+    color: var(--color-textColor);
+    font-size: 0.82rem;
+    font-weight: 600;
+    line-height: 1.35;
+    text-decoration: none;
+  }
+
+  .webtrotion-search-navigation-link:hover,
+  .webtrotion-search-navigation-link:focus-visible {
+    background: var(--pf-focus);
+    color: var(--color-accent);
+    box-shadow: inset 2px 0 0 var(--color-accent);
+    outline: 0;
+  }
+
+  .webtrotion-search-pinned {
+    margin: 0.55rem -0.8rem 0;
+    border-top: 1px solid var(--webtrotion-search-rule);
+  }
+
+  .webtrotion-search-pinned-label {
+    margin: 0;
+    padding: 0.42rem 0.8rem 0.18rem;
+    color: var(--pf-muted);
+    font-size: 0.68rem;
+    font-weight: 650;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .webtrotion-search-pinned-link {
+    display: grid;
+    grid-template-columns: 1rem minmax(0, 1fr);
+    gap: 0.3rem;
+    padding: 0.36rem 0.8rem 0.48rem;
+    color: var(--color-textColor);
+    text-decoration: none;
+  }
+
+  .webtrotion-search-pinned-icon {
+    color: var(--color-accent);
+    font-size: 0.78rem;
+    line-height: 1.35;
+  }
+
+  .webtrotion-search-pinned-content {
+    display: grid;
+    gap: 0.14rem;
+    min-width: 0;
+  }
+
+  .webtrotion-search-pinned-link:hover,
+  .webtrotion-search-pinned-link:focus-visible {
+    background: var(--pf-focus);
+    color: var(--color-accent);
+    box-shadow: inset 2px 0 0 var(--color-accent);
+    outline: 0;
+  }
+
+  .webtrotion-search-pinned-title {
+    font-size: 0.82rem;
+    font-weight: 650;
+    line-height: 1.35;
+  }
+
+  .webtrotion-search-pinned-detail {
+    color: var(--pf-muted);
+    font-size: 0.74rem;
+    line-height: 1.35;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   site-search .pf-summary {
-    margin: 0 0 0.75rem;
+    margin: 0 0 0.45rem !important;
+    padding-inline: 0.8rem;
     color: var(--pf-muted);
-    font-size: 0.95rem;
+    font-size: 0.78rem !important;
   }
 
   site-search .pf-results {
     display: flex;
     flex-direction: column;
-    gap: 0.35rem;
+    gap: 0 !important;
     padding: 0;
     margin: 0;
   }
@@ -1562,52 +1697,71 @@ ${createCssVariables("dark")}
   .webtrotion-search-result {
     list-style: none;
     scroll-margin-block: 5rem;
+    border-top: 1px solid var(--webtrotion-search-rule);
   }
 
   .webtrotion-search-result-card {
-    display: grid;
-    grid-template-columns: 1.65rem minmax(0, 1fr);
-    gap: 0.8rem;
-    align-items: start;
-    padding: 0.8rem;
-    border-radius: 0.9rem;
-    transition: background-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+    position: relative;
+    padding: var(--webtrotion-search-row-padding);
+    transition: background-color 140ms ease;
   }
 
   .webtrotion-search-result:has(a:focus-visible) .webtrotion-search-result-card,
   .webtrotion-search-result-card:hover {
     background: var(--pf-focus);
-    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-accent) 24%, transparent);
+    box-shadow: inset 2px 0 0 var(--color-accent);
+  }
+
+  .webtrotion-search-result-main {
+    @apply min-w-0;
+  }
+
+  .webtrotion-search-result-heading {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.4rem;
+    min-width: 0;
   }
 
   .webtrotion-search-result-icon {
     display: inline-flex;
-    width: 1.45rem;
-    height: 1.45rem;
-    margin-top: 0.1rem;
+    flex: 0 0 1rem;
+    width: 1rem;
+    height: 1rem;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0.12rem;
     color: var(--pf-muted);
+    font-size: 0.9rem;
+    line-height: 1;
+  }
+
+  .webtrotion-search-result-icon img,
+  .webtrotion-search-result-icon svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .webtrotion-search-result-icon img {
+    object-fit: contain;
   }
 
   .webtrotion-search-result-icon svg {
-    width: 100%;
-    height: 100%;
     fill: none;
     stroke: currentColor;
-    stroke-width: 1.7;
     stroke-linecap: round;
     stroke-linejoin: round;
-  }
-
-  .webtrotion-search-result-main {
-    min-width: 0;
+    stroke-width: 1.5;
   }
 
   .webtrotion-search-result-link {
-    display: inline;
+    display: block;
+    min-width: 0;
     color: var(--color-textColor);
-    font-size: 1.03rem;
-    font-weight: 700;
-    line-height: 1.35;
+    font-size: 0.94rem;
+    font-weight: 650;
+    line-height: 1.3;
     text-decoration: none;
   }
 
@@ -1621,7 +1775,7 @@ ${createCssVariables("dark")}
   .webtrotion-search-result-url,
   .webtrotion-search-result-excerpt,
   .webtrotion-search-subresult-excerpt {
-    margin: 0.25rem 0 0;
+    margin: 0.18rem 0 0;
     color: var(--pf-muted);
     line-height: 1.45;
     overflow-wrap: anywhere;
@@ -1631,11 +1785,11 @@ ${createCssVariables("dark")}
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    font-size: 0.82rem;
+    font-size: 0.75rem;
   }
 
   .webtrotion-search-result-excerpt {
-    font-size: 0.94rem;
+    font-size: 0.82rem;
   }
 
   .webtrotion-search-result-excerpt,
@@ -1643,27 +1797,29 @@ ${createCssVariables("dark")}
     display: -webkit-box;
     overflow: hidden;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 1;
   }
 
   .webtrotion-search-subresults {
     display: grid;
-    gap: 0.35rem;
-    margin: 0.15rem 0 0 2.45rem;
-    padding: 0 0 0.5rem;
+    gap: 0.18rem;
+    margin: 0 0 0.45rem;
+    padding: 0 0.8rem 0.15rem;
     list-style: none;
   }
 
   .webtrotion-search-subresults li {
-    padding: 0.45rem 0.65rem;
-    border-inline-start: 2px solid color-mix(in srgb, var(--color-accent) 22%, transparent);
-    border-radius: 0.6rem;
+    display: grid;
+    grid-template-columns: minmax(7rem, 28%) minmax(0, 1fr);
+    gap: 0.5rem;
+    padding: 0.18rem 0 0.18rem 0.55rem;
+    border-inline-start: 1px solid color-mix(in srgb, var(--color-accent) 38%, transparent);
   }
 
   .webtrotion-search-subresult-link {
     color: var(--color-textColor);
-    font-size: 0.92rem;
-    font-weight: 650;
+    font-size: 0.78rem;
+    font-weight: 600;
     text-decoration: none;
   }
 
@@ -1676,7 +1832,7 @@ ${createCssVariables("dark")}
 
   site-search mark,
   .pagefind-highlight {
-    border-radius: 0.25rem;
+    border-radius: 0.12rem;
     background: var(--pf-highlight-background);
     color: var(--pf-highlight-text);
     box-decoration-break: clone;
@@ -1684,39 +1840,53 @@ ${createCssVariables("dark")}
     padding: 0.02em 0.16em;
   }
 
-  .webtrotion-search-preview-card {
+  .webtrotion-search-preview-slot {
     position: sticky;
     top: 0;
+    min-width: 0;
     max-height: 100%;
     overflow: auto;
-    padding: 1.4rem;
-    border: 1px solid var(--pf-border);
-    border-radius: 1rem;
-    background:
-      linear-gradient(
-        to bottom,
-        color-mix(in srgb, var(--color-textColor) 3%, transparent),
-        transparent 38%
-      ),
-      var(--color-bgColor);
-    box-shadow: 0 18px 60px color-mix(in srgb, #000 9%, transparent);
+    border-inline-start: 1px solid transparent;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(0.75rem);
+    transition:
+      opacity 160ms ease 80ms,
+      transform 260ms var(--webtrotion-search-ease) 60ms,
+      border-color 180ms ease 80ms;
+  }
+
+  .webtrotion-search-content:has(webtrotion-search-preview[data-preview-active])
+    .webtrotion-search-preview-slot {
+    border-inline-start-color: var(--webtrotion-search-rule);
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(0);
+  }
+
+  webtrotion-search-preview {
+    display: block;
+  }
+
+  .webtrotion-search-preview-card {
+    padding: 0.85rem 0.9rem;
   }
 
   .webtrotion-search-preview-kicker {
-    margin: 0 0 0.75rem;
+    margin: 0 0 0.45rem;
     color: var(--pf-muted);
-    font-size: 0.78rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
+    font-size: 0.62rem;
+    font-weight: 650;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
   }
 
   .webtrotion-search-preview-title {
     margin: 0;
     color: var(--color-textColor);
-    font-size: clamp(1.25rem, 2vw, 1.85rem);
-    font-weight: 800;
-    line-height: 1.18;
+    font-size: 1rem;
+    font-weight: 650;
+    line-height: 1.3;
   }
 
   .webtrotion-search-preview-url,
@@ -1727,57 +1897,57 @@ ${createCssVariables("dark")}
 
   .webtrotion-search-preview-url {
     overflow: hidden;
-    margin: 0.7rem 0 0;
+    margin: 0.32rem 0 0;
     text-overflow: ellipsis;
     white-space: nowrap;
-    font-size: 0.84rem;
+    font-size: 0.75rem;
   }
 
   .webtrotion-search-preview-excerpt {
-    margin: 1.05rem 0 0;
-    font-size: 0.98rem;
-    line-height: 1.6;
+    margin: 0.7rem 0 0;
+    font-size: 0.82rem;
+    line-height: 1.48;
     overflow-wrap: anywhere;
     display: -webkit-box;
     overflow: hidden;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 6;
+    -webkit-line-clamp: 5;
   }
 
   .webtrotion-search-preview-sections {
     display: grid;
-    gap: 0.8rem;
-    margin: 1.2rem 0 0;
+    gap: 0;
+    margin: 0.85rem 0 0;
     padding: 0;
     list-style: none;
   }
 
   .webtrotion-search-preview-sections li {
-    padding: 0.8rem;
-    border-radius: 0.75rem;
-    background: color-mix(in srgb, var(--color-textColor) 4%, transparent);
+    padding: 0.45rem 0;
+    border-top: 1px solid var(--webtrotion-search-rule);
   }
 
   .webtrotion-search-preview-sections span {
     color: var(--color-textColor);
-    font-weight: 700;
+    font-size: 0.8rem;
+    font-weight: 600;
   }
 
   .webtrotion-search-preview-sections p {
-    margin: 0.3rem 0 0;
+    margin: 0.22rem 0 0;
     color: var(--pf-muted);
-    font-size: 0.9rem;
-    line-height: 1.45;
+    font-size: 0.78rem;
+    line-height: 1.4;
     display: -webkit-box;
     overflow: hidden;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 3;
   }
 
   .webtrotion-search-skeleton,
   .webtrotion-search-preview-skeleton {
     display: block;
-    border-radius: 999px;
+    border-radius: 0.1rem;
     background: linear-gradient(
       90deg,
       color-mix(in srgb, var(--color-textColor) 8%, transparent),
@@ -1817,24 +1987,66 @@ ${createCssVariables("dark")}
 
   site-search pagefind-modal-footer {
     flex: 0 0 auto;
-    padding: 0.75rem 1.25rem;
-    border-top: 1px solid var(--pf-border);
-    background: color-mix(in srgb, var(--color-bgColor) 96%, transparent);
+    padding: 0.45rem 0.8rem;
+    border-top: 1px solid var(--webtrotion-search-rule);
+    background: var(--webtrotion-search-surface);
+    font-size: 0.75rem;
+  }
+
+  .webtrotion-search-navigation-hints {
+    @apply hidden items-center gap-3 text-xs text-textColor/60 md:flex;
+  }
+
+  .webtrotion-search-navigation-hints span {
+    @apply inline-flex items-center gap-1;
+  }
+
+  .webtrotion-search-navigation-hints kbd {
+    @apply rounded border border-textColor/20 px-1 py-0.5 font-mono text-[0.7rem] text-textColor/75;
+  }
+
+  .webtrotion-search-empty-state {
+    margin: 1.5rem 0.8rem;
+    color: var(--pf-muted);
+    font-size: 0.85rem;
+    line-height: 1.5;
+    text-align: center;
   }
 
   @media (max-width: 1023px) {
     site-search .pf-modal {
-      width: min(46rem, calc(100vw - 1.5rem)) !important;
-      max-width: min(46rem, calc(100vw - 1.5rem)) !important;
+      --webtrotion-search-compact-height: min(
+        45.333rem,
+        calc(100vh - 3rem),
+        calc((100vw - 1.5rem) * 4 / 3)
+      );
+      --webtrotion-search-compact-width: min(
+        34rem,
+        calc((100vh - 3rem) * 3 / 4),
+        calc(100vw - 1.5rem)
+      );
+    }
+
+    site-search .pf-modal:has(webtrotion-search-preview[data-preview-active]) {
+      width: var(--webtrotion-search-compact-width) !important;
+      max-width: var(--webtrotion-search-compact-width) !important;
     }
 
     .webtrotion-search-content {
-      display: block;
-      overflow: auto;
+      display: flex;
+      flex-direction: column;
     }
 
-    webtrotion-search-preview {
-      display: none;
+    .webtrotion-search-results-pane {
+      flex: 1 1 60%;
+    }
+
+    .webtrotion-search-preview-slot {
+      flex: 0 1 40%;
+      position: static;
+      max-height: 40%;
+      border-inline-start: 0;
+      border-top: 1px solid var(--pf-border);
     }
   }
 
@@ -1849,37 +2061,85 @@ ${createCssVariables("dark")}
     }
 
     site-search pagefind-modal-header {
-      padding: 0.85rem;
+      padding: 0.65rem;
     }
 
     site-search .pf-input {
-      min-height: 3.45rem;
-      padding-inline: 2.85rem 2.65rem;
-      font-size: 1rem;
+      min-height: 2.85rem;
+      padding-inline: 2.4rem 2.35rem;
+      font-size: 0.95rem;
     }
 
     .webtrotion-search-filters {
-      display: grid;
-      grid-template-columns: 1fr;
-      padding: 0.8rem;
+      flex-wrap: nowrap;
+      overflow: visible;
+      padding: 0.45rem 0.65rem;
+      position: relative;
+      z-index: 2;
     }
 
     site-search pagefind-filter-dropdown {
       min-width: 0;
     }
 
+    site-search .pf-dropdown-menu {
+      inset-inline-start: 0 !important;
+      left: 0 !important;
+      width: min(18rem, calc(100vw - 1.3rem)) !important;
+      max-width: min(18rem, calc(100vw - 1.3rem)) !important;
+      transform: none !important;
+    }
+
+    site-search pagefind-filter-dropdown:nth-child(2) .pf-dropdown-menu {
+      width: min(15rem, calc(100vw - 9.4rem)) !important;
+      max-width: min(15rem, calc(100vw - 9.4rem)) !important;
+    }
+
     .webtrotion-search-content {
-      padding: 0.8rem;
+      padding: 0;
+    }
+
+    webtrotion-search-navigation {
+      margin-bottom: 0.55rem;
+      padding-inline: 0.65rem;
+    }
+
+    .webtrotion-search-navigation-list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      margin-inline: -0.65rem;
+    }
+
+    .webtrotion-search-navigation-link {
+      padding-inline: 0.65rem;
+    }
+
+    .webtrotion-search-pinned {
+      margin-inline: -0.65rem;
+    }
+
+    .webtrotion-search-pinned-label {
+      padding-inline: 0.65rem;
+    }
+
+    .webtrotion-search-pinned-link {
+      padding-inline: 0.65rem;
     }
 
     .webtrotion-search-result-card {
-      grid-template-columns: 1.35rem minmax(0, 1fr);
-      gap: 0.65rem;
-      padding: 0.7rem 0.55rem;
+      padding: 0.55rem 0.65rem 0.45rem;
     }
 
     .webtrotion-search-subresults {
-      margin-inline-start: 2rem;
+      padding-inline: 0.65rem;
+    }
+
+    .webtrotion-search-subresults li {
+      grid-template-columns: 1fr;
+      gap: 0.1rem;
+    }
+
+    .webtrotion-search-preview-card {
+      padding: 0.7rem 0.65rem;
     }
 
     site-search pagefind-modal-footer {
@@ -1888,6 +2148,9 @@ ${createCssVariables("dark")}
   }
 
   @media (prefers-reduced-motion: reduce) {
+    site-search .pf-modal,
+    .webtrotion-search-content,
+    .webtrotion-search-preview-slot,
     .webtrotion-search-result-card,
     .webtrotion-search-skeleton,
     .webtrotion-search-preview-skeleton {

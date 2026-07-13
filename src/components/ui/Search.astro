@@ -2,23 +2,36 @@
 // Heavy inspiration taken from Astro Starlight -> https://github.com/withastro/starlight/blob/main/packages/starlight/components/Search.astro
 
 import "@pagefind/component-ui/css";
+import { getAllPosts } from "@/lib/notion/client";
+import { resolvePostHref } from "@/lib/blog-helpers";
 
 const baseUrl = import.meta.env.BASE_URL;
 const pagefindBundlePath = `${baseUrl.replace(/\/$/, "")}/pagefind/`;
+const pinnedPost = (await getAllPosts()).find((post) => post.Pinned && !post.Slug.startsWith("_"));
 const resultTemplate = String.raw`
 <li class="webtrotion-search-result">
 	<div class="webtrotion-search-result-card">
-		<span class="webtrotion-search-result-icon" aria-hidden="true">
-			<svg viewBox="0 0 24 24" focusable="false">
-				<path d="M6 3.75h8.4L19 8.35v11.9H6z" />
-				<path d="M14.25 4v4.6h4.5" />
-				<path d="M8.75 12h6.5M8.75 15h5M8.75 18h3.75" />
-			</svg>
-		</span>
 		<div class="webtrotion-search-result-main">
-			<a class="webtrotion-search-result-link" href="{{ meta.url | default(url) | safeUrl }}">
-				{{ meta.title | default("Untitled") }}
-			</a>
+			<div class="webtrotion-search-result-heading">
+				<span class="webtrotion-search-result-icon" aria-hidden="true">
+					{{#if meta.page_icon_emoji}}
+						{{ meta.page_icon_emoji }}
+					{{:else}}
+						{{#if meta.page_icon_image}}
+							<img src="{{ meta.page_icon_image | safeUrl }}" alt="" />
+						{{:else}}
+							<svg viewBox="0 0 24 24" focusable="false">
+								<path d="M6 3.75h8.4L19 8.35v11.9H6z" />
+								<path d="M14.25 4v4.6h4.5" />
+								<path d="M8.75 12h6.5M8.75 15h5M8.75 18h3.75" />
+							</svg>
+						{{/if}}
+					{{/if}}
+				</span>
+				<a class="webtrotion-search-result-link" href="{{ meta.url | default(url) | safeUrl }}">
+					{{ meta.title | default("Untitled") }}
+				</a>
+			</div>
 			<p class="webtrotion-search-result-url">{{ meta.url | default(url) }}</p>
 			{{#if excerpt}}
 				<p class="webtrotion-search-result-excerpt">{{+ excerpt +}}</p>
@@ -43,7 +56,6 @@ const resultTemplate = String.raw`
 const placeholderTemplate = String.raw`
 <li class="webtrotion-search-result webtrotion-search-placeholder" aria-hidden="true">
 	<div class="webtrotion-search-result-card">
-		<span class="webtrotion-search-result-icon"></span>
 		<div class="webtrotion-search-result-main">
 			<p class="webtrotion-search-skeleton webtrotion-search-skeleton-title"></p>
 			<p class="webtrotion-search-skeleton webtrotion-search-skeleton-line"></p>
@@ -70,6 +82,7 @@ const placeholderTemplate = String.raw`
 				<pagefind-modal-trigger
 					instance="webtrotion-search"
 					compact
+					shortcut="q"
 					hide-shortcut
 					placeholder="Search"
 				/>
@@ -101,6 +114,13 @@ const placeholderTemplate = String.raw`
 							</div>
 							<div class="webtrotion-search-content">
 								<section class="webtrotion-search-results-pane" aria-label="Search results">
+									<webtrotion-search-navigation
+										aria-label="Navigate site pages"
+										data-pinned-title={pinnedPost?.Title}
+										data-pinned-url={pinnedPost ? resolvePostHref(pinnedPost) : undefined}
+										data-pinned-collection={pinnedPost?.Collection}
+										data-pinned-excerpt={pinnedPost?.Excerpt}
+									/>
 									<pagefind-summary instance="webtrotion-search" />
 									<pagefind-results
 										instance="webtrotion-search"
@@ -114,13 +134,32 @@ const placeholderTemplate = String.raw`
 											set:html={placeholderTemplate}
 										/>
 									</pagefind-results>
+									<p class="webtrotion-search-empty-state" hidden aria-live="polite">
+										No results. Try a different search or remove a filter.
+									</p>
 								</section>
-								<webtrotion-search-preview instance="webtrotion-search" />
+								<div class="webtrotion-search-preview-slot">
+									<webtrotion-search-preview instance="webtrotion-search" />
+								</div>
 							</div>
 						</div>
 					</pagefind-modal-body>
 					<pagefind-modal-footer>
 						<pagefind-keyboard-hints instance="webtrotion-search" />
+						<div class="webtrotion-search-navigation-hints" aria-label="Search navigation">
+							<span>
+								<kbd>Q</kbd> search
+							</span>
+							<span>
+								<kbd>↑↓</kbd> results
+							</span>
+							<span>
+								<kbd>→</kbd> occurrences
+							</span>
+							<span>
+								<kbd>←</kbd> page
+							</span>
+						</div>
 					</pagefind-modal-footer>
 				</pagefind-modal>
 			</>
@@ -132,6 +171,7 @@ const placeholderTemplate = String.raw`
 	import "@pagefind/component-ui";
 	import { getInstanceManager } from "@pagefind/component-ui";
 	import type {
+		FilterSelection,
 		PagefindRawResult,
 		PagefindResultData,
 		PagefindSearchResult,
@@ -142,6 +182,49 @@ const placeholderTemplate = String.raw`
 
 	class SiteSearch extends HTMLElement {
 		private resultsElement: HTMLElement | null = null;
+		private modalElement: HTMLElement | null = null;
+		private emptyStateElement: HTMLElement | null = null;
+		private onModalKeydown = (event: KeyboardEvent) => {
+			const target = event.target;
+			if (
+				event.key === "Escape" &&
+				target instanceof HTMLElement &&
+				target.matches(".pf-dropdown-trigger.open")
+			) {
+				const dropdown = target.closest("pagefind-filter-dropdown") as
+					| (HTMLElement & {
+							close?: () => void;
+					  })
+					| null;
+				dropdown?.close?.();
+				event.preventDefault();
+				event.stopImmediatePropagation();
+				return;
+			}
+
+			if (
+				event.defaultPrevented ||
+				event.altKey ||
+				event.ctrlKey ||
+				event.metaKey ||
+				event.shiftKey ||
+				event.key !== "ArrowDown" ||
+				!(target instanceof HTMLInputElement) ||
+				!target.matches(".pf-input")
+			) {
+				return;
+			}
+
+			const firstLink = this.querySelector<HTMLAnchorElement>(
+				".webtrotion-search-navigation-link, .webtrotion-search-pinned-link, .webtrotion-search-result-link",
+			);
+			if (!firstLink) return;
+
+			event.preventDefault();
+			event.stopImmediatePropagation();
+			firstLink.focus({ preventScroll: true });
+			firstLink.scrollIntoView({ behavior: "smooth", block: "nearest" });
+		};
 		private onResultsKeydown = (event: KeyboardEvent) => {
 			if (
 				event.defaultPrevented ||
@@ -154,16 +237,53 @@ const placeholderTemplate = String.raw`
 			}
 
 			const link = (event.target as Element | null)?.closest<HTMLAnchorElement>(
-				".webtrotion-search-result-link, .webtrotion-search-subresult-link",
+				".webtrotion-search-navigation-link, .webtrotion-search-pinned-link, .webtrotion-search-result-link, .webtrotion-search-subresult-link",
 			);
-			if (!link || !this.resultsElement?.contains(link)) return;
+			if (!link || !this.modalElement?.contains(link)) return;
+			if (event.key === "Enter") {
+				event.preventDefault();
+				event.stopImmediatePropagation();
+				link.click();
+				return;
+			}
+
+			const mainLinks = Array.from(
+				this.querySelectorAll<HTMLAnchorElement>(".webtrotion-search-result-link"),
+			);
+			const navigationLinks = Array.from(
+				this.querySelectorAll<HTMLAnchorElement>(
+					".webtrotion-search-navigation-link, .webtrotion-search-pinned-link",
+				),
+			);
+			const navigationIndex = navigationLinks.indexOf(link);
+			let destination: HTMLAnchorElement | undefined;
+
+			if (navigationIndex !== -1) {
+				if (event.key === "ArrowDown")
+					destination = navigationLinks[navigationIndex + 1] || mainLinks[0];
+				if (event.key === "ArrowUp") {
+					destination = navigationLinks[navigationIndex - 1];
+					if (!destination) {
+						const input = this.querySelector<HTMLInputElement>(".pf-input");
+						if (!input) return;
+						event.preventDefault();
+						input.focus({ preventScroll: true });
+						return;
+					}
+				}
+				if (!destination) return;
+				event.preventDefault();
+				event.stopImmediatePropagation();
+				destination.focus({ preventScroll: true });
+				destination.scrollIntoView({
+					behavior: event.repeat ? "auto" : "smooth",
+					block: "nearest",
+				});
+				return;
+			}
 
 			const result = link.closest<HTMLElement>(".webtrotion-search-result");
 			if (!result) return;
-
-			const mainLinks = Array.from(
-				this.resultsElement.querySelectorAll<HTMLAnchorElement>(".webtrotion-search-result-link"),
-			);
 			const mainLink = result.querySelector<HTMLAnchorElement>(".webtrotion-search-result-link");
 			if (!mainLink) return;
 
@@ -173,11 +293,22 @@ const placeholderTemplate = String.raw`
 			);
 			const subIndex = subLinks.indexOf(link);
 			const isSubResult = subIndex !== -1;
-			let destination: HTMLAnchorElement | undefined;
-
 			if (!isSubResult) {
-				if (event.key === "ArrowDown") destination = mainLinks[resultIndex + 1];
-				if (event.key === "ArrowUp") destination = mainLinks[resultIndex - 1];
+				if (event.key === "ArrowDown") destination = subLinks[0] || mainLinks[resultIndex + 1];
+				if (event.key === "ArrowUp") {
+					const previousResult = mainLinks[resultIndex - 1]?.closest<HTMLElement>(
+						".webtrotion-search-result",
+					);
+					const previousSubLinks = previousResult
+						? Array.from(
+								previousResult.querySelectorAll<HTMLAnchorElement>(
+									".webtrotion-search-subresult-link",
+								),
+							)
+						: [];
+					destination =
+						previousSubLinks.at(-1) || mainLinks[resultIndex - 1] || navigationLinks.at(-1);
+				}
 				if (event.key === "ArrowRight") destination = subLinks[0];
 			} else {
 				if (event.key === "ArrowDown") {
@@ -187,6 +318,14 @@ const placeholderTemplate = String.raw`
 					destination = subLinks[subIndex - 1] || mainLink;
 				}
 				if (event.key === "ArrowLeft") destination = mainLink;
+			}
+
+			if (!destination && event.key === "ArrowUp" && !isSubResult) {
+				const input = this.querySelector<HTMLInputElement>(".pf-input");
+				if (!input) return;
+				event.preventDefault();
+				input.focus({ preventScroll: true });
+				return;
 			}
 
 			if (!destination) return;
@@ -208,22 +347,181 @@ const placeholderTemplate = String.raw`
 			if (import.meta.env.DEV) return;
 
 			this.resultsElement = this.querySelector("pagefind-results");
-			this.resultsElement?.addEventListener("keydown", this.onResultsKeydown, true);
+			this.modalElement = this.querySelector("pagefind-modal");
+			this.emptyStateElement = this.querySelector(".webtrotion-search-empty-state");
+			this.modalElement?.addEventListener("keydown", this.onModalKeydown, true);
+			this.modalElement?.addEventListener("keydown", this.onResultsKeydown, true);
 
 			const queryParams = new URLSearchParams(window.location.search);
 			const searchTerm = queryParams.get("q");
-			if (!searchTerm) return;
+			const searchFilters = this.readUrlFilters(queryParams);
+			const hasSearchFilters = Object.values(searchFilters).some((values) => values.length);
+
+			const instance = getInstanceManager().getInstance(SEARCH_INSTANCE);
+			instance.on(
+				"loading",
+				() => {
+					if (this.emptyStateElement) this.emptyStateElement.hidden = true;
+				},
+				this,
+			);
+			instance.on(
+				"results",
+				(results) => {
+					const searchResults = results as PagefindSearchResult;
+					const hasQuery = Boolean(instance.searchTerm?.trim());
+					const hasFilters = Object.values(instance.searchFilters || {}).some(
+						(values) => values.length,
+					);
+					if (this.emptyStateElement) {
+						this.emptyStateElement.hidden =
+							Boolean(searchResults.results?.length) || !(hasQuery || hasFilters);
+					}
+				},
+				this,
+			);
+
+			if (!searchTerm && !hasSearchFilters) return;
 
 			customElements.whenDefined("pagefind-modal").then(() => {
-				const modal = this.querySelector("pagefind-modal") as any;
-				const instance = getInstanceManager().getInstance(SEARCH_INSTANCE);
-				modal?.open?.();
-				instance.triggerSearch(searchTerm);
+				(this.modalElement as any)?.open?.();
+				const input = this.querySelector<HTMLInputElement>(".pf-input");
+				if (input) input.value = searchTerm || "";
+				instance.triggerSearchWithFilters(searchTerm || "", searchFilters);
 			});
 		}
 
 		disconnectedCallback() {
-			this.resultsElement?.removeEventListener("keydown", this.onResultsKeydown, true);
+			this.modalElement?.removeEventListener("keydown", this.onModalKeydown, true);
+			this.modalElement?.removeEventListener("keydown", this.onResultsKeydown, true);
+		}
+
+		private readUrlFilters(queryParams: URLSearchParams): FilterSelection {
+			const filters: FilterSelection = {};
+			const aliases: Record<string, string[]> = {
+				collections: ["collections", "collection"],
+				tags: ["tags", "tag"],
+			};
+
+			for (const [filter, names] of Object.entries(aliases)) {
+				const values = names.flatMap((name) =>
+					queryParams
+						.getAll(name)
+						.flatMap((value) => value.split(","))
+						.map((value) => value.trim())
+						.filter(Boolean),
+				);
+				if (values.length) filters[filter] = [...new Set(values)];
+			}
+
+			return filters;
+		}
+	}
+
+	class WebtrotionSearchNavigation extends HTMLElement {
+		private links: Array<{ href: string; label: string }> = [];
+		private pinnedPost: {
+			title: string;
+			url: string;
+			collection: string;
+			excerpt: string;
+		} | null = null;
+		private eventRoot: Element | null = null;
+		private onInput = (event: Event) => {
+			const input = event.target;
+			if (input instanceof HTMLInputElement && input.matches(".pf-input")) {
+				this.render(input.value);
+			}
+		};
+
+		connectedCallback() {
+			this.links = Array.from(
+				document.querySelectorAll<HTMLAnchorElement>("#navigation-menu a[href]"),
+			)
+				.map((link) => ({ href: link.href, label: link.textContent?.trim() || "" }))
+				.filter((link) => link.label);
+			const title = this.dataset.pinnedTitle || "";
+			const url = this.dataset.pinnedUrl || "";
+			this.pinnedPost = title && url
+				? {
+						title,
+						url,
+						collection: this.dataset.pinnedCollection || "",
+						excerpt: this.dataset.pinnedExcerpt || "",
+					}
+				: null;
+			this.eventRoot = this.closest("site-search") || this.parentElement;
+			this.eventRoot?.addEventListener("input", this.onInput);
+			const instance = getInstanceManager().getInstance(SEARCH_INSTANCE);
+			instance.on(
+				"results",
+				() => {
+					const input = this.eventRoot?.querySelector<HTMLInputElement>(".pf-input");
+					this.render(input?.value || "");
+				},
+				this,
+			);
+			this.render("");
+		}
+
+		disconnectedCallback() {
+			this.eventRoot?.removeEventListener("input", this.onInput);
+		}
+
+		private render(query: string) {
+			const normalizedQuery = query.trim().toLocaleLowerCase();
+			const matches = this.links.filter((link) =>
+				normalizedQuery ? link.label.toLocaleLowerCase().includes(normalizedQuery) : true,
+			);
+			this.hidden = !matches.length;
+			this.replaceChildren();
+			if (!matches.length) return;
+
+			const label = document.createElement("p");
+			label.className = "webtrotion-search-navigation-label";
+			label.textContent = "Navigate";
+			const list = document.createElement("ul");
+			list.className = "webtrotion-search-navigation-list";
+			for (const item of matches) {
+				const listItem = document.createElement("li");
+				const link = document.createElement("a");
+				link.className = "webtrotion-search-navigation-link";
+				link.href = item.href;
+				link.textContent = item.label;
+				listItem.append(link);
+				list.append(listItem);
+			}
+			this.append(label, list);
+
+			if (!normalizedQuery && this.pinnedPost) {
+				const pinned = document.createElement("section");
+				pinned.className = "webtrotion-search-pinned";
+				const pinnedLabel = document.createElement("p");
+				pinnedLabel.className = "webtrotion-search-pinned-label";
+				pinnedLabel.textContent = "Pinned";
+				const pinnedLink = document.createElement("a");
+				pinnedLink.className = "webtrotion-search-pinned-link";
+				pinnedLink.href = this.pinnedPost.url;
+				const pin = document.createElement("span");
+				pin.className = "webtrotion-search-pinned-icon";
+				pin.setAttribute("aria-hidden", "true");
+				pin.textContent = "📌";
+				const pinnedContent = document.createElement("span");
+				pinnedContent.className = "webtrotion-search-pinned-content";
+				const title = document.createElement("span");
+				title.className = "webtrotion-search-pinned-title";
+				title.textContent = this.pinnedPost.title;
+				const detail = document.createElement("span");
+				detail.className = "webtrotion-search-pinned-detail";
+				detail.textContent = [this.pinnedPost.collection, this.pinnedPost.excerpt]
+					.filter(Boolean)
+					.join(" - ");
+				pinnedContent.append(title);
+				if (detail.textContent) pinnedContent.append(detail);
+				pinnedLink.append(pin, pinnedContent);
+				pinned.append(pinnedLabel, pinnedLink);
+				this.append(pinned);
+			}
 		}
 	}
 
@@ -269,7 +567,11 @@ const placeholderTemplate = String.raw`
 					const searchResults = results as PagefindSearchResult;
 					this.latestResults = searchResults.results || [];
 					this.resultDataByUrl.clear();
-					this.renderFirstResult();
+					this.renderEmpty(
+						this.latestResults.length
+							? "Select a result or matching section to preview it"
+							: "No preview available",
+					);
 				},
 				this,
 			);
@@ -290,22 +592,17 @@ const placeholderTemplate = String.raw`
 			}
 		}
 
-		private async renderFirstResult() {
-			if (!this.latestResults.length) {
-				this.renderEmpty("No preview available");
-				return;
-			}
-			const firstResult = this.latestResults[0];
-			if (!firstResult) return;
-			const data = await firstResult.data();
-			this.cacheResult(data);
-			this.renderResult(data);
-		}
-
 		private async renderForUrl(url: string) {
 			const normalized = this.normalizeUrl(url);
 			const cached = this.resultDataByUrl.get(normalized);
 			if (cached) {
+				const cachedSubresult = cached.sub_results?.find(
+					(sub: PagefindSubResult) => this.normalizeUrl(sub.url) === normalized,
+				);
+				if (cachedSubresult) {
+					this.renderSubResult(cached, cachedSubresult);
+					return;
+				}
 				this.renderResult(cached);
 				return;
 			}
@@ -335,6 +632,7 @@ const placeholderTemplate = String.raw`
 		}
 
 		private renderEmpty(message = "Start typing to preview a result") {
+			this.removeAttribute("data-preview-active");
 			this.innerHTML = `<aside class="webtrotion-search-preview-card" aria-label="Search preview">
 				<p class="webtrotion-search-preview-kicker">Preview</p>
 				<p class="webtrotion-search-preview-empty">${message}</p>
@@ -342,6 +640,7 @@ const placeholderTemplate = String.raw`
 		}
 
 		private renderLoading() {
+			this.removeAttribute("data-preview-active");
 			this.innerHTML = `<aside class="webtrotion-search-preview-card" aria-label="Search preview" aria-busy="true">
 				<p class="webtrotion-search-preview-kicker">Preview</p>
 				<div class="webtrotion-search-preview-skeleton title"></div>
@@ -350,14 +649,15 @@ const placeholderTemplate = String.raw`
 			</aside>`;
 		}
 
-		private renderResult(data: PagefindResultData) {
+		private renderResult(data: PagefindResultData, kicker = "Selected result") {
+			this.setAttribute("data-preview-active", "");
 			const title = this.escapeHtml(data.meta?.title || "Untitled");
 			const url = this.escapeHtml(data.meta?.url || data.url || "");
 			const excerpt = data.excerpt || "";
 			const subResults = (data.sub_results || []).slice(0, 4);
 
 			this.innerHTML = `<aside class="webtrotion-search-preview-card" aria-label="Search preview">
-				<p class="webtrotion-search-preview-kicker">Best match</p>
+				<p class="webtrotion-search-preview-kicker">${kicker}</p>
 				<h2 class="webtrotion-search-preview-title">${title}</h2>
 				${url ? `<p class="webtrotion-search-preview-url">${url}</p>` : ""}
 				${excerpt ? `<p class="webtrotion-search-preview-excerpt">${excerpt}</p>` : ""}
@@ -377,15 +677,18 @@ const placeholderTemplate = String.raw`
 		}
 
 		private renderSubResult(data: PagefindResultData, subresult: PagefindSubResult) {
-			this.renderResult({
-				...data,
-				excerpt: subresult.excerpt || data.excerpt,
-				meta: {
-					...data.meta,
-					title: subresult.title || data.meta?.title || "Untitled",
-					url: subresult.url || data.meta?.url || data.url,
+			this.renderResult(
+				{
+					...data,
+					excerpt: subresult.excerpt || data.excerpt,
+					meta: {
+						...data.meta,
+						title: subresult.title || data.meta?.title || "Untitled",
+						url: subresult.url || data.meta?.url || data.url,
+					},
 				},
-			});
+				"Selected occurrence",
+			);
 		}
 
 		private escapeHtml(value: string) {
@@ -410,6 +713,10 @@ const placeholderTemplate = String.raw`
 
 	if (!customElements.get("site-search")) {
 		customElements.define("site-search", SiteSearch);
+	}
+
+	if (!customElements.get("webtrotion-search-navigation")) {
+		customElements.define("webtrotion-search-navigation", WebtrotionSearchNavigation);
 	}
 
 	if (!customElements.get("webtrotion-search-preview")) {

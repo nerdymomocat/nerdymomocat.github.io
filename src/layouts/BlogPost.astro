@@ -12,6 +12,7 @@ import InterlinkedContentSection from "@/components/auto-added-sections/interlin
 import Icon from "@/components/ui/Icon.astro";
 import CopyMarkdownButton from "@/components/auto-added-sections/CopyMarkdownButton.astro";
 import { getMachineDateISOString } from "@/utils/date";
+import PagefindIconMetadata from "@/components/ui/PagefindIconMetadata.astro";
 
 interface Props {
 	post: Post;
@@ -81,6 +82,7 @@ const metaAuthor = getMetaAuthor();
 >
 	<div class="max-w-[708px] sm:mr-20 print:mr-auto print:max-w-full">
 		<article class="break-words" data-pagefind-body>
+			<PagefindIconMetadata post={post} />
 			<div id="blog-hero">
 				<BlogHero post={post} />
 			</div>
