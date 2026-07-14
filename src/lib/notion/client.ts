@@ -111,7 +111,8 @@ let workspaceCustomEmojiCacheById: Map<string, WorkspaceCustomEmoji> | null = nu
 let workspaceCustomEmojiCacheByName: Map<string, WorkspaceCustomEmoji> | null = null;
 let workspaceCustomEmojiPromise: Promise<void> | null = null;
 let allTagsWithCountsCache:
-	{ name: string; count: number; description: string; color: string }[] | null = null;
+	| { name: string; count: number; description: string; color: string }[]
+	| null = null;
 
 // Authors: Cache for authors with counts
 let allAuthorsWithCountsCache:

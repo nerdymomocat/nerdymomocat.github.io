@@ -86,6 +86,8 @@ const rss_path = getNavLink("/rss.xml");
 						class="nav-link"
 						aria-current={currentPath === normalizeNavPath(link.path) ? "page" : false}
 						data-astro-prefetch
+						data-page-icon-emoji={link.icon?.emoji}
+						data-page-icon-image={link.icon?.image}
 					>
 						{link.title}
 					</a>
@@ -114,14 +116,14 @@ const rss_path = getNavLink("/rss.xml");
 			>
 				<Icon
 					name={"menu"}
-					class="absolute start-1/2 top-1/2 h-full w-full -translate-x-1/2 -translate-y-1/2 transition-all group-aria-expanded:scale-0 group-aria-expanded:opacity-0"
+					class="absolute start-1/2 top-1/2 h-full w-full -translate-x-1/2 -translate-y-1/2 transition-[transform,opacity] duration-200 ease-out group-aria-expanded:scale-75 group-aria-expanded:opacity-0"
 					aria-hidden="true"
 					focusable="false"
 				/>
 
 				<Icon
 					name={"close"}
-					class="text-accent absolute start-1/2 top-1/2 h-full w-full -translate-x-1/2 -translate-y-1/2 scale-0 opacity-0 transition-all group-aria-expanded:scale-100 group-aria-expanded:opacity-100"
+					class="text-accent absolute start-1/2 top-1/2 h-full w-full -translate-x-1/2 -translate-y-1/2 scale-75 opacity-0 transition-[transform,opacity] duration-200 ease-out group-aria-expanded:scale-100 group-aria-expanded:opacity-100"
 					aria-hidden="true"
 					focusable="false"
 				/>

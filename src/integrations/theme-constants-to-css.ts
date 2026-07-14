@@ -273,7 +273,7 @@ ${createCssVariables("dark")}
 
   /* Styles for focused lines */
   pre.has-focused .line {
-    @apply inline-block w-max min-w-[calc(100%+2rem)] -ml-4 pl-4 pr-4 box-border transition-all duration-300 ease-in-out;
+    @apply inline-block w-max min-w-[calc(100%+2rem)] -ml-4 pl-4 pr-4 box-border transition-[filter,opacity] duration-200 ease-out;
   }
 
   pre.has-focused .line:not(.focused) {
@@ -530,7 +530,7 @@ ${createCssVariables("dark")}
   }
 
   .toggle-summary {
-    @apply flex max-w-full cursor-pointer list-none list-image-none items-start gap-2;
+    @apply max-w-full list-image-none;
   }
 
   .toggle-summary::-webkit-details-marker {
@@ -539,6 +539,10 @@ ${createCssVariables("dark")}
 
   .toggle-icon-box {
     @apply inline-flex h-6 w-6 shrink-0 items-center justify-center;
+  }
+
+  .rotate-svg {
+    @apply h-6 w-6 shrink-0 transition-transform duration-200 ease-out;
   }
 
   details.toggle[open] .toggle-icon-box > .rotate-svg {
@@ -784,15 +788,15 @@ ${createCssVariables("dark")}
   }
 
   .visual-container {
-    @apply bg-bgColor absolute top-6 right-0 hidden w-8 flex-col items-end space-y-2 overflow-hidden p-2 transition-opacity duration-500 sm:flex;
+    @apply bg-bgColor absolute top-6 right-0 hidden w-8 flex-col items-end space-y-2 overflow-hidden p-2 transition-opacity duration-200 sm:flex;
   }
 
   .toc-content {
-    @apply border-accent/10 bg-bgColor shadow-accent/5 absolute right-1 bottom-0 max-h-[55vh] w-76 overflow-y-auto rounded-xl border p-2 shadow-xl transition-all duration-200 sm:top-0 sm:bottom-auto sm:max-h-[68vh];
+    @apply border-accent/10 bg-bgColor shadow-accent/5 absolute right-1 bottom-0 max-h-[55vh] w-76 overflow-y-auto rounded-xl border p-2 shadow-xl transition-[opacity,transform] duration-200 ease-out sm:top-0 sm:bottom-auto sm:max-h-[68vh];
   }
 
   .bottom-toc-button {
-    @apply fixed end-4 ${bottomTocButtonBottom} z-30 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border text-3xl transition-all duration-300 sm:hidden print:hidden;
+    @apply fixed end-4 ${bottomTocButtonBottom} z-30 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border text-3xl transition-[color,background-color,border-color,transform,opacity] duration-200 ease-out sm:hidden print:hidden;
   }
 
   /* Social List */
@@ -811,7 +815,7 @@ ${createCssVariables("dark")}
 
   /* To-Top Button */
   .to-top-btn {
-    @apply fixed end-4 ${toTopBtnBottom} z-30 flex h-10 w-10 translate-y-28 cursor-pointer items-center justify-center rounded-full border text-3xl opacity-0 transition-all duration-300 data-[show=true]:translate-y-0 data-[show=true]:opacity-100 sm:end-8 sm:bottom-8 sm:h-12 sm:w-12 print:hidden;
+    @apply fixed end-4 ${toTopBtnBottom} z-30 flex h-10 w-10 translate-y-28 cursor-pointer items-center justify-center rounded-full border text-3xl opacity-0 transition-[color,background-color,border-color,transform,opacity] duration-200 ease-out data-[show=true]:translate-y-0 data-[show=true]:opacity-100 sm:end-8 sm:bottom-8 sm:h-12 sm:w-12 print:hidden;
   }
 
   .bottom-toc-button,
@@ -855,11 +859,11 @@ ${createCssVariables("dark")}
 
   /* Theme Icon */
   .theme-toggle-btn {
-    @apply hover:text-accent relative h-10 w-10 cursor-pointer rounded-md p-2 transition-all;
+    @apply hover:text-accent relative h-10 w-10 cursor-pointer rounded-md p-2 transition-colors;
   }
 
   .theme-icon {
-    @apply absolute top-1/2 left-1/2 h-7 w-7 -translate-x-1/2 -translate-y-1/2 scale-0 opacity-0 transition-all;
+    @apply absolute top-1/2 left-1/2 h-7 w-7 -translate-x-1/2 -translate-y-1/2 scale-75 opacity-0 transition-[transform,opacity] duration-200 ease-out;
   }
 
   /* Annotations */
@@ -886,11 +890,11 @@ ${createCssVariables("dark")}
 
   /* Author Byline */
   .author-name-link {
-    @apply text-link underline decoration-wavy decoration-from-font decoration-accent-2/40 hover:decoration-accent-2/80 underline-offset-2 transition-all;
+    @apply text-link underline decoration-wavy decoration-from-font decoration-accent-2/40 hover:decoration-accent-2/80 underline-offset-2 transition-colors;
   }
 
   .author-icon-link {
-    @apply text-link inline-flex items-center transition-all hover:scale-110 hover:text-accent;
+    @apply text-link inline-flex items-center transition-[color,transform] duration-200 ease-out hover:scale-110 hover:text-accent;
   }
 
   .annotation-code {
@@ -917,7 +921,7 @@ ${createCssVariables("dark")}
     margin-left: -1.5rem;
     display: inline-block;
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.15s ease;
   }
 
   #auto-recent-posts:hover::before {
@@ -952,7 +956,7 @@ ${createCssVariables("dark")}
     margin-left: -1.5rem;
     display: inline-block;
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.15s ease;
   }
 
   .non-toggle-h2:hover::before {
@@ -971,7 +975,7 @@ ${createCssVariables("dark")}
     margin-left: -1.5rem;
     display: inline-block;
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.15s ease;
   }
 
   .hasId:hover::before {
@@ -992,7 +996,7 @@ ${createCssVariables("dark")}
   }
 
   .toggle > summary {
-    @apply items-start;
+    @apply flex cursor-pointer list-none items-start gap-2;
   }
 
   .toggle > summary .toggle-heading {
@@ -1033,6 +1037,11 @@ ${createCssVariables("dark")}
 
   .toggle-heading-4 {
     @apply mt-3 mb-1;
+  }
+
+  /* Interlinked content: title links in the auto-generated "External Links" list. */
+  #autogenerated-external-links a {
+    @apply text-link no-underline hover:decoration-accent-2 hover:underline hover:underline-offset-4;
   }
 
   /* Pagination */
@@ -1112,7 +1121,7 @@ ${createCssVariables("dark")}
     @apply relative;
   }
   .citation-back-btn {
-    @apply absolute left-0 -translate-x-full -ml-2 top-0 opacity-0 pointer-events-none w-4 h-4 rounded-full bg-accent/10 hover:bg-accent/20 flex items-center justify-center transition-all duration-200 cursor-pointer;
+    @apply absolute left-0 -translate-x-full -ml-2 top-0 opacity-0 pointer-events-none w-4 h-4 rounded-full bg-accent/10 hover:bg-accent/20 flex items-center justify-center transition-[background-color,opacity,transform] duration-200 ease-out cursor-pointer;
   }
   li[data-show-back-button="true"] .citation-back-btn {
     @apply opacity-100 pointer-events-auto;
@@ -1248,7 +1257,7 @@ ${createCssVariables("dark")}
 
   /* Search */
   .search-btn {
-    @apply hover:text-accent flex h-10 w-10 cursor-pointer items-center justify-center rounded-md transition-all;
+    @apply hover:text-accent flex h-10 w-10 cursor-pointer items-center justify-center rounded-md transition-colors;
   }
 
   /* Code Render/Inject */
@@ -1384,69 +1393,224 @@ ${createCssVariables("dark")}
     --pf-muted: color-mix(in srgb, var(--color-textColor) 58%, transparent);
     --pf-hover: color-mix(in srgb, var(--color-accent) 5%, transparent);
     --pf-focus: color-mix(in srgb, var(--color-accent) 10%, transparent);
-    --webtrotion-search-rule: color-mix(in srgb, var(--color-textColor) 16%, transparent);
-    --webtrotion-search-surface: color-mix(in srgb, var(--color-bgColor) 98%, transparent);
-    --webtrotion-search-preview-width: minmax(17rem, 30%);
-    --webtrotion-search-row-padding: 0.62rem 0.8rem 0.58rem;
-    --webtrotion-search-compact-height: min(
-      45.333rem,
-      calc(100vh - 5rem),
-      calc((100vw - 4rem) * 4 / 3)
-    );
-    --webtrotion-search-compact-width: min(
-      34rem,
-      calc((100vh - 5rem) * 3 / 4),
-      calc(100vw - 4rem)
-    );
-    --webtrotion-search-expanded-width: min(58rem, calc(100vw - 4rem));
-    --webtrotion-search-ease: cubic-bezier(0.25, 1, 0.5, 1);
+    --webtrotion-search-rule: color-mix(in srgb, var(--color-textColor) 11%, transparent);
+    --webtrotion-search-surface: var(--color-bgColor);
+    --webtrotion-search-row-padding: 0.5rem 0.6rem;
+    /* Fixed column widths so text never reflows while the preview is revealed. */
+    --wt-results-col: min(33rem, calc(100vw - 3rem));
+    --wt-preview-col: 22rem;
+    /* Half the preview width — used to pin the modal's left edge while the preview
+       drawer opens, so the results column never slides sideways as width grows. */
+    --wt-preview-shift: calc(var(--wt-preview-col) / 2);
+    --wt-modal-tx: 0px;
+    /* Heights snap between states (no transition) for a crisp command-palette feel. */
+    --wt-height-compact: min(32rem, calc(100vh - 5rem));
+    --wt-height-results: min(40rem, calc(100vh - 4rem));
+    /* Motion tokens — strong curves per Emil Kowalski's standards. */
+    --wt-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    --wt-ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+    --webtrotion-search-ease: var(--wt-ease-out);
+    /* Consistent type scale across the whole search surface. */
+    --wt-fs-title: 0.9rem;
+    --wt-fs-body: 0.82rem;
+    --wt-fs-meta: 0.75rem;
+    --wt-fs-label: 0.68rem;
+    /* Multi-token palette so the UI isn't one flat accent:
+       - accent    → active/selected/match affordances (focus, selection, highlight)
+       - accent-2  → neutral strong glyphs (default page/doc icons read crisp, not tinted)
+       - link      → section/passage indicators (semantically link-like wayfinding) */
+    --wt-icon-default-tint: color-mix(in srgb, var(--color-accent-2) 62%, var(--pf-muted));
+    --wt-sub-tint: color-mix(in srgb, var(--color-link) 80%, var(--pf-muted));
+    /* Retint pagefind's built-in focus ring (defaults to GitHub blue #0969da) to
+       the site accent so every focus/selection affordance is theme-driven. */
+    --pf-outline-focus: var(--color-accent);
+    --pf-border-focus: var(--color-accent);
   }
 
-  site-search pagefind-modal-trigger {
-    display: block;
-  }
-
-  site-search .pf-trigger-btn {
-    @apply hover:text-accent flex h-10 w-10 cursor-pointer items-center justify-center rounded-md border-0 bg-transparent p-0 text-textColor transition-all;
-  }
-
-  site-search .pf-trigger-btn:focus-visible {
+  site-search .search-btn:focus-visible {
     outline: 2px solid var(--color-accent);
     outline-offset: 3px;
   }
 
-  site-search .pf-trigger-icon {
-    width: 1.75rem;
-    height: 1.75rem;
-    display: block;
-    background-color: currentColor;
-    -webkit-mask: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='none' stroke='black' stroke-width='2' stroke-linecap='round' d='m21 21-4.35-4.35M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z'/%3E%3C/svg%3E") center / contain no-repeat;
-    mask: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='none' stroke='black' stroke-width='2' stroke-linecap='round' d='m21 21-4.35-4.35M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z'/%3E%3C/svg%3E") center / contain no-repeat;
+  site-search .search-btn svg {
+    @apply block;
+    fill: currentColor;
+  }
+
+  /* Hide the inert modal until @pagefind/component-ui lazily upgrades it. */
+  site-search pagefind-modal:not(:defined) {
+    display: none !important;
+  }
+
+  /* First-open loading placeholder: pops instantly on click while the ~186KB Pagefind
+     runtime downloads, then hands off seamlessly to the real modal. Mirrors the real
+     modal's frame via the same theme variables so the swap is invisible. */
+  site-search .search-loading-modal {
+    @apply fixed inset-0 overflow-hidden p-0;
+    margin: var(--pf-modal-top, 10dvh) auto;
+    width: var(--wt-results-col);
+    max-width: calc(100vw - 3rem);
+    height: var(--wt-height-compact);
+    max-height: calc(100vh - 4rem);
+    border: 1px solid var(--webtrotion-search-rule);
+    border-radius: 0.85rem;
+    background: var(--webtrotion-search-surface);
+    color: var(--color-textColor);
+    box-shadow: var(--pf-shadow);
+  }
+
+  site-search .search-loading-modal[open] {
+    @apply flex flex-col;
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    transition:
+      opacity 190ms var(--wt-ease-out),
+      transform 190ms var(--wt-ease-out);
+  }
+
+  @starting-style {
+    site-search .search-loading-modal[open] {
+      opacity: 0;
+      transform: scale(0.97) translateY(6px);
+    }
+  }
+
+  site-search .search-loading-modal::backdrop {
+    background: color-mix(in srgb, #000 10%, transparent);
+    backdrop-filter: blur(3px);
+  }
+
+  site-search .search-loading-header {
+    @apply flex-none;
+    padding: 0.7rem 0.8rem;
+    border-bottom: 1px solid var(--webtrotion-search-rule);
+    background: var(--webtrotion-search-surface);
+  }
+
+  site-search .search-loading-input {
+    @apply flex items-center gap-2;
+    height: 2.9rem;
+    padding-inline: 0.85rem;
+    border: 1px solid var(--pf-border);
+    border-radius: 0.35rem;
+    background: color-mix(in srgb, var(--color-bgColor) 94%, var(--color-textColor) 2%);
+    color: color-mix(in srgb, var(--color-textColor) 42%, transparent);
+    font-size: 1rem;
+  }
+
+  site-search .search-loading-input-icon {
+    @apply h-[1.15rem] w-[1.15rem] shrink-0;
+    color: var(--pf-muted);
+    fill: currentColor;
+  }
+
+  site-search .search-loading-body {
+    @apply flex flex-auto items-center justify-center;
+  }
+
+  site-search .search-loading-spinner {
+    @apply h-[1.6rem] w-[1.6rem] rounded-full;
+    border: 2px solid color-mix(in srgb, var(--color-textColor) 15%, transparent);
+    border-top-color: var(--color-accent);
+    animation: webtrotion-search-spin 0.7s linear infinite;
+  }
+
+  @keyframes webtrotion-search-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* Seamless hand-off: skip the real modal's entrance animation on first open so it
+     snaps in exactly where the placeholder was. */
+  site-search[data-search-handoff] .pf-modal[open] {
+    transition: none !important;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    site-search .search-loading-modal[open] {
+      transition: none;
+    }
+    site-search .search-loading-spinner {
+      animation-duration: 1.4s !important;
+    }
   }
 
   site-search .pf-modal {
-    width: var(--webtrotion-search-compact-width) !important;
-    max-width: var(--webtrotion-search-compact-width) !important;
-    height: var(--webtrotion-search-compact-height) !important;
-    max-height: var(--webtrotion-search-compact-height) !important;
+    width: var(--wt-results-col) !important;
+    max-width: calc(100vw - 3rem) !important;
+    height: var(--wt-height-compact) !important;
+    max-height: calc(100vh - 4rem) !important;
     flex-direction: column !important;
     padding: 0;
     overflow: hidden;
     border: 1px solid var(--webtrotion-search-rule);
-    border-radius: 0.5rem;
+    border-radius: 0.85rem;
     background: var(--webtrotion-search-surface);
     color: var(--color-textColor);
     box-shadow: var(--pf-shadow);
+    transform-origin: center;
     transition:
-      width 320ms var(--webtrotion-search-ease),
-      max-width 320ms var(--webtrotion-search-ease),
+      width 240ms var(--wt-ease-out),
+      transform 240ms var(--wt-ease-out),
+      opacity 180ms var(--wt-ease-out),
       box-shadow 220ms ease;
   }
 
+  /* Subtle, fast entrance — transform + opacity only (modal is centered → origin: center). */
+  @starting-style {
+    site-search .pf-modal[open] {
+      opacity: 0;
+      transform: translateX(0px) scale(0.97) translateY(6px);
+    }
+  }
+
+  site-search .pf-modal[open] {
+    opacity: 1;
+    transform: translateX(var(--wt-modal-tx, 0px)) scale(1) translateY(0);
+  }
+
+  /* Grow taller once real results exist. Height snaps (not in the transition list). */
+  site-search .pf-modal:has(.webtrotion-search-result) {
+    height: var(--wt-height-results) !important;
+  }
+
+  /* No-results: centre the message block in the pane so there is no dead space.
+     Only when the navigation is hidden too, so a query that also matches a nav
+     label doesn't get shoved to the vertical centre. */
+  site-search
+    .pf-modal:has(.webtrotion-search-empty-state:not([hidden])):has(
+        webtrotion-search-navigation[hidden]
+      )
+    .webtrotion-search-results-pane {
+    @apply flex flex-col justify-center;
+    padding-block: 1rem;
+  }
+
+  /* No-results: the friendly empty-state block is the single focal message; hide
+     the raw pagefind summary line so it doesn't float redundantly above it. */
+  site-search
+    .pf-modal:has(.webtrotion-search-empty-state:not([hidden]))
+    .pf-summary {
+    display: none !important;
+  }
+
+  /* Never show the "no results" block while the Navigate list is visible below —
+     matches on nav labels are real results, so the empty state would be a lie. */
+  site-search
+    .webtrotion-search-results-pane:has(webtrotion-search-navigation:not([hidden]))
+    .webtrotion-search-empty-state {
+    display: none !important;
+  }
+
+  /* Reveal the preview column by growing width to the right only: the modal is
+     centred, so we translate it by half the preview width to pin its left edge,
+     keeping the results column perfectly still while the drawer opens. width and
+     transform share the same duration/easing so the left edge stays fixed. */
   site-search .pf-modal:has(webtrotion-search-preview[data-preview-active]) {
-    width: var(--webtrotion-search-expanded-width) !important;
-    max-width: var(--webtrotion-search-expanded-width) !important;
-    box-shadow: 0 22px 60px color-mix(in srgb, #000 16%, transparent);
+    width: calc(var(--wt-results-col) + var(--wt-preview-col)) !important;
+    --wt-modal-tx: var(--wt-preview-shift);
+    box-shadow: 0 24px 64px color-mix(in srgb, #000 18%, transparent);
   }
 
   site-search .pf-modal::backdrop {
@@ -1455,7 +1619,7 @@ ${createCssVariables("dark")}
   }
 
   site-search pagefind-modal-header {
-    flex: 0 0 auto;
+    @apply flex-none;
     padding: 0.7rem 0.8rem;
     border-bottom: 1px solid var(--webtrotion-search-rule);
     background: var(--webtrotion-search-surface);
@@ -1499,9 +1663,7 @@ ${createCssVariables("dark")}
   }
 
   site-search pagefind-modal-body {
-    flex: 1 1 auto !important;
-    padding: 0;
-    overflow: hidden;
+    @apply flex-auto! overflow-hidden p-0;
     min-height: 0;
   }
 
@@ -1510,26 +1672,43 @@ ${createCssVariables("dark")}
   }
 
   .webtrotion-search-filters {
-    display: flex;
-    flex-wrap: wrap;
+    @apply flex flex-wrap items-center;
     gap: 0.4rem;
-    padding: 0.5rem 0.8rem;
-    border-bottom: 1px solid var(--webtrotion-search-rule);
+    padding: 0.5rem 0.7rem;
+  }
+
+  .webtrotion-search-filters-icon {
+    @apply block flex-none;
+    width: 0.95rem;
+    height: 0.95rem;
+    margin-inline-end: 0.05rem;
+  }
+
+  .webtrotion-search-filters-icon svg {
+    @apply block h-full w-full;
+    fill: var(--pf-muted);
   }
 
   site-search pagefind-filter-dropdown {
-    min-width: 0;
+    @apply min-w-0;
   }
 
   site-search .pf-dropdown-trigger {
+    @apply inline-flex items-center;
+    gap: 0.35rem;
     height: 1.9rem !important;
     min-height: 1.9rem !important;
+    padding-inline: 0.7rem !important;
     border: 1px solid var(--pf-border) !important;
     border-radius: 999px;
     background: color-mix(in srgb, var(--color-bgColor) 94%, var(--color-textColor) 2%);
     color: var(--color-textColor);
     font: inherit;
     font-size: 0.76rem !important;
+    transition:
+      background-color 130ms ease,
+      border-color 130ms ease,
+      color 130ms ease;
   }
 
   site-search .pf-dropdown-trigger:hover,
@@ -1538,178 +1717,339 @@ ${createCssVariables("dark")}
     border-color: color-mix(in srgb, var(--color-accent) 36%, var(--pf-border));
   }
 
-  site-search .pf-dropdown-menu {
-    border: 1px solid var(--pf-border) !important;
-    border-radius: 0.4rem !important;
-    background: var(--color-bgColor) !important;
-    box-shadow: 0 12px 32px color-mix(in srgb, #000 12%, transparent) !important;
-    overflow: hidden;
+  /* Active filter — trigger picks up an accent tint while any value is selected. */
+  site-search .pf-dropdown-trigger:has(.pf-dropdown-selected-badge:not([data-pf-hidden])) {
+    border-color: color-mix(in srgb, var(--color-accent) 45%, transparent) !important;
+    background: color-mix(in srgb, var(--color-accent) 10%, transparent) !important;
+    color: var(--color-accent) !important;
   }
 
-  site-search .pf-dropdown-option {
+  site-search .pf-dropdown-selected-badge {
+    height: 1.05rem !important;
+    min-width: 1.05rem !important;
+    padding: 0 0.32rem !important;
+    border-radius: 999px !important;
+    background: var(--color-accent) !important;
+    color: var(--color-bgColor) !important;
+    font-size: 0.66rem !important;
+    font-weight: 600 !important;
+    font-variant-numeric: tabular-nums;
+  }
+
+  site-search .pf-dropdown-arrow {
+    opacity: 0.6;
+  }
+
+  site-search .pf-dropdown-menu {
+    max-height: min(18rem, 48vh) !important;
+    overflow-y: auto !important;
+    border: 1px solid var(--pf-border) !important;
+    border-radius: 0.55rem !important;
+    background: var(--color-bgColor) !important;
+    box-shadow: 0 12px 32px color-mix(in srgb, #000 12%, transparent) !important;
+    padding: 0.25rem !important;
+  }
+
+  site-search .pf-dropdown-option,
+  site-search .pf-filter-checkbox {
     color: var(--color-textColor);
     min-height: 2rem !important;
-    padding: 0.45rem 0.55rem !important;
+    padding: 0.4rem 0.5rem !important;
+    border-radius: 0.4rem !important;
     font-size: 0.8rem !important;
   }
 
   site-search .pf-dropdown-option:hover,
-  site-search .pf-dropdown-option[aria-selected="true"] {
+  site-search .pf-filter-checkbox:hover {
     background: var(--pf-hover);
   }
 
-  .webtrotion-search-content {
-    @apply grid min-h-0 flex-1;
-    grid-template-columns: minmax(0, 1fr) 0fr;
-    gap: 0;
-    padding: 0;
-    transition: grid-template-columns 320ms var(--webtrotion-search-ease);
+  /* Selected option — clear accent affordance. */
+  site-search .pf-dropdown-option[aria-selected="true"],
+  site-search .pf-filter-checkbox:has(.pf-checkbox-input:checked) {
+    background: color-mix(in srgb, var(--color-accent) 12%, transparent) !important;
+    color: var(--color-accent) !important;
+    font-weight: 550 !important;
   }
 
-  .webtrotion-search-content:has(webtrotion-search-preview[data-preview-active]) {
-    grid-template-columns: minmax(0, 1fr) var(--webtrotion-search-preview-width);
+  site-search .pf-filter-checkbox:has(.pf-checkbox-input:checked) .pf-checkbox-input,
+  site-search .pf-checkbox-input:checked {
+    accent-color: var(--color-accent);
+    border-color: var(--color-accent) !important;
+    background-color: var(--color-accent) !important;
+  }
+
+  /* Custom checkbox glyph (this build renders a .pf-dropdown-checkbox span rather
+     than a native input): tint the checked box with the accent colour. */
+  site-search .pf-dropdown-option[aria-selected="true"] .pf-dropdown-checkbox {
+    background: var(--color-accent) !important;
+    border-color: var(--color-accent) !important;
+  }
+
+  /* Facet counts as quiet monospace "code" chips — distinct from the accent
+     affordances, using the mono font + a neutral tint rather than more accent. */
+  site-search .pf-dropdown-option-count {
+    margin-inline-start: auto;
+    padding: 0 0.32rem;
+    border-radius: 0.3rem;
+    background: color-mix(in srgb, var(--color-accent-2) 8%, transparent);
+    color: var(--pf-muted);
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.35;
+  }
+
+  site-search .pf-dropdown-option[aria-selected="true"] .pf-dropdown-option-count {
+    background: color-mix(in srgb, var(--color-accent) 16%, transparent);
+    color: var(--color-accent);
+  }
+
+  .webtrotion-search-content {
+    @apply flex min-h-0 flex-1 p-0;
   }
 
   .webtrotion-search-results-pane {
-    @apply min-w-0 min-h-0;
-    overflow: auto;
-    padding: 0.7rem 0;
+    flex: 0 0 var(--wt-results-col);
+    @apply min-w-0 min-h-0 overflow-auto;
+    padding: 0.4rem 0;
   }
 
   webtrotion-search-navigation {
-    display: block;
-    margin: -0.7rem 0 0.7rem;
-    padding: 0.55rem 0.8rem 0;
-    border-bottom: 1px solid var(--webtrotion-search-rule);
+    @apply block;
+    padding: 0.3rem 0.5rem 0.15rem;
   }
 
-  .webtrotion-search-navigation-label {
-    margin: 0 0 0.38rem;
-    color: var(--pf-muted);
-    font-size: 0.68rem;
-    font-weight: 650;
+  .webtrotion-search-navigation-label,
+  .webtrotion-search-pinned-label {
+    margin: 0.35rem 0.6rem 0.28rem;
+    color: color-mix(in srgb, var(--color-textColor) 45%, transparent);
+    font-size: var(--wt-fs-label);
+    font-weight: 600;
     letter-spacing: 0.06em;
     text-transform: uppercase;
   }
 
   .webtrotion-search-navigation-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
-    gap: 0;
-    margin: 0 -0.8rem;
-    padding: 0;
-    list-style: none;
+    @apply flex flex-col m-0 p-0 list-none;
+    gap: 0.06rem;
   }
 
   .webtrotion-search-navigation-link {
-    display: block;
-    padding: 0.42rem 0.8rem;
-    border-top: 1px solid var(--webtrotion-search-rule);
+    @apply flex items-center no-underline font-medium;
+    gap: 0.6rem;
+    padding: 0.5rem 0.6rem;
+    border-radius: 0.55rem;
     color: var(--color-textColor);
-    font-size: 0.82rem;
-    font-weight: 600;
-    line-height: 1.35;
-    text-decoration: none;
+    font-size: var(--wt-fs-title);
+    line-height: 1.3;
+    transition:
+      background-color 120ms ease,
+      color 120ms ease;
+  }
+
+  .webtrotion-search-navigation-icon {
+    @apply inline-flex flex-none items-center justify-center leading-none;
+    width: 1.05rem;
+    height: 1.05rem;
+    font-size: 0.92rem;
+    transition: color 120ms ease;
+  }
+
+  .webtrotion-search-navigation-text {
+    @apply min-w-0 truncate;
+  }
+
+  .webtrotion-search-navigation-icon img {
+    @apply block h-full w-full object-contain;
+    border-radius: 0.2rem;
+  }
+
+  /* Default (no page icon): a theme-tinted bookmark glyph, distinct from posts. */
+  .webtrotion-search-navigation-icon.is-default svg {
+    @apply block h-full w-full;
+    fill: var(--wt-icon-default-tint);
+    transition: fill 120ms ease;
   }
 
   .webtrotion-search-navigation-link:hover,
   .webtrotion-search-navigation-link:focus-visible {
-    background: var(--pf-focus);
+    background: color-mix(in srgb, var(--color-textColor) 6%, transparent);
     color: var(--color-accent);
-    box-shadow: inset 2px 0 0 var(--color-accent);
     outline: 0;
   }
 
-  .webtrotion-search-pinned {
-    margin: 0.55rem -0.8rem 0;
-    border-top: 1px solid var(--webtrotion-search-rule);
+  .webtrotion-search-navigation-link:hover .webtrotion-search-navigation-icon.is-default svg,
+  .webtrotion-search-navigation-link:focus-visible .webtrotion-search-navigation-icon.is-default svg {
+    fill: var(--color-accent);
   }
 
-  .webtrotion-search-pinned-label {
-    margin: 0;
-    padding: 0.42rem 0.8rem 0.18rem;
-    color: var(--pf-muted);
-    font-size: 0.68rem;
-    font-weight: 650;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
+  /* Go-to (path/title jump) mode: two-line link with a muted excerpt subtext. */
+  .webtrotion-search-navigation-link.is-goto {
+    @apply items-start;
+    padding: 0.45rem 0.6rem;
+  }
+
+  .webtrotion-search-navigation-link.is-goto .webtrotion-search-navigation-icon {
+    margin-top: 0.1rem;
+  }
+
+  .webtrotion-search-navigation-body {
+    @apply flex min-w-0 flex-col;
+    gap: 0.1rem;
+  }
+
+  .webtrotion-search-navigation-snippet {
+    @apply block min-w-0 truncate;
+    color: color-mix(in srgb, var(--color-textColor) 50%, transparent);
+    font-size: var(--wt-fs-label);
+    font-weight: 400;
+    transition: color 120ms ease;
+  }
+
+  .webtrotion-search-navigation-link.is-goto:hover .webtrotion-search-navigation-snippet,
+  .webtrotion-search-navigation-link.is-goto:focus-visible .webtrotion-search-navigation-snippet {
+    color: color-mix(in srgb, var(--color-textColor) 70%, transparent);
+  }
+
+  .webtrotion-search-navigation-empty {
+    margin: 0.6rem 0.7rem;
+    color: color-mix(in srgb, var(--color-textColor) 55%, transparent);
+    font-size: var(--wt-fs-title);
+  }
+
+  /* When the query starts with "/", the popup is a pure client-side page jumper —
+     hide every Pagefind-owned surface and keep only the navigation list. */
+  .webtrotion-search-shell[data-goto-mode] .webtrotion-search-filters,
+  .webtrotion-search-shell[data-goto-mode] pagefind-summary,
+  .webtrotion-search-shell[data-goto-mode] .pagefind-summary,
+  .webtrotion-search-shell[data-goto-mode] pagefind-results,
+  .webtrotion-search-shell[data-goto-mode] .pagefind-results,
+  .webtrotion-search-shell[data-goto-mode] .webtrotion-search-empty-state,
+  .webtrotion-search-shell[data-goto-mode] .webtrotion-search-preview-slot {
+    display: none !important;
+  }
+
+  .webtrotion-search-pinned {
+    margin-top: 0.35rem;
+    padding: 0 0.5rem;
   }
 
   .webtrotion-search-pinned-link {
-    display: grid;
-    grid-template-columns: 1rem minmax(0, 1fr);
-    gap: 0.3rem;
-    padding: 0.36rem 0.8rem 0.48rem;
+    @apply grid items-start no-underline;
+    grid-template-columns: 0.85rem 1.1rem minmax(0, 1fr);
+    gap: 0.5rem;
+    padding: 0.55rem 0.6rem;
+    border-radius: 0.6rem;
+    background: color-mix(in srgb, var(--color-textColor) 4%, transparent);
     color: var(--color-textColor);
-    text-decoration: none;
+    transition: background-color 120ms ease;
+  }
+
+  .webtrotion-search-pinned-marker {
+    @apply inline-flex flex-none items-center justify-center;
+    width: 0.85rem;
+    height: 1.1rem;
+    color: color-mix(in srgb, var(--color-accent) 70%, transparent);
+  }
+
+  .webtrotion-search-pinned-marker svg {
+    @apply block;
+    width: 0.8rem;
+    height: 0.8rem;
+    fill: currentColor;
   }
 
   .webtrotion-search-pinned-icon {
-    color: var(--color-accent);
-    font-size: 0.78rem;
-    line-height: 1.35;
+    @apply inline-flex flex-none items-center justify-center leading-none;
+    width: 1.1rem;
+    height: 1.1rem;
+    margin-top: 0.08rem;
+    font-size: 0.95rem;
+  }
+
+  .webtrotion-search-pinned-icon img {
+    @apply block h-full w-full object-contain;
+    border-radius: 0.2rem;
+  }
+
+  /* Default (Pinned post without its own icon): a document glyph, matching results. */
+  .webtrotion-search-pinned-icon svg {
+    @apply block h-full w-full;
+    fill: none;
+    stroke: var(--wt-icon-default-tint);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.5;
   }
 
   .webtrotion-search-pinned-content {
-    display: grid;
+    @apply grid min-w-0;
     gap: 0.14rem;
-    min-width: 0;
   }
 
   .webtrotion-search-pinned-link:hover,
   .webtrotion-search-pinned-link:focus-visible {
-    background: var(--pf-focus);
-    color: var(--color-accent);
-    box-shadow: inset 2px 0 0 var(--color-accent);
+    background: color-mix(in srgb, var(--color-accent) 9%, transparent);
+    color: inherit;
     outline: 0;
   }
 
+  .webtrotion-search-pinned-link:hover .webtrotion-search-pinned-marker,
+  .webtrotion-search-pinned-link:focus-visible .webtrotion-search-pinned-marker {
+    color: var(--color-accent);
+  }
+
   .webtrotion-search-pinned-title {
-    font-size: 0.82rem;
-    font-weight: 650;
+    font-size: var(--wt-fs-title);
+    font-weight: 600;
     line-height: 1.35;
   }
 
   .webtrotion-search-pinned-detail {
+    @apply truncate;
     color: var(--pf-muted);
-    font-size: 0.74rem;
+    font-size: var(--wt-fs-meta);
     line-height: 1.35;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
   }
 
   site-search .pf-summary {
     margin: 0 0 0.45rem !important;
-    padding-inline: 0.8rem;
+    padding-inline: 1.1rem;
     color: var(--pf-muted);
-    font-size: 0.78rem !important;
+    font-size: var(--wt-fs-meta) !important;
   }
 
   site-search .pf-results {
-    display: flex;
-    flex-direction: column;
+    @apply flex flex-col m-0 p-0;
     gap: 0 !important;
-    padding: 0;
-    margin: 0;
   }
 
   .webtrotion-search-result {
-    list-style: none;
+    @apply list-none;
     scroll-margin-block: 5rem;
-    border-top: 1px solid var(--webtrotion-search-rule);
   }
 
   .webtrotion-search-result-card {
     position: relative;
+    margin: 0 0.5rem;
     padding: var(--webtrotion-search-row-padding);
-    transition: background-color 140ms ease;
+    border-radius: 0.6rem;
+    transition: background-color 120ms ease;
   }
 
-  .webtrotion-search-result:has(a:focus-visible) .webtrotion-search-result-card,
   .webtrotion-search-result-card:hover {
-    background: var(--pf-focus);
-    box-shadow: inset 2px 0 0 var(--color-accent);
+    background: color-mix(in srgb, var(--color-textColor) 5%, transparent);
+  }
+
+  .webtrotion-search-result-card:has(.webtrotion-search-result-link:focus-visible) {
+    background: color-mix(in srgb, var(--color-accent) 13%, transparent);
+    box-shadow: none;
+  }
+
+  site-search .webtrotion-search-result-link:focus-visible,
+  site-search .webtrotion-search-subresult-link:focus-visible {
+    outline: none;
   }
 
   .webtrotion-search-result-main {
@@ -1717,168 +2057,170 @@ ${createCssVariables("dark")}
   }
 
   .webtrotion-search-result-heading {
-    display: flex;
-    align-items: flex-start;
+    @apply flex items-start min-w-0;
     gap: 0.4rem;
-    min-width: 0;
   }
 
   .webtrotion-search-result-icon {
-    display: inline-flex;
+    @apply inline-flex items-center justify-center leading-none;
     flex: 0 0 1rem;
     width: 1rem;
     height: 1rem;
-    align-items: center;
-    justify-content: center;
     margin-top: 0.12rem;
     color: var(--pf-muted);
     font-size: 0.9rem;
-    line-height: 1;
   }
 
   .webtrotion-search-result-icon img,
   .webtrotion-search-result-icon svg {
-    display: block;
-    width: 100%;
-    height: 100%;
+    @apply block h-full w-full;
   }
 
   .webtrotion-search-result-icon img {
-    object-fit: contain;
+    @apply object-contain;
   }
 
   .webtrotion-search-result-icon svg {
     fill: none;
-    stroke: currentColor;
+    stroke: var(--wt-icon-default-tint);
     stroke-linecap: round;
     stroke-linejoin: round;
     stroke-width: 1.5;
   }
 
   .webtrotion-search-result-link {
-    display: block;
-    min-width: 0;
+    @apply block min-w-0 no-underline;
     color: var(--color-textColor);
-    font-size: 0.94rem;
+    font-size: var(--wt-fs-title);
     font-weight: 650;
     line-height: 1.3;
-    text-decoration: none;
   }
 
   .webtrotion-search-result-link:hover,
   .webtrotion-search-result-link:focus-visible {
     color: var(--color-accent);
-    text-decoration: underline;
-    text-underline-offset: 0.2em;
   }
 
-  .webtrotion-search-result-url,
-  .webtrotion-search-result-excerpt,
-  .webtrotion-search-subresult-excerpt {
+  .webtrotion-search-result-excerpt {
+    @apply line-clamp-1;
     margin: 0.18rem 0 0;
     color: var(--pf-muted);
     line-height: 1.45;
     overflow-wrap: anywhere;
-  }
-
-  .webtrotion-search-result-url {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    font-size: 0.75rem;
-  }
-
-  .webtrotion-search-result-excerpt {
-    font-size: 0.82rem;
-  }
-
-  .webtrotion-search-result-excerpt,
-  .webtrotion-search-subresult-excerpt {
-    display: -webkit-box;
-    overflow: hidden;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 1;
+    font-size: var(--wt-fs-body);
   }
 
   .webtrotion-search-subresults {
-    display: grid;
-    gap: 0.18rem;
-    margin: 0 0 0.45rem;
-    padding: 0 0.8rem 0.15rem;
-    list-style: none;
+    @apply grid list-none p-0;
+    gap: 0.1rem;
+    margin: 0.15rem 0.5rem 0.35rem 1.35rem;
+    border: 0;
   }
 
   .webtrotion-search-subresults li {
-    display: grid;
-    grid-template-columns: minmax(7rem, 28%) minmax(0, 1fr);
-    gap: 0.5rem;
-    padding: 0.18rem 0 0.18rem 0.55rem;
-    border-inline-start: 1px solid color-mix(in srgb, var(--color-accent) 38%, transparent);
+    @apply block p-0;
+    border: 0;
   }
 
   .webtrotion-search-subresult-link {
-    color: var(--color-textColor);
-    font-size: 0.78rem;
-    font-weight: 600;
-    text-decoration: none;
+    @apply flex items-start no-underline;
+    gap: 0.5rem;
+    padding: 0.32rem 0.5rem;
+    border-radius: 0.45rem;
+    transition: background-color 110ms ease;
+  }
+
+  .webtrotion-search-subresult-icon {
+    @apply block flex-none;
+    width: 0.72rem;
+    height: 0.72rem;
+    margin-top: 0.2rem;
+  }
+
+  .webtrotion-search-subresult-icon svg {
+    @apply block h-full w-full;
+    fill: var(--wt-sub-tint);
+    transition: fill 110ms ease;
+  }
+
+  .webtrotion-search-subresult-body {
+    @apply grid min-w-0;
+    gap: 0.08rem;
+  }
+
+  .webtrotion-search-subresult-title {
+    @apply truncate;
+    color: color-mix(in srgb, var(--color-textColor) 82%, transparent);
+    font-size: var(--wt-fs-body);
+    font-weight: 550;
+    line-height: 1.35;
+    transition: color 110ms ease;
+  }
+
+  .webtrotion-search-subresult-excerpt {
+    @apply line-clamp-1;
+    color: var(--pf-muted);
+    font-size: var(--wt-fs-meta);
+    line-height: 1.4;
+    overflow-wrap: anywhere;
   }
 
   .webtrotion-search-subresult-link:hover,
   .webtrotion-search-subresult-link:focus-visible {
-    color: var(--color-accent);
-    text-decoration: underline;
-    text-underline-offset: 0.18em;
+    background: color-mix(in srgb, var(--color-accent) 10%, transparent);
+    outline: 0;
   }
 
+  .webtrotion-search-subresult-link:hover .webtrotion-search-subresult-title,
+  .webtrotion-search-subresult-link:focus-visible .webtrotion-search-subresult-title {
+    color: var(--color-accent);
+  }
+
+  .webtrotion-search-subresult-link:hover .webtrotion-search-subresult-icon svg,
+  .webtrotion-search-subresult-link:focus-visible .webtrotion-search-subresult-icon svg {
+    fill: var(--color-accent);
+  }
+
+  /* Clean underline highlight (no blocky chip) so long matched tokens read well. */
   site-search mark,
   .pagefind-highlight {
-    border-radius: 0.12rem;
-    background: var(--pf-highlight-background);
-    color: var(--pf-highlight-text);
-    box-decoration-break: clone;
-    -webkit-box-decoration-break: clone;
-    padding: 0.02em 0.16em;
+    background: none;
+    color: inherit;
+    padding: 0;
+    border-radius: 0;
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--color-accent) 60%, transparent);
+    text-decoration-thickness: 0.12em;
+    text-underline-offset: 0.16em;
+    text-decoration-skip-ink: none;
   }
 
   .webtrotion-search-preview-slot {
-    position: sticky;
-    top: 0;
-    min-width: 0;
-    max-height: 100%;
-    overflow: auto;
-    border-inline-start: 1px solid transparent;
+    @apply min-w-0 overflow-auto;
+    flex: 0 0 var(--wt-preview-col);
+    border-inline-start: 1px solid var(--webtrotion-search-rule);
     opacity: 0;
     pointer-events: none;
-    transform: translateX(0.75rem);
+    transform: translateX(0.5rem);
     transition:
-      opacity 160ms ease 80ms,
-      transform 260ms var(--webtrotion-search-ease) 60ms,
-      border-color 180ms ease 80ms;
+      opacity 200ms var(--wt-ease-out) 20ms,
+      transform 240ms var(--wt-ease-out) 20ms;
   }
 
   .webtrotion-search-content:has(webtrotion-search-preview[data-preview-active])
     .webtrotion-search-preview-slot {
-    border-inline-start-color: var(--webtrotion-search-rule);
     opacity: 1;
     pointer-events: auto;
     transform: translateX(0);
   }
 
   webtrotion-search-preview {
-    display: block;
+    @apply block;
   }
 
   .webtrotion-search-preview-card {
     padding: 0.85rem 0.9rem;
-  }
-
-  .webtrotion-search-preview-kicker {
-    margin: 0 0 0.45rem;
-    color: var(--pf-muted);
-    font-size: 0.62rem;
-    font-weight: 650;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
   }
 
   .webtrotion-search-preview-title {
@@ -1889,42 +2231,29 @@ ${createCssVariables("dark")}
     line-height: 1.3;
   }
 
-  .webtrotion-search-preview-url,
   .webtrotion-search-preview-empty,
   .webtrotion-search-preview-excerpt {
     color: var(--pf-muted);
   }
 
-  .webtrotion-search-preview-url {
-    overflow: hidden;
-    margin: 0.32rem 0 0;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    font-size: 0.75rem;
-  }
-
   .webtrotion-search-preview-excerpt {
+    @apply line-clamp-5;
     margin: 0.7rem 0 0;
     font-size: 0.82rem;
     line-height: 1.48;
     overflow-wrap: anywhere;
-    display: -webkit-box;
-    overflow: hidden;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 5;
   }
 
   .webtrotion-search-preview-sections {
-    display: grid;
-    gap: 0;
+    @apply grid p-0 list-none;
+    gap: 0.15rem;
     margin: 0.85rem 0 0;
-    padding: 0;
-    list-style: none;
   }
 
   .webtrotion-search-preview-sections li {
-    padding: 0.45rem 0;
-    border-top: 1px solid var(--webtrotion-search-rule);
+    padding: 0.4rem 0.5rem;
+    border-radius: 0.45rem;
+    background: color-mix(in srgb, var(--color-textColor) 3.5%, transparent);
   }
 
   .webtrotion-search-preview-sections span {
@@ -1934,19 +2263,16 @@ ${createCssVariables("dark")}
   }
 
   .webtrotion-search-preview-sections p {
+    @apply line-clamp-3;
     margin: 0.22rem 0 0;
     color: var(--pf-muted);
     font-size: 0.78rem;
     line-height: 1.4;
-    display: -webkit-box;
-    overflow: hidden;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
   }
 
   .webtrotion-search-skeleton,
   .webtrotion-search-preview-skeleton {
-    display: block;
+    @apply block;
     border-radius: 0.1rem;
     background: linear-gradient(
       90deg,
@@ -1986,78 +2312,166 @@ ${createCssVariables("dark")}
   }
 
   site-search pagefind-modal-footer {
-    flex: 0 0 auto;
-    padding: 0.45rem 0.8rem;
+    @apply flex items-center flex-none;
+    padding: 0.5rem 1rem;
     border-top: 1px solid var(--webtrotion-search-rule);
     background: var(--webtrotion-search-surface);
     font-size: 0.75rem;
   }
 
   .webtrotion-search-navigation-hints {
-    @apply hidden items-center gap-3 text-xs text-textColor/60 md:flex;
+    @apply hidden items-center flex-nowrap w-full overflow-hidden;
+    gap: 0.45rem;
+    color: color-mix(in srgb, var(--color-textColor) 58%, transparent);
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.01em;
+  }
+
+  @media (min-width: 768px) {
+    .webtrotion-search-navigation-hints {
+      @apply flex;
+    }
+  }
+
+  @media (max-width: 767px) {
+    site-search pagefind-modal-footer {
+      display: none !important;
+    }
   }
 
   .webtrotion-search-navigation-hints span {
-    @apply inline-flex items-center gap-1;
+    @apply inline-flex items-center whitespace-nowrap flex-none;
+    gap: 0.26rem;
   }
 
   .webtrotion-search-navigation-hints kbd {
-    @apply rounded border border-textColor/20 px-1 py-0.5 font-mono text-[0.7rem] text-textColor/75;
+    @apply inline-flex items-center justify-center leading-none;
+    min-width: 1.1rem;
+    height: 1.1rem;
+    padding: 0 0.28rem;
+    border: 1px solid color-mix(in srgb, var(--color-textColor) 20%, transparent);
+    border-radius: 0.28rem;
+    background: color-mix(in srgb, var(--color-textColor) 4%, transparent);
+    color: color-mix(in srgb, var(--color-textColor) 75%, transparent);
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
   }
 
   .webtrotion-search-empty-state {
-    margin: 1.5rem 0.8rem;
+    @apply flex flex-col items-center text-center;
+    gap: 0.55rem;
+    margin: 0.5rem 0.8rem;
     color: var(--pf-muted);
     font-size: 0.85rem;
     line-height: 1.5;
-    text-align: center;
+  }
+
+  .webtrotion-search-empty-state-icon {
+    @apply block;
+    width: 1.9rem;
+    height: 1.9rem;
+  }
+
+  .webtrotion-search-empty-state-icon svg {
+    @apply block h-full w-full;
+    fill: currentColor;
+    opacity: 0.55;
   }
 
   @media (max-width: 1023px) {
     site-search .pf-modal {
-      --webtrotion-search-compact-height: min(
-        45.333rem,
-        calc(100vh - 3rem),
-        calc((100vw - 1.5rem) * 4 / 3)
-      );
-      --webtrotion-search-compact-width: min(
-        34rem,
-        calc((100vh - 3rem) * 3 / 4),
-        calc(100vw - 1.5rem)
-      );
+      width: min(34rem, calc(100vw - 1.5rem)) !important;
+      max-width: calc(100vw - 1.5rem) !important;
+      height: var(--wt-height-compact) !important;
     }
 
+    site-search .pf-modal:has(.webtrotion-search-result) {
+      height: var(--wt-height-results) !important;
+    }
+
+    /* No width growth on tablet — the preview stacks below as a drawer. */
     site-search .pf-modal:has(webtrotion-search-preview[data-preview-active]) {
-      width: var(--webtrotion-search-compact-width) !important;
-      max-width: var(--webtrotion-search-compact-width) !important;
+      width: min(34rem, calc(100vw - 1.5rem)) !important;
+      --wt-modal-tx: 0px;
     }
 
     .webtrotion-search-content {
-      display: flex;
-      flex-direction: column;
+      @apply flex-col;
     }
 
     .webtrotion-search-results-pane {
-      flex: 1 1 60%;
+      @apply flex-auto;
     }
 
+    /* Inactive on tablet: collapse fully so the pane uses all vertical space
+       (no stray divider line, no dead gap below the nav/pinned list). */
     .webtrotion-search-preview-slot {
-      flex: 0 1 40%;
-      position: static;
-      max-height: 40%;
+      @apply flex-none;
+      max-height: 0;
       border-inline-start: 0;
-      border-top: 1px solid var(--pf-border);
+      border-top: 0;
+      transform: translateY(0.6rem);
+      transition:
+        opacity 180ms var(--wt-ease-out) 40ms,
+        max-height 240ms var(--wt-ease-out),
+        transform 220ms var(--wt-ease-out) 40ms;
+    }
+
+    .webtrotion-search-content:has(webtrotion-search-preview[data-preview-active])
+      .webtrotion-search-preview-slot {
+      max-height: 42%;
+      border-top: 1px solid var(--webtrotion-search-rule);
+      transform: translateY(0);
     }
   }
 
   @media (max-width: 640px) {
-    site-search .pf-modal {
-      width: 100vw !important;
-      max-width: 100vw !important;
-      height: 100dvh !important;
-      max-height: 100dvh !important;
-      border-radius: 0;
-      border-inline: 0;
+    /* Keep the pop-up feel on phones: a centred rounded card with slim margins,
+       not an edge-to-edge full-screen sheet. Heights use dvh so the mobile
+       browser chrome never clips the card, and shrink a touch vs. tablet. */
+    site-search {
+      /* Keep the card in the upper portion of the screen so the on-screen keyboard
+         (which the auto-focused input raises) always has clear room below it. Heights
+         are a proportion of the dynamic viewport so this holds across phone sizes. */
+      --wt-modal-top-m: max(2rem, 5dvh);
+      --wt-height-compact: min(20rem, 45dvh);
+      --wt-height-results: min(27rem, 53dvh);
+    }
+
+    site-search .pf-modal,
+    site-search .pf-modal:has(.webtrotion-search-result),
+    site-search .pf-modal:has(webtrotion-search-preview[data-preview-active]) {
+      /* Override Pagefind's high-specificity full-screen mobile rule
+         (border-radius:0; margin:0; top:0; left:0; height:100dvh) — !important is
+         required to beat its :is()-boosted specificity. inset:0 + auto side margins
+         centre horizontally; a fixed top margin pins the card below the top edge so
+         it reads as a floating pop-up that grows downward, matching desktop. */
+      inset: 0 !important;
+      margin: var(--wt-modal-top-m) auto !important;
+      width: calc(100vw - 1.4rem) !important;
+      max-width: calc(100vw - 1.4rem) !important;
+      height: var(--wt-height-compact) !important;
+      max-height: calc(100dvh - var(--wt-modal-top-m) - 1.5rem) !important;
+      padding: 0 !important;
+      border: 1px solid var(--webtrotion-search-rule) !important;
+      border-radius: 0.9rem !important;
+      --wt-modal-tx: 0px;
+    }
+
+    site-search .pf-modal:has(.webtrotion-search-result) {
+      height: var(--wt-height-results) !important;
+    }
+
+    /* Match the first-open loading placeholder to the real card so the hand-off
+       doesn't visibly resize or jump — same size, same top-anchored position. */
+    site-search .search-loading-modal {
+      margin: var(--wt-modal-top-m) auto;
+      width: calc(100vw - 1.4rem);
+      max-width: calc(100vw - 1.4rem);
+      height: var(--wt-height-compact);
+      max-height: calc(100dvh - var(--wt-modal-top-m) - 1.5rem);
+      border-radius: 0.9rem;
     }
 
     site-search pagefind-modal-header {
@@ -2071,15 +2485,13 @@ ${createCssVariables("dark")}
     }
 
     .webtrotion-search-filters {
-      flex-wrap: nowrap;
-      overflow: visible;
+      @apply flex-nowrap overflow-visible relative;
       padding: 0.45rem 0.65rem;
-      position: relative;
       z-index: 2;
     }
 
     site-search pagefind-filter-dropdown {
-      min-width: 0;
+      @apply min-w-0;
     }
 
     site-search .pf-dropdown-menu {
@@ -2096,50 +2508,16 @@ ${createCssVariables("dark")}
     }
 
     .webtrotion-search-content {
-      padding: 0;
+      @apply p-0;
     }
 
     webtrotion-search-navigation {
-      margin-bottom: 0.55rem;
-      padding-inline: 0.65rem;
-    }
-
-    .webtrotion-search-navigation-list {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      margin-inline: -0.65rem;
-    }
-
-    .webtrotion-search-navigation-link {
-      padding-inline: 0.65rem;
-    }
-
-    .webtrotion-search-pinned {
-      margin-inline: -0.65rem;
-    }
-
-    .webtrotion-search-pinned-label {
-      padding-inline: 0.65rem;
-    }
-
-    .webtrotion-search-pinned-link {
-      padding-inline: 0.65rem;
+      margin-bottom: 0.4rem;
+      padding-inline: 0.55rem;
     }
 
     .webtrotion-search-result-card {
-      padding: 0.55rem 0.65rem 0.45rem;
-    }
-
-    .webtrotion-search-subresults {
-      padding-inline: 0.65rem;
-    }
-
-    .webtrotion-search-subresults li {
-      grid-template-columns: 1fr;
-      gap: 0.1rem;
-    }
-
-    .webtrotion-search-preview-card {
-      padding: 0.7rem 0.65rem;
+      margin-inline: 0.35rem;
     }
 
     site-search pagefind-modal-footer {
@@ -2147,15 +2525,32 @@ ${createCssVariables("dark")}
     }
   }
 
+  @media (hover: none), (pointer: coarse) {
+    /* No hover pointer means the preview has no trigger, so drop the pane entirely and
+       let the results use the full width. The runtime skips wiring it up here too. */
+    .webtrotion-search-preview-slot {
+      display: none !important;
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
+    /* Modal: width/transform snap instantly (no transition), only opacity fades.
+       The left-edge pin (--wt-modal-tx) still applies statically, so revealing the
+       preview never jumps the results column sideways — it just appears. */
     site-search .pf-modal,
+    site-search .pf-modal[open] {
+      animation: none;
+      transition: opacity 160ms ease;
+    }
+
     .webtrotion-search-content,
     .webtrotion-search-preview-slot,
     .webtrotion-search-result-card,
     .webtrotion-search-skeleton,
     .webtrotion-search-preview-skeleton {
       animation: none;
-      transition: none;
+      transition: opacity 160ms ease;
+      transform: none !important;
     }
   }
 
@@ -2237,7 +2632,7 @@ ${createCssVariables("dark")}
 }
 
 .datatable-input {
-  @apply w-full box-border rounded-md border border-[#ccc] px-[6px] py-[3px] text-sm transition-all duration-300 ease-in-out;
+  @apply w-full box-border rounded-md border border-[#ccc] px-[6px] py-[3px] text-sm transition-[border-color,box-shadow] duration-200 ease-out;
 }
 
 .datatable-input:focus {
@@ -2245,7 +2640,7 @@ ${createCssVariables("dark")}
 }
 
 .filter-toggle {
-  @apply bg-none border-none text-[20px] cursor-pointer px-[10px] transition-all duration-300 ease-in-out;
+  @apply bg-none border-none text-[20px] cursor-pointer px-[10px] transition-opacity duration-200 ease-out;
 }
 
 .filter-toggle:hover {
@@ -2254,7 +2649,7 @@ ${createCssVariables("dark")}
 
 .filter-row,
 .search-inputs {
-  @apply transition-all duration-300 ease-in-out max-h-[50px] opacity-100 overflow-hidden;
+  @apply transition-[max-height,opacity] duration-300 ease-out max-h-[50px] opacity-100 overflow-hidden;
 }
 
 .filter-row.hide,
@@ -2271,7 +2666,7 @@ ${createCssVariables("dark")}
 }
 
 .datatable-info {
-  @apply text-sm font-mono transition-all duration-300 ease-in-out whitespace-nowrap;
+  @apply text-sm font-mono transition-colors duration-200 ease-out whitespace-nowrap;
 }
 
 .datatable-sorter {
@@ -2382,7 +2777,7 @@ html.dark :not(.datatable-ascending):not(.datatable-descending)>.datatable-sorte
 }
 
 .post-card-image {
-  @apply h-full w-full object-cover rounded-lg transition-transform duration-300 ease-in-out;
+  @apply h-full w-full object-cover rounded-lg transition-transform duration-300 ease-out;
 }
 
 .post-card:hover .post-card-image {
@@ -2444,6 +2839,25 @@ html.dark :not(.datatable-ascending):not(.datatable-descending)>.datatable-sorte
 
 .glightbox-clean .gslide-description {
   background: var(--color-bgColor);
+}
+
+/* Site-wide reduced-motion policy. Unlayered + !important so it overrides every
+   layered transition/animation regardless of specificity. Movement (transform,
+   size, position) is dropped from the transition list so it snaps instantly,
+   while opacity/colour fades are kept and clamped short. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-property: opacity, color, background-color, border-color, fill,
+      stroke, box-shadow, text-decoration-color !important;
+    transition-duration: 150ms !important;
+    transition-delay: 0ms !important;
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 @media print {
