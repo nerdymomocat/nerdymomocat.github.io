@@ -110,6 +110,38 @@ window.addEventListener("resize", () => {
 	}, 250);
 });
 
+// Reposition margin notes whenever the post body's layout shifts after the
+// initial render. Margin notes are absolutely positioned off each marker's
+// offset, so any content that grows/shrinks *above* them (a <details> toggle
+// opening or closing, a lazy-loaded iframe/embed expanding once it mounts,
+// async media, etc.) would otherwise leave them stuck at stale offsets.
+let layoutShiftTimeout;
+function scheduleMarginNoteReposition() {
+	clearTimeout(layoutShiftTimeout);
+	layoutShiftTimeout = setTimeout(() => {
+		// Margin notes only exist on large screens; below that the popover system
+		// handles footnotes and there is nothing to reposition.
+		if (!window.matchMedia("(min-width: 1024px)").matches) return;
+		initializeMarginNotes();
+		window.lightboxInstance?.reload();
+	}, 150);
+}
+
+// <details> `toggle` events don't bubble, so listen in the capture phase to
+// catch every toggle open/close anywhere on the page.
+document.addEventListener("toggle", scheduleMarginNoteReposition, true);
+
+// Watch each post body for any other reflow (embeds, iframes, images, async
+// content). Margin notes are out-of-flow (position: absolute), so creating them
+// never changes the post body's box size — this observer won't feed back on
+// itself.
+if (typeof ResizeObserver !== "undefined") {
+	const marginNoteResizeObserver = new ResizeObserver(scheduleMarginNoteReposition);
+	document
+		.querySelectorAll(".post-body:not(.post-preview-full-container)")
+		.forEach((postBody) => marginNoteResizeObserver.observe(postBody));
+}
+
 function positionMarginNotes(limit?: number) {
 	const markers = document.querySelectorAll("[data-margin-note]");
 	let positioned = 0;

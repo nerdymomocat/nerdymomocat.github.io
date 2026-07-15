@@ -227,12 +227,7 @@ ${createCssVariables("dark")}
     }
   }
 
-  /* Theme-toggle feathered circular reveal. Effect + timing live here (not in JS)
-     so a theme can restyle the toggle by overriding these custom properties.
-     ThemeIcon.astro only sets the origin (--vt-x/--vt-y) and drives
-     --theme-toggle-reveal 0% -> 120% inside a "theme"-typed view transition. */
   :root {
-    /* Global motion tokens: ease-out for enter/exit, ease-in-out for movement. */
     --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
     --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
     --theme-toggle-duration: 450ms;
@@ -266,9 +261,7 @@ ${createCssVariables("dark")}
     mask-repeat: no-repeat;
   }
 
-  /* Freeze CSS transitions while .dark flips so the theme swaps atomically
-     (prevents a staggered per-element color "flash", esp. under reduced motion).
-     The feathered reveal is a Web Animations animation, so it's unaffected. */
+  /* Freeze CSS transitions while .dark flips so the theme swaps atomically. */
   :root.theme-switching,
   :root.theme-switching *,
   :root.theme-switching *::before,
@@ -557,35 +550,28 @@ ${createCssVariables("dark")}
     @apply absolute top-0 right-0 z-10 cursor-pointer border-none p-2 text-gray-500 sm:opacity-100 md:opacity-0 md:transition-opacity md:duration-200 md:group-hover:opacity-100 print:hidden;
   }
 
-  /* Code-copy icon crossfade (before <-> done), sequenced so the outgoing icon
-     fully fades before the incoming one starts — no ~50% double-image overlap.
-     The delay lives on each icon's *target* state, so it stays correct in both
-     directions (copy and revert): the incoming icon is delayed, the outgoing is not. */
+  /* Code-copy icon crossfade: opacity-only, sequenced so the outgoing icon clears before the incoming fades in. */
   .code button[data-code] .copy-icon-before,
   .code button[data-code] .copy-icon-done {
     transition: opacity 110ms var(--ease-out), transform 110ms var(--ease-out);
   }
 
-  /* Resting: outline shown (incoming when reverting -> delayed) */
   .code button[data-code] .copy-icon-before {
     transition-delay: 110ms;
   }
 
-  /* Resting: check hidden (outgoing when reverting -> no delay) */
   .code button[data-code] .copy-icon-done {
     @apply absolute inset-2 opacity-0;
     transform: scale(0.8);
     transition-delay: 0ms;
   }
 
-  /* Copied: outline hidden (outgoing -> no delay) */
   .code button[data-code].copied .copy-icon-before {
     @apply opacity-0;
     transform: scale(0.8);
     transition-delay: 0ms;
   }
 
-  /* Copied: check shown (incoming -> delayed until outline clears) */
   .code button[data-code].copied .copy-icon-done {
     @apply opacity-100;
     transform: scale(1);
@@ -618,29 +604,26 @@ ${createCssVariables("dark")}
     @apply mt-0;
   }
 
-  /* Shared popover surface (page/block/footnote/citation/mention/tag previews).
-     Files add .notion-popover alongside the .popoverEl JS marker, plus their own
-     hidden / padding utilities. */
   .notion-popover {
-    @apply border-accent-2/20 bg-popover-bg/95 text-textColor/80 invisible absolute z-40 inline-block w-72 rounded-lg border text-sm opacity-0 shadow-xs backdrop-blur-sm transition-[opacity,transform] duration-200;
+    @apply border-accent-2/20 bg-popover-bg/95 text-textColor/80 invisible absolute z-40 inline-block max-h-[min(22rem,60vh)] w-72 overflow-y-auto overscroll-contain rounded-lg border text-sm opacity-0 shadow-xs backdrop-blur-sm transition-[opacity,transform] duration-200;
     transform: translateY(-4px) scale(0.98);
     transform-origin: center top;
     transition-timing-function: var(--ease-out);
   }
 
-  /* Lightbox expand icon on media/embeds. Files keep their JS marker
-     (embedglightbox/mediaglightbox) and corner-position utilities. */
+  /* Lift the height cap while a nested popover is open so the child isn't cropped (JS toggles .popover-has-nested). */
+  .notion-popover.popover-has-nested {
+    @apply max-h-none overflow-visible;
+  }
+
   .media-expand-icon {
     @apply text-accent-2 hover:text-accent absolute z-10 m-2 cursor-pointer transition-[color,transform] duration-150 ease-out active:scale-90;
   }
 
-  /* Webmention facepile avatar ring. Files keep their layout utilities
-     (Likes: relative inline-block hover z-elevation; Comments: shrink-0). */
   .webmention-avatar {
     @apply ring-textColor hover:ring-link focus-visible:ring-link overflow-hidden rounded-full ring-2 outline-hidden hover:ring-4 focus-visible:ring-4;
   }
 
-  /* Linked page title + link inside page/block preview popovers. */
   .notion-popover-title {
     @apply text-accent decoration-accent-2/20 font-semibold underline decoration-wavy;
   }
@@ -649,9 +632,6 @@ ${createCssVariables("dark")}
     @apply text-link/90 flex max-w-full items-center font-medium hover:underline;
   }
 
-  /* Inline mention icon (page/person/date) and custom emoji in Notion content;
-     each repeats per mention/emoji, so keep the utility payload named. The
-     no-rss marker stays inline for RSS stripping. */
   .notion-mention-icon {
     @apply mb-0.5 inline h-4 w-4 shrink-0 align-sub;
   }
@@ -660,9 +640,6 @@ ${createCssVariables("dark")}
     @apply mb-0.5 inline h-4 w-4 object-contain align-sub text-transparent;
   }
 
-  /* Inline footnote/citation reference markers (repeat per reference in body
-     text). Footnote is superscript with negative offset; citation is inline
-     with positive offset - kept distinct on purpose. */
   .footnote-marker-underline {
     @apply decoration-quote/40 underline decoration-dotted -underline-offset-2;
   }
@@ -679,12 +656,10 @@ ${createCssVariables("dark")}
     @apply text-quote cursor-pointer font-mono text-xs;
   }
 
-  /* "View all" footer link on home/index listing sections. */
   .view-all-link {
     @apply sm:hover:text-accent inline-flex items-center gap-1 transition-colors duration-150 ease-out;
   }
 
-  /* Shared listing-page scaffolding (posts/tags/authors/collections index). */
   .listing-grid {
     @apply grid grid-cols-3 gap-y-16 sm:grid-cols-4 sm:items-start sm:gap-x-8;
   }
@@ -701,7 +676,6 @@ ${createCssVariables("dark")}
     @apply text-accent/90 min-w-[120px] font-mono text-xs;
   }
 
-  /* Centered reading-measure column shared by article + index layouts. */
   .reading-column {
     @apply max-w-[708px] sm:mr-20 print:mr-auto print:max-w-full;
   }
@@ -1233,7 +1207,6 @@ ${createCssVariables("dark")}
     @apply mt-3 mb-1;
   }
 
-  /* Interlinked content: title links in the auto-generated "External Links" list. */
   #autogenerated-external-links a {
     @apply text-link no-underline hover:decoration-accent-2 hover:underline hover:underline-offset-4;
   }
@@ -1247,7 +1220,6 @@ ${createCssVariables("dark")}
     @apply text-link py-2 no-underline hover:underline hover:underline-offset-4;
   }
 
-  /* Arrow nudges toward its destination on hover. */
   .pagination-nav .pagination-prev-icon,
   .pagination-nav .pagination-next-icon {
     transition: transform 150ms var(--ease-out);
@@ -1471,10 +1443,6 @@ ${createCssVariables("dark")}
   /* Code Render/Inject */
   .code-rendered {
 	@apply relative mb-1 w-full max-w-full overflow-hidden rounded-lg;
-	/* Height priority: explicit Notion height/aspect-ratio (inline var) >
-	   JS auto-fit to content (sets --html-frame-height) > modest pre-JS fallback.
-	   min-height is kept small so lightweight embeds (e.g. a small d3 demo) can
-	   stay compact; tall "page worth" embeds grow via auto-fit up to max-height. */
 	height: var(--html-frame-height, clamp(14rem, 40dvh, 28rem));
 	min-height: min(6rem, 100dvh);
 	max-height: 100dvh;
@@ -1569,7 +1537,6 @@ ${createCssVariables("dark")}
   }
 
   .mdx-notion code {
-    /* Match Notion inline code styling */
     @apply font-mono rounded-sm px-1 py-[0.15rem] text-[0.95rem] bg-gray-100 text-rose-800 dark:bg-gray-800 dark:text-rose-300;
   }
 
@@ -1577,7 +1544,6 @@ ${createCssVariables("dark")}
     @apply font-mono px-4 py-4 rounded-2xl overflow-x-auto my-[1.1rem];
   }
 
-  /* Keep block code un-tinted while preserving inline styling */
   .mdx-notion pre code {
     @apply bg-transparent p-0 rounded-none;
   }
@@ -1608,33 +1574,21 @@ ${createCssVariables("dark")}
     --webtrotion-search-rule: color-mix(in srgb, var(--color-textColor) 14%, transparent);
     --webtrotion-search-surface: var(--color-bgColor);
     --webtrotion-search-row-padding: 0.5rem 0.6rem;
-    /* Fixed column widths so text never reflows while the preview is revealed. */
     --wt-results-col: min(33rem, calc(100vw - 3rem));
     --wt-preview-col: 22rem;
-    /* Half the preview width — used to pin the modal's left edge while the preview
-       drawer opens, so the results column never slides sideways as width grows. */
     --wt-preview-shift: calc(var(--wt-preview-col) / 2);
     --wt-modal-tx: 0px;
-    /* Heights snap between states (no transition) for a crisp command-palette feel. */
     --wt-height-compact: min(32rem, calc(100vh - 5rem));
     --wt-height-results: min(40rem, calc(100vh - 4rem));
-    /* Motion tokens — strong ease curves. */
     --wt-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
     --wt-ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
     --webtrotion-search-ease: var(--wt-ease-out);
-    /* Consistent type scale across the whole search surface. */
     --wt-fs-title: 0.9rem;
     --wt-fs-body: 0.82rem;
     --wt-fs-meta: 0.75rem;
     --wt-fs-label: 0.68rem;
-    /* Multi-token palette so the UI isn't one flat accent:
-       - accent    → active/selected/match affordances (focus, selection, highlight)
-       - accent-2  → neutral strong glyphs (default page/doc icons read crisp, not tinted)
-       - link      → section/passage indicators (semantically link-like wayfinding) */
     --wt-icon-default-tint: color-mix(in srgb, var(--color-accent-2) 62%, var(--pf-muted));
     --wt-sub-tint: color-mix(in srgb, var(--color-link) 80%, var(--pf-muted));
-    /* Retint pagefind's built-in focus ring (defaults to GitHub blue #0969da) to
-       the site accent so every focus/selection affordance is theme-driven. */
     --pf-outline-focus: var(--color-accent);
     --pf-border-focus: var(--color-accent);
   }
@@ -1649,14 +1603,10 @@ ${createCssVariables("dark")}
     fill: currentColor;
   }
 
-  /* Hide the inert modal until @pagefind/component-ui lazily upgrades it. */
   site-search pagefind-modal:not(:defined) {
     display: none !important;
   }
 
-  /* First-open loading placeholder: pops instantly on click while the ~186KB Pagefind
-     runtime downloads, then hands off seamlessly to the real modal. Mirrors the real
-     modal's frame via the same theme variables so the swap is invisible. */
   site-search .search-loading-modal {
     @apply fixed inset-0 overflow-hidden p-0;
     margin: var(--pf-modal-top, 10dvh) auto;
@@ -1733,8 +1683,6 @@ ${createCssVariables("dark")}
     }
   }
 
-  /* Seamless hand-off: skip the real modal's entrance animation on first open so it
-     snaps in exactly where the placeholder was. */
   site-search[data-search-handoff] .pf-modal[open] {
     transition: none !important;
   }
@@ -1769,7 +1717,6 @@ ${createCssVariables("dark")}
       box-shadow 220ms ease;
   }
 
-  /* Subtle, fast entrance — transform + opacity only (modal is centered → origin: center). */
   @starting-style {
     site-search .pf-modal[open] {
       opacity: 0;
@@ -1782,14 +1729,10 @@ ${createCssVariables("dark")}
     transform: translateX(var(--wt-modal-tx, 0px)) scale(1) translateY(0);
   }
 
-  /* Grow taller once real results exist. Height snaps (not in the transition list). */
   site-search .pf-modal:has(.webtrotion-search-result) {
     height: var(--wt-height-results) !important;
   }
 
-  /* No-results: centre the message block in the pane so there is no dead space.
-     Only when the navigation is hidden too, so a query that also matches a nav
-     label doesn't get shoved to the vertical centre. */
   site-search
     .pf-modal:has(.webtrotion-search-empty-state:not([hidden])):has(
         webtrotion-search-navigation[hidden]
@@ -1799,26 +1742,18 @@ ${createCssVariables("dark")}
     padding-block: 1rem;
   }
 
-  /* No-results: the friendly empty-state block is the single focal message; hide
-     the raw pagefind summary line so it doesn't float redundantly above it. */
   site-search
     .pf-modal:has(.webtrotion-search-empty-state:not([hidden]))
     .pf-summary {
     display: none !important;
   }
 
-  /* Never show the "no results" block while the Navigate list is visible below —
-     matches on nav labels are real results, so the empty state would be a lie. */
   site-search
     .webtrotion-search-results-pane:has(webtrotion-search-navigation:not([hidden]))
     .webtrotion-search-empty-state {
     display: none !important;
   }
 
-  /* Reveal the preview column by growing width to the right only: the modal is
-     centred, so we translate it by half the preview width to pin its left edge,
-     keeping the results column perfectly still while the drawer opens. width and
-     transform share the same duration/easing so the left edge stays fixed. */
   site-search .pf-modal:has(webtrotion-search-preview[data-preview-active]) {
     width: calc(var(--wt-results-col) + var(--wt-preview-col)) !important;
     --wt-modal-tx: var(--wt-preview-shift);
@@ -1912,9 +1847,6 @@ ${createCssVariables("dark")}
     fill: var(--pf-muted);
   }
 
-  /* The inline icon path ships with fill="currentColor" (a presentation
-     attribute), which CSS on the <svg> can't override — target the path
-     directly so the funnel adapts to light/dark instead of rendering black. */
   .webtrotion-search-filters-icon svg path {
     fill: var(--pf-muted);
   }
@@ -1942,13 +1874,10 @@ ${createCssVariables("dark")}
       transform 130ms var(--wt-ease-out);
   }
 
-  /* Press feedback: subtle scale-down on tap. */
   site-search .pf-dropdown-trigger:active {
     transform: scale(0.97);
   }
 
-  /* Keyboard focus: vivid accent tint/border, clearly stronger than the neutral
-     hover so tabbing through filters is legible (no ring). */
   site-search .pf-dropdown-trigger:focus-visible {
     outline: 0;
     border-color: color-mix(in srgb, var(--color-accent) 55%, var(--pf-border)) !important;
@@ -1961,7 +1890,6 @@ ${createCssVariables("dark")}
     border-color: color-mix(in srgb, var(--color-accent) 36%, var(--pf-border));
   }
 
-  /* Active filter — trigger picks up an accent tint while any value is selected. */
   site-search .pf-dropdown-trigger:has(.pf-dropdown-selected-badge:not([data-pf-hidden])) {
     border-color: color-mix(in srgb, var(--color-accent) 45%, transparent) !important;
     background: color-mix(in srgb, var(--color-accent) 10%, transparent) !important;
@@ -2008,7 +1936,6 @@ ${createCssVariables("dark")}
     background: var(--pf-hover);
   }
 
-  /* Selected option — clear accent affordance. */
   site-search .pf-dropdown-option[aria-selected="true"],
   site-search .pf-filter-checkbox:has(.pf-checkbox-input:checked) {
     background: color-mix(in srgb, var(--color-accent) 12%, transparent) !important;
@@ -2023,15 +1950,11 @@ ${createCssVariables("dark")}
     background-color: var(--color-accent) !important;
   }
 
-  /* Custom checkbox glyph (this build renders a .pf-dropdown-checkbox span rather
-     than a native input): tint the checked box with the accent colour. */
   site-search .pf-dropdown-option[aria-selected="true"] .pf-dropdown-checkbox {
     background: var(--color-accent) !important;
     border-color: var(--color-accent) !important;
   }
 
-  /* Facet counts as quiet monospace "code" chips — distinct from the accent
-     affordances, using the mono font + a neutral tint rather than more accent. */
   site-search .pf-dropdown-option-count {
     margin-inline-start: auto;
     padding: 0 0.32rem;
@@ -2112,9 +2035,6 @@ ${createCssVariables("dark")}
     border-radius: 0.2rem;
   }
 
-  /* Default (no page icon): a theme-tinted bookmark glyph, distinct from posts.
-     Kept at ~50% opacity at rest so it reads as a quiet affordance, not a loud
-     mark; restored to full strength (accent) on hover/focus below. */
   .webtrotion-search-navigation-icon.is-default svg {
     @apply block h-full w-full;
     fill: var(--wt-icon-default-tint);
@@ -2129,22 +2049,16 @@ ${createCssVariables("dark")}
     outline: 0;
   }
 
-  /* Mouse hover: quiet neutral tint (accent-2 is a monochrome ink token in this
-     theme), with accent text as a subtle link affordance. */
   .webtrotion-search-navigation-link:hover {
     background: color-mix(in srgb, var(--color-accent-2) 7%, transparent);
     color: var(--color-accent);
   }
 
-  /* Keyboard focus: the vivid brand accent tint so the selected row clearly pops
-     apart from the quiet mouse-hover tint (no ring). */
   .webtrotion-search-navigation-link:focus-visible {
     background: color-mix(in srgb, var(--color-accent) 14%, transparent);
     color: var(--color-accent);
   }
 
-  /* Emil-scale press feedback. transform (not the scale property) so the
-     reduced-motion transform:none override neutralizes it safely. */
   .webtrotion-search-navigation-link:active {
     transform: scale(0.97);
   }
@@ -2155,13 +2069,11 @@ ${createCssVariables("dark")}
     opacity: 1;
   }
 
-  /* Go-to (path/title jump) mode: two-line link with a muted excerpt subtext. */
   .webtrotion-search-navigation-link.is-goto {
     @apply items-start;
     padding: 0.4rem 0.6rem;
   }
 
-  /* Denser, more scannable title in the jumper list (command-palette feel). */
   .webtrotion-search-navigation-link.is-goto .webtrotion-search-navigation-text {
     font-size: var(--wt-fs-body);
     line-height: 1.25;
@@ -2195,19 +2107,12 @@ ${createCssVariables("dark")}
     font-size: var(--wt-fs-title);
   }
 
-  /* Collapsible go-to sections (Pages / Collections / Tags), shown only in the
-     "/" page-jumper mode. The summary reuses the muted uppercase label look and
-     adds a rotating chevron; collapsed sections are skipped by keyboard nav. */
   .webtrotion-search-goto-section {
     @apply block;
   }
 
   .webtrotion-search-goto-summary {
     @apply flex cursor-pointer select-none items-center list-image-none;
-    /* Mirror the go-to item layout exactly: padding-left (0.6rem) + a gutter
-       column the width of an item icon (1.05rem) + the same 0.6rem gap. This
-       lands the section WORD in the identical left column as every item's TEXT,
-       while the toggle triangle sits in the gutter alongside the item icons. */
     gap: 0.6rem;
     margin: 0.6rem 0 0.28rem;
     padding: 0.1rem 0.6rem;
@@ -2224,13 +2129,10 @@ ${createCssVariables("dark")}
       transform 130ms var(--wt-ease-out);
   }
 
-  /* First section hugs the top; extra breathing room only separates later ones. */
   details.webtrotion-search-goto-section:first-of-type .webtrotion-search-goto-summary {
     margin-top: 0.15rem;
   }
 
-  /* A faint full-width rule above each later section gives the muted Pages /
-     Collections / Tags headers a clear boundary to scan against. */
   details.webtrotion-search-goto-section:not(:first-of-type) {
     border-top: 1px solid var(--webtrotion-search-rule);
     margin-top: 0.45rem;
@@ -2250,7 +2152,6 @@ ${createCssVariables("dark")}
     color: color-mix(in srgb, var(--color-textColor) 70%, transparent);
   }
 
-  /* Keyboard focus: brand accent, clearly distinct from the muted hover brighten. */
   .webtrotion-search-goto-summary:focus-visible {
     color: var(--color-accent);
   }
@@ -2261,7 +2162,6 @@ ${createCssVariables("dark")}
 
   .webtrotion-search-goto-chevron {
     @apply inline-flex flex-none items-center justify-center;
-    /* Same box as an item icon so the triangle shares the icon gutter column. */
     width: 1.05rem;
     height: 1.05rem;
   }
@@ -2270,7 +2170,6 @@ ${createCssVariables("dark")}
     @apply block flex-none;
     width: 0.72rem;
     height: 0.72rem;
-    /* Match the toggle triangle used elsewhere (filled, rounded corners). */
     fill: currentColor;
     stroke: currentColor;
     stroke-width: 2;
@@ -2283,8 +2182,6 @@ ${createCssVariables("dark")}
     rotate: 90deg;
   }
 
-  /* When the query starts with "/", the popup is a pure client-side page jumper —
-     hide every Pagefind-owned surface and keep only the navigation list. */
   .webtrotion-search-shell[data-goto-mode] .webtrotion-search-filters,
   .webtrotion-search-shell[data-goto-mode] pagefind-summary,
   .webtrotion-search-shell[data-goto-mode] .pagefind-summary,
@@ -2342,7 +2239,6 @@ ${createCssVariables("dark")}
     border-radius: 0.2rem;
   }
 
-  /* Default (Pinned post without its own icon): a document glyph, matching results. */
   .webtrotion-search-pinned-icon svg {
     @apply block h-full w-full;
     fill: none;
@@ -2367,7 +2263,6 @@ ${createCssVariables("dark")}
     background: color-mix(in srgb, var(--color-accent-2) 6%, transparent);
   }
 
-  /* Keyboard focus: vivid accent tint, clearly stronger than the quiet hover. */
   .webtrotion-search-pinned-link:focus-visible {
     background: color-mix(in srgb, var(--color-accent) 13%, transparent);
   }
@@ -2427,8 +2322,6 @@ ${createCssVariables("dark")}
     background: color-mix(in srgb, var(--color-accent-2) 5%, transparent);
   }
 
-  /* Keyboard focus: vivid accent tint so the selected result clearly stands out
-     from the quiet neutral mouse-hover tint (no ring). */
   .webtrotion-search-result-card:has(.webtrotion-search-result-link:focus-visible) {
     background: color-mix(in srgb, var(--color-accent) 14%, transparent);
   }
@@ -2568,7 +2461,6 @@ ${createCssVariables("dark")}
     background: color-mix(in srgb, var(--color-accent-2) 7%, transparent);
   }
 
-  /* Keyboard focus: vivid accent tint, clearly stronger than the quiet hover. */
   .webtrotion-search-subresult-link:focus-visible {
     background: color-mix(in srgb, var(--color-accent) 12%, transparent);
   }
@@ -2587,9 +2479,6 @@ ${createCssVariables("dark")}
     fill: var(--color-accent);
   }
 
-  /* Soft accent "marker" highlight — a low-opacity rounded chip that scans well
-     in a dense list. box-decoration-break: clone keeps wrapped tokens rounded on
-     every line rather than blocky. */
   site-search mark,
   .pagefind-highlight {
     background: var(--pf-highlight-background);
@@ -2606,9 +2495,6 @@ ${createCssVariables("dark")}
     @apply min-w-0 overflow-auto;
     flex: 0 0 var(--wt-preview-col);
     border-inline-start: 1px solid var(--webtrotion-search-rule);
-    /* Horizontal padding lives on the scroll container (not the inner card) and a
-       stable gutter is reserved for the scrollbar, so the scrollbar never overlaps
-       the text and there is always clear breathing room on the right edge. */
     padding-inline: 1.2rem;
     scrollbar-gutter: stable;
     opacity: 0;
@@ -2809,7 +2695,6 @@ ${createCssVariables("dark")}
       height: var(--wt-height-results) !important;
     }
 
-    /* No width growth on tablet — the preview stacks below as a drawer. */
     site-search .pf-modal:has(webtrotion-search-preview[data-preview-active]) {
       width: min(34rem, calc(100vw - 1.5rem)) !important;
       --wt-modal-tx: 0px;
@@ -2823,8 +2708,6 @@ ${createCssVariables("dark")}
       @apply flex-auto;
     }
 
-    /* Inactive on tablet: collapse fully so the pane uses all vertical space
-       (no stray divider line, no dead gap below the nav/pinned list). */
     .webtrotion-search-preview-slot {
       @apply flex-none;
       max-height: 0;
@@ -2846,17 +2729,8 @@ ${createCssVariables("dark")}
   }
 
   @media (max-width: 640px) {
-    /* Keep the pop-up feel on phones: a centred rounded card with slim margins,
-       not an edge-to-edge full-screen sheet. Heights use dvh so the mobile
-       browser chrome never clips the card, and shrink a touch vs. tablet. */
     site-search {
-      /* Keep the card in the upper portion of the screen so the on-screen keyboard
-         (which the auto-focused input raises) always has clear room below it. Heights
-         are a proportion of the dynamic viewport so this holds across phone sizes. */
       --wt-modal-top-m: max(2rem, 5dvh);
-      /* Heights are a proportion of the dynamic viewport (not a rem cap), so the
-         card scales with the screen and shrinks automatically on a short/split
-         viewport. max-height below is only a final safety clamp. */
       --wt-height-compact: 80dvh;
       --wt-height-results: 80dvh;
     }
@@ -2864,14 +2738,6 @@ ${createCssVariables("dark")}
     site-search .pf-modal,
     site-search .pf-modal:has(.webtrotion-search-result),
     site-search .pf-modal:has(webtrotion-search-preview[data-preview-active]) {
-      /* Override Pagefind's high-specificity full-screen mobile rule
-         (border-radius:0; margin:0; top:0; left:0; height:100dvh) — !important is
-         required to beat its :is()-boosted specificity. inset:0 + auto side margins
-         centre horizontally; a fixed top margin pins the card below the top edge so
-         it reads as a floating pop-up that grows downward, matching desktop. The
-         height is a tall fixed target but expressed in dvh and clamped by
-         max-height, so on a short/split-screen viewport the card shrinks to fit
-         the available height (and scrolls internally) instead of being clipped. */
       inset: 0 !important;
       margin: var(--wt-modal-top-m) auto !important;
       width: calc(100vw - 2.5rem) !important;
@@ -2884,8 +2750,6 @@ ${createCssVariables("dark")}
       --wt-modal-tx: 0px;
     }
 
-    /* Match the first-open loading placeholder to the real card so the hand-off
-       doesn't visibly resize or jump — same size, same top-anchored position. */
     site-search .search-loading-modal {
       margin: var(--wt-modal-top-m) auto;
       width: calc(100vw - 2.5rem);
@@ -2947,17 +2811,12 @@ ${createCssVariables("dark")}
   }
 
   @media (hover: none), (pointer: coarse) {
-    /* No hover pointer means the preview has no trigger, so drop the pane entirely and
-       let the results use the full width. The runtime skips wiring it up here too. */
     .webtrotion-search-preview-slot {
       display: none !important;
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    /* Modal: width/transform snap instantly (no transition), only opacity fades.
-       The left-edge pin (--wt-modal-tx) still applies statically, so revealing the
-       preview never jumps the results column sideways — it just appears. */
     site-search .pf-modal,
     site-search .pf-modal[open] {
       animation: none;
@@ -2997,7 +2856,6 @@ ${createCssVariables("dark")}
 [data-margin-note].highlighted {
   background-color: color-mix(in srgb, var(--color-accent) 20%, transparent);
   @apply rounded px-[2px] -mx-[2px];
-  /* This prevents the padding from shifting surrounding text */
 }
 
 .footnote-margin-note> :first-child > :nth-child(2) {
@@ -3007,9 +2865,7 @@ ${createCssVariables("dark")}
 .footnote-margin-note.highlighted > :first-child > :first-child {
   background-color: color-mix(in srgb, var(--color-accent) 20%, transparent);
   @apply rounded px-[2px] -mx-[2px];
-  /* Prevents padding from shifting text */
   color: var(--color-quote);
-  /* Keep the quote color for the number */
 }
 
 @media (max-width: 1023px) {
@@ -3097,7 +2953,6 @@ ${createCssVariables("dark")}
 
 .datatable-sorter {
   @apply relative pr-4 bg-transparent;
-  /* Reserve enough space for the sort icons */
 }
 
 .datatable-sorter::after {
@@ -3193,12 +3048,10 @@ html.dark :not(.datatable-ascending):not(.datatable-descending)>.datatable-sorte
   transform: translateY(-3px);
 }
 
-/* Card link - covers entire card */
 .post-card-link {
   @apply block no-underline text-inherit;
 }
 
-/* Image container with 3:2 aspect ratio */
 .post-card-image-container {
   @apply relative overflow-hidden rounded-lg border aspect-[3/2];
   border-color: color-mix(in srgb, var(--color-textColor) 6%, transparent);
@@ -3228,17 +3081,14 @@ html.dark :not(.datatable-ascending):not(.datatable-descending)>.datatable-sorte
   filter: brightness(1.03);
 }
 
-/* Tags section - positioned at bottom, allows separate clicks */
 .post-card-tags {
   @apply flex flex-wrap items-baseline gap-1 px-0 pb-3;
 }
 
-/* Authors section - positioned above tags, allows separate clicks */
 .post-card-authors {
   @apply -mt-1 px-0 pb-1;
 }
 
-/* Per-instance card sub-elements (repeat once per post/author in listings). */
 .post-card-badge {
   @apply bg-quote/90 absolute top-2 right-2 flex items-center gap-1 rounded px-1.5 py-0.5 text-[10px] font-semibold text-white;
 }
@@ -3290,10 +3140,6 @@ html.dark :not(.datatable-ascending):not(.datatable-descending)>.datatable-sorte
   background: var(--color-bgColor);
 }
 
-/* Site-wide reduced-motion policy. Unlayered + !important so it overrides every
-   layered transition/animation regardless of specificity. Movement (transform,
-   size, position) is dropped from the transition list so it snaps instantly,
-   while opacity/colour fades are kept and clamped short. */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -3308,12 +3154,6 @@ html.dark :not(.datatable-ascending):not(.datatable-descending)>.datatable-sorte
     scroll-behavior: auto !important;
   }
 
-  /* Keep the code-copy icons at a single scale so only opacity crossfades
-     (transform transitions are stripped above, so a scale delta would snap/flash).
-     Also re-assert the sequenced delays: the global rule above zeroes every
-     transition-delay, which would revert the crossfade to a simultaneous
-     double-image. Opacity-only sequencing involves no movement, so it stays
-     within the reduced-motion policy. */
   .code button[data-code] .copy-icon-before,
   .code button[data-code].copied .copy-icon-before,
   .code button[data-code] .copy-icon-done,
@@ -3322,13 +3162,11 @@ html.dark :not(.datatable-ascending):not(.datatable-descending)>.datatable-sorte
     transition-duration: 110ms !important;
   }
 
-  /* Incoming icons wait for the outgoing to clear */
   .code button[data-code] .copy-icon-before,
   .code button[data-code].copied .copy-icon-done {
     transition-delay: 110ms !important;
   }
 
-  /* Outgoing icons fade out first */
   .code button[data-code] .copy-icon-done,
   .code button[data-code].copied .copy-icon-before {
     transition-delay: 0ms !important;

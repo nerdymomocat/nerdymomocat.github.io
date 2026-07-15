@@ -18,6 +18,11 @@ function initPopovers() {
 	// State variables for popovers
 	const smBreakpointQuery = window.matchMedia("(max-width: 639px)");
 	const lgBreakpointQuery = window.matchMedia("(min-width: 1024px)");
+	// Interaction mode is decided by input capability, not viewport width: touch
+	// devices (phones AND tablets) must not hover-preview or navigate on the
+	// first tap — otherwise a tap flashes the popover and immediately follows the
+	// link. Only genuine mouse/trackpad pointers get hover + click-to-navigate.
+	const canHoverQuery = window.matchMedia("(hover: hover) and (pointer: fine)");
 
 	// Create the selector based on the device type
 	function getPopoverSelector() {
@@ -41,6 +46,26 @@ function initPopovers() {
 	// Popovers pending their final display:none after an exit fade. Tracked so a
 	// re-show (or re-hide) during the fade can cancel the deferred teardown.
 	let pendingHide = new Map();
+
+	// A popover that currently hosts another OPEN popover must not clip its
+	// overflow — otherwise the nested (absolutely-positioned) child is cropped to
+	// the parent's box and forces a scrollbar. Mark every ancestor of each open
+	// popover so the height cap is lifted only while a child is open, then
+	// restored once it closes.
+	const refreshPopoverClipping = () => {
+		document
+			.querySelectorAll(".notion-popover.popover-has-nested")
+			.forEach((el) => el.classList.remove("popover-has-nested"));
+		openPopovers.forEach((child) => {
+			let ancestor = child.parentElement ? child.parentElement.closest(".notion-popover") : null;
+			while (ancestor) {
+				ancestor.classList.add("popover-has-nested");
+				ancestor = ancestor.parentElement
+					? ancestor.parentElement.closest(".notion-popover")
+					: null;
+			}
+		});
+	};
 
 	const getPopoverLevel = (el) => {
 		let level = 0;
@@ -93,6 +118,8 @@ function initPopovers() {
 			popoverEl.style.visibility = "hidden";
 			popoverEl.classList.add("hidden");
 			popoverEl.style.transform = "";
+			// Re-clip any ancestor that no longer hosts an open child popover.
+			refreshPopoverClipping();
 		};
 		// Slightly longer than the 200ms enter/exit transition (150ms under
 		// reduced motion) so the fade completes before we remove it from flow.
@@ -181,10 +208,12 @@ function initPopovers() {
 
 		openPopovers.push(popoverEl);
 		cleanupAutoUpdate.set(popoverEl, autoUpdate(triggerEl, popoverEl, update));
+		// Lift the height cap on any ancestor now hosting this nested popover.
+		refreshPopoverClipping();
 	};
 
 	const handleHover = (event) => {
-		if (smBreakpointQuery.matches) return; // No hover on small screens
+		if (!canHoverQuery.matches) return; // Hover previews only for mouse/trackpad pointers
 
 		const selector = getPopoverSelector();
 		const triggerEl = event.target.closest(selector);
@@ -203,12 +232,18 @@ function initPopovers() {
 		if (triggerEl) {
 			const href = triggerEl.dataset.href;
 
-			if (href && !smBreakpointQuery.matches) {
-				window.location.href = href;
-				return;
-			}
-
-			if (smBreakpointQuery.matches) {
+			if (canHoverQuery.matches) {
+				// Mouse/trackpad: the preview already showed on hover, so a click is
+				// a deliberate request to follow the link to its source.
+				if (href) {
+					window.location.href = href;
+					return;
+				}
+			} else {
+				// Touch / no-hover: the first tap opens the preview instead of
+				// navigating. Navigation happens by tapping the preview card or its
+				// "Read more" link. This prevents the tap-flash-then-leave bug on
+				// tablets and touch laptops (any non-small touch screen).
 				event.preventDefault();
 				showPopover(triggerEl);
 				return;

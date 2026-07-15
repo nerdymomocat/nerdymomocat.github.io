@@ -2486,21 +2486,28 @@ export async function _buildRichText(richTextObject: responses.RichTextObject): 
 		// Notion adds a `v=` query parameter to links copied from peek view.
 		// We need to remove it to parse the link correctly.
 		richTextObject.href = richTextObject.href.replace(/([&?])v=[^#]*/, "");
-		if (richTextObject.href?.includes("#")) {
+		const [pagePart, blockPart] = richTextObject.href.split("#");
+		// The Notion page id is the last 32-hex-character run in the path. Matching
+		// it this way tolerates every internal-link shape Notion emits: the legacy
+		// `/<id>`, the newer `/p/<id>` (peek / "copy link"), and the full
+		// `/<workspace>/<Page-Title>-<id>` form. Previously we only stripped the
+		// leading `/`, so a `/p/<id>` link produced a mangled page id and the
+		// link (and its hover popover) silently disappeared.
+		const pageIdMatches = pagePart.replace(/-/g, "").match(/[0-9a-fA-F]{32}/g);
+		const rawPageId = pageIdMatches
+			? pageIdMatches[pageIdMatches.length - 1]
+			: pagePart.substring(1);
+		const pageId = rawPageId.replace(/(.{8})(.{4})(.{4})(.{4})(.{12})/, "$1-$2-$3-$4-$5");
+		if (blockPart) {
 			const interlinkedContent: InterlinkedContent = {
-				PageId: richTextObject.href
-					.split("#")[0]
-					.substring(1)
-					.replace(/(.{8})(.{4})(.{4})(.{4})(.{12})/, "$1-$2-$3-$4-$5"),
-				BlockId: richTextObject.href.split("#")[1],
+				PageId: pageId,
+				BlockId: blockPart,
 				Type: "block",
 			};
 			richText.InternalHref = interlinkedContent;
 		} else {
 			const interlinkedContent: InterlinkedContent = {
-				PageId: richTextObject.href
-					.substring(1)
-					.replace(/(.{8})(.{4})(.{4})(.{4})(.{12})/, "$1-$2-$3-$4-$5"),
+				PageId: pageId,
 				Type: "page",
 			};
 			richText.InternalHref = interlinkedContent;
