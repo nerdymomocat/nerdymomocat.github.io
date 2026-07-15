@@ -1,5 +1,6 @@
 import { getAllPosts, getAllPages, getAllTags } from "@/lib/notion/client";
 import { resolvePostHref, getPostLink, getNotionImage } from "@/lib/blog-helpers";
+import { getImage } from "astro:assets";
 import { HIDE_UNDERSCORE_SLUGS_IN_LISTS } from "@/constants";
 import { getCollections, slugify } from "@/utils";
 import type { Post, FileObject, Emoji } from "@/lib/interfaces";
@@ -29,7 +30,19 @@ const resolveIcon = async (
 	if ("Url" in icon && icon.Url) {
 		try {
 			const downloaded = await getNotionImage(new URL(icon.Url));
-			return { im: downloaded?.src || icon.Url };
+			if (!downloaded) return { im: icon.Url };
+			// Reference an emitted asset, not the raw original `.src`. Raster
+			// originals (.png/.jpg) are never written to the build output, so
+			// `downloaded.src` would 404. Use the SAME width:48 params as
+			// PagefindIconMetadata so both resolve to the identical hashed
+			// variant — that component emits it into each post's HTML, which is
+			// what the image-cache cleaner scans, so the file is preserved in
+			// dist and this JSON reference stays valid.
+			try {
+				return { im: (await getImage({ src: downloaded, width: 48 })).src };
+			} catch {
+				return { im: downloaded.src || icon.Url };
+			}
 		} catch {
 			return { im: icon.Url };
 		}
@@ -55,15 +68,13 @@ export const GET = async () => {
 	// Posts keep their own Notion icon (downloaded at build time); pages fall back
 	// to the generic bookmark glyph, so we only resolve icons for posts.
 	const postItems: GotoItem[] = await Promise.all(
-		filterEntries(posts).map(
-			async (entry): Promise<GotoItem> => ({
-				t: entry.Title,
-				u: resolvePostHref(entry, { forceIsRoot: false }),
-				k: "post",
-				...(entry.Excerpt ? { e: entry.Excerpt } : {}),
-				...(await resolveIcon(entry.Icon)),
-			}),
-		),
+		filterEntries(posts).map(async (entry): Promise<GotoItem> => ({
+			t: entry.Title,
+			u: resolvePostHref(entry, { forceIsRoot: false }),
+			k: "post",
+			...(entry.Excerpt ? { e: entry.Excerpt } : {}),
+			...(await resolveIcon(entry.Icon)),
+		})),
 	);
 
 	const pageItems: GotoItem[] = filterEntries(pages).map((entry) => ({

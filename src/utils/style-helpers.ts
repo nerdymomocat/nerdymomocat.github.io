@@ -195,6 +195,12 @@ export const getTextToAstroIcon = (text: string) => {
 		jump: "material-symbols-light:jump-to-element-rounded",
 		"copy-as-markdown": "material-symbols:markdown-paste",
 		author: "mdi:account-circle-outline",
+		"bookmark-outline": "mdi:bookmark-outline",
+		"text-short": "mdi:text-short",
+		"filter-variant": "mdi:filter-variant",
+		"magnify-close": "mdi:magnify-close",
+		web: "mdi:web",
+		"open-in-new": "mdi:open-in-new",
 	};
 	if (text in textIconMap) {
 		return textIconMap[text];

@@ -5,7 +5,7 @@ import sharp from "sharp";
 import retry from "async-retry";
 import ExifTransformer from "exif-be-gone";
 import pngToIco from "png-to-ico";
-import path from "path";
+import path from "node:path";
 import {
 	NOTION_API_SECRET,
 	DATABASE_ID,
@@ -111,8 +111,7 @@ let workspaceCustomEmojiCacheById: Map<string, WorkspaceCustomEmoji> | null = nu
 let workspaceCustomEmojiCacheByName: Map<string, WorkspaceCustomEmoji> | null = null;
 let workspaceCustomEmojiPromise: Promise<void> | null = null;
 let allTagsWithCountsCache:
-	| { name: string; count: number; description: string; color: string }[]
-	| null = null;
+	{ name: string; count: number; description: string; color: string }[] | null = null;
 
 // Authors: Cache for authors with counts
 let allAuthorsWithCountsCache:

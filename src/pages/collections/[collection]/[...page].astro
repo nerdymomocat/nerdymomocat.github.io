@@ -131,7 +131,7 @@ const paginationProps = {
 	<PageLayout meta={meta}>
 		<h1 class="title mb-6">{collection}</h1>
 		{description && <q class="-mt-3 mb-6 block italic">{description}</q>}
-		<div class="grid grid-cols-3 gap-y-16 sm:grid-cols-4 sm:items-start sm:gap-x-8">
+		<div class="listing-grid">
 			<section aria-label="Blog post list" class="col-span-3 print:col-span-full">
 				{
 					FULL_PREVIEW_COLLECTIONS.includes(collection) ? (
@@ -168,7 +168,7 @@ const paginationProps = {
 						/* List mode for non-full-preview collections */
 						<ul class="space-y-4 text-start">
 							{postsWithCacheInfo.map(({ post }) => (
-								<li class="flex max-w-full flex-col flex-wrap gap-1.5 [&_q]:basis-full">
+								<li class="post-list-item">
 									<PostPreview post={post} as="h2" withDesc />
 								</li>
 							))}
@@ -180,7 +180,7 @@ const paginationProps = {
 			{
 				!!uniqueTags.length && (
 					<aside class="col-span-3 sm:col-span-1 print:hidden">
-						<h2 class="text-accent-2 mb-4 flex items-center text-lg font-semibold">
+						<h2 class="listing-section-heading">
 							<Icon class="h-6 w-6" name={"tag-multiple"} aria-hidden="true" focusable="false" />
 							Tags
 						</h2>
@@ -204,11 +204,7 @@ const paginationProps = {
 							))}
 						</ul>
 						<span class="mt-4 block sm:text-end">
-							<a
-								class="sm:hover:text-accent inline-flex items-center gap-1"
-								href={getNavLink("/tags/")}
-								aria-label="View all tags"
-							>
+							<a class="view-all-link" href={getNavLink("/tags/")} aria-label="View all tags">
 								View all
 								<Icon class="h-4 w-4" name={"next"} aria-hidden="true" focusable="false" />
 							</a>

@@ -16,7 +16,7 @@ const { url, caption } = Astro.props;
 			<a
 				href={url.toString()}
 				data-description={caption}
-				class="embedglightbox text-accent-2 absolute right-4 bottom-4 z-10 m-2 cursor-pointer"
+				class="embedglightbox media-expand-icon right-4 bottom-4"
 				aria-label="Click to expand"
 			>
 				<Icon name={"expand"} class="inline h-6 w-6" aria-hidden="true" />
@@ -25,7 +25,7 @@ const { url, caption } = Astro.props;
 	}
 	<iframe
 		allowtransparency="true"
-		class="lazyload h-[340px] w-full max-w-full rounded-lg border-none"
+		class="lazyload embed-media-box"
 		loading="lazy"
 		data-src={url.toString()}
 		title={caption}></iframe>

@@ -37,7 +37,7 @@ const rss_path = getNavLink("/rss.xml");
 	<div class="flex sm:flex-col">
 		<a
 			href={getNavLink("/")}
-			class="inline-flex items-center grayscale hover:filter-none sm:relative sm:inline-block"
+			class="inline-flex items-center grayscale transition-[filter] duration-200 ease-out hover:filter-none sm:relative sm:inline-block"
 			aria-current={currentPath === "/" ? "page" : false}
 		>
 			{
@@ -100,7 +100,11 @@ const rss_path = getNavLink("/rss.xml");
 			class="hover:text-accent h-10 w-10 cursor-pointer items-center justify-center rounded-md p-1.5"
 		>
 			<a href={rss_path}
-				><Icon name={"rss"} class="hover:text-accent h-7 w-7" aria-label="Open RSS Link" /></a
+				><Icon
+					name={"rss"}
+					class="hover:text-accent h-7 w-7 transition-colors duration-150 ease-out"
+					aria-label="Open RSS Link"
+				/></a
 			>
 		</div>
 		<Search />

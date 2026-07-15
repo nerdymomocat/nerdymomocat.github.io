@@ -56,7 +56,10 @@ const {
 		<script src="../scripts/datatables.ts"></script>
 		<script src="../scripts/post-interactions.ts"></script>
 		<script>
-			if (!import.meta.env.DEV) {
+			// Only load the Pagefind highlight bundle when arriving from a search result
+			// (i.e. the URL actually carries the highlight param). Otherwise this fetched
+			// and parsed pagefind-highlight.js on every single page view for nothing.
+			if (!import.meta.env.DEV && new URLSearchParams(window.location.search).has("highlight")) {
 				const highlightScript = `${import.meta.env.BASE_URL.replace(/\/$/, "")}/pagefind/pagefind-highlight.js`;
 				await import(/* @vite-ignore */ highlightScript);
 				new window.PagefindHighlight({ highlightParam: "highlight" });

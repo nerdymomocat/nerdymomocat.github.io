@@ -3,6 +3,7 @@ import { getAllPages, getDataSource } from "@/lib/notion/client";
 import { MENU_PAGES_COLLECTION, HOME_PAGE_SLUG } from "@/constants";
 import { slugify } from "@/utils/slugify";
 import { getNavLink, getNotionImage } from "@/lib/blog-helpers";
+import { getImage } from "astro:assets";
 export {
 	getFormattedDate,
 	getFormattedDateWithTime,
@@ -61,7 +62,17 @@ export async function getMenu(): Promise<
 		if ("Url" in icon && icon.Url) {
 			try {
 				const downloaded = await getNotionImage(new URL(icon.Url));
-				return { image: downloaded?.src || icon.Url };
+				if (!downloaded) return { image: icon.Url };
+				// Emit an optimized asset instead of the raw original `.src`: this
+				// value is placed in a plain `data-page-icon-image` attribute (not an
+				// <Image>/<img>), so raster originals are never written to the build
+				// and would 404 in the search go-to nav. width:48 matches
+				// PagefindIconMetadata so both share one emitted variant.
+				try {
+					return { image: (await getImage({ src: downloaded, width: 48 })).src };
+				} catch {
+					return { image: downloaded.src || icon.Url };
+				}
 			} catch {
 				return { image: icon.Url };
 			}

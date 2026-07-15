@@ -3,8 +3,8 @@ import tailwindcss from "@tailwindcss/vite";
 import mdx from "@astrojs/mdx";
 import { satteri } from "@astrojs/markdown-satteri";
 
-import path from "path";
-import fs from "fs";
+import path from "node:path";
+import fs from "node:fs";
 import JSON5 from "json5";
 import { CUSTOM_DOMAIN, BASE_PATH, EXTERNAL_CONTENT_CONFIG } from "./src/constants";
 import satteriExternalMdxAssets from "./src/lib/external-content/satteri-external-mdx-assets";

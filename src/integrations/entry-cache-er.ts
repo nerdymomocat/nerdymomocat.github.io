@@ -9,7 +9,7 @@ import {
 } from "../lib/notion/client";
 import { COVER_AS_HERO_BACKGROUND_ENABLED, LAST_BUILD_TIME, LISTING_VIEW } from "../constants";
 import fs from "node:fs";
-import path from "path";
+import path from "node:path";
 
 export default (): AstroIntegration => ({
 	name: "entry-cache-er",

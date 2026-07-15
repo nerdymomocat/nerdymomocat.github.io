@@ -33,7 +33,7 @@ import {
 	getAllRichTextLocations,
 	getChildrenFromBlock,
 } from "../utils/richtext-utils";
-import crypto from "crypto";
+import crypto from "node:crypto";
 
 // ============================================================================
 // Configuration and Validation

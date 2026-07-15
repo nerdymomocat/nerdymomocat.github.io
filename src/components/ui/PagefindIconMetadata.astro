@@ -1,4 +1,5 @@
 ---
+import { getImage } from "astro:assets";
 import type { Post } from "@/lib/interfaces";
 import { getNotionImage } from "@/lib/blog-helpers";
 
@@ -11,7 +12,21 @@ const icon = post.Icon;
 const emoji = icon && "Emoji" in icon ? icon.Emoji : "";
 const iconUrl = icon && "Url" in icon ? icon.Url : "";
 const downloadedIcon = iconUrl ? await getNotionImage(new URL(iconUrl)) : null;
-const image = downloadedIcon?.src || iconUrl;
+
+// Reference an emitted asset, not the raw import `.src`. For raster icons the
+// original (e.g. .png) is never written to the build output — only optimized
+// variants are — so `downloadedIcon.src` would be a dangling URL and the search
+// result icon would 404. Running it through getImage() guarantees the URL points
+// at a file that exists in dist (and stays correct under a base path). SVGs pass
+// through unchanged, matching how they are already emitted.
+let image = iconUrl;
+if (downloadedIcon) {
+	try {
+		image = (await getImage({ src: downloadedIcon, width: 48 })).src;
+	} catch {
+		image = downloadedIcon.src || iconUrl;
+	}
+}
 ---
 
 {
@@ -29,3 +44,9 @@ const image = downloadedIcon?.src || iconUrl;
 		/>
 	) : null
 }
+{
+	/* Explicit clean title so listing pages don't fall back to the document
+	`<title>` (which appends the site-name breadcrumb, e.g. "Home • Site Name").
+	Posts already resolve to this same value via their h1, so no regression. */
+}
+<span data-pagefind-meta="title" data-pagefind-ignore hidden aria-hidden="true">{post.Title}</span>

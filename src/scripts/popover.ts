@@ -38,6 +38,9 @@ function initPopovers() {
 	let openPopovers = [];
 	let cleanupAutoUpdate = new Map();
 	let hoverTimeouts = new Map();
+	// Popovers pending their final display:none after an exit fade. Tracked so a
+	// re-show (or re-hide) during the fade can cancel the deferred teardown.
+	let pendingHide = new Map();
 
 	const getPopoverLevel = (el) => {
 		let level = 0;
@@ -57,21 +60,44 @@ function initPopovers() {
 	};
 
 	const hidePopover = (popoverEl) => {
-		if (popoverEl) {
+		if (!popoverEl) return;
+
+		// Cancel any teardown already scheduled for this popover so we don't
+		// finalize twice (and so a fresh hide restarts the fade cleanly).
+		const alreadyPending = pendingHide.get(popoverEl);
+		if (alreadyPending) {
+			clearTimeout(alreadyPending);
+			pendingHide.delete(popoverEl);
+		}
+
+		// Treat it as closed immediately for open/close bookkeeping and stop the
+		// position autoupdate — the popover stays put while it fades out.
+		const openPopoverIndex = openPopovers.indexOf(popoverEl);
+		if (openPopoverIndex !== -1) {
+			openPopovers.splice(openPopoverIndex, 1);
+		}
+		const cleanup = cleanupAutoUpdate.get(popoverEl);
+		if (cleanup) {
+			cleanup();
+			cleanupAutoUpdate.delete(popoverEl);
+		}
+
+		// Play the exit: reverse of the enter (fade out + settle back up/in). The
+		// display:none teardown is deferred so this transition can actually run;
+		// under reduced motion the global policy keeps opacity-only and clamps it.
+		popoverEl.style.opacity = "0";
+		popoverEl.style.transform = "translateY(-4px) scale(0.98)";
+
+		const finalize = () => {
+			pendingHide.delete(popoverEl);
 			popoverEl.style.visibility = "hidden";
 			popoverEl.classList.add("hidden");
-			popoverEl.style.opacity = "0";
-
-			const cleanup = cleanupAutoUpdate.get(popoverEl);
-			if (cleanup) {
-				cleanup();
-				cleanupAutoUpdate.delete(popoverEl);
-			}
-			const openPopoverIndex = openPopovers.indexOf(popoverEl);
-			if (openPopoverIndex !== -1) {
-				openPopovers.splice(openPopoverIndex, 1);
-			}
-		}
+			popoverEl.style.transform = "";
+		};
+		// Slightly longer than the 200ms enter/exit transition (150ms under
+		// reduced motion) so the fade completes before we remove it from flow.
+		const timeoutId = setTimeout(finalize, 240);
+		pendingHide.set(popoverEl, timeoutId);
 	};
 
 	const addLeaveListeners = (triggerEl, popoverEl) => {
@@ -125,6 +151,14 @@ function initPopovers() {
 		}
 		if (!popoverEl) return;
 
+		// If this popover is mid-exit-fade, cancel the deferred teardown so we
+		// reverse straight back into view instead of snapping to display:none.
+		const pending = pendingHide.get(popoverEl);
+		if (pending) {
+			clearTimeout(pending);
+			pendingHide.delete(popoverEl);
+		}
+
 		const update = () => {
 			computePosition(triggerEl, popoverEl, {
 				middleware: [offset(6), shift({ padding: 3 }), flip({ padding: 3 })],
@@ -142,6 +176,7 @@ function initPopovers() {
 		requestAnimationFrame(() => {
 			popoverEl.style.visibility = "visible";
 			popoverEl.style.opacity = "1";
+			popoverEl.style.transform = "translateY(0) scale(1)";
 		});
 
 		openPopovers.push(popoverEl);

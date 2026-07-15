@@ -274,7 +274,7 @@ const iframeLightboxId = `html-frame-lightbox-${block.Id}`;
 							aria-label="copy code"
 						/>
 						<Icon
-							class="copy-icon-done hidden h-6 w-6"
+							class="copy-icon-done h-6 w-6"
 							name={"clipboard-copy-code-done"}
 							aria-label="copied code"
 						/>
@@ -308,3 +308,118 @@ const iframeLightboxId = `html-frame-lightbox-${block.Id}`;
 		</script>
 	)
 }
+
+<script>
+	// Auto-fit rendered HTML iframes ([data-html-frame]) to their content height.
+	// Lazy + off the critical path: work is deferred with requestIdleCallback and each
+	// frame is only measured once it nears the viewport (IntersectionObserver), so it
+	// never blocks initial load / page-speed metrics. srcdoc iframes are same-origin, so
+	// their content height is measurable. Blocks with an explicit Notion height/aspect
+	// ratio (inline custom property) opt out and keep the author-provided sizing.
+	const htmlFrameRemeasures: Array<() => void> = [];
+
+	function setupHtmlFrame(el: HTMLElement) {
+		if (el.dataset.htmlFrameAuto === "done") return;
+		el.dataset.htmlFrameAuto = "done";
+
+		// Respect explicit author sizing coming from Notion meta tags.
+		const inlineStyle = el.getAttribute("style") || "";
+		if (
+			el.classList.contains("code-rendered-aspect") ||
+			inlineStyle.includes("--html-frame-height") ||
+			inlineStyle.includes("--html-frame-aspect-ratio")
+		) {
+			return;
+		}
+
+		const iframe = el.querySelector("iframe.code-iframe") as HTMLIFrameElement | null;
+		if (!iframe) return;
+
+		const MIN = 96; // px
+		// Small breathing room so sub-pixel rounding, a trailing margin, or a
+		// horizontal scrollbar never clips the content or forces an inner scrollbar.
+		const BUFFER = 12; // px
+		const measure = () => {
+			try {
+				const doc = iframe.contentDocument;
+				if (!doc || !doc.body) return;
+				// Use the body's own content height. documentElement.scrollHeight is
+				// inflated to the iframe's current viewport height, which would pin the
+				// frame to its fallback size and defeat auto-fitting small content.
+				const contentHeight = Math.max(doc.body.scrollHeight, doc.body.offsetHeight);
+				if (!contentHeight) return;
+				const max = Math.round(window.innerHeight * 0.95);
+				const clamped = Math.min(Math.max(contentHeight + BUFFER, MIN), max);
+				el.style.setProperty("--html-frame-height", `${clamped}px`);
+			} catch {
+				/* leave the CSS fallback in place if measurement is blocked */
+			}
+		};
+		htmlFrameRemeasures.push(measure);
+
+		const onReady = () => {
+			measure();
+			try {
+				const doc = iframe.contentDocument;
+				if (doc && doc.body && "ResizeObserver" in window) {
+					// Re-measure once async content (e.g. d3, charts) finishes drawing.
+					const ro = new ResizeObserver(() => measure());
+					ro.observe(doc.body);
+				}
+			} catch {
+				/* no-op */
+			}
+		};
+
+		if (iframe.contentDocument && iframe.contentDocument.readyState === "complete") {
+			onReady();
+		} else {
+			iframe.addEventListener("load", onReady);
+		}
+	}
+
+	function lazyInitHtmlFrames() {
+		const frames = document.querySelectorAll<HTMLElement>("[data-html-frame]");
+		if (!frames.length) return;
+
+		if (!("IntersectionObserver" in window)) {
+			frames.forEach(setupHtmlFrame);
+			return;
+		}
+
+		// Only set up a frame once it approaches the viewport, mirroring the iframe's
+		// own loading="lazy"; off-screen frames cost nothing until scrolled near.
+		const io = new IntersectionObserver(
+			(entries, obs) => {
+				for (const entry of entries) {
+					if (entry.isIntersecting) {
+						obs.unobserve(entry.target);
+						setupHtmlFrame(entry.target as HTMLElement);
+					}
+				}
+			},
+			{ rootMargin: "250px 0px" },
+		);
+		frames.forEach((frame) => io.observe(frame));
+	}
+
+	// Defer off the critical path so it never affects load/interaction metrics.
+	const scheduleHtmlFrames = () =>
+		"requestIdleCallback" in window
+			? (window as any).requestIdleCallback(lazyInitHtmlFrames, { timeout: 2000 })
+			: setTimeout(lazyInitHtmlFrames, 200);
+
+	if (document.readyState === "complete") {
+		scheduleHtmlFrames();
+	} else {
+		window.addEventListener("load", scheduleHtmlFrames, { once: true });
+	}
+
+	let htmlFrameResizeRaf = 0;
+	window.addEventListener("resize", () => {
+		if (htmlFrameResizeRaf) cancelAnimationFrame(htmlFrameResizeRaf);
+		htmlFrameResizeRaf = requestAnimationFrame(() =>
+			htmlFrameRemeasures.forEach((fn) => fn()),
+		);
+	});
+</script>

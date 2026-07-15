@@ -44,12 +44,14 @@ document.addEventListener("DOMContentLoaded", () => {
 			const svgAfter = button.querySelector(".copy-icon-done");
 
 			if (svgBefore && svgAfter) {
-				svgBefore.classList.toggle("hidden");
-				svgAfter.classList.toggle("hidden");
-				setTimeout(() => {
-					svgBefore.classList.toggle("hidden");
-					svgAfter.classList.toggle("hidden");
+				button.classList.add("copied");
+				const prev = button.dataset.copyTimeout;
+				if (prev) window.clearTimeout(Number(prev));
+				const t = window.setTimeout(() => {
+					button.classList.remove("copied");
+					delete button.dataset.copyTimeout;
 				}, 1000);
+				button.dataset.copyTimeout = String(t);
 			}
 		});
 	});

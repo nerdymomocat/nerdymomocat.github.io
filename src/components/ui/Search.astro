@@ -1,11 +1,16 @@
 ---
 // Heavy inspiration taken from Astro Starlight -> https://github.com/withastro/starlight/blob/main/packages/starlight/components/Search.astro
 
-import "@pagefind/component-ui/css";
+// NOTE: The Pagefind component-ui CSS (~7KB gzipped) is intentionally NOT imported
+// here. Importing it in this always-rendered header component would bundle it into
+// the render-blocking site-wide stylesheet on every page for a feature that is fully
+// lazy-loaded. It is imported inside search-runtime.ts instead, so it ships only with
+// the dynamically-imported search chunk when the user actually opens search.
 import Icon from "@/components/ui/Icon.astro";
 import { getAllPosts } from "@/lib/notion/client";
 import { resolvePostHref, getNotionImage } from "@/lib/blog-helpers";
 import { getSvgIcon } from "@/utils/style-helpers";
+import { getImage } from "astro:assets";
 
 const baseUrl = import.meta.env.BASE_URL;
 const pagefindBundlePath = `${baseUrl.replace(/\/$/, "")}/pagefind/`;
@@ -16,7 +21,17 @@ const pinnedIcon = pinnedPost?.Icon;
 const pinnedIconEmoji = pinnedIcon && "Emoji" in pinnedIcon ? pinnedIcon.Emoji : "";
 const pinnedIconUrl = pinnedIcon && "Url" in pinnedIcon ? pinnedIcon.Url : "";
 const pinnedIconDownloaded = pinnedIconUrl ? await getNotionImage(new URL(pinnedIconUrl)) : null;
-const pinnedIconImage = pinnedIconDownloaded?.src || pinnedIconUrl;
+// Emit an optimized asset rather than the raw original `.src`: this fills a
+// pagefind template `<img src>` where a raster original would never be written
+// to the build and would 404. width:48 matches PagefindIconMetadata's variant.
+let pinnedIconImage = pinnedIconUrl;
+if (pinnedIconDownloaded) {
+	try {
+		pinnedIconImage = (await getImage({ src: pinnedIconDownloaded, width: 48 })).src;
+	} catch {
+		pinnedIconImage = pinnedIconDownloaded.src || pinnedIconUrl;
+	}
+}
 const resultTemplate = String.raw`
 <li class="webtrotion-search-result">
 	<div class="webtrotion-search-result-card">
@@ -314,8 +329,11 @@ const placeholderTemplate = String.raw`
 
 		private load() {
 			if (!this.runtimePromise) {
-				this.runtimePromise = import("./search-runtime").then((module) => {
+				this.runtimePromise = import("./search-runtime").then(async (module) => {
 					const runtime = module.createSearchRuntime(this);
+					// Wait until the popup stylesheet has applied before exposing the runtime,
+					// so the modal is only ever revealed fully styled (no flash of unstyled UI).
+					await module.stylesReady;
 					this.runtime = runtime;
 					return runtime;
 				});

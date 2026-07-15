@@ -14,7 +14,7 @@ concurrency:
 
 env:
   BUILD_PATH: "."
-  NODE_VERSION: "22"
+  NODE_VERSION: "26"
   NOTION_API_SECRET: ${{ secrets.NOTION_API_SECRET }}
   DELETE_CACHES_GH_TOKEN: ${{ secrets.DELETE_CACHES_GH_TOKEN }}
 

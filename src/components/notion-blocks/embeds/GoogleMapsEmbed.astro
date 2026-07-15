@@ -15,7 +15,7 @@ const { url, caption } = Astro.props;
 		ENABLE_LIGHTBOX && (
 			<a
 				href={url.toString()}
-				class="embedglightbox text-accent-2 absolute top-4 right-4 z-10 m-2 cursor-pointer"
+				class="embedglightbox media-expand-icon top-4 right-4"
 				aria-label="Click to expand"
 			>
 				<Icon name={"expand"} class="inline h-6 w-6" aria-hidden="true" />
@@ -27,7 +27,7 @@ const { url, caption } = Astro.props;
 		data-src={url.toString()}
 		allowfullscreen=""
 		loading="lazy"
-		class="lazyload absolute top-0 left-0 h-full w-full max-w-full rounded-lg border-none"
+		class="lazyload embed-iframe-maps"
 		referrerpolicy="no-referrer-when-downgrade"
 		title="google maps embed"
 		}></iframe>

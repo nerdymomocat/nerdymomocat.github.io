@@ -1,5 +1,5 @@
-import fs from "fs";
-import path from "path";
+import fs from "node:fs";
+import path from "node:path";
 import JSON5 from "json5";
 import type { ExternalContentType } from "./lib/interfaces";
 

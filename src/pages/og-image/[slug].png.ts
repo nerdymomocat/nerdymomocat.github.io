@@ -1,6 +1,5 @@
 import type { APIContext, GetStaticPaths } from "astro";
 import satori, { type SatoriOptions } from "satori";
-import { Resvg } from "@resvg/resvg-js";
 import { getFormattedDate } from "@/utils";
 import { buildTimeFilePath } from "@/lib/blog-helpers";
 import {
@@ -26,9 +25,9 @@ import {
 	BUILD_FOLDER_PATHS,
 	AUTHORS_CONFIG,
 } from "@/constants";
-import fs from "fs";
+import fs from "node:fs";
 import sharp from "sharp";
-import path from "path";
+import path from "node:path";
 import type { Database } from "@/lib/interfaces";
 
 // --- Helpers & Configuration ---
@@ -630,7 +629,7 @@ export async function GET(context: APIContext) {
 		svg = await satori(fallbackMarkup as any, ogOptions);
 	}
 
-	let pngBuffer = new Resvg(svg).render().asPng();
+	let pngBuffer = await sharp(Buffer.from(svg)).png().toBuffer();
 
 	if (pngBuffer.length > 102400) {
 		pngBuffer = await sharp(pngBuffer).png({ quality: 80 }).toBuffer();

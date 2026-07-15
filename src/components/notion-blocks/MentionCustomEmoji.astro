@@ -30,7 +30,7 @@ const externalEmojiPath = downloadedEmoji ? null : filePath(new URL(Url));
 			src={downloadedEmoji}
 			alt={`custom emoji with name ${Name}`}
 			aria-label={`custom emoji with name ${Name}`}
-			class="no-rss mb-0.5 inline h-4 w-4 object-contain align-sub text-transparent"
+			class="no-rss notion-custom-emoji"
 			format={getImageComponentFormat(downloadedEmoji)}
 			widths={[100]}
 			sizes="40px"
@@ -40,7 +40,7 @@ const externalEmojiPath = downloadedEmoji ? null : filePath(new URL(Url));
 			src={externalEmojiPath}
 			alt={`custom emoji with name ${Name}`}
 			aria-label={`custom emoji with name ${Name}`}
-			class="no-rss mb-0.5 inline h-4 w-4 object-contain align-sub text-transparent"
+			class="no-rss notion-custom-emoji"
 		/>
 	)
 }

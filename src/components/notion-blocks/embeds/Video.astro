@@ -45,19 +45,14 @@ const youtubeVidIdTitle = isThisYoutubeURL ? await parseYouTubeVideoIdTitle(url)
 					{ENABLE_LIGHTBOX && (
 						<a
 							href={videoUrl}
-							class="mediaglightbox no-rss text-accent-2 absolute top-4 right-4 z-10 m-2 cursor-pointer"
+							class="mediaglightbox no-rss media-expand-icon top-4 right-4"
 							data-description={plainTextCaption}
 							aria-label="Click to expand"
 						>
 							<Icon name={"expand"} class="inline h-6 w-6" aria-hidden="true" />
 						</a>
 					)}
-					<video
-						class="h-[340px] w-full max-w-full rounded-lg border-none"
-						preload="metadata"
-						muted
-						controls
-					>
+					<video class="embed-media-box" preload="metadata" muted controls>
 						<source src={videoUrl} type="video/mp4" />
 						Your browser does not support the video tag.
 					</video>

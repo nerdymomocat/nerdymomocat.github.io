@@ -29,7 +29,7 @@ let current_headings = getCurrentHeadings();
 					<a
 						href={`#${heading.slug}`}
 						class:list={[
-							"table-of-contents block leading-7 hover:font-bold",
+							"table-of-contents block leading-7 transition-[text-shadow] duration-150 ease-out hover:[text-shadow:0.4px_0_0_currentColor,-0.4px_0_0_currentColor]",
 							indentClass,
 							{
 								[`${getNotionColorToTailwindColor(block.TableOfContents.Color)} rounded-sm px-1`]:

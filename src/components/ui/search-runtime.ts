@@ -1,4 +1,12 @@
 import "@pagefind/component-ui";
+// Keep the Pagefind popup CSS (~7KB gzipped) off the render-blocking critical path.
+// A plain `import ".../css"` gets hoisted by Astro into a render-blocking <link> in
+// every page's <head>, even though this module is only dynamically imported on search
+// intent. Importing with `?url` instead yields just the hashed asset URL (no CSS is
+// registered on the page's module graph), and we inject the stylesheet at runtime when
+// the search chunk actually loads. Prefetch fires on hover/focus, so styles are ready
+// before the modal opens.
+import pagefindComponentCssUrl from "@pagefind/component-ui/css?url";
 import { getInstanceManager } from "@pagefind/component-ui";
 import type {
 	FilterSelection,
@@ -10,6 +18,38 @@ import type {
 import { getSvgIcon } from "@/utils/style-helpers";
 
 const SEARCH_INSTANCE = "webtrotion-search";
+
+// Inject the Pagefind component-ui stylesheet on demand (this module is only imported
+// on search intent) and expose a promise that resolves once it has actually applied.
+// The search UI waits on this before revealing the modal, so the popup never flashes
+// unstyled on first open — even for keyboard/touch users who never hover to prefetch.
+// The stylesheet is HTTP-cached after the first load, so on later pages (MPA re-inits
+// on each navigation) the `load` event fires from cache almost instantly.
+export const stylesReady: Promise<void> = injectPagefindStyles();
+
+function injectPagefindStyles(): Promise<void> {
+	if (typeof document === "undefined") return Promise.resolve();
+	const existing = document.getElementById("pagefind-component-ui-css") as HTMLLinkElement | null;
+	if (existing) {
+		// Already present (and, in practice, already applied) — nothing to wait for.
+		return existing.sheet ? Promise.resolve() : linkLoaded(existing);
+	}
+	const link = document.createElement("link");
+	link.id = "pagefind-component-ui-css";
+	link.rel = "stylesheet";
+	link.href = pagefindComponentCssUrl;
+	const ready = linkLoaded(link);
+	document.head.appendChild(link);
+	return ready;
+}
+
+function linkLoaded(link: HTMLLinkElement): Promise<void> {
+	return new Promise((resolve) => {
+		// Resolve on error too, so a failed stylesheet never hangs the modal open.
+		link.addEventListener("load", () => resolve(), { once: true });
+		link.addEventListener("error", () => resolve(), { once: true });
+	});
+}
 
 interface GotoEntry {
 	t: string;
@@ -24,6 +64,11 @@ export interface SearchRuntime {
 	open(): void;
 	openFromUrl(): void;
 }
+
+// A go-to link is only reachable by arrow-key navigation when it isn't tucked
+// inside a collapsed section; keyboard traversal must skip over hidden links.
+const isNavigableLink = (link: HTMLElement | null | undefined): boolean =>
+	!!link && !link.closest("details.webtrotion-search-goto-section:not([open])");
 
 class WebtrotionSearchNavigation extends HTMLElement {
 	private links: Array<{
@@ -44,6 +89,9 @@ class WebtrotionSearchNavigation extends HTMLElement {
 	private gotoIndexUrl = "";
 	private gotoIndex: GotoEntry[] | null = null;
 	private gotoLoading = false;
+	// Which go-to sections the user has collapsed, keyed by section label. Kept on
+	// the element so the choice survives the full re-render on every keystroke.
+	private gotoCollapsed = new Set<string>();
 	private onInput = (event: Event) => {
 		const input = event.target;
 		if (input instanceof HTMLInputElement && input.matches(".pf-input")) {
@@ -232,11 +280,6 @@ class WebtrotionSearchNavigation extends HTMLElement {
 			return;
 		}
 
-		const label = document.createElement("p");
-		label.className = "webtrotion-search-navigation-label";
-		label.textContent = "Go to page";
-		this.append(label);
-
 		const term = afterSlash.trim().toLocaleLowerCase();
 		const scored: Array<{ item: GotoEntry; score: number }> = [];
 		for (const item of this.gotoIndex) {
@@ -253,47 +296,102 @@ class WebtrotionSearchNavigation extends HTMLElement {
 			if (score >= 0) scored.push({ item, score });
 		}
 		scored.sort((a, b) => a.score - b.score || a.item.t.localeCompare(b.item.t));
-		const capped = scored.slice(0, 50);
 
-		if (!capped.length) {
+		if (!scored.length) {
 			this.append(this.buildGotoStatus("No pages match that path or title."));
 			return;
 		}
 
-		const list = document.createElement("ul");
-		list.className = "webtrotion-search-navigation-list";
-		for (const { item } of capped) {
-			const listItem = document.createElement("li");
-			const link = document.createElement("a");
-			link.className = "webtrotion-search-navigation-link is-goto";
-			link.href = item.u;
+		// Group the flat, globally-sorted list into three collapsible sections.
+		// Pages and posts share one section (they render alike); collections and
+		// tags each get their own. Only sections with matches are rendered.
+		const sections: Array<{ label: string; kinds: string[] }> = [
+			{ label: "Pages", kinds: ["page", "post"] },
+			{ label: "Collections", kinds: ["collection"] },
+			{ label: "Tags", kinds: ["tag"] },
+		];
+		// On the bare "/" (no term) each section is capped so the panel stays
+		// scannable; once the user types, the caps lift (bounded only by a global
+		// ceiling that keeps the DOM light).
+		const previewCap = 6;
+		const globalCap = 50;
+		const perSectionCap = term ? Infinity : previewCap;
+		let rendered = 0;
 
-			// Icon rules: pages get a generic bookmark; posts show their own Notion
-			// icon when they have one; tags/collections (and iconless posts) show none.
-			const icon = this.buildGotoIcon(item);
-			if (icon) {
-				link.append(icon);
-			} else {
-				link.classList.add("is-iconless");
-			}
+		for (const section of sections) {
+			if (rendered >= globalCap) break;
+			const groupItems = scored.filter(({ item }) => section.kinds.includes(item.k || ""));
+			if (!groupItems.length) continue;
+			const capacity = Math.min(perSectionCap, globalCap - rendered);
+			const visible = groupItems.slice(0, capacity);
+			if (!visible.length) continue;
 
-			const body = document.createElement("span");
-			body.className = "webtrotion-search-navigation-body";
-			const title = document.createElement("span");
-			title.className = "webtrotion-search-navigation-text";
-			title.textContent = item.t;
-			body.append(title);
-			if (item.e) {
-				const snippet = document.createElement("span");
-				snippet.className = "webtrotion-search-navigation-snippet";
-				snippet.textContent = item.e;
-				body.append(snippet);
+			const details = document.createElement("details");
+			details.className = "webtrotion-search-goto-section";
+			details.open = !this.gotoCollapsed.has(section.label);
+			const sectionLabel = section.label;
+			details.addEventListener("toggle", () => {
+				if (details.open) this.gotoCollapsed.delete(sectionLabel);
+				else this.gotoCollapsed.add(sectionLabel);
+			});
+
+			const summary = document.createElement("summary");
+			summary.className = "webtrotion-search-goto-summary";
+			const chevron = document.createElement("span");
+			chevron.className = "webtrotion-search-goto-chevron";
+			chevron.setAttribute("aria-hidden", "true");
+			chevron.innerHTML = getSvgIcon("toggle-triangle");
+			const heading = document.createElement("span");
+			heading.className = "webtrotion-search-goto-heading";
+			heading.textContent = section.label;
+			summary.append(chevron, heading);
+
+			const list = document.createElement("ul");
+			list.className = "webtrotion-search-navigation-list";
+			for (const { item } of visible) {
+				list.append(this.buildGotoListItem(item));
 			}
-			link.append(body);
-			listItem.append(link);
-			list.append(listItem);
+			details.append(summary, list);
+			this.append(details);
+			rendered += visible.length;
 		}
-		this.append(list);
+	}
+
+	private buildGotoListItem(item: GotoEntry): HTMLLIElement {
+		const listItem = document.createElement("li");
+		const link = document.createElement("a");
+		link.className = "webtrotion-search-navigation-link is-goto";
+		link.href = item.u;
+
+		// Icon rules: pages get a generic bookmark; posts show their own Notion
+		// icon when they have one; tags/collections (and iconless posts) show none.
+		// Iconless rows still reserve the gutter column (empty span) so every row's
+		// TEXT lines up in one left column, with icons/toggle sitting in the gutter.
+		const icon = this.buildGotoIcon(item);
+		if (icon) {
+			link.append(icon);
+		} else {
+			const spacer = document.createElement("span");
+			spacer.className = "webtrotion-search-navigation-icon";
+			spacer.setAttribute("aria-hidden", "true");
+			link.append(spacer);
+		}
+
+		const body = document.createElement("span");
+		body.className = "webtrotion-search-navigation-body";
+		const title = document.createElement("span");
+		title.className = "webtrotion-search-navigation-text";
+		title.textContent = item.t;
+		body.append(title);
+		if (item.e) {
+			const snippet = document.createElement("span");
+			snippet.className = "webtrotion-search-navigation-snippet";
+			snippet.textContent = item.e;
+			body.append(snippet);
+		}
+		link.append(body);
+		listItem.append(link);
+		return listItem;
 	}
 
 	private buildGotoIcon(item: GotoEntry): HTMLSpanElement | null {
@@ -322,6 +420,9 @@ class WebtrotionSearchNavigation extends HTMLElement {
 			icon.append(img);
 			return icon;
 		}
+		// Tags/collections without an emoji stay iconless (blank gutter) — the
+		// section header already makes the row type obvious, so a generic
+		// hash/folder glyph would only add noise.
 		return null;
 	}
 }
@@ -575,8 +676,7 @@ export function createSearchRuntime(host: HTMLElement): SearchRuntime {
 	defineRuntimeElements();
 
 	const modalElement = host.querySelector("pagefind-modal") as
-		| (HTMLElement & { open?: () => void })
-		| null;
+		(HTMLElement & { open?: () => void }) | null;
 	const emptyStateElement = host.querySelector<HTMLElement>(".webtrotion-search-empty-state");
 
 	const onModalKeydown = (event: KeyboardEvent) => {
@@ -644,9 +744,11 @@ export function createSearchRuntime(host: HTMLElement): SearchRuntime {
 			return;
 		}
 
-		const firstLink = host.querySelector<HTMLAnchorElement>(
-			".webtrotion-search-navigation-link, .webtrotion-search-pinned-link, .webtrotion-search-result-link",
-		);
+		const firstLink = Array.from(
+			host.querySelectorAll<HTMLAnchorElement>(
+				".webtrotion-search-navigation-link, .webtrotion-search-pinned-link, .webtrotion-search-result-link",
+			),
+		).find(isNavigableLink);
 		if (!firstLink) return;
 
 		event.preventDefault();
@@ -684,7 +786,7 @@ export function createSearchRuntime(host: HTMLElement): SearchRuntime {
 			host.querySelectorAll<HTMLAnchorElement>(
 				".webtrotion-search-navigation-link, .webtrotion-search-pinned-link",
 			),
-		);
+		).filter(isNavigableLink);
 		const navigationIndex = navigationLinks.indexOf(link);
 		let destination: HTMLAnchorElement | undefined;
 
