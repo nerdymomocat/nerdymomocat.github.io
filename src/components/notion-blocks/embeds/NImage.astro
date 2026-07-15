@@ -10,7 +10,8 @@ import {
 } from "@/lib/blog-helpers";
 import Caption from "@/components/notion-blocks/Caption.astro";
 import { isImageTypeForAstro } from "@/lib/notion/client";
-import { joinPlainText } from "@/utils/richtext-utils";
+import { joinPlainText, resolveLeadingMarker } from "@/utils/richtext-utils";
+import { SHORTCODES } from "@/constants.ts";
 
 export interface Props {
 	block: interfaces.Block;
@@ -61,6 +62,11 @@ if (
 	}
 }
 
+// Wide only in canonical (setId) renders; previews still strip the marker via the resolver.
+const isWide =
+	setId &&
+	resolveLeadingMarker(block.NImage, block.NImage?.Caption, SHORTCODES["wide-breakout"], "__wide");
+
 const plainTextCaption = joinPlainText(block.NImage?.Caption || []);
 const altText =
 	plainTextCaption ||
@@ -86,7 +92,10 @@ const imageSizes =
 
 {
 	(downloadedImage || externalImageUrl) && (
-		<figure class="notion-image-figure" id={setId ? block.Id : undefined}>
+		<figure
+			class:list={["notion-image-figure", { "webtrotion-wide-breakout": isWide }]}
+			id={setId ? block.Id : undefined}
+		>
 			<div class="notion-image-container">
 				{ENABLE_LIGHTBOX ? (
 					<a

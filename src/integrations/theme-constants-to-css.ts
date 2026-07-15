@@ -2882,6 +2882,36 @@ ${createCssVariables("dark")}
   .post-body {
     @apply relative;
   }
+
+  /* Wide / breakout blocks: expand symmetrically by --wt-wide-side per side,
+     clamped to the viewport. Overlapping margin notes are pushed below in margin-notes.ts. */
+  .webtrotion-wide-breakout {
+    --wt-wide-side: 20%;
+    --wt-wide-gutter: 24px;
+    --wt-wide-width: min(
+      calc(100% + 2 * var(--wt-wide-side)),
+      calc(100vw - 2 * var(--wt-wide-gutter))
+    );
+    width: var(--wt-wide-width);
+    max-width: none;
+    margin-inline: calc((100% - var(--wt-wide-width)) / 2);
+  }
+}
+
+/* xl+ has room to break out further. */
+@media (min-width: 1280px) {
+  .webtrotion-wide-breakout {
+    --wt-wide-side: 30%;
+  }
+}
+
+/* Safety net: never break out inside previews (defensive; the class isn't emitted there). */
+.notion-popover .webtrotion-wide-breakout,
+[data-popover] .webtrotion-wide-breakout,
+.footnote-margin-note .webtrotion-wide-breakout {
+  width: auto;
+  max-width: 100%;
+  margin-inline: 0;
 }
 
 @media print {

@@ -329,12 +329,13 @@ const defaultShortcodes = {
 	"expressive-code": null,
 	"shiki-transform": "",
 	table: "",
+	"wide-breakout": "",
 };
 
 const resolvedShortcodes =
 	typeof key_value_from_json["shortcodes"] === "object" &&
 	key_value_from_json["shortcodes"] !== null
-		? key_value_from_json["shortcodes"]
+		? { ...defaultShortcodes, ...key_value_from_json["shortcodes"] }
 		: defaultShortcodes;
 
 export const SHORTCODES = resolvedShortcodes;

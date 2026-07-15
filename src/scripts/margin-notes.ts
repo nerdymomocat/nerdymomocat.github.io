@@ -77,8 +77,10 @@ window.addEventListener("resize", () => {
 			// Reload lightbox to register images in newly created margin notes
 			window.lightboxInstance?.reload();
 
-			// Hide any open popovers for footnote markers and mark them as non-interactive
+			// Hide popovers for margin markers, except inside wide blocks (their note is
+			// displaced below the block, so the inline popover stays live).
 			document.querySelectorAll("[data-margin-note]").forEach((marker) => {
+				if (marker.closest(".webtrotion-wide-breakout")) return;
 				const popoverId = marker.getAttribute("data-popover-target");
 				if (popoverId) {
 					const popover = document.getElementById(popoverId);
@@ -283,12 +285,28 @@ function stackAllMarginNotesGlobally() {
 
 	if (allNotes.length === 0) return;
 
+	// Bands occupied by wide blocks reaching into the gutter; notes landing inside
+	// are pushed below so a widened block never overlaps a margin note.
+	const postBody = allNotes[0].closest(".post-body");
+	const wideBands = postBody ? getWideBands(postBody as HTMLElement) : [];
+
 	// Sort by initial top position
 	allNotes.sort((a, b) => {
 		const aTop = parseInt(a.style.top) || 0;
 		const bTop = parseInt(b.style.top) || 0;
 		return aTop - bTop;
 	});
+
+	// First pass: move any note whose natural position collides with a wide block
+	// down to just below that block.
+	if (wideBands.length) {
+		allNotes.forEach((note) => {
+			const top = parseInt(note.style.top) || 0;
+			const adjusted = pushBelowWideBands(top, wideBands);
+			if (adjusted !== top) note.style.top = `${adjusted}px`;
+		});
+		allNotes.sort((a, b) => (parseInt(a.style.top) || 0) - (parseInt(b.style.top) || 0));
+	}
 
 	// Stack with minimum gap of 8px
 	for (let i = 1; i < allNotes.length; i++) {
@@ -297,11 +315,53 @@ function stackAllMarginNotesGlobally() {
 
 		const prevTop = parseInt(prevNote.style.top) || 0;
 		const prevBottom = prevTop + prevNote.offsetHeight;
-		const currTop = parseInt(currNote.style.top) || 0;
+		let currTop = parseInt(currNote.style.top) || 0;
 
 		// If current note would overlap with previous note, push it down
 		if (currTop < prevBottom + 8) {
-			currNote.style.top = `${prevBottom + 8}px`;
+			currTop = prevBottom + 8;
+		}
+		// Keep it clear of any wide-block band it may have been pushed into.
+		if (wideBands.length) currTop = pushBelowWideBands(currTop, wideBands);
+		currNote.style.top = `${currTop}px`;
+	}
+}
+
+// Vertical bands (in note-top coordinate space) of wide blocks whose right edge
+// reaches into the margin-note gutter.
+function getWideBands(postBody: HTMLElement): Array<{ top: number; bottom: number }> {
+	const wideEls = postBody.querySelectorAll<HTMLElement>(".webtrotion-wide-breakout");
+	if (!wideEls.length) return [];
+
+	const pbRect = postBody.getBoundingClientRect();
+	// Only wide blocks whose right edge reaches past the note column matter.
+	const gutterStart = pbRect.right + 4;
+	const bands: Array<{ top: number; bottom: number }> = [];
+
+	wideEls.forEach((el) => {
+		const r = el.getBoundingClientRect();
+		if (r.right <= gutterStart) return; // doesn't reach the note column
+		bands.push({
+			top: r.top - pbRect.top + postBody.scrollTop,
+			bottom: r.bottom - pbRect.top + postBody.scrollTop,
+		});
+	});
+
+	return bands.sort((a, b) => a.top - b.top);
+}
+
+// Pushes `top` below any wide band it falls into; iterative so it clears successive bands.
+function pushBelowWideBands(top: number, bands: Array<{ top: number; bottom: number }>): number {
+	let result = top;
+	let moved = true;
+	while (moved) {
+		moved = false;
+		for (const band of bands) {
+			if (result >= band.top - 4 && result < band.bottom + 8) {
+				result = band.bottom + 8;
+				moved = true;
+			}
 		}
 	}
+	return result;
 }

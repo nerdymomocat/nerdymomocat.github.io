@@ -27,9 +27,9 @@ function initPopovers() {
 	// Create the selector based on the device type
 	function getPopoverSelector() {
 		if (lgBreakpointQuery.matches) {
-			// Enable popovers for footnotes in collection stream pages (no margin notes there)
-			// Disable popovers for footnotes elsewhere (margin notes handle them)
-			return "[data-popover-target]:not([data-margin-note]), .post-preview-full-container [data-margin-note][data-popover-target]";
+			// Large screens: margin notes replace popovers, except in collection streams
+			// and inside wide blocks (whose displaced notes keep the inline popover live).
+			return "[data-popover-target]:not([data-margin-note]), .post-preview-full-container [data-margin-note][data-popover-target], .webtrotion-wide-breakout [data-margin-note][data-popover-target]";
 		}
 
 		if (smBreakpointQuery.matches) {

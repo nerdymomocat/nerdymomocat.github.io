@@ -36,26 +36,53 @@ const isStartOfChildBlocks =
 				Footnotes
 			</h2>
 			<ol class:list={["list-none", { "space-y-2": !isStartOfChildBlocks }]}>
-				{uniqueFootnotes.map((footnote) => (
-					<li id={`footnote-def-${footnote.Marker}`} class="flex items-baseline gap-2">
-						{footnote.SourceBlock ? (
-							<NBlocksPopover
-								block={footnote.SourceBlock}
-								linkedTo={`#${footnote.SourceBlockId}`}
-								popoverSpanText={`[${numberToAlphabet(footnote.Index) || footnote.Marker}]`}
-								linkText="Jump to"
-								isInterlinkedBack={true}
-							/>
-						) : (
-							<span class="text-accent-2/60 shrink-0 font-mono text-sm">
-								[{numberToAlphabet(footnote.Index) || footnote.Marker}]
-							</span>
-						)}
-						<div class="flex-1">
-							<FootnoteContent content={footnote.Content} sourceBlockId={footnote.SourceBlockId} />
-						</div>
-					</li>
-				))}
+				{uniqueFootnotes.map((footnote) => {
+					// Preview just the source cell (as a paragraph) for table-cell footnotes.
+					let previewBlock = footnote.SourceBlock;
+					if (
+						footnote.SourceLocation === "table" &&
+						footnote.SourceTableCell &&
+						footnote.SourceBlock?.Table
+					) {
+						const { row, cell } = footnote.SourceTableCell;
+						const cellRichTexts = footnote.SourceBlock.Table.Rows?.[row]?.Cells?.[cell]?.RichTexts;
+						if (cellRichTexts) {
+							previewBlock = {
+								Id: footnote.SourceBlockId || footnote.SourceBlock.Id,
+								Type: "paragraph",
+								HasChildren: false,
+								LastUpdatedTimeStamp: footnote.SourceBlock.LastUpdatedTimeStamp,
+								Paragraph: { RichTexts: cellRichTexts, Color: "default", Children: [] },
+								// Carry these so inline markers in the cell resolve, not render broken.
+								Footnotes: footnote.SourceBlock.Footnotes,
+								Citations: footnote.SourceBlock.Citations,
+							};
+						}
+					}
+					return (
+						<li id={`footnote-def-${footnote.Marker}`} class="flex items-baseline gap-2">
+							{footnote.SourceBlock ? (
+								<NBlocksPopover
+									block={previewBlock}
+									linkedTo={`#${footnote.SourceBlockId}`}
+									popoverSpanText={`[${numberToAlphabet(footnote.Index) || footnote.Marker}]`}
+									linkText="Jump to"
+									isInterlinkedBack={true}
+								/>
+							) : (
+								<span class="text-accent-2/60 shrink-0 font-mono text-sm">
+									[{numberToAlphabet(footnote.Index) || footnote.Marker}]
+								</span>
+							)}
+							<div class="flex-1">
+								<FootnoteContent
+									content={footnote.Content}
+									sourceBlockId={footnote.SourceBlockId}
+								/>
+							</div>
+						</li>
+					);
+				})}
 			</ol>
 		</section>
 	)

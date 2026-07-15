@@ -2,7 +2,7 @@
 import { SHORTCODES } from "@/constants";
 import * as interfaces from "@/lib/interfaces.ts";
 import RichText from "@/components/notion-blocks/RichText.astro";
-import { joinPlainText } from "@/utils/richtext-utils";
+import { joinPlainText, extractLeadingMarker } from "@/utils/richtext-utils";
 
 export interface Props {
 	block: interfaces.Block;
@@ -11,24 +11,40 @@ export interface Props {
 
 const { block, setId = true } = Astro.props;
 
-// Check if the first cell starts with SHORTCODES.table
-const plainTextFirstCell = joinPlainText(block.Table?.Rows[0]?.Cells[0]?.RichTexts || []);
-const isDataTable =
-	plainTextFirstCell && block.Table?.HasColumnHeader
-		? plainTextFirstCell.startsWith(SHORTCODES.table)
-		: false;
+// First cell may lead with the datatable and/or wide marker in either order; loop
+// strips both. Cached on block.Table so re-renders (popover/margin clones) of the
+// same object read the booleans instead of re-detecting after the in-place strip.
+const tableMeta = block.Table as any;
+let isWide = false;
+let hasTableMarker = false;
+if (tableMeta && typeof tableMeta.__markersResolved === "object" && tableMeta.__markersResolved) {
+	isWide = tableMeta.__markersResolved.isWide;
+	hasTableMarker = tableMeta.__markersResolved.hasTableMarker;
+} else {
+	const firstCellRichTexts = block.Table?.Rows?.[0]?.Cells?.[0]?.RichTexts || [];
+	let strippedMarker = true;
+	while (strippedMarker) {
+		strippedMarker = false;
+		if (extractLeadingMarker(firstCellRichTexts, SHORTCODES["wide-breakout"])) {
+			isWide = true;
+			strippedMarker = true;
+		}
+		if (extractLeadingMarker(firstCellRichTexts, SHORTCODES.table)) {
+			hasTableMarker = true;
+			strippedMarker = true;
+		}
+	}
+	if (tableMeta) tableMeta.__markersResolved = { isWide, hasTableMarker };
+}
+// Wide only in canonical (setId) renders — never in previews.
+const showWide = isWide && setId;
+const isDataTable = hasTableMarker && !!block.Table?.HasColumnHeader;
 const tableClass = [
 	isDataTable ? "datatable" : "",
 	block.Table?.HasColumnHeader ? "" : "no-column-header",
 ]
 	.filter(Boolean)
 	.join(" ");
-
-// Remove SHORTCODES.table from the first cell if it exists
-if (isDataTable && block.Table?.Rows[0]?.Cells[0]?.RichTexts[0]?.Text?.Content) {
-	block.Table.Rows[0].Cells[0].RichTexts[0].Text.Content =
-		block.Table.Rows[0].Cells[0].RichTexts[0].Text.Content.replace(SHORTCODES.table, "").trim();
-}
 
 const coltype_identifiers = {
 	boolean: "☑️",
@@ -46,7 +62,10 @@ function getColumnType(cellContent: string) {
 }
 ---
 
-<div class="ntable" id={setId ? block.Id : undefined}>
+<div
+	class:list={["ntable", { "webtrotion-wide-breakout": showWide }]}
+	id={setId ? block.Id : undefined}
+>
 	<table class={tableClass}>
 		<thead>
 			{

@@ -4,7 +4,7 @@ import Caption from "@/components/notion-blocks/Caption.astro";
 import { ENABLE_LIGHTBOX, SHORTCODES, TRANSFORMER_FUNCTIONS_ARR } from "@/constants";
 import { highlightCodeToHtml } from "@/utils/shiki-highlighter";
 import Icon from "@/components/ui/Icon.astro";
-import { joinPlainText } from "@/utils/richtext-utils";
+import { joinPlainText, resolveLeadingMarker } from "@/utils/richtext-utils";
 
 export interface Props {
 	block: interfaces.Block;
@@ -200,6 +200,7 @@ const highlightedCodeHtml = shouldHighlight
 			transformers: TRANSFORMER_FUNCTIONS_ARR,
 		})
 		: null;
+const isWide = setId && resolveLeadingMarker(block.Code, block.Code?.Caption, SHORTCODES["wide-breakout"], "__wide");
 const plainTextCaption = joinPlainText(block.Code?.Caption || []);
 const iframeHeight = block.Code.IframeSizing?.Height;
 const iframeAspectRatio = iframeHeight ? undefined : block.Code.IframeSizing?.AspectRatio;
@@ -214,7 +215,7 @@ const iframeLightboxId = `html-frame-lightbox-${block.Id}`;
 {
 	code_render ? (
 			<div
-				class:list={["code-rendered", { "code-rendered-aspect": iframeAspectRatio }]}
+				class:list={["code-rendered", { "code-rendered-aspect": iframeAspectRatio, "webtrotion-wide-breakout": isWide }]}
 				id={setId ? block.Id : undefined}
 				style={iframeStyle}
 				data-html-frame
@@ -249,7 +250,7 @@ const iframeLightboxId = `html-frame-lightbox-${block.Id}`;
 				)}
 		</div>
 	) : code_inject ? (
-		<div class="code-injected" id={setId ? block.Id : undefined}>
+		<div class:list={["code-injected", { "webtrotion-wide-breakout": isWide }]} id={setId ? block.Id : undefined}>
 			<Fragment set:html={htmlToInject} />
 			<Caption richTexts={block.Code.Caption} block={block} />
 		</div>

@@ -5,9 +5,9 @@ import Caption from "@/components/notion-blocks/Caption.astro";
 import { filePath } from "@/lib/blog-helpers";
 import EmbedGeneric from "@/components/notion-blocks/embeds/EmbedGeneric.astro";
 import Icon from "@/components/ui/Icon.astro";
-import { ENABLE_LIGHTBOX } from "@/constants";
+import { ENABLE_LIGHTBOX, SHORTCODES } from "@/constants";
 import YouTube from "@/components/notion-blocks/embeds/YouTube.astro";
-import { joinPlainText } from "@/utils/richtext-utils";
+import { joinPlainText, resolveLeadingMarker } from "@/utils/richtext-utils";
 
 export interface Props {
 	block: interfaces.Block;
@@ -26,12 +26,18 @@ if (block.Video.External) {
 } else if (block.Video.File) {
 	videoUrl = filePath(new URL(block.Video.File.Url));
 }
+const isWide =
+	setId &&
+	resolveLeadingMarker(block.Video, block.Video?.Caption, SHORTCODES["wide-breakout"], "__wide");
 const plainTextCaption = joinPlainText(block.Video?.Caption || []);
 const isThisYoutubeURL = url ? isYouTubeURL(url) : false;
 const youtubeVidIdTitle = isThisYoutubeURL ? await parseYouTubeVideoIdTitle(url) : ["", ""];
 ---
 
-<div class="video relative" id={setId ? block.Id : undefined}>
+<div
+	class:list={["video relative", { "webtrotion-wide-breakout": isWide }]}
+	id={setId ? block.Id : undefined}
+>
 	{
 		videoUrl &&
 			(url ? (

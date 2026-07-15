@@ -461,6 +461,8 @@ export interface Footnote {
 	SourceLocation: "content" | "caption" | "table" | "comment";
 	SourceBlockId?: string;
 	SourceBlock?: Block;
+	// Table-cell position, so the footnotes section previews just the cell not the whole table.
+	SourceTableCell?: { row: number; cell: number };
 }
 
 /**
