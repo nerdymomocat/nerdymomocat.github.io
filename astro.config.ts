@@ -1,12 +1,13 @@
-import { defineConfig, fontProviders } from "astro/config";
+import { defineConfig, fontProviders, svgoOptimizer } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
 import mdx from "@astrojs/mdx";
+import { satteri } from "@astrojs/markdown-satteri";
 
-import path from "path";
-import fs from "fs";
+import path from "node:path";
+import fs from "node:fs";
 import JSON5 from "json5";
 import { CUSTOM_DOMAIN, BASE_PATH, EXTERNAL_CONTENT_CONFIG } from "./src/constants";
-import remarkExternalMdxAssets from "./src/lib/external-content/remark-external-mdx-assets";
+import satteriExternalMdxAssets from "./src/lib/external-content/satteri-external-mdx-assets";
 import { externalContentVitePlugins } from "./src/lib/vite-external-content-plugins";
 
 const getSite = function () {
@@ -97,8 +98,8 @@ export default defineConfig({
 		}
 
 		const fonts = [];
-		const weights = [400, 500, 600, 700];
-		const styles = ["normal", "italic"];
+		const weights: [number, ...number[]] = [400, 500, 600, 700];
+		const styles: ["normal" | "italic", ...("normal" | "italic")[]] = ["normal", "italic"];
 		const formats = ["woff2"] as const;
 		const buildGoogleFont = ({
 			name,
@@ -157,17 +158,16 @@ export default defineConfig({
 	})(),
 	experimental: {
 		clientPrerender: true,
-		queuedRendering: {
-			enabled: true,
-			contentCache: true,
-		},
-		svgo: true,
+		svgOptimizer: svgoOptimizer(),
+	},
+	markdown: {
+		processor: satteri({
+			mdastPlugins: [satteriExternalMdxAssets],
+		}),
 	},
 	integrations: [
 		createFoldersIfMissing(),
-		mdx({
-			remarkPlugins: [remarkExternalMdxAssets],
-		}),
+		mdx(),
 		EXTERNAL_CONTENT_CONFIG.enabled ? externalContentDownloader() : undefined,
 		buildTimestampRecorder(),
 		citationsInitializer(), // Initialize BibTeX cache after timestamp is recorded

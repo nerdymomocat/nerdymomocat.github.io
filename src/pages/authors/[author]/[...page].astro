@@ -156,7 +156,7 @@ const paginationProps = {
 							href={authorUrl}
 							target="_blank"
 							rel="noopener noreferrer"
-							class="text-link decoration-accent-2/40 hover:decoration-accent-2/80 inline-flex items-center gap-1.5 text-base font-medium underline decoration-solid decoration-from-font underline-offset-2 transition-all hover:font-semibold"
+							class="text-link decoration-accent-2/40 hover:decoration-accent-2/80 inline-flex items-center gap-1.5 text-base font-medium underline decoration-solid decoration-from-font underline-offset-2 transition-colors hover:font-semibold"
 						>
 							<span>Visit {authorName}'s website</span>
 							<Icon class="h-4 w-4" name={"external-link"} aria-hidden="true" focusable="false" />
@@ -178,7 +178,7 @@ const paginationProps = {
 			) : (
 				<ul class="space-y-4">
 					{page.data.map((p) => (
-						<li class="flex max-w-full flex-col flex-wrap gap-1.5 [&_q]:basis-full">
+						<li class="post-list-item">
 							<PostPreview post={p} as="h2" withDesc />
 						</li>
 					))}

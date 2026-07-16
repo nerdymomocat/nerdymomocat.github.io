@@ -1,6 +1,6 @@
 import type { AstroIntegration } from "astro";
 import fs from "fs/promises";
-import path from "path";
+import path from "node:path";
 import { parseDocument } from "htmlparser2";
 import { DomUtils } from "htmlparser2";
 import { getAllPosts } from "../lib/notion/client";

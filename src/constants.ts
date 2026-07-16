@@ -1,5 +1,5 @@
-import fs from "fs";
-import path from "path";
+import fs from "node:fs";
+import path from "node:path";
 import JSON5 from "json5";
 import type { ExternalContentType } from "./lib/interfaces";
 
@@ -329,12 +329,13 @@ const defaultShortcodes = {
 	"expressive-code": null,
 	"shiki-transform": "",
 	table: "",
+	"wide-breakout": "",
 };
 
 const resolvedShortcodes =
 	typeof key_value_from_json["shortcodes"] === "object" &&
 	key_value_from_json["shortcodes"] !== null
-		? key_value_from_json["shortcodes"]
+		? { ...defaultShortcodes, ...key_value_from_json["shortcodes"] }
 		: defaultShortcodes;
 
 export const SHORTCODES = resolvedShortcodes;

@@ -1,6 +1,6 @@
 import type { AstroIntegration } from "astro";
 import * as fs from "fs/promises";
-import * as path from "path";
+import * as path from "node:path";
 import sanitizeHtml from "sanitize-html";
 import { XMLParser, XMLBuilder } from "fast-xml-parser";
 import { parseDocument } from "htmlparser2";

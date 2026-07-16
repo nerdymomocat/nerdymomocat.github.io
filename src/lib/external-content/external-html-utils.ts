@@ -2,7 +2,12 @@ import { parseDocument, DomUtils } from "htmlparser2";
 import type { Document, Element } from "domhandler";
 import type { ExternalContentDescriptor } from "@/lib/interfaces";
 import type { Heading } from "@/types";
-import { isRelativePath, toPublicUrl, extractHeadingsFromDocument } from "./external-content-utils";
+import {
+	isRelativePath,
+	toDeployablePublicUrl,
+	toPublicUrl,
+	extractHeadingsFromDocument,
+} from "./external-content-utils";
 
 export type HtmlTransformResult = {
 	html: string;
@@ -28,7 +33,9 @@ function rewriteSrcset(value: string, descriptor: ExternalContentDescriptor): st
 			const trimmed = entry.trim();
 			if (!trimmed) return trimmed;
 			const [url, descriptorPart] = trimmed.split(/\s+/, 2);
-			const rewritten = isRelativePath(url) ? toPublicUrl(url, descriptor) : url;
+			const rewritten = isRelativePath(url)
+				? toDeployablePublicUrl(toPublicUrl(url, descriptor))
+				: url;
 			return descriptorPart ? `${rewritten} ${descriptorPart}` : rewritten;
 		})
 		.join(", ");
@@ -53,7 +60,7 @@ function rewriteAssets(root: Document | Element, descriptor: ExternalContentDesc
 			}
 
 			if (isRelativePath(value)) {
-				elem.attribs[attrName] = toPublicUrl(value, descriptor);
+				elem.attribs[attrName] = toDeployablePublicUrl(toPublicUrl(value, descriptor));
 			}
 		}
 	}

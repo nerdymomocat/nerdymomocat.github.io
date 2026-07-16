@@ -22,6 +22,58 @@ export function joinPlainText(richTexts: RichText[]): string {
 	return richTexts.map((rt) => rt.PlainText).join("");
 }
 
+// Strips a leading shortcode marker from a RichText array in place (may span
+// multiple segments) and returns whether one was found.
+export function extractLeadingMarker(
+	richTexts: RichText[] | undefined | null,
+	marker: string | undefined | null,
+): boolean {
+	if (!richTexts || richTexts.length === 0 || !marker) return false;
+	const joined = joinPlainText(richTexts);
+	const leadingWs = joined.length - joined.trimStart().length;
+	if (!joined.slice(leadingWs).startsWith(marker)) return false;
+
+	let remaining = leadingWs + marker.length;
+	for (const rt of richTexts) {
+		if (remaining <= 0) break;
+		const pt = rt.PlainText ?? "";
+		const take = Math.min(remaining, pt.length);
+		rt.PlainText = pt.slice(take);
+		if (rt.Text && typeof rt.Text.Content === "string") {
+			rt.Text.Content = rt.Text.Content.slice(take);
+		}
+		remaining -= take;
+	}
+
+	// Drop a single leading space left behind on the first non-empty segment.
+	for (const rt of richTexts) {
+		if (rt.PlainText && rt.PlainText.length) {
+			rt.PlainText = rt.PlainText.replace(/^\s+/, "");
+			if (rt.Text && typeof rt.Text.Content === "string") {
+				rt.Text.Content = rt.Text.Content.replace(/^\s+/, "");
+			}
+			break;
+		}
+	}
+	return true;
+}
+
+// Caches the marker result on `owner` so repeated renders of the same shared
+// block (main + popover + clones) agree despite the in-place strip.
+export function resolveLeadingMarker(
+	owner: any,
+	richTexts: RichText[] | undefined | null,
+	marker: string | undefined | null,
+	cacheKey: string,
+): boolean {
+	if (owner && typeof owner[cacheKey] === "boolean") {
+		return owner[cacheKey] as boolean;
+	}
+	const result = extractLeadingMarker(richTexts, marker);
+	if (owner) owner[cacheKey] = result;
+	return result;
+}
+
 // ============================================================================
 // RichText Cloning
 // ============================================================================

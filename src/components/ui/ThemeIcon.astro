@@ -40,49 +40,105 @@ const { order = 0 } = Astro.props;
 </theme-toggle>
 
 <script is:inline>
-	const getThemePreference = () => {
-		if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
-			return localStorage.getItem("theme");
+	// The initial theme (and the <html> `dark` class) is applied by the FOUC-prevention
+	// script in <head>, which also exposes `window.applyTheme`. Reuse it here so the
+	// toggle button's state and the document stay in sync from a single source of truth.
+	const applyTheme =
+		window.applyTheme ||
+		(() => {
+			const theme =
+				(typeof localStorage !== "undefined" && localStorage.getItem("theme")) || "system";
+			const isDark =
+				theme === "dark" ||
+				(theme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
+			const root = document.documentElement;
+			root.classList.add("theme-switching");
+			root.classList.toggle("dark", isDark);
+			const btn = document.getElementById("themeToggle");
+			if (btn) btn.setAttribute("data-theme", theme);
+			window.requestAnimationFrame(() => {
+				window.requestAnimationFrame(() => root.classList.remove("theme-switching"));
+			});
+		});
+
+	// The <head> script ran before this button existed, so sync its state now.
+	applyTheme();
+
+	const handleToggleClick = (event) => {
+		const current =
+			(typeof localStorage !== "undefined" && localStorage.getItem("theme")) || "system";
+		const newTheme = current === "system" ? "light" : current === "light" ? "dark" : "system";
+		const doSwitch = () => {
+			localStorage.setItem("theme", newTheme);
+			applyTheme();
+		};
+
+		const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+		// No View Transitions support (e.g. Firefox) or reduced motion: switch instantly.
+		if (!document.startViewTransition || prefersReducedMotion) {
+			doSwitch();
+			return;
 		}
-		return "system";
-	};
 
-	const updateTheme = () => {
-		const theme = getThemePreference();
-		if (
-			theme === "dark" ||
-			(theme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches)
-		) {
-			document.documentElement.classList.add("dark");
-		} else {
-			document.documentElement.classList.remove("dark");
+		// view-transition-types lets us scope the circular-reveal CSS to the toggle only,
+		// so it never interferes with the cross-document page-navigation crossfade.
+		const supportsTypes =
+			typeof CSS !== "undefined" &&
+			CSS.supports &&
+			CSS.supports("selector(:active-view-transition-type(theme))");
+
+		if (!supportsTypes) {
+			// Older View-Transition browsers: a plain default crossfade is still a nice touch.
+			document.startViewTransition(doSwitch);
+			return;
 		}
-		// Set data-theme on the toggle button to drive Tailwind's group-based variants
-		const toggleButton = document.getElementById("themeToggle");
-		toggleButton.setAttribute("data-theme", theme);
-	};
 
-	// Initial theme setup
-	updateTheme();
+		const root = document.documentElement;
 
-	const handleToggleClick = () => {
-		const theme = getThemePreference();
-		let newTheme = "system";
+		// Reveal origin = the click point, expressed in % so the CSS radial-gradient mask
+		// (which auto-sizes to the farthest corner) always fully covers the viewport.
+		const rect = event?.currentTarget?.getBoundingClientRect();
+		const px = event?.clientX || (rect ? rect.left + rect.width / 2 : window.innerWidth);
+		const py = event?.clientY || (rect ? rect.top + rect.height / 2 : 0);
+		root.style.setProperty("--vt-x", (px / window.innerWidth) * 100 + "%");
+		root.style.setProperty("--vt-y", (py / window.innerHeight) * 100 + "%");
 
-		if (theme === "system") newTheme = "light";
-		if (theme === "light") newTheme = "dark";
-		if (theme === "dark") newTheme = "system";
+		// Duration/easing are read from CSS so the theme stays the single source of truth.
+		const cs = getComputedStyle(root);
+		const durRaw = cs.getPropertyValue("--theme-toggle-duration").trim();
+		const duration = durRaw.endsWith("ms")
+			? parseFloat(durRaw)
+			: durRaw.endsWith("s")
+				? parseFloat(durRaw) * 1000
+				: 450;
+		const easing = cs.getPropertyValue("--theme-toggle-easing").trim() || "ease";
 
-		localStorage.setItem("theme", newTheme);
-		updateTheme();
+		const transition = document.startViewTransition({ update: doSwitch, types: ["theme"] });
+		transition.ready
+			.then(() => {
+				// Animate the registered --theme-toggle-reveal (a <percentage>) on the new
+				// snapshot; the feathered mask in CSS turns it into a soft-edged growing circle.
+				root.animate(
+					{ "--theme-toggle-reveal": ["0%", "120%"] },
+					{
+						duration,
+						easing,
+						pseudoElement: "::view-transition-new(root)",
+					},
+				);
+			})
+			.catch(() => {
+				// Transition was skipped/interrupted (e.g. rapid double toggle) — harmless.
+			});
 	};
 
 	document.getElementById("themeToggle").addEventListener("click", handleToggleClick);
 
 	// Listen for system theme changes
 	window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
-		if (getThemePreference() === "system") {
-			updateTheme();
-		}
+		const current =
+			(typeof localStorage !== "undefined" && localStorage.getItem("theme")) || "system";
+		if (current === "system") applyTheme();
 	});
 </script>

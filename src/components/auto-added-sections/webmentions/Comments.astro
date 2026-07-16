@@ -34,7 +34,7 @@ const comments = mentions.filter(
 							mention.author.url && mention.author.url !== "" ? (
 								<a
 									href={mention.author.url}
-									class="ring-textColor hover:ring-link focus-visible:ring-link shrink-0 overflow-hidden rounded-full ring-2 outline-hidden hover:ring-4 focus-visible:ring-4"
+									class="webmention-avatar shrink-0"
 									target="_blank"
 									rel="noopener noreferrer"
 									title={mention.author.name}
@@ -62,7 +62,7 @@ const comments = mentions.filter(
 								<p class="text-accent-2 my-0 line-clamp-1 font-semibold">{mention.author?.name}</p>
 								<a
 									href={mention.url}
-									class="hover:text-link"
+									class="hover:text-link transition-colors duration-150 ease-out"
 									target="_blank"
 									rel="noopener noreferrer"
 									title="Vist the source of this mention"

@@ -1,9 +1,5 @@
 import path from "node:path";
-import { unified } from "unified";
-import remarkParse from "remark-parse";
-import remarkGfm from "remark-gfm";
-import remarkFrontmatter from "remark-frontmatter";
-import remarkMdx from "remark-mdx";
+import { markdownToMdast, mdxToMdast } from "satteri";
 import type {
 	Block,
 	Footnote,
@@ -31,9 +27,8 @@ import type {
 	MdxJsxFlowElement,
 	MdxJsxTextElement,
 } from "mdast";
-import { toString } from "mdast-util-to-string";
-import { isRelativePath, toPublicUrl } from "./external-content-utils";
-import { SHORTCODES, BASE_PATH, CUSTOM_DOMAIN } from "@/constants";
+import { isRelativePath, toDeployablePublicUrl, toPublicUrl } from "./external-content-utils";
+import { SHORTCODES } from "@/constants";
 
 type AnnotationState = Partial<Omit<Annotation, "Color">> & {
 	color?: string;
@@ -66,6 +61,15 @@ function createRichText(
 		Href: options?.href,
 		Annotation: createAnnotation(state),
 	};
+}
+
+function mdastToPlainText(node: unknown): string {
+	if (!node || typeof node !== "object") return "";
+	const maybeValue = (node as { value?: unknown }).value;
+	if (typeof maybeValue === "string") return maybeValue;
+	const maybeChildren = (node as { children?: unknown }).children;
+	if (!Array.isArray(maybeChildren)) return "";
+	return maybeChildren.map((child) => mdastToPlainText(child)).join("");
 }
 
 type ConvertInlineOptions = {
@@ -121,14 +125,11 @@ export class MarkdownBlockBuilder {
 	}
 
 	private parseMarkdown(source: string): Root {
-		const processor = unified().use(remarkParse).use(remarkGfm);
-
-		if (this.allowMdx) {
-			processor.use(remarkMdx);
-		}
-
-		processor.use(remarkFrontmatter, ["yaml", "toml"]);
-		const tree = processor.parse(source) as Root;
+		const tree = (
+			this.allowMdx
+				? mdxToMdast(source, { features: { gfm: true, frontmatter: true } })
+				: markdownToMdast(source, { features: { gfm: true, frontmatter: true } })
+		) as Root;
 		const filteredChildren: Content[] = [];
 		for (const node of tree.children) {
 			if (node.type === "yaml" || node.type === "toml") continue;
@@ -163,9 +164,7 @@ export class MarkdownBlockBuilder {
 		const resolved = this.resolveUrl(raw || "");
 		if (!resolved) return "";
 		if (resolved.startsWith("http://") || resolved.startsWith("https://")) return resolved;
-		const origin = CUSTOM_DOMAIN ? `https://${CUSTOM_DOMAIN}` : "http://localhost:4321";
-		const joined = path.posix.join(BASE_PATH || "/", resolved.replace(/^\//, ""));
-		return new URL(joined, origin).toString();
+		return toDeployablePublicUrl(resolved);
 	}
 
 	private classifyMedia(url: string): "video" | "audio" | null {
@@ -190,7 +189,7 @@ export class MarkdownBlockBuilder {
 			SourceLocation: "content",
 			Content: blocks.length
 				? { Type: "blocks", Blocks: blocks }
-				: { Type: "rich_text", RichTexts: [createRichText(toString(definition))] },
+				: { Type: "rich_text", RichTexts: [createRichText(mdastToPlainText(definition))] },
 		};
 		this.footnoteCache.set(identifier, footnote);
 		return footnote;
@@ -424,8 +423,7 @@ export class MarkdownBlockBuilder {
 
 	private buildListItemBlock(item: ListItem, ordered: boolean | null): Block[] {
 		const paragraphChild = item.children.find((child) => child.type === "paragraph") as
-			| Paragraph
-			| undefined;
+			Paragraph | undefined;
 		const otherChildren = item.children.filter((child) => child !== paragraphChild) as Content[];
 		const isTask = item.checked !== null && item.checked !== undefined;
 
@@ -830,7 +828,7 @@ export class MarkdownBlockBuilder {
 
 		const childContent =
 			node.children && node.children.length
-				? node.children.map((child) => toString(child as any)).join("")
+				? node.children.map((child) => mdastToPlainText(child)).join("")
 				: "";
 
 		if (!childContent) {

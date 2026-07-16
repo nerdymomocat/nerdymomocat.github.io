@@ -12,10 +12,11 @@ export interface Props {
 const { richText } = Astro.props;
 const { hreflink, blocklinked, conditionmatch, post, isBlockLinkedHeading } =
 	await getAnchorLinkAndBlock(richText);
+const shouldWrapWithAnchor = hreflink && !richText.Mention;
 ---
 
 {
-	hreflink ? (
+	shouldWrapWithAnchor ? (
 		conditionmatch &&
 		["block_other_page", "other_page"].includes(conditionmatch) &&
 		post &&

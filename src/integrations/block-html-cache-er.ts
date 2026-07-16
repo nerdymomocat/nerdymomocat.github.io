@@ -1,6 +1,6 @@
 import type { AstroIntegration } from "astro";
 import * as fs from "fs/promises";
-import * as path from "path";
+import * as path from "node:path";
 import { parseDocument } from "htmlparser2";
 import { DomUtils } from "htmlparser2";
 import { render } from "dom-serializer";

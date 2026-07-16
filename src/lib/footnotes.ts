@@ -33,7 +33,7 @@ import {
 	getAllRichTextLocations,
 	getChildrenFromBlock,
 } from "../utils/richtext-utils";
-import crypto from "crypto";
+import crypto from "node:crypto";
 
 // ============================================================================
 // Configuration and Validation
@@ -290,6 +290,12 @@ function extractEndOfBlockFootnotes(
 		);
 
 		// Create Footnote objects from extracted definitions
+		const tableCellMatch = location.property.match(/Table\.Rows\[(\d+)\]\.Cells\[(\d+)\]/);
+		const sourceLocation: Footnote["SourceLocation"] = location.property.includes("Caption")
+			? "caption"
+			: location.property.includes("Table")
+				? "table"
+				: "content";
 		footnoteDefinitions.forEach((contentRichTexts, marker) => {
 			const hasMarker = markers.some((m) => m.Marker === marker);
 			// Only create footnote if there's a marker in the text (silent skip orphaned definitions)
@@ -301,11 +307,13 @@ function extractEndOfBlockFootnotes(
 						Type: "rich_text",
 						RichTexts: contentRichTexts,
 					},
-					SourceLocation: location.property.includes("Caption")
-						? "caption"
-						: location.property.includes("Table")
-							? "table"
-							: "content",
+					SourceLocation: sourceLocation,
+					...(tableCellMatch && {
+						SourceTableCell: {
+							row: Number(tableCellMatch[1]),
+							cell: Number(tableCellMatch[2]),
+						},
+					}),
 				});
 			}
 		});
@@ -801,6 +809,7 @@ function extractInlineLatexFootnotes(
 			}
 
 			// Create footnote object
+			const tableCellMatch = location.property.match(/Table\.Rows\[(\d+)\]\.Cells\[(\d+)\]/);
 			footnotes.unshift({
 				// unshift to maintain left-to-right order
 				Marker: m.marker,
@@ -814,6 +823,12 @@ function extractInlineLatexFootnotes(
 					: location.property.includes("Table")
 						? "table"
 						: "content",
+				...(tableCellMatch && {
+					SourceTableCell: {
+						row: Number(tableCellMatch[1]),
+						cell: Number(tableCellMatch[2]),
+					},
+				}),
 			});
 
 			// Replace \footnote{content} with marker in RichText

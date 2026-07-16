@@ -244,6 +244,8 @@
 		"mdx-inject": "<!-- mdx inject -->",
 		// In a Notion table's first cell, this marker enables datatable features (sorting, filtering).
 		table: "<<🗂️>>",
+		// In an image/embed caption or a table's first cell, breaks the block out wider than the reading column on desktop. Empty = disabled.
+		"wide-breakout": "<<↔️>>",
 		// Author metadata shortcodes - used in author multi-select description field to specify URL and photo.
 		// Format in description: <<author-url>>https://example.com<<author-url>> <<author-photo-url>>https://example.com/photo.jpg<<author-photo-url>> Remaining text is the bio.
 		"author-desc": {

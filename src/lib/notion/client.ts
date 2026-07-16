@@ -5,7 +5,7 @@ import sharp from "sharp";
 import retry from "async-retry";
 import ExifTransformer from "exif-be-gone";
 import pngToIco from "png-to-ico";
-import path from "path";
+import path from "node:path";
 import {
 	NOTION_API_SECRET,
 	DATABASE_ID,
@@ -111,8 +111,7 @@ let workspaceCustomEmojiCacheById: Map<string, WorkspaceCustomEmoji> | null = nu
 let workspaceCustomEmojiCacheByName: Map<string, WorkspaceCustomEmoji> | null = null;
 let workspaceCustomEmojiPromise: Promise<void> | null = null;
 let allTagsWithCountsCache:
-	| { name: string; count: number; description: string; color: string }[]
-	| null = null;
+	{ name: string; count: number; description: string; color: string }[] | null = null;
 
 // Authors: Cache for authors with counts
 let allAuthorsWithCountsCache:
@@ -1550,12 +1549,8 @@ export async function processFileBlocks(fileAttachedBlocks: Block[]) {
 						return null;
 					}
 					url = new URL(
-						(
-							updatedBlock.NImage ||
-							updatedBlock.File ||
-							updatedBlock.Video ||
-							updatedBlock.NAudio
-						).File.Url,
+						(updatedBlock.NImage || updatedBlock.File || updatedBlock.Video || updatedBlock.NAudio)
+							.File.Url,
 					);
 				}
 
@@ -1803,6 +1798,33 @@ export async function getDataSource(): Promise<Database> {
 	dsCache = database;
 	saveBuildcache(cacheFileName, dsCache);
 	return database;
+}
+
+function getHtmlMetaContent(html: string, name: string): string | undefined {
+	const metaTags = html.match(/<meta\b[^>]*>/gi) || [];
+	for (const tag of metaTags) {
+		const attributes = Object.fromEntries(
+			Array.from(tag.matchAll(/([\w:-]+)\s*=\s*(["'])(.*?)\2/g), (match) => [
+				match[1].toLowerCase(),
+				match[3],
+			]),
+		);
+		if (attributes.name?.toLowerCase() === name.toLowerCase()) return attributes.content;
+	}
+	return undefined;
+}
+
+function getHtmlIframeSizing(html: string): Code["IframeSizing"] {
+	const heightValue = getHtmlMetaContent(html, "webtrotion:height");
+	const aspectRatioValue = getHtmlMetaContent(html, "webtrotion:aspect-ratio");
+	const height = heightValue ? Number.parseInt(heightValue, 10) : undefined;
+	const aspectRatio = aspectRatioValue?.match(/^\d+(?:\.\d+)?\s*\/\s*\d+(?:\.\d+)?$/)
+		? aspectRatioValue.replaceAll(" ", "")
+		: undefined;
+
+	if (height && height > 0) return { Height: height };
+	if (aspectRatio) return { AspectRatio: aspectRatio };
+	return undefined;
 }
 
 async function _buildBlock(blockObject: responses.BlockObject, pageId?: string): Promise<Block> {
@@ -2069,11 +2091,57 @@ async function _buildBlock(blockObject: responses.BlockObject, pageId?: string):
 			break;
 		case "embed":
 			if (blockObject.embed) {
-				const embed: Embed = {
-					Caption: await Promise.all(blockObject.embed.caption?.map(_buildRichText) || []),
-					Url: blockObject.embed.url,
-				};
-				block.Embed = embed;
+				const embedUrl = new URL(blockObject.embed.url);
+				const isNotionHtmlArtifact =
+					embedUrl.hostname === "prod-files-secure.s3.us-west-2.amazonaws.com" &&
+					[".html", ".htm"].includes(path.extname(embedUrl.pathname).toLowerCase()) &&
+					embedUrl.searchParams.has("X-Amz-Signature");
+
+				if (isNotionHtmlArtifact) {
+					const response = await fetch(embedUrl);
+					if (!response.ok) {
+						throw new Error(
+							`Failed to fetch Notion HTML artifact ${blockObject.id}: ${response.status} ${response.statusText}`,
+						);
+					}
+
+					const contentType = response.headers.get("content-type") || "";
+					if (!contentType.toLowerCase().startsWith("text/html")) {
+						throw new Error(
+							`Notion HTML artifact ${blockObject.id} returned unexpected content type: ${contentType || "missing"}`,
+						);
+					}
+
+					const html = await response.text();
+					const iframeSizing = getHtmlIframeSizing(html);
+					block.Type = "code";
+					block.Code = {
+						Caption: await Promise.all(blockObject.embed.caption?.map(_buildRichText) || []),
+						RichTexts: [
+							{
+								Text: { Content: html },
+								Annotation: {
+									Bold: false,
+									Italic: false,
+									Strikethrough: false,
+									Underline: false,
+									Code: false,
+									Color: "default",
+								},
+								PlainText: html,
+							},
+						],
+						Language: "html",
+						RenderMode: "iframe",
+						...(iframeSizing ? { IframeSizing: iframeSizing } : {}),
+					};
+				} else {
+					const embed: Embed = {
+						Caption: await Promise.all(blockObject.embed.caption?.map(_buildRichText) || []),
+						Url: blockObject.embed.url,
+					};
+					block.Embed = embed;
+				}
 			}
 			break;
 		case "bookmark":
@@ -2418,21 +2486,28 @@ export async function _buildRichText(richTextObject: responses.RichTextObject): 
 		// Notion adds a `v=` query parameter to links copied from peek view.
 		// We need to remove it to parse the link correctly.
 		richTextObject.href = richTextObject.href.replace(/([&?])v=[^#]*/, "");
-		if (richTextObject.href?.includes("#")) {
+		const [pagePart, blockPart] = richTextObject.href.split("#");
+		// The Notion page id is the last 32-hex-character run in the path. Matching
+		// it this way tolerates every internal-link shape Notion emits: the legacy
+		// `/<id>`, the newer `/p/<id>` (peek / "copy link"), and the full
+		// `/<workspace>/<Page-Title>-<id>` form. Previously we only stripped the
+		// leading `/`, so a `/p/<id>` link produced a mangled page id and the
+		// link (and its hover popover) silently disappeared.
+		const pageIdMatches = pagePart.replace(/-/g, "").match(/[0-9a-fA-F]{32}/g);
+		const rawPageId = pageIdMatches
+			? pageIdMatches[pageIdMatches.length - 1]
+			: pagePart.substring(1);
+		const pageId = rawPageId.replace(/(.{8})(.{4})(.{4})(.{4})(.{12})/, "$1-$2-$3-$4-$5");
+		if (blockPart) {
 			const interlinkedContent: InterlinkedContent = {
-				PageId: richTextObject.href
-					.split("#")[0]
-					.substring(1)
-					.replace(/(.{8})(.{4})(.{4})(.{4})(.{12})/, "$1-$2-$3-$4-$5"),
-				BlockId: richTextObject.href.split("#")[1],
+				PageId: pageId,
+				BlockId: blockPart,
 				Type: "block",
 			};
 			richText.InternalHref = interlinkedContent;
 		} else {
 			const interlinkedContent: InterlinkedContent = {
-				PageId: richTextObject.href
-					.substring(1)
-					.replace(/(.{8})(.{4})(.{4})(.{4})(.{12})/, "$1-$2-$3-$4-$5"),
+				PageId: pageId,
 				Type: "page",
 			};
 			richText.InternalHref = interlinkedContent;
