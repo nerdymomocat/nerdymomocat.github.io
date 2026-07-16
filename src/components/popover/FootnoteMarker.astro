@@ -48,23 +48,23 @@ const displaySymbol =
 		<>
 			{/* Render footnote marker with appropriate attributes for popover or margin mode */}
 			{isMarginMode ? (
-				<span class="decoration-quote/40 underline decoration-dotted -underline-offset-2">
+				<span class="footnote-marker-underline">
 					<span
 						data-margin-note={uniqueId}
 						data-popover-target={`popover-description-${uniqueId}`}
 						data-popover-placement="bottom-end"
-						class="text-quote cursor-pointer align-super font-mono text-xs"
+						class="footnote-marker-ref"
 						aria-label="Show information for the linked content"
 					>
 						{displaySymbol}
 					</span>
 				</span>
 			) : (
-				<span class="decoration-quote/40 underline decoration-dotted -underline-offset-2">
+				<span class="footnote-marker-underline">
 					<span
 						data-popover-target={`popover-description-${uniqueId}`}
 						data-popover-placement="bottom-end"
-						class="text-quote cursor-pointer align-super font-mono text-xs"
+						class="footnote-marker-ref"
 						aria-label="Show information for the linked content"
 					>
 						{displaySymbol}
@@ -78,7 +78,7 @@ const displaySymbol =
 					data-popover
 					id={`popover-description-${uniqueId}`}
 					role="tooltip"
-					class="popoverEl border-accent-2/20 bg-popover-bg/95 text-textColor/80 invisible absolute z-40 hidden inline-block w-72 rounded-lg border text-sm opacity-0 shadow-xs backdrop-blur-sm transition-opacity duration-300"
+					class="popoverEl notion-popover hidden"
 				>
 					<div class="space-y-2 p-3">
 						<FootnoteContent

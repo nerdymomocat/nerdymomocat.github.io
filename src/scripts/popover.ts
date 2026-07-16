@@ -18,13 +18,18 @@ function initPopovers() {
 	// State variables for popovers
 	const smBreakpointQuery = window.matchMedia("(max-width: 639px)");
 	const lgBreakpointQuery = window.matchMedia("(min-width: 1024px)");
+	// Interaction mode is decided by input capability, not viewport width: touch
+	// devices (phones AND tablets) must not hover-preview or navigate on the
+	// first tap — otherwise a tap flashes the popover and immediately follows the
+	// link. Only genuine mouse/trackpad pointers get hover + click-to-navigate.
+	const canHoverQuery = window.matchMedia("(hover: hover) and (pointer: fine)");
 
 	// Create the selector based on the device type
 	function getPopoverSelector() {
 		if (lgBreakpointQuery.matches) {
-			// Enable popovers for footnotes in collection stream pages (no margin notes there)
-			// Disable popovers for footnotes elsewhere (margin notes handle them)
-			return "[data-popover-target]:not([data-margin-note]), .post-preview-full-container [data-margin-note][data-popover-target]";
+			// Large screens: margin notes replace popovers, except in collection streams
+			// and inside wide blocks (whose displaced notes keep the inline popover live).
+			return "[data-popover-target]:not([data-margin-note]), .post-preview-full-container [data-margin-note][data-popover-target], .webtrotion-wide-breakout [data-margin-note][data-popover-target]";
 		}
 
 		if (smBreakpointQuery.matches) {
@@ -38,6 +43,29 @@ function initPopovers() {
 	let openPopovers = [];
 	let cleanupAutoUpdate = new Map();
 	let hoverTimeouts = new Map();
+	// Popovers pending their final display:none after an exit fade. Tracked so a
+	// re-show (or re-hide) during the fade can cancel the deferred teardown.
+	let pendingHide = new Map();
+
+	// A popover that currently hosts another OPEN popover must not clip its
+	// overflow — otherwise the nested (absolutely-positioned) child is cropped to
+	// the parent's box and forces a scrollbar. Mark every ancestor of each open
+	// popover so the height cap is lifted only while a child is open, then
+	// restored once it closes.
+	const refreshPopoverClipping = () => {
+		document
+			.querySelectorAll(".notion-popover.popover-has-nested")
+			.forEach((el) => el.classList.remove("popover-has-nested"));
+		openPopovers.forEach((child) => {
+			let ancestor = child.parentElement ? child.parentElement.closest(".notion-popover") : null;
+			while (ancestor) {
+				ancestor.classList.add("popover-has-nested");
+				ancestor = ancestor.parentElement
+					? ancestor.parentElement.closest(".notion-popover")
+					: null;
+			}
+		});
+	};
 
 	const getPopoverLevel = (el) => {
 		let level = 0;
@@ -57,21 +85,46 @@ function initPopovers() {
 	};
 
 	const hidePopover = (popoverEl) => {
-		if (popoverEl) {
+		if (!popoverEl) return;
+
+		// Cancel any teardown already scheduled for this popover so we don't
+		// finalize twice (and so a fresh hide restarts the fade cleanly).
+		const alreadyPending = pendingHide.get(popoverEl);
+		if (alreadyPending) {
+			clearTimeout(alreadyPending);
+			pendingHide.delete(popoverEl);
+		}
+
+		// Treat it as closed immediately for open/close bookkeeping and stop the
+		// position autoupdate — the popover stays put while it fades out.
+		const openPopoverIndex = openPopovers.indexOf(popoverEl);
+		if (openPopoverIndex !== -1) {
+			openPopovers.splice(openPopoverIndex, 1);
+		}
+		const cleanup = cleanupAutoUpdate.get(popoverEl);
+		if (cleanup) {
+			cleanup();
+			cleanupAutoUpdate.delete(popoverEl);
+		}
+
+		// Play the exit: reverse of the enter (fade out + settle back up/in). The
+		// display:none teardown is deferred so this transition can actually run;
+		// under reduced motion the global policy keeps opacity-only and clamps it.
+		popoverEl.style.opacity = "0";
+		popoverEl.style.transform = "translateY(-4px) scale(0.98)";
+
+		const finalize = () => {
+			pendingHide.delete(popoverEl);
 			popoverEl.style.visibility = "hidden";
 			popoverEl.classList.add("hidden");
-			popoverEl.style.opacity = "0";
-
-			const cleanup = cleanupAutoUpdate.get(popoverEl);
-			if (cleanup) {
-				cleanup();
-				cleanupAutoUpdate.delete(popoverEl);
-			}
-			const openPopoverIndex = openPopovers.indexOf(popoverEl);
-			if (openPopoverIndex !== -1) {
-				openPopovers.splice(openPopoverIndex, 1);
-			}
-		}
+			popoverEl.style.transform = "";
+			// Re-clip any ancestor that no longer hosts an open child popover.
+			refreshPopoverClipping();
+		};
+		// Slightly longer than the 200ms enter/exit transition (150ms under
+		// reduced motion) so the fade completes before we remove it from flow.
+		const timeoutId = setTimeout(finalize, 240);
+		pendingHide.set(popoverEl, timeoutId);
 	};
 
 	const addLeaveListeners = (triggerEl, popoverEl) => {
@@ -125,6 +178,14 @@ function initPopovers() {
 		}
 		if (!popoverEl) return;
 
+		// If this popover is mid-exit-fade, cancel the deferred teardown so we
+		// reverse straight back into view instead of snapping to display:none.
+		const pending = pendingHide.get(popoverEl);
+		if (pending) {
+			clearTimeout(pending);
+			pendingHide.delete(popoverEl);
+		}
+
 		const update = () => {
 			computePosition(triggerEl, popoverEl, {
 				middleware: [offset(6), shift({ padding: 3 }), flip({ padding: 3 })],
@@ -142,14 +203,17 @@ function initPopovers() {
 		requestAnimationFrame(() => {
 			popoverEl.style.visibility = "visible";
 			popoverEl.style.opacity = "1";
+			popoverEl.style.transform = "translateY(0) scale(1)";
 		});
 
 		openPopovers.push(popoverEl);
 		cleanupAutoUpdate.set(popoverEl, autoUpdate(triggerEl, popoverEl, update));
+		// Lift the height cap on any ancestor now hosting this nested popover.
+		refreshPopoverClipping();
 	};
 
 	const handleHover = (event) => {
-		if (smBreakpointQuery.matches) return; // No hover on small screens
+		if (!canHoverQuery.matches) return; // Hover previews only for mouse/trackpad pointers
 
 		const selector = getPopoverSelector();
 		const triggerEl = event.target.closest(selector);
@@ -168,12 +232,18 @@ function initPopovers() {
 		if (triggerEl) {
 			const href = triggerEl.dataset.href;
 
-			if (href && !smBreakpointQuery.matches) {
-				window.location.href = href;
-				return;
-			}
-
-			if (smBreakpointQuery.matches) {
+			if (canHoverQuery.matches) {
+				// Mouse/trackpad: the preview already showed on hover, so a click is
+				// a deliberate request to follow the link to its source.
+				if (href) {
+					window.location.href = href;
+					return;
+				}
+			} else {
+				// Touch / no-hover: the first tap opens the preview instead of
+				// navigating. Navigation happens by tapping the preview card or its
+				// "Read more" link. This prevents the tap-flash-then-leave bug on
+				// tablets and touch laptops (any non-small touch screen).
 				event.preventDefault();
 				showPopover(triggerEl);
 				return;
@@ -183,6 +253,16 @@ function initPopovers() {
 		const popoverLink = event.target.closest("[data-popover-link]");
 		if (popoverLink) {
 			hideAllPopovers(-1);
+			return;
+		}
+
+		const popoverCardLink = event.target.closest("[data-popover-card-link]");
+		if (popoverCardLink && !event.target.closest("a, button, input, select, textarea")) {
+			const href = popoverCardLink.dataset.href;
+			if (href) {
+				window.location.href = href;
+				return;
+			}
 		} else if (!triggerEl) {
 			hideAllPopovers(-1);
 		}
@@ -191,6 +271,18 @@ function initPopovers() {
 	document.addEventListener("keydown", (event) => {
 		if (event.key === "Escape") {
 			hideAllPopovers(-1);
+			return;
+		}
+
+		if (event.key === "Enter" || event.key === " ") {
+			const popoverCardLink = event.target.closest("[data-popover-card-link]");
+			if (popoverCardLink && event.target === popoverCardLink) {
+				event.preventDefault();
+				const href = popoverCardLink.dataset.href;
+				if (href) {
+					window.location.href = href;
+				}
+			}
 		}
 	});
 }

@@ -19,7 +19,7 @@ import type {
 } from "@/lib/interfaces";
 import type { ImageMetadata } from "astro";
 import { slugify } from "../utils/slugify";
-import path from "path";
+import path from "node:path";
 import fs from "node:fs";
 import { getBlock, getPostByPageId } from "../lib/notion/client";
 import superjson from "superjson";

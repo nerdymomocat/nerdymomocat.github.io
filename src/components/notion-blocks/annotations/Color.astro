@@ -11,15 +11,18 @@ export interface Props {
 
 const { richText } = Astro.props;
 const annotationColor = richText.Annotation.Color;
+const isDefaultColor = ["default", "default_background", "default-background"].includes(
+	annotationColor,
+);
 const annotationBackgroundVars = annotationColor
 	? getNotionAnnotationBackgroundVars(annotationColor)
 	: null;
-const textColorClass = annotationColor ? getNotionColorToTailwindColor(annotationColor) : null;
+const textColorClass =
+	annotationColor && !isDefaultColor ? getNotionColorToTailwindColor(annotationColor) : null;
 ---
 
 {
-	annotationBackgroundVars &&
-	!["default", "default_background", "default-background"].includes(annotationColor) ? (
+	annotationBackgroundVars && !isDefaultColor ? (
 		<span class={`${annotationBackgroundVars.className}`} style={annotationBackgroundVars.style}>
 			<slot />
 		</span>

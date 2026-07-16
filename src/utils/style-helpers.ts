@@ -195,6 +195,12 @@ export const getTextToAstroIcon = (text: string) => {
 		jump: "material-symbols-light:jump-to-element-rounded",
 		"copy-as-markdown": "material-symbols:markdown-paste",
 		author: "mdi:account-circle-outline",
+		"bookmark-outline": "mdi:bookmark-outline",
+		"text-short": "mdi:text-short",
+		"filter-variant": "mdi:filter-variant",
+		"magnify-close": "mdi:magnify-close",
+		web: "mdi:web",
+		"open-in-new": "mdi:open-in-new",
 	};
 	if (text in textIconMap) {
 		return textIconMap[text];
@@ -256,6 +262,12 @@ export const getTextToSVGPath = (text: string) => {
 		"tag-multiple":
 			"M6.5 10C7.3 10 8 9.3 8 8.5S7.3 7 6.5 7S5 7.7 5 8.5S5.7 10 6.5 10M9 6l7 7l-5 5l-7-7V6zm0-2H4c-1.1 0-2 .9-2 2v5c0 .6.2 1.1.6 1.4l7 7c.3.4.8.6 1.4.6s1.1-.2 1.4-.6l5-5c.4-.4.6-.9.6-1.4c0-.6-.2-1.1-.6-1.4l-7-7C10.1 4.2 9.6 4 9 4m4.5 1.7l1-1l6.9 6.9c.4.4.6.9.6 1.4s-.2 1.1-.6 1.4L16 19.8l-1-1l5.7-5.8z",
 		pin: "M16 12V4h1V2H7v2h1v8l-2 2v2h5.2v6h1.6v-6H18v-2z",
+		"bookmark-outline":
+			"M17 18L12 15.82L7 18V5H17M17 3H7A2 2 0 0 0 5 5V21L12 18L19 21V5C19 3.89 18.1 3 17 3Z",
+		"text-short": "M4 9H20V11H4V9M4 13H14V15H4V13Z",
+		"filter-variant": "M6 13h12v-2H6m-3-5v2h18V6M10 18h4v-2h-4z",
+		"magnify-close":
+			"M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.5 6.5 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m-2.56 4L9.5 9.56 12.06 7l.94.94L10.44 10.5 13 13.06l-.94.94L9.5 11.44 6.94 14 6 13.06 8.56 10.5 6 7.94z",
 		"tag-outline":
 			"m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5",
 		web: "M16.36 14c.08-.66.14-1.32.14-2s-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2m-5.15 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95a8.03 8.03 0 0 1-4.33 3.56M14.34 14H9.66c-.1-.66-.16-1.32-.16-2s.06-1.35.16-2h4.68c.09.65.16 1.32.16 2s-.07 1.34-.16 2M12 19.96c-.83-1.2-1.5-2.53-1.91-3.96h3.82c-.41 1.43-1.08 2.76-1.91 3.96M8 8H5.08A7.92 7.92 0 0 1 9.4 4.44C8.8 5.55 8.35 6.75 8 8m-2.92 8H8c.35 1.25.8 2.45 1.4 3.56A8 8 0 0 1 5.08 16m-.82-2C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2s.06 1.34.14 2M12 4.03c.83 1.2 1.5 2.54 1.91 3.97h-3.82c.41-1.43 1.08-2.77 1.91-3.97M18.92 8h-2.95a15.7 15.7 0 0 0-1.38-3.56c1.84.63 3.37 1.9 4.33 3.56M12 2C6.47 2 2 6.5 2 12a10 10 0 0 0 10 10a10 10 0 0 0 10-10A10 10 0 0 0 12 2",
@@ -303,4 +315,17 @@ export const getTextToSVGPath = (text: string) => {
 		return textSvgMap[text];
 	}
 	return "";
+};
+
+/**
+ * Returns inline `<svg>` markup for an icon registered in `getTextToSVGPath`.
+ * The glyph carries no color of its own — callers tint it purely with CSS
+ * (`fill`/`stroke: currentColor` or a theme token on the `svg`), so every search/UI
+ * icon stays sourced from the single registry above without any data-URI masks.
+ * Safe on both the server and the client (this module has no runtime dependencies).
+ */
+export const getSvgIcon = (text: string): string => {
+	const path = getTextToSVGPath(text);
+	if (!path) return "";
+	return `<svg viewBox="0 0 24 24" focusable="false" aria-hidden="true"><path d="${path}" /></svg>`;
 };

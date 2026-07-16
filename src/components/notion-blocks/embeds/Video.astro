@@ -5,9 +5,9 @@ import Caption from "@/components/notion-blocks/Caption.astro";
 import { filePath } from "@/lib/blog-helpers";
 import EmbedGeneric from "@/components/notion-blocks/embeds/EmbedGeneric.astro";
 import Icon from "@/components/ui/Icon.astro";
-import { ENABLE_LIGHTBOX } from "@/constants";
+import { ENABLE_LIGHTBOX, SHORTCODES } from "@/constants";
 import YouTube from "@/components/notion-blocks/embeds/YouTube.astro";
-import { joinPlainText } from "@/utils/richtext-utils";
+import { joinPlainText, resolveLeadingMarker } from "@/utils/richtext-utils";
 
 export interface Props {
 	block: interfaces.Block;
@@ -20,16 +20,24 @@ let url: URL | null = null;
 let videoUrl = "";
 if (block.Video.External) {
 	videoUrl = block.Video.External?.Url;
-	url = new URL(block.Video.External?.Url);
+	if (/^https?:\/\//.test(videoUrl)) {
+		url = new URL(videoUrl);
+	}
 } else if (block.Video.File) {
 	videoUrl = filePath(new URL(block.Video.File.Url));
 }
+const isWide =
+	setId &&
+	resolveLeadingMarker(block.Video, block.Video?.Caption, SHORTCODES["wide-breakout"], "__wide");
 const plainTextCaption = joinPlainText(block.Video?.Caption || []);
 const isThisYoutubeURL = url ? isYouTubeURL(url) : false;
 const youtubeVidIdTitle = isThisYoutubeURL ? await parseYouTubeVideoIdTitle(url) : ["", ""];
 ---
 
-<div class="video relative" id={setId ? block.Id : undefined}>
+<div
+	class:list={["video relative", { "webtrotion-wide-breakout": isWide }]}
+	id={setId ? block.Id : undefined}
+>
 	{
 		videoUrl &&
 			(url ? (
@@ -43,19 +51,14 @@ const youtubeVidIdTitle = isThisYoutubeURL ? await parseYouTubeVideoIdTitle(url)
 					{ENABLE_LIGHTBOX && (
 						<a
 							href={videoUrl}
-							class="mediaglightbox no-rss text-accent-2 absolute top-4 right-4 z-10 m-2 cursor-pointer"
+							class="mediaglightbox no-rss media-expand-icon top-4 right-4"
 							data-description={plainTextCaption}
 							aria-label="Click to expand"
 						>
 							<Icon name={"expand"} class="inline h-6 w-6" aria-hidden="true" />
 						</a>
 					)}
-					<video
-						class="h-[340px] w-full max-w-full rounded-lg border-none"
-						preload="metadata"
-						muted
-						controls
-					>
+					<video class="embed-media-box" preload="metadata" muted controls>
 						<source src={videoUrl} type="video/mp4" />
 						Your browser does not support the video tag.
 					</video>

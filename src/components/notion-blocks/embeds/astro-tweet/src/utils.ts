@@ -148,8 +148,10 @@ function getEntities(tweet: TweetBase): Entity[] {
 function addEntities(
 	result: EntityWithType[],
 	type: EntityWithType["type"],
-	entities: TweetEntity[],
+	entities: TweetEntity[] | undefined,
 ) {
+	if (!entities) return;
+
 	for (const entity of entities) {
 		for (const [i, item] of result.entries()) {
 			if (item.indices[0] > entity.indices[0] || item.indices[1] < entity.indices[1]) {

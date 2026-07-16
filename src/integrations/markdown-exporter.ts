@@ -823,7 +823,7 @@ function isFootnoteMarker(element: ElementNode): boolean {
 	const margin = element.attribs?.["data-margin-note"];
 	return Boolean(
 		(target && target.includes("popover-description-footnote-")) ||
-			(margin && margin.startsWith("footnote-")),
+		(margin && margin.startsWith("footnote-")),
 	);
 }
 

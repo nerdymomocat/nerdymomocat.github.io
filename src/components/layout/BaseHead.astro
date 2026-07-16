@@ -66,6 +66,43 @@ const useGiscus =
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
 
+{/* Apply the theme before first paint to prevent a flash of the wrong theme (FOUC). */}
+<script is:inline>
+	(() => {
+		const getThemePreference = () => {
+			if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
+				return localStorage.getItem("theme");
+			}
+			return "system";
+		};
+		const applyTheme = () => {
+			const theme = getThemePreference();
+			const isDark =
+				theme === "dark" ||
+				(theme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
+			const root = document.documentElement;
+			// Freeze transitions so the page recolors atomically (no staggered flash).
+			root.classList.add("theme-switching");
+			root.classList.toggle("dark", isDark);
+			// The toggle button may not exist yet on first run (it's later in the body);
+			// its state is (re)synced by ThemeIcon once it mounts.
+			const toggleButton = document.getElementById("themeToggle");
+			if (toggleButton) toggleButton.setAttribute("data-theme", theme);
+			// Re-enable transitions after the new theme has painted (double rAF).
+			window.requestAnimationFrame(() => {
+				window.requestAnimationFrame(() => root.classList.remove("theme-switching"));
+			});
+		};
+		// Expose so the ThemeIcon toggle can reuse the exact same logic.
+		window.applyTheme = applyTheme;
+		applyTheme();
+		// bfcache back/forward restores can serve a page with a stale <html> class; re-apply.
+		window.addEventListener("pageshow", (event) => {
+			if (event.persisted) applyTheme();
+		});
+	})();
+</script>
+
 {/* Preconnect to external CDN resources for faster loading */}
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
 <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
@@ -232,3 +269,21 @@ const useGiscus =
 		navigation: auto;
 	}
 </style>
+<script is:inline>
+	// Cross-document view transitions (@view-transition) are intentionally skipped by
+	// the browser on prerender activation (clientPrerender) and bfcache back/forward
+	// restores. That rejects the transition promise, surfacing a benign
+	// "Uncaught (in promise) AbortError/InvalidStateError: Transition was ..." console
+	// error. Swallow only those to keep the console (and Lighthouse best-practices) clean.
+	window.addEventListener("unhandledrejection", (event) => {
+		const reason = event.reason;
+		if (
+			reason &&
+			(reason.name === "AbortError" || reason.name === "InvalidStateError") &&
+			typeof reason.message === "string" &&
+			reason.message.includes("Transition was")
+		) {
+			event.preventDefault();
+		}
+	});
+</script>

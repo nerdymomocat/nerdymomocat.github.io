@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { toDeployablePublicUrl } from "./external-content/external-content-utils";
 
 function ensureBlankLineAfterImports(source: string): string {
 	const lines = source.split(/\r?\n/);
@@ -73,7 +74,7 @@ export function externalContentVitePlugins() {
 					const abs = path.posix.normalize(
 						path.posix.join("/custom-components", relPath.join("/"), raw),
 					);
-					return abs;
+					return toDeployablePublicUrl(abs);
 				};
 
 				let mutated = code;

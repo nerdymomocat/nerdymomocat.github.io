@@ -1,0 +1,119 @@
+<post-comments-tabs>
+	<slot />
+</post-comments-tabs>
+
+<script>
+	class PostCommentsTabs extends HTMLElement {
+		#initialized = false;
+		#isIntersecting = false;
+		#observer: IntersectionObserver | null = null;
+
+		connectedCallback() {
+			if (this.#initialized) return;
+			requestAnimationFrame(() => this.#initializeWhenReady());
+		}
+
+		#initializeWhenReady() {
+			if (this.#initialized || !this.isConnected) return;
+
+			const tabs = this.querySelectorAll<HTMLButtonElement>(".tab");
+			const panes = this.querySelectorAll<HTMLElement>(".tab-pane");
+			if (!tabs.length || !panes.length) {
+				requestAnimationFrame(() => this.#initializeWhenReady());
+				return;
+			}
+
+			this.#initialized = true;
+
+			tabs.forEach((tab) => {
+				tab.addEventListener("click", () => {
+					const activate = () => this.#activateTab(tab, tabs, panes);
+					const startViewTransition = (
+						document as Document & { startViewTransition?: (callback: () => void) => void }
+					).startViewTransition;
+					if (startViewTransition) {
+						startViewTransition.call(document, activate);
+					} else {
+						activate();
+					}
+				});
+			});
+
+			tabs[0]?.click();
+			this.#observer = new IntersectionObserver(
+				(entries) => {
+					this.#isIntersecting = entries.some((entry) => entry.isIntersecting);
+					if (this.#isIntersecting) this.#loadActivePane();
+				},
+				{ rootMargin: "0px" },
+			);
+			this.#observer.observe(this);
+		}
+
+		disconnectedCallback() {
+			this.#observer?.disconnect();
+		}
+
+		#activateTab(
+			tab: HTMLButtonElement,
+			tabs: NodeListOf<HTMLButtonElement>,
+			panes: NodeListOf<HTMLElement>,
+		) {
+			const targetTab = tab.dataset.tab;
+
+			panes.forEach((pane) => {
+				pane.hidden = pane.id !== `${targetTab}-tab`;
+			});
+
+			tabs.forEach((item) => item.classList.remove("active"));
+			tab.classList.add("active");
+			if (this.#isIntersecting) this.#loadActivePane();
+		}
+
+		#loadActivePane() {
+			const activePane = this.querySelector<HTMLElement>(".tab-pane:not([hidden])");
+			const target = activePane?.querySelector<HTMLElement>("[data-giscus-comments]");
+			if (!target || target.dataset.loaded === "true") return;
+
+			target.dataset.loaded = "true";
+			const script = document.createElement("script");
+			script.src = "https://giscus.app/client.js";
+			script.async = true;
+			script.crossOrigin = "anonymous";
+
+			const configKeys = [
+				"repo",
+				"repoId",
+				"category",
+				"categoryId",
+				"mapping",
+				"strict",
+				"reactionsEnabled",
+				"emitMetadata",
+				"inputPosition",
+				"theme",
+				"lang",
+				"loading",
+			];
+
+			for (const key of configKeys) {
+				const value = target.dataset[key];
+				if (!value) continue;
+				const attrName = `data-${key
+					.replace(/[A-Z]/g, (char) => `-${char.toLowerCase()}`)
+					.replace(/^-/, "")}`;
+				script.setAttribute(attrName, value);
+			}
+
+			target.append(script);
+		}
+	}
+
+	customElements.define("post-comments-tabs", PostCommentsTabs);
+</script>
+
+<style>
+	post-comments-tabs {
+		display: block;
+	}
+</style>

@@ -1,191 +1,348 @@
 ---
 // Heavy inspiration taken from Astro Starlight -> https://github.com/withastro/starlight/blob/main/packages/starlight/components/Search.astro
 
+// NOTE: The Pagefind component-ui CSS (~7KB gzipped) is intentionally NOT imported
+// here. Importing it in this always-rendered header component would bundle it into
+// the render-blocking site-wide stylesheet on every page for a feature that is fully
+// lazy-loaded. It is imported inside search-runtime.ts instead, so it ships only with
+// the dynamically-imported search chunk when the user actually opens search.
 import Icon from "@/components/ui/Icon.astro";
+import { getAllPosts } from "@/lib/notion/client";
+import { resolvePostHref, getNotionImage } from "@/lib/blog-helpers";
+import { getSvgIcon } from "@/utils/style-helpers";
+import { getImage } from "astro:assets";
+
+const baseUrl = import.meta.env.BASE_URL;
+const pagefindBundlePath = `${baseUrl.replace(/\/$/, "")}/pagefind/`;
+const passageIconSvg = getSvgIcon("text-short");
+const gotoIndexUrl = `${baseUrl.replace(/\/$/, "")}/search-pages.json`;
+const pinnedPost = (await getAllPosts()).find((post) => post.Pinned && !post.Slug.startsWith("_"));
+const pinnedIcon = pinnedPost?.Icon;
+const pinnedIconEmoji = pinnedIcon && "Emoji" in pinnedIcon ? pinnedIcon.Emoji : "";
+const pinnedIconUrl = pinnedIcon && "Url" in pinnedIcon ? pinnedIcon.Url : "";
+const pinnedIconDownloaded = pinnedIconUrl ? await getNotionImage(new URL(pinnedIconUrl)) : null;
+// Emit an optimized asset rather than the raw original `.src`: this fills a
+// pagefind template `<img src>` where a raster original would never be written
+// to the build and would 404. width:48 matches PagefindIconMetadata's variant.
+let pinnedIconImage = pinnedIconUrl;
+if (pinnedIconDownloaded) {
+	try {
+		pinnedIconImage = (await getImage({ src: pinnedIconDownloaded, width: 48 })).src;
+	} catch {
+		pinnedIconImage = pinnedIconDownloaded.src || pinnedIconUrl;
+	}
+}
+const resultTemplate = String.raw`
+<li class="webtrotion-search-result">
+	<div class="webtrotion-search-result-card">
+		<div class="webtrotion-search-result-main">
+			<div class="webtrotion-search-result-heading">
+				<span class="webtrotion-search-result-icon" aria-hidden="true">
+					{{#if meta.page_icon_emoji}}
+						{{ meta.page_icon_emoji }}
+					{{:else}}
+						{{#if meta.page_icon_image}}
+							<img src="{{ meta.page_icon_image | safeUrl }}" alt="" />
+						{{:else}}
+							<svg viewBox="0 0 24 24" focusable="false">
+								<path d="M6 3.75h8.4L19 8.35v11.9H6z" />
+								<path d="M14.25 4v4.6h4.5" />
+								<path d="M8.75 12h6.5M8.75 15h5M8.75 18h3.75" />
+							</svg>
+						{{/if}}
+					{{/if}}
+				</span>
+				<a class="webtrotion-search-result-link" href="{{ meta.url | default(url) | safeUrl }}">
+					{{ meta.title | default("Untitled") }}
+				</a>
+			</div>
+			{{#if excerpt}}
+				<p class="webtrotion-search-result-excerpt">{{+ excerpt +}}</p>
+			{{/if}}
+		</div>
+	</div>
+	{{#if sub_results}}
+		<ul class="webtrotion-search-subresults" aria-label="Matching sections">
+			{{#each sub_results as sub}}
+				<li>
+					<a class="webtrotion-search-subresult-link" href="{{ sub.url | safeUrl }}">
+						<span class="webtrotion-search-subresult-icon" aria-hidden="true">${passageIconSvg}</span>
+						<span class="webtrotion-search-subresult-body">
+							<span class="webtrotion-search-subresult-title">{{ sub.title | default("Section") }}</span>
+							{{#if sub.excerpt}}
+								<span class="webtrotion-search-subresult-excerpt">{{+ sub.excerpt +}}</span>
+							{{/if}}
+						</span>
+					</a>
+				</li>
+			{{/each}}
+		</ul>
+	{{/if}}
+</li>`;
+const placeholderTemplate = String.raw`
+<li class="webtrotion-search-result webtrotion-search-placeholder" aria-hidden="true">
+	<div class="webtrotion-search-result-card">
+		<div class="webtrotion-search-result-main">
+			<p class="webtrotion-search-skeleton webtrotion-search-skeleton-title"></p>
+			<p class="webtrotion-search-skeleton webtrotion-search-skeleton-line"></p>
+			<p class="webtrotion-search-skeleton webtrotion-search-skeleton-line short"></p>
+		</div>
+	</div>
+</li>`;
 ---
 
 <site-search id="search" class="ms-auto">
-	<button data-open-modal disabled class="search-btn" aria-label="Open search">
-		<Icon class="h-7 w-7" name={"search"} />
-	</button>
-	<dialog aria-label="search" class="search-dialog">
-		<div class="search-frame">
-			<button data-close-modal class="search-close-btn" aria-label="Close Search"
-				><Icon class="inline h-6 w-6" name={"close"} aria-hidden="true" focusable="false" /></button
-			>
-			{
-				import.meta.env.DEV ? (
-					<div class="mx-auto text-center">
-						<p>
-							Search is only available in production builds. <br />
-							Try building and previewing the site to test it out locally.
-						</p>
+	{
+		import.meta.env.DEV ? (
+			<button type="button" disabled class="search-btn" aria-label="Search unavailable in dev">
+				<span aria-hidden="true">⌕</span>
+			</button>
+		) : (
+			<>
+				<pagefind-config
+					instance="webtrotion-search"
+					bundle-path={pagefindBundlePath}
+					base-url={baseUrl}
+					highlight-param="highlight"
+				/>
+				<button type="button" disabled class="search-btn" aria-label="Open search">
+					<Icon class="h-7 w-7" name="search" />
+				</button>
+				<dialog class="search-loading-modal" aria-label="Search" aria-busy="true">
+					<div class="search-loading-header">
+						<div class="search-loading-input" aria-hidden="true">
+							<Icon class="search-loading-input-icon" name="search" />
+							<span class="search-loading-input-text">Search, or / to go to a page</span>
+						</div>
 					</div>
-				) : (
-					<div class="search-container">
-						<div id="webtrotion__search" />
+					<div class="search-loading-body">
+						<span class="search-loading-spinner" role="status" aria-label="Loading search" />
 					</div>
-				)
-			}
-		</div>
-	</dialog>
+				</dialog>
+				<pagefind-modal id="webtrotion-search-modal" instance="webtrotion-search">
+					<pagefind-modal-header>
+						<pagefind-input
+							instance="webtrotion-search"
+							placeholder="Search, or / to go to a page"
+							debounce="150"
+						/>
+					</pagefind-modal-header>
+					<pagefind-modal-body>
+						<div class="webtrotion-search-shell">
+							<div class="webtrotion-search-filters" aria-label="Search filters">
+								<span class="webtrotion-search-filters-icon" aria-hidden="true">
+									<Icon name="filter-variant" aria-hidden="true" focusable="false" />
+								</span>
+								<pagefind-filter-dropdown
+									instance="webtrotion-search"
+									filter="collections"
+									label="Collections"
+									sort="count-desc"
+									hide-clear
+								/>
+								<pagefind-filter-dropdown
+									instance="webtrotion-search"
+									filter="tags"
+									label="Tags"
+									sort="count-desc"
+									hide-clear
+								/>
+							</div>
+							<div class="webtrotion-search-content">
+								<section class="webtrotion-search-results-pane" aria-label="Search results">
+									<webtrotion-search-navigation
+										aria-label="Navigate site pages"
+										data-goto-index-url={gotoIndexUrl}
+										data-pinned-title={pinnedPost?.Title}
+										data-pinned-url={pinnedPost ? resolvePostHref(pinnedPost) : undefined}
+										data-pinned-collection={pinnedPost?.Collection}
+										data-pinned-excerpt={pinnedPost?.Excerpt}
+										data-pinned-icon-emoji={pinnedIconEmoji || undefined}
+										data-pinned-icon-image={pinnedIconImage || undefined}
+									/>
+									<pagefind-summary instance="webtrotion-search" />
+									<pagefind-results
+										instance="webtrotion-search"
+										show-images="false"
+										max-sub-results="3"
+									>
+										<script type="text/pagefind-template" set:html={resultTemplate} />
+										<script
+											type="text/pagefind-template"
+											data-template="placeholder"
+											set:html={placeholderTemplate}
+										/>
+									</pagefind-results>
+									<p class="webtrotion-search-empty-state" hidden aria-live="polite">
+										<span class="webtrotion-search-empty-state-icon" aria-hidden="true">
+											<Icon name="magnify-close" aria-hidden="true" focusable="false" />
+										</span>
+										Try a different term or clear a filter to see more.
+									</p>
+								</section>
+								<div class="webtrotion-search-preview-slot">
+									<webtrotion-search-preview instance="webtrotion-search" />
+								</div>
+							</div>
+						</div>
+					</pagefind-modal-body>
+					<pagefind-modal-footer>
+						<div class="webtrotion-search-navigation-hints" aria-label="Keyboard shortcuts">
+							<span>
+								<>
+									<kbd>↑</kbd>
+									<kbd>↓</kbd>
+								</>{" "}
+								Navigate
+							</span>
+							<span>
+								<kbd>→</kbd> Matches
+							</span>
+							<span>
+								<kbd>↵</kbd> Open
+							</span>
+							<span>
+								<kbd>/</kbd> Search
+							</span>
+							<span>
+								<>
+									<kbd>⌘</kbd>
+									<kbd>⌫</kbd>
+								</>{" "}
+								Clear
+							</span>
+							<span>
+								<kbd>Esc</kbd> Close
+							</span>
+						</div>
+					</pagefind-modal-footer>
+				</pagefind-modal>
+			</>
+		)
+	}
 </site-search>
 
 <script>
 	class SiteSearch extends HTMLElement {
-		private openBtn: HTMLButtonElement;
-		private closeBtn: HTMLButtonElement;
-		private dialog: HTMLDialogElement;
-		private dialogFrame: HTMLDivElement;
-		private observer: MutationObserver;
-		private initialized: boolean = false;
-		private idleCallbackId: number | null = null;
-		private pagefindUI: any = null;
-		private _loadPagefind: (() => Promise<void>) | null = null;
-
-		constructor() {
-			super();
-			this.openBtn = this.querySelector<HTMLButtonElement>("button[data-open-modal]")!;
-			this.closeBtn = this.querySelector<HTMLButtonElement>("button[data-close-modal]")!;
-			this.dialog = this.querySelector("dialog")!;
-			this.dialogFrame = this.querySelector(".search-frame")!;
-
-			this.openBtn.addEventListener("click", this.openModal);
-			this.openBtn.disabled = false;
-			this.closeBtn.addEventListener("click", this.closeModal);
-
-			// Initialize MutationObserver
-			this.observer = new MutationObserver(this.queueDOMCheck);
-		}
+		private runtimePromise: Promise<import("./search-runtime").SearchRuntime> | null = null;
+		private runtime: import("./search-runtime").SearchRuntime | null = null;
+		private openBtn: HTMLButtonElement | null = null;
+		private loadingModal: HTMLDialogElement | null = null;
+		private pendingOpen = false;
 
 		connectedCallback() {
-			window.addEventListener("keydown", this.onWindowKeydown);
 			if (import.meta.env.DEV) return;
 
-			this._loadPagefind = async () => {
-				if (this.pagefindUI) return;
-				const { PagefindUI } = await import("@pagefind/default-ui");
-				const bundlePath = import.meta.env.BASE_URL.replace(/\/$/, "") + "/pagefind/";
-				const css = document.createElement("link");
-				css.rel = "stylesheet";
-				css.href = bundlePath + "pagefind-ui.css";
-				document.head.appendChild(css);
-
-				this.pagefindUI = new PagefindUI({
-					element: "#webtrotion__search",
-					baseUrl: import.meta.env.BASE_URL,
-					bundlePath: import.meta.env.BASE_URL.replace(/\/$/, "") + "/pagefind/",
-					showImages: false,
-					showSubResults: true,
-					showEmptyFilters: false,
-					openFilters: ["Tags"],
-					translations: {
-						placeholder: "Tip: Use ⌘K or ^K to open search",
-						zero_results: "Couldn't find [SEARCH_TERM]",
-					},
-				});
-
-				if (this.dialog.open) {
-					requestAnimationFrame(() => this.querySelector("input")?.focus());
-				}
-
-				// Start observing the dialog for changes
-				this.observer.observe(this.dialog, { childList: true, subtree: true });
-
-				const queryParams = new URLSearchParams(window.location.search);
-				const searchTerm = queryParams.get("q");
-
-				if (searchTerm) {
-					this.openModal();
-					this.pagefindUI.triggerSearch(searchTerm);
-				}
-			};
-
-			const queryParams = new URLSearchParams(window.location.search);
-			if (queryParams.get("q")) {
-				this._loadPagefind();
-			} else {
-				// Load on interaction
-				this.openBtn.addEventListener("mouseenter", () => this._loadPagefind?.(), { once: true });
-				this.openBtn.addEventListener("focus", () => this._loadPagefind?.(), { once: true });
+			this.openBtn = this.querySelector<HTMLButtonElement>(".search-btn");
+			this.loadingModal = this.querySelector<HTMLDialogElement>(".search-loading-modal");
+			this.loadingModal?.addEventListener("close", this.onLoadingClose);
+			if (this.openBtn) {
+				this.openBtn.disabled = false;
+				this.openBtn.addEventListener("pointerenter", this.prefetch);
+				this.openBtn.addEventListener("focus", this.prefetch);
+				this.openBtn.addEventListener("click", this.onClick);
 			}
+			document.addEventListener("keydown", this.onKeydown);
+
+			const params = new URLSearchParams(window.location.search);
+			const hasDeepLink =
+				params.has("q") ||
+				params.has("collections") ||
+				params.has("collection") ||
+				params.has("tags") ||
+				params.has("tag");
+			if (hasDeepLink) this.openSearch(true);
 		}
 
 		disconnectedCallback() {
-			window.removeEventListener("keydown", this.onWindowKeydown);
-			this.observer.disconnect();
-			if (this.idleCallbackId !== null) {
-				(window.cancelIdleCallback || clearTimeout)(this.idleCallbackId);
-			}
+			document.removeEventListener("keydown", this.onKeydown);
 		}
 
-		queueDOMCheck = () => {
-			if (this.initialized) return;
+		private prefetch = () => {
+			void this.load();
+		};
 
-			if (this.idleCallbackId !== null) {
-				(window.cancelIdleCallback || clearTimeout)(this.idleCallbackId);
+		private onClick = (event: Event) => {
+			event.preventDefault();
+			this.openSearch(false);
+		};
+
+		private onKeydown = (event: KeyboardEvent) => {
+			if (event.defaultPrevented) return;
+
+			const key = event.key.toLowerCase();
+			const isShortcutK = (event.metaKey || event.ctrlKey) && !event.altKey && key === "k";
+			if (!isShortcutK) return;
+
+			event.preventDefault();
+			this.openSearch(false);
+		};
+
+		private onLoadingClose = () => {
+			// Placeholder dismissed (e.g. Esc) before the runtime was ready — cancel the pending open.
+			this.pendingOpen = false;
+		};
+
+		private openSearch(fromUrl: boolean) {
+			// Runtime already loaded → open the real modal directly (with its normal entrance).
+			if (this.runtime) {
+				if (fromUrl) this.runtime.openFromUrl();
+				else this.runtime.open();
+				return;
 			}
 
-			const onIdle = window.requestIdleCallback || ((cb) => setTimeout(cb, 0));
-			this.idleCallbackId = onIdle(this.checkForFilterBlocks);
-		};
+			// First open: pop the placeholder while the ~186KB runtime chunk downloads.
+			// But only if it isn't ready quickly — after the first download the chunk is
+			// HTTP-cached, so later pages (this is an MPA, so the element re-instantiates on
+			// every navigation) resolve the import in a few ms and never flash the spinner.
+			// The placeholder only appears on a genuine cold first load.
+			this.pendingOpen = true;
+			const placeholderTimer = window.setTimeout(() => {
+				if (this.pendingOpen && this.loadingModal && !this.loadingModal.open) {
+					try {
+						this.loadingModal.showModal();
+					} catch {}
+				}
+			}, 120);
 
-		checkForFilterBlocks = () => {
-			this.idleCallbackId = null;
-			if (this.initialized) return;
+			void this.load().then((runtime) => {
+				window.clearTimeout(placeholderTimer);
+				if (!this.pendingOpen) return; // dismissed before it was ready
+				this.pendingOpen = false;
+				const handoff = this.loadingModal?.open ?? false;
+				if (handoff) {
+					// Suppress the real modal's entrance animation for this one frame so it
+					// snaps in exactly where the placeholder was — a seamless hand-off. Close
+					// the placeholder first so focus lands on the real input, not the button.
+					this.dataset.searchHandoff = "";
+					this.loadingModal?.close();
+				}
+				if (fromUrl) runtime.openFromUrl();
+				else runtime.open();
+				if (handoff) {
+					requestAnimationFrame(() =>
+						requestAnimationFrame(() => delete this.dataset.searchHandoff),
+					);
+				}
+			});
+		}
 
-			const filterBlocks = this.dialog.querySelectorAll(".pagefind-ui__filter-block");
-			if (filterBlocks.length >= 2) {
-				this.initializeFilterBlocks(filterBlocks);
-				this.initialized = true;
-				this.observer.disconnect();
+		private load() {
+			if (!this.runtimePromise) {
+				this.runtimePromise = import("./search-runtime").then(async (module) => {
+					const runtime = module.createSearchRuntime(this);
+					// Wait until the popup stylesheet has applied before exposing the runtime,
+					// so the modal is only ever revealed fully styled (no flash of unstyled UI).
+					await module.stylesReady;
+					this.runtime = runtime;
+					return runtime;
+				});
 			}
-		};
-
-		initializeFilterBlocks = (filterBlocks: NodeListOf<Element>) => {
-			const secondFilterBlock = filterBlocks[1] as HTMLDetailsElement;
-			if (window.innerWidth >= 640) {
-				// Tailwind's sm breakpoint
-				secondFilterBlock.setAttribute("open", "");
-			} else {
-				secondFilterBlock.removeAttribute("open");
-			}
-		};
-
-		onWindowClick = (event: MouseEvent) => {
-			const isLink = "href" in (event.target || {});
-			if (
-				isLink ||
-				(document.body.contains(event.target as Node) &&
-					!this.dialogFrame.contains(event.target as Node))
-			)
-				this.closeModal();
-		};
-
-		onWindowKeydown = (e: KeyboardEvent) => {
-			if ((e.metaKey || e.ctrlKey) && e.key === "k" && !this.dialog.open) {
-				this.openModal();
-				e.preventDefault();
-			}
-		};
-
-		openModal = (event?: MouseEvent) => {
-			if (!this.pagefindUI) {
-				this._loadPagefind?.();
-			}
-			this.dialog.showModal();
-			this.querySelector("input")?.focus();
-			event?.stopPropagation();
-			window.addEventListener("click", this.onWindowClick);
-		};
-
-		closeModal = () => {
-			if (this.dialog.open) {
-				this.dialog.close();
-				window.removeEventListener("click", this.onWindowClick);
-			}
-		};
+			return this.runtimePromise;
+		}
 	}
 
-	customElements.define("site-search", SiteSearch);
+	if (!customElements.get("site-search")) {
+		customElements.define("site-search", SiteSearch);
+	}
 </script>

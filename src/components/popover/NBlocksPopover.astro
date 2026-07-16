@@ -60,7 +60,7 @@ if (linkedTo && (linkedTo.includes(footnotePattern + "/") || linkedTo.endsWith(f
 		data-popover
 		id={`popover-description-${id}`}
 		role="tooltip"
-		class="popoverEl border-accent-2/20 bg-popover-bg/95 text-textColor/80 invisible absolute z-40 hidden inline-block w-72 rounded-lg border text-sm opacity-0 shadow-xs backdrop-blur-sm transition-opacity duration-300"
+		class="popoverEl notion-popover hidden"
 	>
 		{
 			isFootnote ? (
@@ -69,29 +69,25 @@ if (linkedTo && (linkedTo.includes(footnotePattern + "/") || linkedTo.endsWith(f
 					<span data-popover-link>{""}</span>
 				</div>
 			) : (
-				<a href={linkedTo}>
-					<div class="space-y-2 p-3">
-						{popoverTitle && (
-							<h3 class="text-accent decoration-accent-2/20 font-semibold underline decoration-wavy">
-								{popoverTitle}
-							</h3>
-						)}
-						<NotionBlocks blocks={[block]} renderChildren={false} setId={false} />
-						<a
-							href={linkedTo}
-							data-popover-link
-							class="text-link/90 flex max-w-full items-center font-medium hover:underline"
-						>
-							{linkText}
-							<Icon
-								class="ms-1.5 h-3 w-3 rtl:rotate-180"
-								name={"jump"}
-								aria-hidden="true"
-								focusable="false"
-							/>
-						</a>
-					</div>
-				</a>
+				<div
+					class="cursor-pointer space-y-2 p-3"
+					data-popover-card-link
+					data-href={linkedTo}
+					role="link"
+					tabindex="0"
+				>
+					{popoverTitle && <h3 class="notion-popover-title">{popoverTitle}</h3>}
+					<NotionBlocks blocks={[block]} renderChildren={false} setId={false} />
+					<a href={linkedTo} data-popover-link class="notion-popover-link">
+						{linkText}
+						<Icon
+							class="ms-1.5 h-3 w-3 rtl:rotate-180"
+							name={"jump"}
+							aria-hidden="true"
+							focusable="false"
+						/>
+					</a>
+				</div>
 			)
 		}
 	</div>
