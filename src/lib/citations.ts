@@ -20,9 +20,10 @@ import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
 import axios from "axios";
-import { Cite } from "@citation-js/core";
+import { Cite, plugins } from "@citation-js/core";
 import "@citation-js/plugin-bibtex";
 import "@citation-js/plugin-csl";
+import acmSigProceedingsStyle from "../utils/acm-sig-proceedings.csl?raw";
 import type {
 	Block,
 	RichText,
@@ -41,6 +42,9 @@ import {
 	splitRichTextsAtCharPosition,
 } from "../utils/richtext-utils";
 import { BUILD_FOLDER_PATHS, LAST_BUILD_TIME, BIBLIOGRAPHY_STYLE } from "../constants";
+
+// Keep the existing simplified-ieee setting, backed by the public ACM SIG Proceedings CSL style.
+plugins.config.get("@csl").styles.add("simplified-ieee", acmSigProceedingsStyle);
 
 // ============================================================================
 // URL Normalization and Source Detection
@@ -221,7 +225,7 @@ export async function fetchBibTeXFile(url: string): Promise<string> {
  */
 function formatBibEntry(
 	entry: any,
-	template: "apa" | "ieee",
+	template: "apa" | "simplified-ieee",
 	authors: string,
 	year: string,
 ): string {
@@ -286,7 +290,7 @@ function parseAndFormatBibTeXContent(content: string): Map<string, ParsedCitatio
 			}
 		}
 
-		const ieeeFormatted = formatBibEntry(entry, "ieee", authors, year);
+		const ieeeFormatted = formatBibEntry(entry, "simplified-ieee", authors, year);
 		const apaFormatted = formatBibEntry(entry, "apa", authors, year);
 
 		entries.set(key, {
