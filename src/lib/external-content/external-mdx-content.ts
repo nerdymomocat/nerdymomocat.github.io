@@ -127,7 +127,7 @@ export async function renderExternalMdx(post: Post): Promise<ExternalMdxRenderRe
 		extractInterlinkedContent: true,
 	});
 
-	const headings = buildHeadings(blocks);
+	const headings = buildHeadings(blocks)!;
 
 	let Component: AstroComponentFactory | null = null;
 	let mdxComponents: Record<string, any> = {};
@@ -180,7 +180,9 @@ function getChildBlocks(block: Block): Block[] {
 	pushChildren(block.NumberedListItem?.Children);
 	pushChildren(block.ToDo?.Children);
 	pushChildren(block.SyncedBlock?.Children);
-	pushChildren(block.Table?.Children);
+	pushChildren(
+		(block.Table as (typeof block.Table & { Children?: Block[] }) | undefined)?.Children,
+	);
 	if (block.ColumnList?.Columns) {
 		block.ColumnList.Columns.forEach((col) => pushChildren(col.Children));
 	}

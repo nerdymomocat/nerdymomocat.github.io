@@ -38,7 +38,7 @@ export interface Props {
 
 const { blocks: rawBlocks, level = 1, renderChildren = true, setId = true } = Astro.props;
 
-const blocks = rawBlocks.reduce((arr, block: interfaces.Block, i: number) => {
+const blocks = rawBlocks.reduce<interfaces.Block[]>((arr, block: interfaces.Block, i: number) => {
 	const isBulletedListItem = block.Type === "bulleted_list_item";
 	const isNumberedListItem = block.Type === "numbered_list_item";
 	const isToDo = block.Type === "to_do";
@@ -47,7 +47,7 @@ const blocks = rawBlocks.reduce((arr, block: interfaces.Block, i: number) => {
 		return arr.concat(block);
 	}
 
-	let listType = "";
+	let listType: interfaces.List["Type"];
 	if (isBulletedListItem) {
 		listType = "bulleted_list";
 	} else if (isNumberedListItem) {
@@ -60,11 +60,11 @@ const blocks = rawBlocks.reduce((arr, block: interfaces.Block, i: number) => {
 		const list: interfaces.List = {
 			Type: listType,
 			ListItems: [block],
-		};
+		} as interfaces.List;
 		return arr.concat(list);
 	}
 
-	const prevList = arr[arr.length - 1];
+	const prevList = arr[arr.length - 1]!;
 
 	if (
 		(isBulletedListItem && prevList.Type !== "bulleted_list") ||
@@ -74,11 +74,11 @@ const blocks = rawBlocks.reduce((arr, block: interfaces.Block, i: number) => {
 		const list: interfaces.List = {
 			Type: listType,
 			ListItems: [block],
-		};
+		} as interfaces.List;
 		return arr.concat(list);
 	}
 
-	prevList.ListItems.push(block);
+	prevList.ListItems!.push(block);
 
 	return arr;
 }, []);
@@ -86,17 +86,17 @@ const blocks = rawBlocks.reduce((arr, block: interfaces.Block, i: number) => {
 const bookmarkURLs = blocks
 	.filter((b: interfaces.Block) => ["bookmark", "link_preview", "embed"].includes(b.Type))
 	.map((b: interfaces.Block) => {
-		const urlString = (b.Bookmark || b.LinkPreview || b.Embed).Url;
+		const urlString = (b.Bookmark || b.LinkPreview || b.Embed)?.Url;
+		if (!urlString) return null;
 
-		let url: URL;
 		try {
-			url = new URL(urlString);
+			return new URL(urlString);
 		} catch (err) {
 			console.log(err);
+			return null;
 		}
-		return url;
 	})
-	.filter((url: URL) => url && !isTweetURL(url) && !isAmazonURL(url));
+	.filter((url): url is URL => url !== null && !isTweetURL(url) && !isAmazonURL(url));
 
 const bookmarkURLMap = await buildURLToHTMLMap(bookmarkURLs);
 ---

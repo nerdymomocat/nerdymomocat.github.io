@@ -94,7 +94,7 @@ export async function renderExternalMarkdown(post: Post): Promise<MarkdownRender
 		extractInterlinkedContent: true,
 	});
 
-	const headings = buildHeadings(blocks);
+	const headings = buildHeadings(blocks)!;
 
 	return {
 		blocks,
@@ -125,7 +125,9 @@ function getChildBlocks(block: Block): Block[] {
 	pushChildren(block.NumberedListItem?.Children);
 	pushChildren(block.ToDo?.Children);
 	pushChildren(block.SyncedBlock?.Children);
-	pushChildren(block.Table?.Children);
+	pushChildren(
+		(block.Table as (typeof block.Table & { Children?: Block[] }) | undefined)?.Children,
+	);
 	if (block.ColumnList?.Columns) {
 		block.ColumnList.Columns.forEach((col) => pushChildren(col.Children));
 	}

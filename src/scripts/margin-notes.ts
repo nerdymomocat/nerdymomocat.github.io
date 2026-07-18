@@ -61,7 +61,7 @@ async function setupMarginNotes() {
 setupMarginNotes();
 
 // Handle window resize
-let resizeTimeout;
+let resizeTimeout: ReturnType<typeof setTimeout> | undefined;
 window.addEventListener("resize", () => {
 	clearTimeout(resizeTimeout);
 	resizeTimeout = setTimeout(async () => {
@@ -117,7 +117,7 @@ window.addEventListener("resize", () => {
 // offset, so any content that grows/shrinks *above* them (a <details> toggle
 // opening or closing, a lazy-loaded iframe/embed expanding once it mounts,
 // async media, etc.) would otherwise leave them stuck at stale offsets.
-let layoutShiftTimeout;
+let layoutShiftTimeout: ReturnType<typeof setTimeout> | undefined;
 function scheduleMarginNoteReposition() {
 	clearTimeout(layoutShiftTimeout);
 	layoutShiftTimeout = setTimeout(() => {
@@ -145,7 +145,7 @@ if (typeof ResizeObserver !== "undefined") {
 }
 
 function positionMarginNotes(limit?: number) {
-	const markers = document.querySelectorAll("[data-margin-note]");
+	const markers = document.querySelectorAll<HTMLElement>("[data-margin-note]");
 	let positioned = 0;
 	const processedCitationKeys = new Set<string>();
 
@@ -155,7 +155,9 @@ function positionMarginNotes(limit?: number) {
 		const footnoteId = markerEl.getAttribute("data-margin-note");
 		if (!footnoteId) return;
 
-		const template = document.getElementById(`template-margin-${footnoteId}`);
+		const template = document.getElementById(
+			`template-margin-${footnoteId}`,
+		) as HTMLTemplateElement | null;
 		if (!template) return;
 
 		//Deduplicate citations based on citation key to avoid multiple margin notes for same citation in same block in a page.
@@ -170,7 +172,7 @@ function positionMarginNotes(limit?: number) {
 			processedCitationKeys.add(citationKey);
 		}
 
-		const postBody = markerEl.closest(".post-body");
+		const postBody = markerEl.closest<HTMLElement>(".post-body");
 		if (!postBody) return;
 
 		// Skip if inside a post-preview-full-container (collection full preview pages)
@@ -190,14 +192,18 @@ function positionMarginNotes(limit?: number) {
 
 		// Check if there are nested citation markers in the cloned content
 		// Query marginNote (not content) since content is now empty after appendChild
-		const nestedCitationMarkers = marginNote.querySelectorAll('[data-margin-note^="citation-"]');
+		const nestedCitationMarkers = marginNote.querySelectorAll<HTMLElement>(
+			'[data-margin-note^="citation-"]',
+		);
 
 		nestedCitationMarkers.forEach((citationMarker) => {
 			const citationId = citationMarker.getAttribute("data-margin-note");
 			if (!citationId) return;
 
 			// Find the citation's margin template (search in marginNote)
-			const citationTemplate = marginNote.querySelector(`#template-margin-${citationId}`);
+			const citationTemplate = marginNote.querySelector<HTMLTemplateElement>(
+				`#template-margin-${citationId}`,
+			);
 			if (!citationTemplate) return;
 
 			const nestedCitationKey = citationMarker.getAttribute("data-citation-key");
@@ -252,7 +258,7 @@ function positionMarginNotes(limit?: number) {
 	stackAllMarginNotesGlobally();
 }
 
-function setupHoverHighlight(marker, note) {
+function setupHoverHighlight(marker: HTMLElement, note: HTMLElement) {
 	marker.addEventListener("mouseenter", () => {
 		marker.classList.add("highlighted");
 		note.classList.add("highlighted");
@@ -281,13 +287,15 @@ function setupHoverHighlight(marker, note) {
  */
 function stackAllMarginNotesGlobally() {
 	// Find all margin notes in the document
-	const allNotes = Array.from(document.querySelectorAll(".footnote-margin-note"));
+	const allNotes = Array.from(document.querySelectorAll<HTMLElement>(".footnote-margin-note"));
 
 	if (allNotes.length === 0) return;
 
 	// Bands occupied by wide blocks reaching into the gutter; notes landing inside
 	// are pushed below so a widened block never overlaps a margin note.
-	const postBody = allNotes[0].closest(".post-body");
+	const firstNote = allNotes[0];
+	if (!firstNote) return;
+	const postBody = firstNote.closest(".post-body");
 	const wideBands = postBody ? getWideBands(postBody as HTMLElement) : [];
 
 	// Sort by initial top position
@@ -312,6 +320,7 @@ function stackAllMarginNotesGlobally() {
 	for (let i = 1; i < allNotes.length; i++) {
 		const prevNote = allNotes[i - 1];
 		const currNote = allNotes[i];
+		if (!prevNote || !currNote) continue;
 
 		const prevTop = parseInt(prevNote.style.top) || 0;
 		const prevBottom = prevTop + prevNote.offsetHeight;

@@ -1,5 +1,5 @@
 ---
-import type { Post, AuthorProperty } from "@/lib/interfaces";
+import type { Post } from "@/lib/interfaces";
 import { siteInfo } from "@/siteInfo";
 import { getPostLink, isExternalPost } from "@/lib/blog-helpers";
 import { MENU_PAGES_COLLECTION } from "@/constants";
@@ -41,7 +41,7 @@ const formatAuthorName = (name: string): string => {
 	const parts = name.trim().split(/\s+/);
 	if (parts.length === 1) {
 		// Single name, just return as-is
-		return parts[0];
+		return parts[0]!;
 	} else if (parts.length === 2) {
 		// Firstname Lastname -> Lastname, Firstname
 		return `${parts[1]}, ${parts[0]}`;
@@ -71,7 +71,7 @@ const authorFormatted = authors.map(formatAuthorName).join(" and ");
 const getLastname = (name: string): string => {
 	if (!name || name === "Unknown Author") return "unknown";
 	const parts = name.trim().split(/\s+/);
-	return parts[parts.length - 1].toLowerCase();
+	return parts[parts.length - 1]!.toLowerCase();
 };
 
 const lastname = getLastname(authors[0] || "Unknown Author");

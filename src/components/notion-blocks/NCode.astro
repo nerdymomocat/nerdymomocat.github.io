@@ -108,7 +108,7 @@ function processCode(code: string, language: string): string {
 
 		if (match) {
 			const command = match[2];
-			const remainingContent = match[3].trim();
+			const remainingContent = match[3]!.trim();
 
 			if (command === "--" || command === "warning" || command === "error") {
 				return "";
@@ -128,13 +128,14 @@ function processCode(code: string, language: string): string {
 }
 
 // Usage
-let code = block.Code.RichTexts.map((richText: interfaces.RichText) => richText.Text.Content).join(
+const codeBlock = block.Code!;
+let code = codeBlock.RichTexts.map((richText: interfaces.RichText) => richText.Text!.Content).join(
 	"",
 );
 const language =
-	block.Code.Language.toLowerCase() === "plain text"
+	codeBlock.Language.toLowerCase() === "plain text"
 		? "plaintext"
-		: block.Code.Language.toLowerCase();
+		: codeBlock.Language.toLowerCase();
 
 const shiki_transform_code = SHORTCODES["shiki-transform"]
 	? code.startsWith(SHORTCODES["shiki-transform"])
@@ -172,7 +173,7 @@ let iframeSrcDoc: string | null = null;
 const renderShortcode = SHORTCODES["html-render"];
 const defaultRenderShortcode = "<!DOCTYPE html> <!-- iframe -->";
 
-if (block.Code.RenderMode === "iframe") {
+if (codeBlock.RenderMode === "iframe") {
 	iframeSrcDoc = code;
 } else if (renderShortcode) {
 	// Check for the standard shortcode first.
@@ -200,10 +201,10 @@ const highlightedCodeHtml = shouldHighlight
 			transformers: TRANSFORMER_FUNCTIONS_ARR,
 		})
 		: null;
-const isWide = setId && resolveLeadingMarker(block.Code, block.Code?.Caption, SHORTCODES["wide-breakout"], "__wide");
-const plainTextCaption = joinPlainText(block.Code?.Caption || []);
-const iframeHeight = block.Code.IframeSizing?.Height;
-const iframeAspectRatio = iframeHeight ? undefined : block.Code.IframeSizing?.AspectRatio;
+const isWide = setId && resolveLeadingMarker(codeBlock, codeBlock.Caption!, SHORTCODES["wide-breakout"], "__wide");
+const plainTextCaption = joinPlainText(codeBlock.Caption!);
+const iframeHeight = codeBlock.IframeSizing?.Height;
+const iframeAspectRatio = iframeHeight ? undefined : codeBlock.IframeSizing?.AspectRatio;
 const iframeStyle = iframeHeight
 	? `--html-frame-height: ${iframeHeight}px`
 	: iframeAspectRatio
@@ -252,7 +253,7 @@ const iframeLightboxId = `html-frame-lightbox-${block.Id}`;
 	) : code_inject ? (
 		<div class:list={["code-injected", { "webtrotion-wide-breakout": isWide }]} id={setId ? block.Id : undefined}>
 			<Fragment set:html={htmlToInject} />
-			<Caption richTexts={block.Code.Caption} block={block} />
+			<Caption richTexts={codeBlock.Caption!} block={block} />
 		</div>
 	) : (
 		<div
@@ -287,7 +288,7 @@ const iframeLightboxId = `html-frame-lightbox-${block.Id}`;
 					highlightedCodeHtml && <Fragment set:html={highlightedCodeHtml} />
 				)}
 			</div>
-			<Caption richTexts={block.Code.Caption} block={block} />
+			<Caption richTexts={codeBlock.Caption!} block={block} />
 		</div>
 	)
 	}

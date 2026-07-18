@@ -85,29 +85,26 @@ const imageToDataUrl = async (filepath: string, resize?: { w: number; h: number 
 
 // Prepare Logo
 let customIconURL = "";
+const logo = siteInfo.logo;
+const logoUrl = logo && "Url" in logo ? logo.Url : null;
 const shouldUseLocalLogo =
-	siteInfo.logo &&
-	siteInfo.logo.Url &&
-	(siteInfo.logo.Type === "file" ||
-		siteInfo.logo.Type === "custom_emoji" ||
-		siteInfo.logo.Type === "icon" ||
-		isNotionHostedIconUrl(siteInfo.logo.Url));
+	logoUrl &&
+	(logo?.Type === "file" ||
+		logo?.Type === "custom_emoji" ||
+		logo?.Type === "icon" ||
+		isNotionHostedIconUrl(logoUrl));
 
 if (shouldUseLocalLogo) {
 	try {
-		customIconURL = path.join(
-			process.cwd(),
-			"public",
-			buildTimeFilePath(new URL(siteInfo.logo.Url)),
-		);
+		customIconURL = path.join(process.cwd(), "public", buildTimeFilePath(new URL(logoUrl)));
 	} catch (err) {
 		console.log("Invalid DB custom icon URL");
 	}
 }
 
 const logo_src =
-	siteInfo.logo && siteInfo.logo.Type === "external" && !shouldUseLocalLogo
-		? siteInfo.logo.Url
+	logo?.Type === "external" && !shouldUseLocalLogo
+		? logoUrl
 		: siteInfo.logo && customIconURL
 			? await imageToDataUrl(customIconURL, { w: 30, h: 30 })
 			: null;
@@ -169,8 +166,14 @@ async function getFontFromGoogle(name: string, weight: number): Promise<SatoriOp
 	).then((res) => res.text());
 	const resource = css.match(/src: url\((.+)\) format\('(opentype|truetype)'\)/);
 	if (!resource) throw new Error(`Failed to find font URL for ${name}`);
-	const data = await fetch(resource[1]).then((res) => res.arrayBuffer());
-	return { name, style: "normal", weight: validWeight, data };
+	const fontUrl = resource[1]!;
+	const data = await fetch(fontUrl).then((res) => res.arrayBuffer());
+	return {
+		name,
+		style: "normal",
+		weight: validWeight as NonNullable<SatoriOptions["fonts"][number]["weight"]>,
+		data,
+	};
 }
 
 async function getOgFonts(): Promise<SatoriOptions["fonts"]> {
@@ -250,7 +253,7 @@ const buildOgImage = ({
 	title: string;
 	date: string;
 	desc?: string;
-	img?: string;
+	img?: string | undefined;
 	author: string;
 	layout: "split" | "simple" | "bg";
 }) => {
@@ -487,8 +490,8 @@ export async function GET(context: APIContext) {
 	let keyStr = slug;
 	let type = "postpage";
 	if (keyStr?.includes("---")) {
-		const parts = slug.split("---");
-		type = parts[0];
+		const parts = (slug || "").split("---");
+		type = parts[0] || "";
 		keyStr = parts[1];
 	}
 
@@ -506,7 +509,6 @@ export async function GET(context: APIContext) {
 	let layout: "split" | "simple" | "bg" = "simple";
 	const featuredUrlStr = isPost ? post?.FeaturedImage?.Url : undefined;
 	const featuredExpiry = isPost ? post?.FeaturedImage?.ExpiryTime : undefined;
-	let featuredIsValidNow = false;
 	let needsImageNormalization = false;
 	let img: string | undefined = undefined;
 
@@ -530,7 +532,6 @@ export async function GET(context: APIContext) {
 		const hasValidImg =
 			featuredUrlStr && (!featuredExpiry || Date.parse(featuredExpiry) > Date.now());
 
-		featuredIsValidNow = !!hasValidImg;
 		if (hasValidImg) needsImageNormalization = true;
 		desc = (OG_SETUP["excerpt"] && post?.Excerpt) || "";
 
@@ -572,7 +573,11 @@ export async function GET(context: APIContext) {
 	const canConsiderReuse = !!LAST_BUILD_TIME && fs.existsSync(imagePath);
 	if (canConsiderReuse) {
 		if (isPost) {
-			if (post?.LastUpdatedTimeStamp && post.LastUpdatedTimeStamp < LAST_BUILD_TIME) {
+			if (
+				LAST_BUILD_TIME &&
+				post?.LastUpdatedTimeStamp &&
+				post.LastUpdatedTimeStamp < LAST_BUILD_TIME
+			) {
 				return new Response(fs.readFileSync(imagePath), {
 					headers: {
 						"Content-Type": "image/png",
@@ -582,7 +587,11 @@ export async function GET(context: APIContext) {
 			}
 		} else {
 			const dataSource = await getDataSourceCached();
-			if (dataSource?.LastUpdatedTimeStamp && dataSource.LastUpdatedTimeStamp < LAST_BUILD_TIME) {
+			if (
+				LAST_BUILD_TIME &&
+				dataSource?.LastUpdatedTimeStamp &&
+				dataSource.LastUpdatedTimeStamp < LAST_BUILD_TIME
+			) {
 				return new Response(fs.readFileSync(imagePath), {
 					headers: {
 						"Content-Type": "image/png",
@@ -651,7 +660,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 	const postsMap = posts.map(({ Slug }) => ({ params: { slug: Slug } }));
 
 	const collectionsWDesc = await getCollectionsWDesc();
-	const collectionMap = collectionsWDesc.map((c) => ({
+	const collectionMap = (collectionsWDesc || []).map((c) => ({
 		params: { slug: "collectionpage---" + c.name },
 		props: { description: c.description },
 	}));

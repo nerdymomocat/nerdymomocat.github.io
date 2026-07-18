@@ -3,12 +3,13 @@ import { resolvePostHref, getPostLink } from "@/lib/blog-helpers";
 import { HIDE_UNDERSCORE_SLUGS_IN_LISTS } from "@/constants";
 import { getCollections } from "@/utils";
 import { slugify } from "@/utils";
+import type { Post } from "@/lib/interfaces";
 
 export const GET = async () => {
 	const [posts, pages] = await Promise.all([getAllPosts(), getAllPages()]);
 
 	// Filter posts and pages
-	const filterEntries = (entries) => {
+	const filterEntries = (entries: Post[]): Post[] => {
 		const filtered = HIDE_UNDERSCORE_SLUGS_IN_LISTS
 			? entries.filter((entry) => !entry.Slug.startsWith("_"))
 			: entries;
@@ -20,7 +21,7 @@ export const GET = async () => {
 	const collections = await getCollections();
 
 	// Generate sitemap entries for posts and pages
-	const generateEntries = (entries, isPage) =>
+	const generateEntries = (entries: Post[], isPage: boolean) =>
 		entries
 			.map((entry) => {
 				const url = new URL(
@@ -31,7 +32,7 @@ export const GET = async () => {
 			})
 			.join("");
 
-	const generateCollectionEntries = (collectionNames) =>
+	const generateCollectionEntries = (collectionNames: string[]) =>
 		collectionNames
 			.map((collectionName) => {
 				const slugifiedName = slugify(collectionName);
@@ -43,7 +44,7 @@ export const GET = async () => {
 
 	const postEntries = generateEntries(filteredPosts, false);
 	const pageEntries = generateEntries(filteredPages, true);
-	const collectionEntries = generateCollectionEntries(collections);
+	const collectionEntries = generateCollectionEntries(collections!);
 
 	// Combine post and page entries
 	const combinedEntries = postEntries + pageEntries + collectionEntries;

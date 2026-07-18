@@ -1,4 +1,3 @@
-import path from "node:path";
 import { markdownToMdast, mdxToMdast } from "satteri";
 import type {
 	Block,
@@ -10,8 +9,7 @@ import type {
 } from "@/lib/interfaces";
 import type { ExternalContentDescriptor, Post } from "@/lib/interfaces";
 import type {
-	Content,
-	DefinitionContent,
+	RootContent,
 	FootnoteDefinition,
 	Heading,
 	Image,
@@ -23,10 +21,9 @@ import type {
 	Table,
 	TableRow,
 	TableCell as MdTableCell,
-	HTML,
-	MdxJsxFlowElement,
-	MdxJsxTextElement,
+	Html,
 } from "mdast";
+import type { MdxJsxFlowElement, MdxJsxTextElement } from "mdast-util-mdx-jsx";
 import { isRelativePath, toDeployablePublicUrl, toPublicUrl } from "./external-content-utils";
 import { SHORTCODES } from "@/constants";
 
@@ -49,7 +46,7 @@ function createAnnotation(state?: AnnotationState): Annotation {
 function createRichText(
 	text: string,
 	state?: AnnotationState,
-	options?: { href?: string },
+	options?: { href?: string | undefined },
 ): RichText {
 	const trimmed = text.replace(/\r/g, "");
 	return {
@@ -76,13 +73,18 @@ type ConvertInlineOptions = {
 	footnotes: Footnote[];
 	blockId: string;
 	addBlock?: (block: Block) => void;
-	prefix?: string;
+	prefix?: string | undefined;
 };
 
 type BuilderOptions = {
 	post: Post;
 	descriptor: ExternalContentDescriptor;
 	allowMdx?: boolean;
+};
+
+type MediaNode = {
+	url?: string | null;
+	alt?: string | null;
 };
 
 const MEDIA_EXTENSIONS = {
@@ -112,7 +114,7 @@ export class MarkdownBlockBuilder {
 	private allowMdx: boolean;
 
 	constructor(
-		private markdown: string,
+		markdown: string,
 		private options: BuilderOptions,
 	) {
 		this.allowMdx = !!options.allowMdx;
@@ -130,7 +132,7 @@ export class MarkdownBlockBuilder {
 				? mdxToMdast(source, { features: { gfm: true, frontmatter: true } })
 				: markdownToMdast(source, { features: { gfm: true, frontmatter: true } })
 		) as Root;
-		const filteredChildren: Content[] = [];
+		const filteredChildren: RootContent[] = [];
 		for (const node of tree.children) {
 			if (node.type === "yaml" || node.type === "toml") continue;
 			if (node.type === "html" && typeof (node as any).value === "string") {
@@ -295,7 +297,7 @@ export class MarkdownBlockBuilder {
 				const htmlString = this.serializeMdxJsx(node as unknown as MdxJsxTextElement);
 				if (!htmlString) return [];
 				if (options.addBlock) {
-					const block = this.buildHtmlBlock({ type: "html", value: htmlString } as HTML);
+					const block = this.buildHtmlBlock({ type: "html", value: htmlString } as Html);
 					if (block) options.addBlock(block);
 					return [];
 				}
@@ -317,12 +319,15 @@ export class MarkdownBlockBuilder {
 			const firstText = current[0]?.PlainText?.trim() || "";
 			const calloutMatch = firstText.match(/^\[\!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]/i);
 			if (calloutMatch) {
-				const key = calloutMatch[1].toUpperCase();
+				const key = calloutMatch[1]?.toUpperCase();
+				if (!key) return;
 				const preset = CALLOUT_PRESETS[key];
 				if (preset) {
-					current[0].PlainText = current[0].PlainText.replace(calloutMatch[0], "").trimStart();
-					if (current[0].Text) {
-						current[0].Text.Content = current[0].PlainText;
+					const first = current[0];
+					if (!first) return;
+					first.PlainText = first.PlainText.replace(calloutMatch[0] || "", "").trimStart();
+					if (first.Text) {
+						first.Text.Content = first.PlainText;
 					}
 					const callout: Block = {
 						Id: this.nextBlockId(prefix),
@@ -379,10 +384,12 @@ export class MarkdownBlockBuilder {
 
 	private buildHeadingBlock(node: Heading): Block | null {
 		if (node.depth < 1 || node.depth > 4) {
-			return this.buildParagraphBlocks({
-				type: "paragraph",
-				children: node.children,
-			} as Paragraph)[0];
+			return (
+				this.buildParagraphBlocks({
+					type: "paragraph",
+					children: node.children,
+				} as Paragraph)[0] || null
+			);
 		}
 
 		const blockId = this.nextBlockId();
@@ -421,10 +428,12 @@ export class MarkdownBlockBuilder {
 		return blocks;
 	}
 
-	private buildListItemBlock(item: ListItem, ordered: boolean | null): Block[] {
+	private buildListItemBlock(item: ListItem, ordered: boolean | null | undefined): Block[] {
 		const paragraphChild = item.children.find((child) => child.type === "paragraph") as
 			Paragraph | undefined;
-		const otherChildren = item.children.filter((child) => child !== paragraphChild) as Content[];
+		const otherChildren = item.children.filter(
+			(child) => child !== paragraphChild,
+		) as RootContent[];
 		const isTask = item.checked !== null && item.checked !== undefined;
 
 		const blockId = this.nextBlockId();
@@ -475,7 +484,9 @@ export class MarkdownBlockBuilder {
 		return blocks;
 	}
 
-	private buildCodeBlock(node: Content & { type: "code"; lang?: string; value: string }): Block {
+	private buildCodeBlock(
+		node: RootContent & { type: "code"; lang?: string | null | undefined; value: string },
+	): Block {
 		const blockId = this.nextBlockId();
 		return {
 			Id: blockId,
@@ -525,7 +536,7 @@ export class MarkdownBlockBuilder {
 		};
 	}
 
-	private buildHtmlBlock(node: HTML): Block | null {
+	private buildHtmlBlock(node: Html): Block | null {
 		const raw = typeof node.value === "string" ? node.value : "";
 		if (!raw.trim()) return null;
 
@@ -581,11 +592,7 @@ export class MarkdownBlockBuilder {
 		};
 	}
 
-	private buildMediaBlock(
-		node: DefinitionContent & { url?: string; alt?: string },
-		kind: "video" | "audio",
-		prefix?: string,
-	): Block | null {
+	private buildMediaBlock(node: MediaNode, kind: "video" | "audio", prefix?: string): Block | null {
 		const url = this.resolveAssetUrl(node.url || "");
 		if (!url) return null;
 		const blockId = this.nextBlockId(prefix);
@@ -615,11 +622,14 @@ export class MarkdownBlockBuilder {
 		};
 	}
 
-	private buildQuoteBlock(node: Content & { type: "blockquote"; children: Content[] }): Block[] {
+	private buildQuoteBlock(
+		node: RootContent & { type: "blockquote"; children: RootContent[] },
+	): Block[] {
 		const paragraphs = node.children.filter((child) => child.type === "paragraph") as Paragraph[];
 		if (!paragraphs.length) return [];
 
 		const firstParagraph = paragraphs[0];
+		if (!firstParagraph) return [];
 		const blockId = this.nextBlockId();
 		const footnotes: Footnote[] = [];
 		const blocksInQuote: Block[] = [];
@@ -659,15 +669,15 @@ export class MarkdownBlockBuilder {
 		const firstText = currentRichTexts[0]?.PlainText?.trim() || "";
 		const calloutMatch = firstText.match(/^\[\!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]/i);
 		if (calloutMatch) {
-			const key = calloutMatch[1].toUpperCase();
+			const key = calloutMatch[1]?.toUpperCase();
+			if (!key) return [];
 			const preset = CALLOUT_PRESETS[key];
 			if (preset) {
-				currentRichTexts[0].PlainText = currentRichTexts[0].PlainText.replace(
-					calloutMatch[0],
-					"",
-				).trimStart();
-				if (currentRichTexts[0].Text) {
-					currentRichTexts[0].Text.Content = currentRichTexts[0].PlainText;
+				const first = currentRichTexts[0];
+				if (!first) return [];
+				first.PlainText = first.PlainText.replace(calloutMatch[0] || "", "").trimStart();
+				if (first.Text) {
+					first.Text.Content = first.PlainText;
 				}
 				const callout: Block = {
 					Id: blockId,
@@ -708,7 +718,7 @@ export class MarkdownBlockBuilder {
 		return [quote];
 	}
 
-	private convertNodes(nodes: Content[], acc: Block[] = [], prefix?: string): Block[] {
+	private convertNodes(nodes: RootContent[], acc: Block[] = [], prefix?: string): Block[] {
 		const blocks: Block[] = acc;
 		for (const node of nodes) {
 			switch (node.type) {
@@ -718,14 +728,14 @@ export class MarkdownBlockBuilder {
 					break;
 				}
 				case "html": {
-					const block = this.buildHtmlBlock(node as HTML);
+					const block = this.buildHtmlBlock(node as Html);
 					if (block) blocks.push(block);
 					break;
 				}
 				case "mdxJsxFlowElement": {
 					const htmlString = this.serializeMdxJsx(node as unknown as MdxJsxFlowElement);
 					if (htmlString) {
-						const block = this.buildHtmlBlock({ type: "html", value: htmlString } as HTML);
+						const block = this.buildHtmlBlock({ type: "html", value: htmlString } as Html);
 						if (block) blocks.push(block);
 					}
 					break;
@@ -767,7 +777,7 @@ export class MarkdownBlockBuilder {
 				case "mdxJsxTextElement": {
 					const htmlString = this.serializeMdxJsx(node as unknown as MdxJsxTextElement);
 					if (htmlString) {
-						const block = this.buildHtmlBlock({ type: "html", value: htmlString } as HTML);
+						const block = this.buildHtmlBlock({ type: "html", value: htmlString } as Html);
 						if (block) blocks.push(block);
 					}
 					break;

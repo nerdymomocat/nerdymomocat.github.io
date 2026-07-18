@@ -13,7 +13,7 @@ const { block, renderChildren = true, setId = true } = Astro.props;
 
 <div class="notion-column-list">
 	{
-		block.ColumnList.Columns.map((column: interfaces.Column) => (
+		block.ColumnList!.Columns.map((column: interfaces.Column) => (
 			<div class="ncolumns">
 				<NotionBlocks blocks={column.Children} renderChildren={renderChildren} setId={setId} />
 			</div>

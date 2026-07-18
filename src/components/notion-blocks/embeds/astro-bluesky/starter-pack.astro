@@ -16,10 +16,10 @@ const pack = AppBskyGraphStarterpack.isRecord(record.record) ? record.record : n
 	href={atUriToStarterPackUri(record.uri)}
 	image={{
 		src: starterPackOgImage(record.uri),
-		alt: pack?.name || "Starter pack cover image",
+		alt: typeof pack?.name === "string" ? pack.name : "Starter pack cover image",
 	}}
 	avatarUser={record.creator}
-	title={pack?.name || ""}
+	title={typeof pack?.name === "string" ? pack.name : ""}
 	subtitle={`Starter pack by ${record.creator.displayName}`}
-	description={pack?.description}
+	description={typeof pack?.description === "string" ? pack.description : undefined}
 />

@@ -36,7 +36,6 @@ import type {
 } from "./interfaces";
 import {
 	getAllRichTextLocations,
-	cloneRichText,
 	joinPlainText,
 	getChildrenFromBlock,
 	splitRichTextsAtCharPosition,
@@ -492,7 +491,7 @@ function extractCitationsFromRichTextArray(
 		}
 
 		matches.push({
-			key: match[1],
+			key: match[1] || "",
 			start: match.index,
 			end: match.index + match[0].length,
 			fullMatch: match[0],

@@ -1,6 +1,6 @@
 ---
 import type { SiteMeta } from "@/types";
-import "@/styles";
+import "@/styles/global.css";
 import { Font } from "astro:assets";
 import { siteInfo } from "@/siteInfo";
 import {
@@ -238,11 +238,12 @@ const useGiscus =
 	publicGaTrackingId && (
 		<>
 			<script
+				is:inline
 				type="text/partytown"
 				src={`https://www.googletagmanager.com/gtag/js?id=${publicGaTrackingId}`}
 				defer
 			/>
-			<script type="text/partytown" define:vars={{ publicGaTrackingId }} defer>
+			<script is:inline type="text/partytown" define:vars={{ publicGaTrackingId }} defer>
 				window.dataLayer = window.dataLayer || [];
 				function gtag() {
 					dataLayer.push(arguments);
@@ -256,6 +257,7 @@ const useGiscus =
 {
 	setUmami && (
 		<script
+			is:inline
 			type="text/partytown"
 			data-astro-rerun
 			src={umamiSrc}

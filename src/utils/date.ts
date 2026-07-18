@@ -7,18 +7,18 @@ const dateOptions = {
 			year: "numeric",
 		},
 	},
-};
+} satisfies { date: { locale: string; options: Intl.DateTimeFormatOptions } };
 
 const dateFormat = new Intl.DateTimeFormat(dateOptions.date.locale, dateOptions.date.options);
 
 const DATE_ONLY_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
 
-function isDateOnlyString(date: unknown): date is string {
+function isDateOnlyString(date: unknown): date is `${number}-${number}-${number}` {
 	return typeof date === "string" && DATE_ONLY_PATTERN.test(date);
 }
 
 function parseDateOnlyString(date: string): Date {
-	const [year, month, day] = date.split("-").map(Number);
+	const [year = 0, month = 0, day = 0] = date.split("-").map(Number);
 	return new Date(Date.UTC(year, month - 1, day));
 }
 

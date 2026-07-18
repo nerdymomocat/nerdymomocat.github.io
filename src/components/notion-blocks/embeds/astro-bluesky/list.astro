@@ -19,7 +19,7 @@ const purpose = (list && purposes[list.purpose]) ?? "List";
 
 <Card
 	href={atUriToListUri(record.uri)}
-	avatarUser={record.creator}
+	avatarUser={record.creator as any}
 	title={list?.name || ""}
 	subtitle={`${purpose} by ${record.creator.displayName}`}
 	description={list?.description}

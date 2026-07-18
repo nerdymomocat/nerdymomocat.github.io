@@ -65,7 +65,7 @@ const formatter = new Intl.DateTimeFormat("en-US", {
 
 		<p class="bsky-post-text" set:html={body} />
 
-		{embed && <Embed embed={embed} postUrl={postUrl} />}
+		{embed && <Embed embed={embed as any} postUrl={postUrl} />}
 		<a href={postUrl} target="_blank" rel="noopener noreferrer" class="bsky-timestamp">
 			{formatter.format(new Date(record.createdAt ?? ""))}
 		</a>

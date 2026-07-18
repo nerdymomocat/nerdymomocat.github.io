@@ -1,3 +1,19 @@
+declare const simpleDatatables: {
+	DataTable: new (
+		table: HTMLTableElement,
+		options: object,
+	) => {
+		wrapperDOM: HTMLElement;
+		input: HTMLInputElement;
+		data: string[][];
+		activeRows: HTMLElement[];
+		on: (event: string, callback: (this: any, query: string, matched: unknown) => void) => void;
+		update: () => void;
+		emit: (event: string, ...args: unknown[]) => void;
+		search: (query: string) => void;
+	};
+};
+
 document.addEventListener("DOMContentLoaded", function () {
 	const dataTables = document.querySelectorAll("table.datatable");
 	if (dataTables.length > 0) {
@@ -25,7 +41,7 @@ function initDataTables() {
 		searchable: true,
 		paging: false,
 		labels: { info: "{rows} rows" },
-		tableRender: (_data, table, type) => {
+		tableRender: (_data: unknown, table: any, type: string) => {
 			if (type === "print") {
 				return table;
 			}
@@ -35,7 +51,7 @@ function initDataTables() {
 				attributes: {
 					class: "filter-row hide",
 				},
-				childNodes: tHead.childNodes[0].childNodes.map((_th, index) => ({
+				childNodes: tHead.childNodes[0].childNodes.map((_th: unknown, index: number) => ({
 					nodeName: "TH",
 					childNodes: [
 						{
@@ -53,7 +69,7 @@ function initDataTables() {
 			tHead.childNodes.push(filterHeaders);
 			return table;
 		},
-		template: (options, dom) => `
+		template: (options: any, dom: { id?: string }) => `
       <div class='${options.classes.top}'>
         <div class="datatable-top-left">
           <button class="filter-toggle cursor-pointer" style="padding: 8px;" aria-label="Toggle filters and search">
@@ -73,10 +89,11 @@ function initDataTables() {
 	};
 
 	dataTables.forEach((table) => {
+		if (!(table instanceof HTMLTableElement)) return;
 		const dt = new simpleDatatables.DataTable(table, options);
 
 		// Custom search function
-		const customSearch = (query, row, andSearch) => {
+		const customSearch = (query: string, row: string, andSearch: boolean) => {
 			const searchTerms = query.toLowerCase().split(" ");
 			const rowData = row.toLowerCase();
 
@@ -88,19 +105,19 @@ function initDataTables() {
 		};
 
 		// Override the default search behavior
-		dt.on("datatable.search", function (query, matched) {
+		dt.on("datatable.search", function (this: any, query: string, matched: unknown) {
 			const andSearchInput = this.wrapperDOM.querySelector('input[data-and="true"]');
 			const andSearchQuery = andSearchInput ? andSearchInput.value : "";
-			const columnFilters = Array.from(this.wrapperDOM.querySelectorAll(".datatable-input")).map(
-				(input) => input.value,
-			);
+			const columnFilters = Array.from(
+				this.wrapperDOM.querySelectorAll(".datatable-input") as NodeListOf<HTMLInputElement>,
+			).map((input: HTMLInputElement) => input.value);
 
-			this.data.forEach((row, index) => {
+			this.data.forEach((row: string[], index: number) => {
 				const tr = this.activeRows[index];
 				const orMatch = customSearch(query, row.join(" "), false);
 				const andMatch = customSearch(andSearchQuery, row.join(" "), true);
 				const columnMatch = columnFilters.every(
-					(filter, i) => filter === "" || customSearch(filter, row[i], false),
+					(filter, i) => filter === "" || customSearch(filter, row[i] || "", false),
 				);
 
 				if (orMatch && andMatch && columnMatch) {
@@ -115,13 +132,13 @@ function initDataTables() {
 		});
 
 		// Add event listener for AND search
-		const andSearchInput = dt.wrapperDOM.querySelector('input[data-and="true"]');
-		andSearchInput.addEventListener("keyup", function () {
+		const andSearchInput = dt.wrapperDOM.querySelector<HTMLInputElement>('input[data-and="true"]');
+		andSearchInput?.addEventListener("keyup", function () {
 			dt.search(dt.input.value);
 		});
 
 		// Add event listeners for column filters
-		const columnFilters = dt.wrapperDOM.querySelectorAll(".datatable-input");
+		const columnFilters = dt.wrapperDOM.querySelectorAll<HTMLInputElement>(".datatable-input");
 		columnFilters.forEach((input) => {
 			input.addEventListener("keyup", function () {
 				dt.search(dt.input.value);
@@ -129,13 +146,16 @@ function initDataTables() {
 		});
 
 		// Add event listener for filter toggle button
-		const filterToggle = dt.wrapperDOM.querySelector(".filter-toggle");
-		const filterRow = dt.wrapperDOM.querySelector(".filter-row");
-		const searchInputs = dt.wrapperDOM.querySelector(".search-inputs");
-		const datatableTop = dt.wrapperDOM.querySelector(".datatable-top");
+		const filterToggle = dt.wrapperDOM.querySelector<HTMLElement>(".filter-toggle");
+		const filterRow = dt.wrapperDOM.querySelector<HTMLElement>(".filter-row");
+		const searchInputs = dt.wrapperDOM.querySelector<HTMLElement>(".search-inputs");
+		const datatableTop = dt.wrapperDOM.querySelector<HTMLElement>(".datatable-top");
+		if (!filterToggle || !filterRow || !searchInputs || !datatableTop) return;
 		filterToggle.addEventListener("click", function () {
-			const columnFilters = dt.wrapperDOM.querySelectorAll(".datatable-input");
-			const areAllEmpty = Array.from(columnFilters).every((input) => input.value === "");
+			const columnFilters = dt.wrapperDOM.querySelectorAll<HTMLInputElement>(".datatable-input");
+			const areAllEmpty = Array.from(columnFilters).every(
+				(input: HTMLInputElement) => input.value === "",
+			);
 			const isHidden = filterRow.classList.contains("hide");
 
 			if (isHidden || !areAllEmpty) {

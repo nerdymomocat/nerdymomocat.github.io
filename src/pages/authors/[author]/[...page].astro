@@ -91,7 +91,7 @@ interface Props {
 	bio?: string;
 }
 
-const { page, authorName, description, color, count, url, photo, bio } = Astro.props as Props;
+const { page, authorName, color, count, url, photo, bio } = Astro.props as Props;
 
 // Use default photo/URL ONLY if author name matches the site's author
 const isSiteAuthor = authorName === siteInfo.author;

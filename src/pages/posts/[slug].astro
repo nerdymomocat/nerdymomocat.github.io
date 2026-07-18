@@ -12,7 +12,7 @@ import {
 	saveCachedHeadings,
 } from "@/lib/blog-helpers";
 import { getAllPosts, getPostContentByPostId } from "@/lib/notion/client";
-import type { Post } from "@/lib/interfaces";
+import type { Block, Post } from "@/lib/interfaces";
 import { buildHeadings } from "@/utils";
 import {
 	LAST_BUILD_TIME,
@@ -68,7 +68,7 @@ export async function getStaticPaths() {
 			(linkedPageIds.length > 0 &&
 				linkedPageIds.some((pageId) => {
 					const linkedPost = allPostsMap[pageId];
-					return linkedPost && linkedPost.LastUpdatedTimeStamp > LAST_BUILD_TIME;
+					return linkedPost && linkedPost.LastUpdatedTimeStamp > LAST_BUILD_TIME!;
 				}));
 
 		const shouldUseCache = !isExternal && postLastUpdatedBeforeLastBuild && !linkedPostsUpdated;
@@ -96,14 +96,13 @@ const isExternalMdx = externalType === "mdx";
 resetCurrentHeadings();
 let postFound = true;
 let headings = null;
-let blocks = null;
-let interlinkedContentInPage = null;
+let blocks: Block[] | null = null;
 let externalHtml = "";
 let MdxComponent = null;
 let mdxComponents = {};
 
 if (!post) {
-	console.log(`Post not found. slug: ${slug}`);
+	console.log(`Post not found. slug: ${Astro.params.slug}`);
 	postFound = false;
 }
 
@@ -134,11 +133,9 @@ if (postFound && isExternalHtml) {
 		headings = markdownResult.headings;
 		footnotesInPage = null;
 		citationsInPage = null;
-		interlinkedContentInPage = null;
 	} else {
 		blocks = markdownResult.blocks;
 		headings = markdownResult.headings;
-		interlinkedContentInPage = markdownResult.interlinkedContent;
 		footnotesInPage = markdownResult.footnotes;
 		citationsInPage = markdownResult.citations;
 	}
@@ -147,7 +144,6 @@ if (postFound && isExternalHtml) {
 	const mdxResult = await renderExternalMdx(post);
 	blocks = mdxResult.blocks;
 	headings = mdxResult.headings;
-	interlinkedContentInPage = mdxResult.interlinkedContent;
 	footnotesInPage = mdxResult.footnotes;
 	citationsInPage = mdxResult.citations;
 	MdxComponent = mdxResult.Component;
@@ -156,7 +152,6 @@ if (postFound && isExternalHtml) {
 } else if (postFound) {
 	const result = await getPostContentByPostId(post);
 	blocks = result.blocks;
-	interlinkedContentInPage = result.interlinkedContentInPage;
 	footnotesInPage = result.footnotesInPage;
 	citationsInPage = result.citationsInPage;
 	// Use cached headings if available, otherwise build and save them
@@ -263,7 +258,7 @@ if (postFound && isExternalHtml) {
 					<div set:html={cachedHtml} />
 				) : (
 					<>
-						<NotionBlocks blocks={blocks} />
+						{blocks && <NotionBlocks blocks={blocks} />}
 						{CITATIONS?.["add-cite-this-post-section"] && <CiteThisPage post={post} />}
 						{adjustedFootnotesConfig?.["in-page-footnotes-settings"]?.enabled &&
 							adjustedFootnotesConfig?.["in-page-footnotes-settings"]?.[

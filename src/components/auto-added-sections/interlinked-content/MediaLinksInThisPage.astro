@@ -11,31 +11,32 @@ interface Props {
 }
 const { post, filteredInterlinkedContentInPage } = Astro.props;
 
-const groupedInterlinkedContent: { [key: string]: { block: Block; dml: string }[] } =
-	filteredInterlinkedContentInPage.reduce((acc, ref) => {
-		// Group by direct_nonmedia_link and collect Block objects
-		if (ref.direct_media_link) {
-			// const key = ref.direct_media_link;
-			let key = null;
-			key = ref.block.Video
-				? "Videos"
-				: ref.block.NImage
-					? "Images"
-					: ref.block.NAudio
-						? "Audio"
-						: "Files";
-			acc[key] = acc[key] || [];
-			acc[key].push({ block: ref.block, dml: ref.direct_media_link });
-		}
-		return acc;
-	}, {});
+const groupedInterlinkedContent = filteredInterlinkedContentInPage.reduce<
+	Record<string, { block: Block; dml: string }[]>
+>((acc, ref) => {
+	if (ref.direct_media_link) {
+		let key = null;
+		key = ref.block.Video
+			? "Videos"
+			: ref.block.NImage
+				? "Images"
+				: ref.block.NAudio
+					? "Audio"
+					: "Files";
+		const mediaLinks = acc[key] || (acc[key] = []);
+		mediaLinks.push({ block: ref.block, dml: ref.direct_media_link });
+	}
+	return acc;
+}, {});
 
-const blockIdLinks = {};
+const blockIdLinks: Record<string, string> = {};
 if (groupedInterlinkedContent) {
 	for (const dmltype of Object.keys(groupedInterlinkedContent)) {
-		for (const blockdml of groupedInterlinkedContent[dmltype]) {
+		const linkedBlocks = groupedInterlinkedContent[dmltype];
+		if (!linkedBlocks) continue;
+		for (const blockdml of linkedBlocks) {
 			const result = await getInterlinkedContentLink(post.PageId, undefined, blockdml.block, true);
-			blockIdLinks[blockdml.block.Id] = result[0];
+			if (result[0]) blockIdLinks[blockdml.block.Id] = result[0];
 		}
 	}
 }
@@ -52,17 +53,22 @@ if (groupedInterlinkedContent) {
 					<div class="ml-2">
 						<div class="inline-block">
 							<span class="italic">{dmltype}</span> {" at "}
-							{blockdmls.map((blockdml, index) => (
-								<>
-									<NBlocksPopover
-										block={blockdml.block}
-										linkedTo={blockIdLinks[blockdml.block.Id]}
-										popoverSpanText={`[${getSymbolForLinkedContent(index)}]`}
-										isInterlinkedBack={true}
-										linkText="Jump to"
-									/>
-								</>
-							))}
+							{blockdmls.map((blockdml, index) => {
+								const linkedTo = blockIdLinks[blockdml.block.Id];
+								if (!linkedTo) return null;
+
+								return (
+									<>
+										<NBlocksPopover
+											block={blockdml.block}
+											linkedTo={linkedTo}
+											popoverSpanText={`[${getSymbolForLinkedContent(index)}]`}
+											isInterlinkedBack={true}
+											linkText="Jump to"
+										/>
+									</>
+								);
+							})}
 						</div>
 					</div>
 				))}

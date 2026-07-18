@@ -9,8 +9,8 @@ import File from "@/components/notion-blocks/File.astro";
 
 export interface Props {
 	content: Footnote["Content"];
-	sourceBlockId?: string;
-	sourceBlock?: BlockType;
+	sourceBlockId?: string | undefined;
+	sourceBlock?: BlockType | undefined;
 }
 
 const { content, sourceBlockId, sourceBlock } = Astro.props;

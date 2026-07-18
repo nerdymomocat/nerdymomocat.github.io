@@ -11,16 +11,16 @@ interface Props {
 const { user, className } = Astro.props;
 const verified = user.verified || user.is_blue_verified || user.verified_type;
 let Icon = Verified;
-let iconClassName: string | null = styles.verifiedBlue;
+let iconClassName: string | null = styles.verifiedBlue ?? null;
 
 if (verified) {
 	if (!user.is_blue_verified) {
-		iconClassName = styles.verifiedOld;
+		iconClassName = styles.verifiedOld ?? null;
 	}
 	switch (user.verified_type) {
 		case "Government":
 			Icon = VerifiedGovernment;
-			iconClassName = styles.verifiedGovernment;
+			iconClassName = styles.verifiedGovernment ?? null;
 			break;
 		case "Business":
 			Icon = VerifiedBusiness;

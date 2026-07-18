@@ -14,8 +14,8 @@ interface Props {
 	filteredInterlinkedContentInPage: InterlinkedContentInPage[];
 }
 const { post, filteredInterlinkedContentInPage } = Astro.props;
-const groupedInterlinkedContent: { [key: string]: Block[] } =
-	filteredInterlinkedContentInPage.reduce((acc, ref) => {
+const groupedInterlinkedContent = filteredInterlinkedContentInPage.reduce<Record<string, Block[]>>(
+	(acc, ref) => {
 		// Group by direct_nonmedia_link and collect Block objects
 		if (ref.direct_nonmedia_link && !ref.direct_nonmedia_link.includes("tiktok.com")) {
 			const key = ref.direct_nonmedia_link;
@@ -33,25 +33,29 @@ const groupedInterlinkedContent: { [key: string]: Block[] } =
 		});
 
 		return acc;
-	}, {});
+	},
+	{},
+);
 
-const blockIdLinks = {};
+const blockIdLinks: Record<string, string> = {};
 const urlList: URL[] = [];
-const hrefMetaData = {};
+const hrefMetaData: Record<string, { title: string }> = {};
 
 if (groupedInterlinkedContent) {
 	for (const hrefLink of Object.keys(groupedInterlinkedContent)) {
-		let url: URL;
 		try {
 			let urlToUse = hrefLink;
 			if (!urlToUse.startsWith("http://") && !urlToUse.startsWith("https://")) {
 				urlToUse = "https://" + urlToUse;
 			}
-			url = new URL(urlToUse);
+			const url = new URL(urlToUse);
 			urlList.push(url);
-			for (const block of groupedInterlinkedContent[hrefLink]) {
+			const linkedBlocks = groupedInterlinkedContent[hrefLink];
+			if (!linkedBlocks) continue;
+			for (const block of linkedBlocks) {
 				const result = await getInterlinkedContentLink(post.PageId, undefined, block, true);
-				blockIdLinks[block.Id] = result[0];
+				const link = result[0];
+				if (link) blockIdLinks[block.Id] = link;
 			}
 		} catch (err) {
 			console.log(`Error processing link ${hrefLink}:`, err);
@@ -71,26 +75,23 @@ const metascraper = createMetascraper([
 
 if (groupedInterlinkedContent && Object.keys(groupedInterlinkedContent).length > 0 && urlMap) {
 	for (const hrefLink of Object.keys(groupedInterlinkedContent)) {
-		let url: URL;
-		let metadata: Record<string, string>;
 		try {
 			let urlToUse = hrefLink;
 			if (!urlToUse.startsWith("http://") && !urlToUse.startsWith("https://")) {
 				urlToUse = "https://" + urlToUse;
 			}
-			url = new URL(urlToUse);
+			const url = new URL(urlToUse);
 			// Remove ONLY text fragments for metascraper
 			const urlForMetascraper = url.toString().replace(/#:~:text=.*$/, "");
 
 			const html = urlMap[hrefLink];
 			if (html) {
-				metadata = await metascraper({ html, url: urlForMetascraper });
-				if (!metadata || (metadata && !metadata.title)) {
+				const metadata = await metascraper({ html, url: urlForMetascraper });
+				if (!metadata.title) {
 					delete groupedInterlinkedContent[hrefLink];
 					continue;
-				} else {
-					hrefMetaData[hrefLink] = metadata;
 				}
+				hrefMetaData[hrefLink] = { title: metadata.title };
 			} else {
 				delete groupedInterlinkedContent[hrefLink];
 			}
@@ -122,28 +123,38 @@ if (groupedInterlinkedContent && Object.keys(groupedInterlinkedContent).length >
 					<span class="font-semibold">External Links On This Page</span>
 				</summary>
 				<div class="pl-2">
-					{Object.entries(groupedInterlinkedContent).map(([hrefLink, blocks]) => (
-						<div>
-							<div class="inline-block">
-								<a href={hrefLink}>
-									{hrefMetaData[hrefLink].title.length > 35
-										? `${hrefMetaData[hrefLink].title.slice(0, 35)}…`
-										: hrefMetaData[hrefLink].title}
-								</a>
-								{" at "}
+					{Object.entries(groupedInterlinkedContent).map(([hrefLink, blocks]) => {
+						const metadata = hrefMetaData[hrefLink];
+						if (!metadata) return null;
 
-								{blocks.map((block, index) => (
-									<NBlocksPopover
-										block={block}
-										linkedTo={blockIdLinks[block.Id]}
-										popoverSpanText={`[${getSymbolForLinkedContent(index)}]`}
-										isInterlinkedBack={true}
-										linkText="Jump to"
-									/>
-								))}
+						return (
+							<div>
+								<div class="inline-block">
+									<a href={hrefLink}>
+										{metadata.title.length > 35
+											? `${metadata.title.slice(0, 35)}…`
+											: metadata.title}
+									</a>
+									{" at "}
+
+									{blocks.map((block, index) => {
+										const linkedTo = blockIdLinks[block.Id];
+										if (!linkedTo) return null;
+
+										return (
+											<NBlocksPopover
+												block={block}
+												linkedTo={linkedTo}
+												popoverSpanText={`[${getSymbolForLinkedContent(index)}]`}
+												isInterlinkedBack={true}
+												linkText="Jump to"
+											/>
+										);
+									})}
+								</div>
 							</div>
-						</div>
-					))}
+						);
+					})}
 				</div>
 			</details>
 			<br />

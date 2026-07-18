@@ -23,7 +23,7 @@ const shouldWrapWithAnchor = hreflink && !richText.Mention;
 		post.Title ? (
 			<>
 				{/* ✅ Case 1: Link to another page or another page’s block */}
-				{conditionmatch === "block_other_page" ? (
+				{conditionmatch === "block_other_page" && blocklinked ? (
 					<NBlocksPopover
 						block={blocklinked}
 						linkedTo={hreflink}
@@ -47,7 +47,7 @@ const shouldWrapWithAnchor = hreflink && !richText.Mention;
 		) : conditionmatch === "block_current_page" ? (
 			<>
 				{/* ✅ Case 2: Link to a block on the current page */}
-				{!isBlockLinkedHeading && post && post.Title ? (
+				{!isBlockLinkedHeading && post && post.Title && blocklinked ? (
 					<NBlocksPopover
 						block={blocklinked}
 						linkedTo={hreflink}

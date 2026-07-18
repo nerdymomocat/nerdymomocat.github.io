@@ -34,9 +34,9 @@ export interface Props {
 	setId?: boolean;
 }
 const { block, urlMap, setId = true } = Astro.props;
-let url: URL;
+let url: URL | null = null;
 try {
-	url = new URL(block.Embed.Url);
+	if (block.Embed?.Url) url = new URL(block.Embed.Url);
 } catch (err) {
 	console.log(err);
 }

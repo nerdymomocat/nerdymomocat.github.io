@@ -1,11 +1,10 @@
 ---
-import type { Page, GetStaticPaths } from "astro";
+import type { GetStaticPaths } from "astro";
 import PageLayout from "@/layouts/Base.astro";
 import PostPreview from "@/components/listing-layout/PostPreview.astro";
 import PostCardGallery from "@/components/listing-layout/PostCardGallery.astro";
 import Pagination from "@/components/listing-layout/Paginator.astro";
 import { getAllPosts, getAllTagsWithCounts } from "@/lib/notion/client";
-import type { Post, SelectProperty } from "src/lib/interfaces";
 import { getNotionColorToTailwindColor } from "@/utils/style-helpers";
 import {
 	HIDE_UNDERSCORE_SLUGS_IN_LISTS,
@@ -27,11 +26,6 @@ export const getStaticPaths = (async ({ paginate }) => {
 
 	return paginate(filteredPosts, { props: { uniqueTags }, pageSize: NUMBER_OF_POSTS_PER_PAGE });
 }) satisfies GetStaticPaths;
-
-interface Props {
-	page: Page<Post>;
-	uniqueTags: (SelectProperty & { count: number })[];
-}
 
 const { page, uniqueTags } = Astro.props;
 

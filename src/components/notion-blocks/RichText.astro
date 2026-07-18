@@ -17,8 +17,8 @@ import CitationMarker from "@/components/popover/CitationMarker.astro";
 
 export interface Props {
 	richText: RichText;
-	blockID?: string;
-	block?: Block;
+	blockID?: string | undefined;
+	block?: Block | undefined;
 }
 
 const { richText, blockID, block } = Astro.props;
@@ -30,7 +30,7 @@ const { richText, blockID, block } = Astro.props;
 	) : richText.IsCitationMarker && richText.CitationRef && block && blockID ? (
 		<CitationMarker richText={richText} blockID={blockID} block={block} />
 	) : (
-		<Anchor richText={richText} blockID={blockID}>
+		<Anchor richText={richText} {...(blockID ? { blockID } : {})}>
 			{
 				<Code richText={richText}>
 					{

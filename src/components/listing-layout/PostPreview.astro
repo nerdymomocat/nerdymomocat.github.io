@@ -5,7 +5,6 @@ import AuthorByline from "@/components/layout/AuthorByline.astro";
 import type { Post } from "@/lib/interfaces";
 import { getNotionColorToTailwindColor } from "@/utils/style-helpers";
 import { getNavLink, resolvePostHref, isExternalPost } from "@/lib/blog-helpers";
-import { MENU_PAGES_COLLECTION } from "@/constants";
 import Icon from "@/components/ui/Icon.astro";
 import { slugify } from "@/utils";
 
@@ -15,7 +14,7 @@ interface Props {
 	withDesc?: boolean;
 }
 
-const { post, as: Tag = "div", withDesc = false } = Astro.props;
+const { post, as: Tag = "div", withDesc = false } = Astro.props as Props;
 const postLink = resolvePostHref(post);
 const external = isExternalPost(post);
 ---
@@ -53,7 +52,7 @@ const external = isExternalPost(post);
 				aria-hidden="true"
 				focusable="false"
 			/>
-			{post.Tags.map((tag, i) => (
+			{post.Tags.map((tag) => (
 				<>
 					<a
 						class={`notion-tag ${getNotionColorToTailwindColor(tag.color + "-background", true)}`}

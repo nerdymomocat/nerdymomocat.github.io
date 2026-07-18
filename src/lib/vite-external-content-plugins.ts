@@ -8,7 +8,7 @@ function ensureBlankLineAfterImports(source: string): string {
 	let sawImport = false;
 
 	while (idx < lines.length) {
-		const trimmed = lines[idx].trim();
+		const trimmed = lines[idx]?.trim() ?? "";
 		if (!trimmed) {
 			if (!sawImport) {
 				idx += 1;
@@ -26,7 +26,7 @@ function ensureBlankLineAfterImports(source: string): string {
 
 	if (!sawImport) return source;
 	if (idx >= lines.length) return source;
-	if (lines[idx].trim() === "") return source;
+	if (lines[idx]?.trim() === "") return source;
 
 	lines.splice(idx, 0, "");
 	return lines.join("\n");

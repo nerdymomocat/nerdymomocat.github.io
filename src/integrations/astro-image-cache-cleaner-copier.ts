@@ -70,7 +70,7 @@ export default function astroImageCacheCleanerCopier(): AstroIntegration {
 								continue;
 							}
 
-							usedImagesSet.add(match[1]);
+							usedImagesSet.add(match[1] ?? "");
 						}
 					}),
 				);

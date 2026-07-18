@@ -92,22 +92,27 @@ const baseId = `notion-tab-${block.Id}`;
 }
 
 <script>
-	function getTabList(container) {
+	interface Window {
+		__ensureNotionTabTargetVisible?: (targetOrId: HTMLElement | string) => HTMLElement | null;
+		__notionTabHashSyncReady?: string;
+	}
+
+	function getTabList(container: HTMLElement): HTMLElement | null {
 		return container.querySelector("[data-tab-list]");
 	}
 
-	function getTabs(container) {
+	function getTabs(container: HTMLElement): HTMLElement[] {
 		const list = getTabList(container);
 		return list instanceof HTMLElement
 			? Array.from(list.querySelectorAll(':scope > [role="tab"]'))
 			: [];
 	}
 
-	function getPanels(container) {
-		return Array.from(container.querySelectorAll(":scope > [data-tab-panel]"));
+	function getPanels(container: HTMLElement): HTMLElement[] {
+		return Array.from(container.querySelectorAll<HTMLElement>(":scope > [data-tab-panel]"));
 	}
 
-	function updateScrollState(container) {
+	function updateScrollState(container: HTMLElement) {
 		const header = container.querySelector("[data-tab-header]");
 		const list = getTabList(container);
 		if (!(header instanceof HTMLElement) || !(list instanceof HTMLElement)) return;
@@ -118,7 +123,7 @@ const baseId = `notion-tab-${block.Id}`;
 		header.dataset.canScrollRight = String(list.scrollLeft < maxScrollLeft - threshold);
 	}
 
-	function scrollTabIntoListView(tab, behavior = "auto") {
+	function scrollTabIntoListView(tab: HTMLElement, behavior: ScrollBehavior = "auto") {
 		const list = tab.closest("[data-tab-list]");
 		if (!(list instanceof HTMLElement)) return;
 
@@ -134,7 +139,7 @@ const baseId = `notion-tab-${block.Id}`;
 		}
 	}
 
-	function setActiveTab(container, nextIndex, shouldFocus = false) {
+	function setActiveTab(container: HTMLElement, nextIndex: number, shouldFocus = false) {
 		const tabs = getTabs(container);
 		const panels = getPanels(container);
 		if (!tabs.length) return;
@@ -156,12 +161,13 @@ const baseId = `notion-tab-${block.Id}`;
 			tabs[boundedIndex]?.focus();
 		}
 
-		scrollTabIntoListView(tabs[boundedIndex], shouldFocus ? "smooth" : "auto");
+		const activeTab = tabs[boundedIndex];
+		if (activeTab) scrollTabIntoListView(activeTab, shouldFocus ? "smooth" : "auto");
 
 		requestAnimationFrame(() => updateScrollState(container));
 	}
 
-	function revealTargetInTabs(target) {
+	function revealTargetInTabs(target: HTMLElement | null): HTMLElement | null {
 		if (!(target instanceof HTMLElement)) return null;
 
 		const activations = [];
@@ -188,7 +194,7 @@ const baseId = `notion-tab-${block.Id}`;
 		return target;
 	}
 
-	function resolveTarget(targetOrId) {
+	function resolveTarget(targetOrId: HTMLElement | string): HTMLElement | null {
 		if (targetOrId instanceof HTMLElement) return targetOrId;
 		if (typeof targetOrId !== "string") return null;
 
@@ -199,7 +205,7 @@ const baseId = `notion-tab-${block.Id}`;
 		return target instanceof HTMLElement ? target : null;
 	}
 
-	function initTabBlock(container) {
+	function initTabBlock(container: HTMLElement) {
 		if (container.dataset.tabsReady === "true") return;
 		container.dataset.tabsReady = "true";
 
@@ -219,14 +225,14 @@ const baseId = `notion-tab-${block.Id}`;
 
 		window.addEventListener("resize", () => updateScrollState(container), { passive: true });
 
-		container.addEventListener("click", (event) => {
+		container.addEventListener("click", (event: MouseEvent) => {
 			const tab = event.target instanceof Element ? event.target.closest('[role="tab"]') : null;
 			if (!(tab instanceof HTMLElement) || !container.contains(tab)) return;
 			const nextIndex = Number(tab.dataset.tabIndex ?? 0);
 			setActiveTab(container, nextIndex);
 		});
 
-		container.addEventListener("keydown", (event) => {
+		container.addEventListener("keydown", (event: KeyboardEvent) => {
 			const currentTab =
 				event.target instanceof Element ? event.target.closest('[role="tab"]') : null;
 			if (!(currentTab instanceof HTMLElement) || !container.contains(currentTab)) return;
@@ -268,17 +274,18 @@ const baseId = `notion-tab-${block.Id}`;
 
 	if (typeof window !== "undefined") {
 		if (!window["__ensureNotionTabTargetVisible"]) {
-			window["__ensureNotionTabTargetVisible"] = (targetOrId) => {
+			window.__ensureNotionTabTargetVisible = (targetOrId: HTMLElement | string) => {
 				const target = resolveTarget(targetOrId);
 				return revealTargetInTabs(target);
 			};
 		}
 
-		if (!window["__notionTabHashSyncReady"]) {
-			window["__notionTabHashSyncReady"] = "true";
+		const tabWindow = window as Window;
+		if (!tabWindow.__notionTabHashSyncReady) {
+			tabWindow.__notionTabHashSyncReady = "true";
 
-			const syncHashTarget = (behavior = "auto") => {
-				const target = window["__ensureNotionTabTargetVisible"](window.location.hash);
+			const syncHashTarget = (behavior: ScrollBehavior = "auto") => {
+				const target = window.__ensureNotionTabTargetVisible?.(window.location.hash);
 				if (!(target instanceof HTMLElement)) return;
 
 				requestAnimationFrame(() => {
@@ -294,7 +301,7 @@ const baseId = `notion-tab-${block.Id}`;
 		}
 	}
 
-	document.querySelectorAll("[data-notion-tab-block]").forEach((container) => {
+	document.querySelectorAll<HTMLElement>("[data-notion-tab-block]").forEach((container) => {
 		initTabBlock(container);
 	});
 </script>

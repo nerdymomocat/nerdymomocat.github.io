@@ -11,26 +11,29 @@ export interface Props {
 
 const { block, setId = true } = Astro.props;
 
-let url: URL;
+const file = block.File!;
+let url!: URL;
 try {
-	url = new URL(block.File?.External?.Url || block.File?.File?.Url);
+	url = new URL(file.External?.Url || file.File?.Url!);
 } catch (err) {
 	console.error(`Invalid file URL. error: ${err}`);
 }
-const filename = decodeURIComponent(url.pathname.split("/").slice(-1)[0]);
+const filename = decodeURIComponent(url.pathname.split("/").slice(-1)[0]!);
 ---
 
 <div class="file" id={setId ? block.Id : undefined}>
 	{
 		url && (
 			<div>
-				{block.File.Caption && block.File.Caption.length > 0 && block.File.Caption[0].Text.Content
-					? block.File.Caption[0].Text.Content
+				{file.Caption && file.Caption.length > 0 && file.Caption[0]!.Text!.Content
+					? file.Caption[0]!.Text!.Content
 					: filename}
 				{"  "}
 				<span class="notion-file-container">
 					<a
-						href={block.File.External ? url.String() : filePath(url)}
+						href={
+							file.External ? (url as unknown as { String: () => string }).String() : filePath(url)
+						}
 						target="_blank"
 						rel="noopener noreferrer"
 					>
@@ -42,7 +45,11 @@ const filename = decodeURIComponent(url.pathname.split("/").slice(-1)[0]);
 					{/* Conditional Preview for PDFs */}
 					{filename.endsWith(".pdf") && ENABLE_LIGHTBOX && (
 						<a
-							href={block.File.External ? url.String() : filePath(url)}
+							href={
+								file.External
+									? (url as unknown as { String: () => string }).String()
+									: filePath(url)
+							}
 							class="fileglightbox hidden sm:inline"
 							type="application/pdf"
 						>

@@ -9,7 +9,7 @@ import { getDateObject } from "@/utils";
  * Get author string for a post.
  * Uses Authors array if available, falls back to site's AUTHOR constant.
  */
-function getPostAuthor(post: { Authors?: { name: string }[] }): string {
+function getPostAuthor(post: { Authors?: { name: string }[] | undefined }): string {
 	if (post.Authors && post.Authors.length > 0) {
 		return post.Authors.map((a) => a.name).join(", ");
 	}

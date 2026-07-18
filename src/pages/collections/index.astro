@@ -16,7 +16,7 @@ const collections = await getCollectionsWDesc();
 	<h1 class="title mb-6">Collections</h1>
 	<ul class="space-y-4">
 		{
-			collections.map(({ name, description }) => (
+			collections!.map(({ name, description }) => (
 				<li class="flex max-w-full flex-col items-start gap-x-2">
 					<div>
 						<a

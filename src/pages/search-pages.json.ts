@@ -84,7 +84,7 @@ export const GET = async () => {
 		...(entry.Excerpt ? { e: entry.Excerpt } : {}),
 	}));
 
-	const collectionItems: GotoItem[] = collections.map((name) => ({
+	const collectionItems: GotoItem[] = collections!.map((name) => ({
 		t: name,
 		u: getPostLink(`collections/${slugify(name)}`, true),
 		k: "collection",

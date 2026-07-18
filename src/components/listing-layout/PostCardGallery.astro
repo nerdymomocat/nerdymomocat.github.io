@@ -21,7 +21,7 @@ interface Props {
 	withDesc?: boolean;
 }
 
-const { post, as: Tag = "h3", withDesc = true } = Astro.props;
+const { post, as: Tag = "h3", withDesc = true } = Astro.props as Props;
 const postLink = resolvePostHref(post);
 const external = isExternalPost(post);
 
@@ -82,7 +82,7 @@ const hasAuthors = post.Authors !== undefined && post.Authors.length > 0;
 						decoding="async"
 						widths={[400, 600]}
 						sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-						quality={OPTIMIZE_IMAGES ? 80 : undefined}
+						{...(OPTIMIZE_IMAGES ? { quality: 80 } : {})}
 					/>
 				) : featuredImageUrl ? (
 					<img
@@ -163,7 +163,7 @@ const hasAuthors = post.Authors !== undefined && post.Authors.length > 0;
 	{
 		post.Tags && post.Tags.length > 0 && (
 			<div class="post-card-tags">
-				{post.Tags.slice(0, 3).map((tag, i) => (
+				{post.Tags.slice(0, 3).map((tag) => (
 					<>
 						<a
 							class={`notion-tag text-xs ${getNotionColorToTailwindColor(

@@ -4,9 +4,9 @@ export interface Props {
 	caption: string | undefined;
 }
 
-const { url, caption } = Astro.props;
-const user = url.pathname.split("/")[1];
-const id = url.pathname.split("/")[3];
+const { url } = Astro.props;
+const user = url.pathname.split("/")[1] ?? "";
+const id = url.pathname.split("/")[3] ?? "";
 ---
 
 <div class="codepen-embed max-w-full">
@@ -18,7 +18,7 @@ const id = url.pathname.split("/")[3];
 	>
 	</p>
 </div>
-<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+<script is:inline async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
 
 <style>
 	.cp_embed_wrapper {

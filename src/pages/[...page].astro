@@ -10,7 +10,7 @@ import {
 	setTrackCurrentPageId,
 } from "@/lib/blog-helpers";
 import NotionBlocks from "@/components/NotionBlocks.astro";
-import type { Post } from "@/lib/interfaces";
+import type { Block } from "@/lib/interfaces";
 import { siteInfo } from "@/siteInfo";
 import {
 	FULL_PREVIEW_COLLECTIONS,
@@ -27,7 +27,7 @@ import {
 import PostPreview from "@/components/listing-layout/PostPreview.astro";
 import PostCardGallery from "@/components/listing-layout/PostCardGallery.astro";
 import Icon from "@/components/ui/Icon.astro";
-import { buildHeadings } from "@/utils";
+import { buildHeadings, type TocItem } from "@/utils";
 import TOC from "@/components/auto-added-sections/TOC.astro";
 import fs from "fs/promises";
 import path from "node:path";
@@ -75,7 +75,7 @@ export async function getStaticPaths() {
 			(linkedPageIds.length > 0 &&
 				linkedPageIds.some((pageId) => {
 					const linkedItem = allItemsMap[pageId];
-					return linkedItem && linkedItem.LastUpdatedTimeStamp > LAST_BUILD_TIME;
+					return linkedItem && linkedItem.LastUpdatedTimeStamp > LAST_BUILD_TIME!;
 				}));
 
 		const shouldUseCache = pageLastUpdatedBeforeLastBuild && !linkedPostsUpdated;
@@ -87,21 +87,13 @@ export async function getStaticPaths() {
 	});
 }
 
-interface Props {
-	page: Post;
-	shouldUseCache: boolean;
-	pageLastUpdatedBeforeLastBuild: boolean;
-}
-
-const { page: slug } = Astro.params;
 const { page, shouldUseCache, pageLastUpdatedBeforeLastBuild } = Astro.props;
 
 resetCurrentHeadings();
 
 let pageFound = true;
-let blocks = null;
-let interlinkedContentInPage = null;
-let headings = null;
+let blocks: Block[] = [];
+let headings: TocItem[] = [];
 let footnotesInPage = null;
 let citationsInPage = null;
 
@@ -130,7 +122,7 @@ const headingsCacheFile = path.join(headingsCacheDir, `${page.Slug}.json`);
 if (pageFound && pageLastUpdatedBeforeLastBuild) {
 	try {
 		const headingsData = await fs.readFile(headingsCacheFile, "utf-8");
-		cachedHeadings = superjson.parse(headingsData);
+		cachedHeadings = superjson.parse<TocItem[]>(headingsData);
 	} catch (e) {
 		cachedHeadings = null;
 	}
@@ -139,14 +131,13 @@ if (pageFound && pageLastUpdatedBeforeLastBuild) {
 if (pageFound) {
 	const result = await getPostContentByPostId(page);
 	blocks = result.blocks;
-	interlinkedContentInPage = result.interlinkedContentInPage;
 	footnotesInPage = result.footnotesInPage;
 	citationsInPage = result.citationsInPage;
 
 	if (cachedHeadings) {
 		headings = cachedHeadings;
 	} else {
-		headings = buildHeadings(blocks);
+		headings = (buildHeadings(blocks) || []) as TocItem[];
 		try {
 			await fs.writeFile(headingsCacheFile, superjson.stringify(headings), "utf-8");
 		} catch (e) {
@@ -164,11 +155,12 @@ if (pageFound && page.Slug === HOME_PAGE_SLUG && RECENT_POSTS_ON_HOME_PAGE) {
 		recent_posts = recent_posts.filter((post) => !post.Slug.startsWith("_"));
 	}
 	recent_posts = recent_posts.slice(0, 5);
-	if (recent_posts && headings) {
+	if (recent_posts) {
 		headings.push({
 			text: "Recent Posts",
 			slug: "auto-recent-posts",
 			depth: 1,
+			subheadings: [],
 		});
 	}
 }
@@ -209,7 +201,7 @@ if (pageFound && page.Slug === HOME_PAGE_SLUG && RECENT_POSTS_ON_HOME_PAGE) {
 									)}{" "}
 							</div>
 						)}
-						{headings && !!headings.length && <TOC headings={headings} />}
+						{!!headings.length && <TOC headings={headings} />}
 					</article>
 				</div>
 				{RECENT_POSTS_ON_HOME_PAGE && recent_posts && (
