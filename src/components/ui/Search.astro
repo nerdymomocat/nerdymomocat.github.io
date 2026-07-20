@@ -7,15 +7,16 @@
 // lazy-loaded. It is imported inside search-runtime.ts instead, so it ships only with
 // the dynamically-imported search chunk when the user actually opens search.
 import Icon from "@/components/ui/Icon.astro";
+import noSearchMatchesImage from "@/assets/no-search-matches-cat-in-bag.svg";
 import { getAllPosts } from "@/lib/notion/client";
 import { resolvePostHref, getNotionImage } from "@/lib/blog-helpers";
-import { getSvgIcon } from "@/utils/style-helpers";
-import { getImage } from "astro:assets";
+import { getImage, Image } from "astro:assets";
 
 const baseUrl = import.meta.env.BASE_URL;
 const pagefindBundlePath = `${baseUrl.replace(/\/$/, "")}/pagefind/`;
-const passageIconSvg = getSvgIcon("text-short");
 const gotoIndexUrl = `${baseUrl.replace(/\/$/, "")}/search-pages.json`;
+const searchPlaceholder = "Tip: Press ⌘K or ^K to open search, or / to go to a page";
+const compactSearchPlaceholder = "Search, or / to go to a page";
 const pinnedPost = (await getAllPosts()).find((post) => post.Pinned && !post.Slug.startsWith("_"));
 const pinnedIcon = pinnedPost?.Icon;
 const pinnedIconEmoji = pinnedIcon && "Emoji" in pinnedIcon ? pinnedIcon.Emoji : "";
@@ -32,66 +33,14 @@ if (pinnedIconDownloaded) {
 		pinnedIconImage = pinnedIconDownloaded.src || pinnedIconUrl;
 	}
 }
-const resultTemplate = String.raw`
-<li class="webtrotion-search-result">
-	<div class="webtrotion-search-result-card">
-		<div class="webtrotion-search-result-main">
-			<div class="webtrotion-search-result-heading">
-				<span class="webtrotion-search-result-icon" aria-hidden="true">
-					{{#if meta.page_icon_emoji}}
-						{{ meta.page_icon_emoji }}
-					{{:else}}
-						{{#if meta.page_icon_image}}
-							<img src="{{ meta.page_icon_image | safeUrl }}" alt="" />
-						{{:else}}
-							<svg viewBox="0 0 24 24" focusable="false">
-								<path d="M6 3.75h8.4L19 8.35v11.9H6z" />
-								<path d="M14.25 4v4.6h4.5" />
-								<path d="M8.75 12h6.5M8.75 15h5M8.75 18h3.75" />
-							</svg>
-						{{/if}}
-					{{/if}}
-				</span>
-				<a class="webtrotion-search-result-link" href="{{ meta.url | default(url) | safeUrl }}">
-					{{ meta.title | default("Untitled") }}
-				</a>
-			</div>
-			{{#if excerpt}}
-				<p class="webtrotion-search-result-excerpt">{{+ excerpt +}}</p>
-			{{/if}}
-		</div>
-	</div>
-	{{#if sub_results}}
-		<ul class="webtrotion-search-subresults" aria-label="Matching sections">
-			{{#each sub_results as sub}}
-				<li>
-					<a class="webtrotion-search-subresult-link" href="{{ sub.url | safeUrl }}">
-						<span class="webtrotion-search-subresult-icon" aria-hidden="true">${passageIconSvg}</span>
-						<span class="webtrotion-search-subresult-body">
-							<span class="webtrotion-search-subresult-title">{{ sub.title | default("Section") }}</span>
-							{{#if sub.excerpt}}
-								<span class="webtrotion-search-subresult-excerpt">{{+ sub.excerpt +}}</span>
-							{{/if}}
-						</span>
-					</a>
-				</li>
-			{{/each}}
-		</ul>
-	{{/if}}
-</li>`;
-const placeholderTemplate = String.raw`
-<li class="webtrotion-search-result webtrotion-search-placeholder" aria-hidden="true">
-	<div class="webtrotion-search-result-card">
-		<div class="webtrotion-search-result-main">
-			<p class="webtrotion-search-skeleton webtrotion-search-skeleton-title"></p>
-			<p class="webtrotion-search-skeleton webtrotion-search-skeleton-line"></p>
-			<p class="webtrotion-search-skeleton webtrotion-search-skeleton-line short"></p>
-		</div>
-	</div>
-</li>`;
 ---
 
-<site-search id="search" class="ms-auto">
+<site-search
+	id="search"
+	class="ms-auto"
+	data-search-placeholder={searchPlaceholder}
+	data-compact-search-placeholder={compactSearchPlaceholder}
+>
 	{
 		import.meta.env.DEV ? (
 			<button type="button" disabled class="search-btn" aria-label="Search unavailable in dev">
@@ -114,7 +63,7 @@ const placeholderTemplate = String.raw`
 					<div class="search-loading-header">
 						<div class="search-loading-input" aria-hidden="true">
 							<Icon class="search-loading-input-icon" name="search" />
-							<span class="search-loading-input-text">Search, or / to go to a page</span>
+							<span class="search-loading-input-text">{searchPlaceholder}</span>
 						</div>
 					</div>
 					<div class="search-loading-body">
@@ -125,7 +74,7 @@ const placeholderTemplate = String.raw`
 					<pagefind-modal-header>
 						<pagefind-input
 							instance="webtrotion-search"
-							placeholder="Search, or / to go to a page"
+							placeholder={searchPlaceholder}
 							debounce="150"
 						/>
 					</pagefind-modal-header>
@@ -162,28 +111,47 @@ const placeholderTemplate = String.raw`
 										data-pinned-icon-emoji={pinnedIconEmoji || undefined}
 										data-pinned-icon-image={pinnedIconImage || undefined}
 									/>
-									<pagefind-summary instance="webtrotion-search" />
-									<pagefind-results
-										instance="webtrotion-search"
-										show-images="false"
-										max-sub-results="3"
+									<p
+										class="pagefind-summary pf-summary webtrotion-search-summary"
+										aria-live="polite"
 									>
-										<script type="text/pagefind-template" set:html={resultTemplate} />
-										<script
-											type="text/pagefind-template"
-											data-template="placeholder"
-											set:html={placeholderTemplate}
-										/>
-									</pagefind-results>
-									<p class="webtrotion-search-empty-state" hidden aria-live="polite">
-										<span class="webtrotion-search-empty-state-icon" aria-hidden="true">
-											<Icon name="magnify-close" aria-hidden="true" focusable="false" />
-										</span>
-										Try a different term or clear a filter to see more.
+										<span class="webtrotion-search-summary-count" />{" "}
+										<span class="webtrotion-search-summary-label" />
 									</p>
+									<webtrotion-search-results instance="webtrotion-search" max-sub-results="3" />
+									<div class="webtrotion-search-empty-state" hidden aria-live="polite">
+										<Image
+											class="webtrotion-search-empty-state-image"
+											loading="lazy"
+											src={noSearchMatchesImage}
+											alt=""
+										/>
+										<div class="webtrotion-search-empty-state-copy">
+											<p class="webtrotion-search-empty-state-title">No results found</p>
+											<p>Try a different term or clear a filter to see more.</p>
+										</div>
+									</div>
 								</section>
 								<div class="webtrotion-search-preview-slot">
-									<webtrotion-search-preview instance="webtrotion-search" />
+									<button
+										type="button"
+										class="webtrotion-search-preview-handle"
+										aria-expanded="true"
+										aria-controls="webtrotion-search-preview-panel"
+										tabindex="-1"
+									>
+										<span class="webtrotion-search-preview-handle-label">Preview</span>
+										<Icon
+											class="webtrotion-search-preview-handle-chevron"
+											name="chevron-down"
+											aria-hidden="true"
+											focusable="false"
+										/>
+									</button>
+									<webtrotion-search-preview
+										id="webtrotion-search-preview-panel"
+										instance="webtrotion-search"
+									/>
 								</div>
 							</div>
 						</div>
@@ -295,6 +263,7 @@ const placeholderTemplate = String.raw`
 		};
 
 		private openSearch(fromUrl: boolean) {
+			this.updateSearchPlaceholder();
 			// Runtime already loaded → open the real modal directly (with its normal entrance).
 			if (this.runtime) {
 				if (fromUrl) this.runtime.openFromUrl();
@@ -336,6 +305,16 @@ const placeholderTemplate = String.raw`
 					);
 				}
 			});
+		}
+
+		private updateSearchPlaceholder() {
+			const placeholder = window.matchMedia("(max-width: 640px)").matches
+				? this.dataset.compactSearchPlaceholder
+				: this.dataset.searchPlaceholder;
+			if (!placeholder) return;
+			this.querySelector("pagefind-input")?.setAttribute("placeholder", placeholder);
+			const loadingText = this.querySelector<HTMLElement>(".search-loading-input-text");
+			if (loadingText) loadingText.textContent = placeholder;
 		}
 
 		private load() {

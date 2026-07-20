@@ -11,7 +11,7 @@ interface Props {
 }
 
 const { tweet, components } = Astro.props;
-const Img = components?.AvatarImg ?? AvatarImg;
+const Img = (components?.AvatarImg ?? AvatarImg) as typeof AvatarImg;
 const { user } = tweet;
 ---
 
@@ -31,7 +31,10 @@ const { user } = tweet;
 			<div class={styles.authorLinkText}>
 				<span title={user.name}>{user.name}</span>
 			</div>
-			<VerifiedBadge user={user} className={styles.authorVerified} />
+			<VerifiedBadge
+				user={user}
+				{...styles.authorVerified ? { className: styles.authorVerified } : {}}
+			/>
 		</a>
 		<div class={styles.authorMeta}>
 			<a href={tweet.url} class={styles.username} target="_blank" rel="noopener noreferrer">

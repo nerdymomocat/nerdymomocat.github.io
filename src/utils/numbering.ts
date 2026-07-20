@@ -1,6 +1,6 @@
 export const LINKED_CONTENT_SYMBOLS = ["‡", "§", "Δ", "◊", "☞", "♠", "♦", "♣"];
 
-export const getSymbolForLinkedContent = (index) => {
+export const getSymbolForLinkedContent = (index: number) => {
 	const base = LINKED_CONTENT_SYMBOLS.length;
 	let result = "";
 

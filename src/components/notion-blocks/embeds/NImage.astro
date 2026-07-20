@@ -78,7 +78,9 @@ const isFirstImage = getFirstImage() && setId;
 const mobileWidth = downloadedImage && downloadedImage.width > 1200 ? 1200 : downloadedImage?.width;
 const imageWidths =
 	downloadedImage && downloadedImage.width > 1200
-		? [mobileWidth, downloadedImage.width]
+		? [mobileWidth, downloadedImage.width].filter(
+				(width): width is number => typeof width === "number",
+			)
 		: downloadedImage
 			? [downloadedImage.width]
 			: undefined;
@@ -110,11 +112,10 @@ const imageSizes =
 								src={downloadedImage}
 								alt={altText}
 								priority={isFirstImage}
-								loading={isFirstImage ? undefined : "lazy"}
-								decoding={isFirstImage ? undefined : "async"}
-								quality={OPTIMIZE_IMAGES ? 85 : undefined}
-								widths={imageWidths}
-								sizes={imageSizes}
+								{...(!isFirstImage ? { loading: "lazy", decoding: "async" } : {})}
+								{...(OPTIMIZE_IMAGES ? { quality: 85 } : {})}
+								{...(imageWidths ? { widths: imageWidths } : {})}
+								{...(imageSizes ? { sizes: imageSizes } : {})}
 								class="imagemedia notion-image"
 								format={
 									OPTIMIZE_IMAGES
@@ -140,11 +141,10 @@ const imageSizes =
 						src={downloadedImage}
 						alt={altText}
 						priority={isFirstImage}
-						loading={isFirstImage ? undefined : "lazy"}
-						decoding={isFirstImage ? undefined : "async"}
-						quality={OPTIMIZE_IMAGES ? 85 : undefined}
-						widths={imageWidths}
-						sizes={imageSizes}
+						{...(!isFirstImage ? { loading: "lazy", decoding: "async" } : {})}
+						{...(OPTIMIZE_IMAGES ? { quality: 85 } : {})}
+						{...(imageWidths ? { widths: imageWidths } : {})}
+						{...(imageSizes ? { sizes: imageSizes } : {})}
 						class="imagemedia notion-image"
 						format={
 							OPTIMIZE_IMAGES ? getImageComponentFormat(downloadedImage) : downloadedImage.format
@@ -163,7 +163,7 @@ const imageSizes =
 					/>
 				)}
 			</div>
-			<Caption richTexts={block.NImage.Caption} block={block} as="figcaption" />
+			<Caption richTexts={block.NImage!.Caption!} block={block} as="figcaption" />
 		</figure>
 	)
 }

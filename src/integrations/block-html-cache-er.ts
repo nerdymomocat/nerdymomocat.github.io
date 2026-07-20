@@ -72,7 +72,7 @@ const blocksHtmlCacher = (): AstroIntegration => {
 						(linkedPageIds.length > 0 &&
 							linkedPageIds.some((pageId) => {
 								const linkedPost = allPostsMap[pageId];
-								return linkedPost && linkedPost.LastUpdatedTimeStamp > LAST_BUILD_TIME;
+								return linkedPost && linkedPost.LastUpdatedTimeStamp > LAST_BUILD_TIME!;
 							}));
 					const shouldUseCache = postLastUpdatedBeforeLastBuild && !linkedPostsUpdated;
 

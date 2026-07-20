@@ -70,6 +70,62 @@ export interface SearchRuntime {
 const isNavigableLink = (link: HTMLElement | null | undefined): boolean =>
 	!!link && !link.closest("details.webtrotion-search-goto-section:not([open])");
 
+const normalizeToken = (value: string): string =>
+	value.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, "");
+
+// Collect the actual highlighted terms Pagefind matched, drawn from the <mark>
+// runs in every result's excerpt and sub-result excerpts.
+function collectMatchedTerms(resultData: PagefindResultData[]): string[] {
+	const terms: string[] = [];
+	const markRegex = /<mark[^>]*>([\s\S]*?)<\/mark>/gi;
+	for (const data of resultData) {
+		const html = `${data.excerpt || ""} ${(data.sub_results || [])
+			.map((sub) => sub.excerpt || "")
+			.join(" ")}`;
+		let match: RegExpExecArray | null;
+		while ((match = markRegex.exec(html))) {
+			const token = normalizeToken((match[1] || "").replace(/<[^>]*>/g, ""));
+			if (token) terms.push(token);
+		}
+	}
+	return terms;
+}
+
+// Pagefind, when a full query word finds nothing, silently retries with the word
+// truncated to a shorter real prefix (its typo/partial fallback). That makes pure
+// garbage like "djsznfsrhbfredf" still "match" a two-letter prefix. We keep the
+// helpful cases (typos like "blockz"→"block", as-you-type, stemming) but drop the
+// noise: a query word is genuine when a matched term begins with it (exact / prefix /
+// inflected form present), or when Pagefind only had to shave off a small fraction of
+// the word. A query is genuine only if ~80% of its words are — so one real word among
+// a pile of gibberish ("this com dfvfd sefegyhsrdzg") is treated as noise, while a
+// single typo in an otherwise-real multi-word query still passes.
+const MIN_TRUNCATED_PREFIX = 3;
+const MIN_TRUNCATED_RATIO = 0.67;
+const MIN_GENUINE_RATIO = 0.8;
+function isGenuineWord(word: string, matched: string[]): boolean {
+	if (matched.some((mark) => mark.startsWith(word))) return true;
+	let longestPrefix = 0;
+	for (const mark of matched) {
+		if (word.startsWith(mark) && mark.length > longestPrefix) longestPrefix = mark.length;
+	}
+	return (
+		longestPrefix >= MIN_TRUNCATED_PREFIX && longestPrefix / word.length >= MIN_TRUNCATED_RATIO
+	);
+}
+function isGenuineQuery(term: string, resultData: PagefindResultData[]): boolean {
+	const words = term
+		.split(/\s+/)
+		.map(normalizeToken)
+		.filter((word) => word.length >= 2);
+	if (!words.length) return true;
+	if (!resultData.length) return false;
+	const matched = collectMatchedTerms(resultData);
+	if (!matched.length) return false;
+	const genuine = words.filter((word) => isGenuineWord(word, matched)).length;
+	return genuine / words.length >= MIN_GENUINE_RATIO;
+}
+
 class WebtrotionSearchNavigation extends HTMLElement {
 	private links: Array<{
 		href: string;
@@ -434,6 +490,171 @@ class WebtrotionSearchNavigation extends HTMLElement {
 	}
 }
 
+class WebtrotionSearchResults extends HTMLElement {
+	private instanceName = SEARCH_INSTANCE;
+	private maxSubResults = 3;
+	private requestVersion = 0;
+	private emptyStateEl: HTMLElement | null = null;
+	private summaryCountEl: HTMLElement | null = null;
+	private summaryLabelEl: HTMLElement | null = null;
+
+	connectedCallback() {
+		this.instanceName = this.getAttribute("instance") || SEARCH_INSTANCE;
+		this.maxSubResults = Number.parseInt(this.getAttribute("max-sub-results") || "3", 10) || 3;
+		this.classList.add("pagefind-results");
+		this.setAttribute("aria-live", "polite");
+		const modal = this.closest("pagefind-modal");
+		this.emptyStateEl = modal?.querySelector<HTMLElement>(".webtrotion-search-empty-state") || null;
+		this.summaryCountEl =
+			modal?.querySelector<HTMLElement>(".webtrotion-search-summary-count") || null;
+		this.summaryLabelEl =
+			modal?.querySelector<HTMLElement>(".webtrotion-search-summary-label") || null;
+
+		const instance = getInstanceManager().getInstance(this.instanceName);
+		instance.on(
+			"search",
+			() => {
+				this.requestVersion += 1;
+			},
+			this,
+		);
+		instance.on(
+			"loading",
+			() => {
+				if (this.emptyStateEl) this.emptyStateEl.hidden = true;
+			},
+			this,
+		);
+		instance.on(
+			"results",
+			(results) => {
+				const version = this.requestVersion;
+				void this.commitResults(results as PagefindSearchResult, version).catch(() => {
+					/* leave the last rendered state in place on failure */
+				});
+			},
+			this,
+		);
+	}
+
+	private async commitResults(results: PagefindSearchResult, version: number) {
+		const resultData = await Promise.all(results.results.map((result) => result.data()));
+		if (version !== this.requestVersion) return;
+
+		const instance = getInstanceManager().getInstance(this.instanceName);
+		const term = instance.searchTerm?.trim() || "";
+		// A genuine query keeps every result; a garbage query (Pagefind fell back to a
+		// heavily truncated prefix) drops them all — truncation is an all-or-nothing
+		// query-level fallback, so the results are either all real or all noise.
+		const visible = !term || isGenuineQuery(term, resultData) ? resultData : [];
+
+		const fragment = document.createDocumentFragment();
+		for (const data of visible) {
+			fragment.append(this.renderResult(data));
+		}
+
+		this.replaceChildren(fragment);
+		this.hidden = visible.length === 0;
+		const hasFilters = Object.values(instance.searchFilters || {}).some((values) => values.length);
+		this.updateAuxiliary(term, hasFilters, visible.length);
+	}
+
+	private updateAuxiliary(term: string, hasFilters: boolean, visibleCount: number) {
+		if (this.summaryCountEl) this.summaryCountEl.textContent = String(visibleCount);
+		if (this.summaryLabelEl) {
+			this.summaryLabelEl.textContent = visibleCount === 1 ? "result" : "results";
+		}
+		if (this.emptyStateEl) {
+			this.emptyStateEl.hidden = visibleCount > 0 || !(term || hasFilters);
+		}
+	}
+
+	private renderResult(data: PagefindResultData) {
+		const result = document.createElement("li");
+		result.className = "webtrotion-search-result";
+		const card = document.createElement("div");
+		card.className = "webtrotion-search-result-card";
+		const main = document.createElement("div");
+		main.className = "webtrotion-search-result-main";
+		const heading = document.createElement("div");
+		heading.className = "webtrotion-search-result-heading";
+		heading.append(this.renderResultIcon(data));
+
+		const link = document.createElement("a");
+		link.className = "webtrotion-search-result-link";
+		link.href = data.meta?.url || data.url;
+		link.textContent = data.meta?.title || "Untitled";
+		heading.append(link);
+		main.append(heading);
+
+		if (data.excerpt) {
+			const excerpt = document.createElement("p");
+			excerpt.className = "webtrotion-search-result-excerpt";
+			excerpt.innerHTML = data.excerpt;
+			main.append(excerpt);
+		}
+
+		card.append(main);
+		result.append(card);
+		const subResults = getInstanceManager()
+			.getInstance(this.instanceName)
+			.getDisplaySubResults(data, this.maxSubResults);
+		if (subResults.length) result.append(this.renderSubResults(subResults));
+		return result;
+	}
+
+	private renderResultIcon(data: PagefindResultData) {
+		const icon = document.createElement("span");
+		icon.className = "webtrotion-search-result-icon";
+		icon.setAttribute("aria-hidden", "true");
+		const emoji = data.meta?.page_icon_emoji;
+		const image = data.meta?.page_icon_image;
+		if (emoji) {
+			icon.textContent = emoji;
+		} else if (image) {
+			const img = document.createElement("img");
+			img.src = image;
+			img.alt = "";
+			icon.append(img);
+		} else {
+			icon.innerHTML = `<svg viewBox="0 0 24 24" focusable="false"><path d="M6 3.75h8.4L19 8.35v11.9H6z" /><path d="M14.25 4v4.6h4.5" /><path d="M8.75 12h6.5M8.75 15h5M8.75 18h3.75" /></svg>`;
+		}
+		return icon;
+	}
+
+	private renderSubResults(subResults: PagefindSubResult[]) {
+		const list = document.createElement("ul");
+		list.className = "webtrotion-search-subresults";
+		list.setAttribute("aria-label", "Matching sections");
+		for (const subResult of subResults) {
+			const item = document.createElement("li");
+			const link = document.createElement("a");
+			link.className = "webtrotion-search-subresult-link";
+			link.href = subResult.url;
+			const icon = document.createElement("span");
+			icon.className = "webtrotion-search-subresult-icon";
+			icon.setAttribute("aria-hidden", "true");
+			icon.innerHTML = getSvgIcon("text-short");
+			const body = document.createElement("span");
+			body.className = "webtrotion-search-subresult-body";
+			const title = document.createElement("span");
+			title.className = "webtrotion-search-subresult-title";
+			title.textContent = subResult.title || "Section";
+			body.append(title);
+			if (subResult.excerpt) {
+				const excerpt = document.createElement("span");
+				excerpt.className = "webtrotion-search-subresult-excerpt";
+				excerpt.innerHTML = subResult.excerpt;
+				body.append(excerpt);
+			}
+			link.append(icon, body);
+			item.append(link);
+			list.append(item);
+		}
+		return list;
+	}
+}
+
 class WebtrotionSearchPreview extends HTMLElement {
 	private instanceName = SEARCH_INSTANCE;
 	private resultDataByUrl = new Map<string, PagefindResultData>();
@@ -443,6 +664,10 @@ class WebtrotionSearchPreview extends HTMLElement {
 	private selectionObserver: MutationObserver | null = null;
 	private lastSelectedResultUrl: string | null = null;
 	private restoreSelectedPreviewOnOpen = false;
+	private previewSlot: HTMLElement | null = null;
+	private handle: HTMLButtonElement | null = null;
+	private previewCollapsed = false;
+	private static readonly COLLAPSE_KEY = "wt-search-preview-collapsed";
 
 	private syncSelectedResult = () => {
 		const selected = this.eventRoot?.querySelector<HTMLAnchorElement>(
@@ -479,6 +704,26 @@ class WebtrotionSearchPreview extends HTMLElement {
 		}
 	}
 
+	private onHandlePointerDown = (event: Event) => {
+		event.preventDefault();
+	};
+
+	private onToggleCollapsed = () => {
+		this.previewCollapsed = !this.previewCollapsed;
+		try {
+			sessionStorage.setItem(
+				WebtrotionSearchPreview.COLLAPSE_KEY,
+				this.previewCollapsed ? "1" : "0",
+			);
+		} catch {}
+		this.applyCollapsed();
+	};
+
+	private applyCollapsed() {
+		this.previewSlot?.toggleAttribute("data-preview-collapsed", this.previewCollapsed);
+		this.handle?.setAttribute("aria-expanded", this.previewCollapsed ? "false" : "true");
+	}
+
 	private onFocusIn = (event: Event) => {
 		const target = event.target as Element | null;
 		// Returning focus to the query box collapses the preview so the panel does not
@@ -493,14 +738,21 @@ class WebtrotionSearchPreview extends HTMLElement {
 			}
 			return;
 		}
+		// Only keyboard-driven focus (Tab/arrow) opens the preview. A tap momentarily
+		// focuses a result link but is not :focus-visible, so touch users navigate
+		// without the sheet flashing; mouse users are served by the pointer-hover path.
+		if (target && !target.matches(":focus-visible")) return;
 		this.previewFor(target);
 	};
 
 	// Hover previews are driven by pointermove rather than pointerover: when the
 	// results re-render under a stationary cursor the browser emits a synthetic
 	// pointerover that would auto-open a preview the user never pointed at. pointermove
-	// only fires on genuine movement, so a still cursor never opens a preview.
+	// only fires on genuine movement, so a still cursor never opens a preview. Touch
+	// pointers are ignored so tapping/scrolling on a device that also has a trackpad
+	// (e.g. iPad + Magic Keyboard) never flashes the hover preview.
 	private onPointerMove = (event: Event) => {
+		if (event instanceof PointerEvent && event.pointerType === "touch") return;
 		this.previewFor(event.target as Element | null);
 	};
 
@@ -510,17 +762,39 @@ class WebtrotionSearchPreview extends HTMLElement {
 		}
 
 		this.renderEmpty();
+
+		// The collapse handle lets bottom-sheet (below lg) users tuck the preview away;
+		// the choice sticks for the session so it never re-expands unasked on each result.
+		this.previewSlot = this.closest<HTMLElement>(".webtrotion-search-preview-slot");
+		this.handle =
+			this.previewSlot?.querySelector<HTMLButtonElement>(".webtrotion-search-preview-handle") ??
+			null;
+		// Preserve focus (and therefore keyboard navigation) on the search input: a plain
+		// button click would move focus to the button, so suppress the pointer's default
+		// focus shift and toggle on click.
+		this.handle?.addEventListener("pointerdown", this.onHandlePointerDown);
+		this.handle?.addEventListener("click", this.onToggleCollapsed);
+		try {
+			this.previewCollapsed = sessionStorage.getItem(WebtrotionSearchPreview.COLLAPSE_KEY) === "1";
+		} catch {}
+		this.applyCollapsed();
+
 		queueMicrotask(() => {
-			// The preview is a pointer-hover affordance with no purpose on touch / no-hover
-			// devices, where tapping a result simply navigates. Skip wiring it up there
-			// (the slot itself is hidden via a matching hover media query in the CSS).
-			if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
-			// Bind to the whole modal (not just the body) so focus landing on the header
-			// search input is observed here and collapses the preview.
+			// Preview activation is decoupled from device type. The keyboard/focus and
+			// arrow-selection paths are wired everywhere so Tab/arrow users (e.g. an iPad
+			// with a keyboard) get previews; the pointer-hover path is wired wherever a
+			// fine hovering pointer is available. any-hover/any-pointer (not hover/pointer)
+			// is required so an iPad with a trackpad or mouse — whose primary pointer is
+			// still the coarse touchscreen — is included. On a bare touch phone neither
+			// fires, and the slot stays at zero footprint until something activates it, so
+			// tapping just navigates. Bind to the whole modal (not just the body) so focus
+			// landing on the header search input is observed here and collapses the preview.
 			this.eventRoot =
 				this.closest("pagefind-modal") || this.closest("pagefind-modal-body") || this.parentElement;
 			this.eventRoot?.addEventListener("focusin", this.onFocusIn);
-			this.eventRoot?.addEventListener("pointermove", this.onPointerMove);
+			if (window.matchMedia("(any-hover: hover) and (any-pointer: fine)").matches) {
+				this.eventRoot?.addEventListener("pointermove", this.onPointerMove);
+			}
 			if (this.eventRoot) {
 				this.selectionObserver = new MutationObserver((mutations) => {
 					const dialogMutation = mutations.find(
@@ -578,6 +852,8 @@ class WebtrotionSearchPreview extends HTMLElement {
 	disconnectedCallback() {
 		this.eventRoot?.removeEventListener("focusin", this.onFocusIn);
 		this.eventRoot?.removeEventListener("pointermove", this.onPointerMove);
+		this.handle?.removeEventListener("pointerdown", this.onHandlePointerDown);
+		this.handle?.removeEventListener("click", this.onToggleCollapsed);
 		this.selectionObserver?.disconnect();
 	}
 
@@ -780,6 +1056,9 @@ function defineRuntimeElements() {
 	if (!customElements.get("webtrotion-search-navigation")) {
 		customElements.define("webtrotion-search-navigation", WebtrotionSearchNavigation);
 	}
+	if (!customElements.get("webtrotion-search-results")) {
+		customElements.define("webtrotion-search-results", WebtrotionSearchResults);
+	}
 	if (!customElements.get("webtrotion-search-preview")) {
 		customElements.define("webtrotion-search-preview", WebtrotionSearchPreview);
 	}
@@ -800,7 +1079,6 @@ export function createSearchRuntime(host: HTMLElement): SearchRuntime {
 
 	const modalElement = host.querySelector("pagefind-modal") as
 		(HTMLElement & { open?: () => void }) | null;
-	const emptyStateElement = host.querySelector<HTMLElement>(".webtrotion-search-empty-state");
 
 	const onModalKeydown = (event: KeyboardEvent) => {
 		const target = event.target;
@@ -949,7 +1227,7 @@ export function createSearchRuntime(host: HTMLElement): SearchRuntime {
 			// Up/Down stay on the main-result axis and skip over sections entirely.
 			if (event.key === "ArrowDown") destination = mainLinks[resultIndex + 1];
 			if (event.key === "ArrowUp")
-				destination = mainLinks[resultIndex - 1] || navigationLinks.at(-1);
+				destination = mainLinks[resultIndex - 1] || navigationLinks[navigationLinks.length - 1];
 			// Right steps into this result's sections.
 			if (event.key === "ArrowRight") destination = subLinks[0];
 		} else {
@@ -985,28 +1263,6 @@ export function createSearchRuntime(host: HTMLElement): SearchRuntime {
 	modalElement?.addEventListener("keydown", onResultsKeydown, true);
 
 	const instance = getInstanceManager().getInstance(SEARCH_INSTANCE);
-	instance.on(
-		"loading",
-		() => {
-			if (emptyStateElement) emptyStateElement.hidden = true;
-		},
-		host,
-	);
-	instance.on(
-		"results",
-		(results) => {
-			const searchResults = results as PagefindSearchResult;
-			const hasQuery = Boolean(instance.searchTerm?.trim());
-			const hasFilters = Object.values(instance.searchFilters || {}).some(
-				(values) => values.length,
-			);
-			if (emptyStateElement) {
-				emptyStateElement.hidden =
-					Boolean(searchResults.results?.length) || !(hasQuery || hasFilters);
-			}
-		},
-		host,
-	);
 
 	const openModal = () => {
 		if (customElements.get("pagefind-modal")) {

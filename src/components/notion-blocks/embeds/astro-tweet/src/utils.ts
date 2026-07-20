@@ -191,7 +191,7 @@ function fixRange(tweet: TweetBase, entities: EntityWithType[]) {
 	) {
 		tweet.display_text_range[1] = firstMedia.indices[0];
 	}
-	const lastEntity = entities.at(-1);
+	const lastEntity = entities[entities.length - 1];
 	if (lastEntity && lastEntity.indices[1] > tweet.display_text_range[1]) {
 		lastEntity.indices[1] = tweet.display_text_range[1];
 	}
@@ -205,9 +205,9 @@ export type EnrichedTweet = Omit<Tweet, "entities" | "quoted_tweet"> & {
 	};
 	like_url: string;
 	reply_url: string;
-	in_reply_to_url?: string;
+	in_reply_to_url?: string | undefined;
 	entities: Entity[];
-	quoted_tweet?: EnrichedQuotedTweet;
+	quoted_tweet?: EnrichedQuotedTweet | undefined;
 };
 
 export type EnrichedQuotedTweet = Omit<QuotedTweet, "entities"> & {

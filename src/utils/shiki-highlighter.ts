@@ -7,6 +7,7 @@ type CodeToHtmlOptions = Parameters<typeof codeToHtml>[1];
 export interface HighlightCodeOptions extends Omit<CodeToHtmlOptions, "lang" | "theme"> {
 	code: string;
 	lang: string;
+	defaultColor?: "light" | "dark";
 }
 
 export async function highlightCodeToHtml({
@@ -19,13 +20,13 @@ export async function highlightCodeToHtml({
 			...options,
 			lang: lang as BundledLanguage,
 			theme: DEFAULT_THEME,
-		});
+		} as CodeToHtmlOptions);
 	} catch (error) {
 		console.warn(`[shiki] Falling back to plaintext for "${lang}".`, error);
 		return codeToHtml(code, {
 			...options,
 			lang: "plaintext",
 			theme: DEFAULT_THEME,
-		});
+		} as CodeToHtmlOptions);
 	}
 }

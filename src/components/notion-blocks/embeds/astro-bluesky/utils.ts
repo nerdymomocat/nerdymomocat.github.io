@@ -4,6 +4,7 @@ import {
 	AppBskyEmbedRecord,
 	AppBskyEmbedRecordWithMedia,
 	AppBskyEmbedVideo,
+	AppBskyFeedDefs,
 	AtpAgent,
 	RichText,
 } from "@atproto/api";

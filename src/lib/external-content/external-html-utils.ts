@@ -1,5 +1,6 @@
 import { parseDocument, DomUtils } from "htmlparser2";
 import type { Document, Element } from "domhandler";
+import render from "dom-serializer";
 import type { ExternalContentDescriptor } from "@/lib/interfaces";
 import type { Heading } from "@/types";
 import {
@@ -33,6 +34,7 @@ function rewriteSrcset(value: string, descriptor: ExternalContentDescriptor): st
 			const trimmed = entry.trim();
 			if (!trimmed) return trimmed;
 			const [url, descriptorPart] = trimmed.split(/\s+/, 2);
+			if (!url) return;
 			const rewritten = isRelativePath(url)
 				? toDeployablePublicUrl(toPublicUrl(url, descriptor))
 				: url;
@@ -42,8 +44,8 @@ function rewriteSrcset(value: string, descriptor: ExternalContentDescriptor): st
 }
 
 function rewriteAssets(root: Document | Element, descriptor: ExternalContentDescriptor) {
-	const elements = DomUtils.findAll(
-		(elem) => elem.type === "tag" && !!ASSET_ATTRS[elem.name],
+	const elements = (DomUtils.findAll as any)(
+		(elem: any) => elem.type === "tag" && !!ASSET_ATTRS[elem.name],
 		(root as Document).children || [root as Element],
 		true,
 	);
@@ -81,9 +83,9 @@ export function transformExternalHtml(
 			document.children,
 			true,
 		);
-		const html = bodyElement ? DomUtils.getInnerHTML(bodyElement) : DomUtils.getOuterHTML(document);
+		const html = bodyElement ? render(bodyElement.children) : render(document);
 		return { html, headings };
 	}
 
-	return { html: DomUtils.getOuterHTML(document), headings };
+	return { html: render(document), headings };
 }

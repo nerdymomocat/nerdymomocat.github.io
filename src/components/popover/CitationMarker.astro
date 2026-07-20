@@ -117,18 +117,7 @@ const shouldShowInMargin = (() => {
 					class="popoverEl notion-popover hidden"
 				>
 					<div class="space-y-2 p-2">
-						{citation.Url ? (
-							<a
-								href={citation.Url}
-								target="_blank"
-								rel="noopener noreferrer"
-								class="text-link site-page-link decoration-solid"
-							>
-								<div class="citation-content" set:html={citation.FormattedEntry} />
-							</a>
-						) : (
-							<div class="citation-content" set:html={citation.FormattedEntry} />
-						)}
+						<div class="citation-content" set:html={citation.FormattedEntry} />
 						{showBibliography && (
 							<div class="jump-to-bibliography pt-2">
 								<a
@@ -158,18 +147,7 @@ const shouldShowInMargin = (() => {
 				<template id={`template-margin-${uniqueId}`}>
 					<div class="text-sm!">
 						<span class="text-quote font-mono text-xs!">{displayText}</span>{" "}
-						{citation.Url ? (
-							<a
-								href={citation.Url}
-								target="_blank"
-								rel="noopener noreferrer"
-								class="text-link site-page-link decoration-solid"
-							>
-								<span class="citation-content" set:html={citation.FormattedEntry} />
-							</a>
-						) : (
-							<span class="citation-content" set:html={citation.FormattedEntry} />
-						)}
+						<span class="citation-content" set:html={citation.FormattedEntry} />
 						{showBibliography && (
 							<a
 								href={`#citation-def-${citation.Key}`}

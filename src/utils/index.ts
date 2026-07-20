@@ -27,17 +27,17 @@ export {
 export async function getCollections() {
 	const { propertiesRaw } = await getDataSource();
 
-	return propertiesRaw.Collection.select!.options.map(({ name }) => name).filter(
-		(name) => name !== MENU_PAGES_COLLECTION,
-	);
+	return propertiesRaw
+		.Collection!.select!.options.map(({ name }) => name)
+		.filter((name) => name !== MENU_PAGES_COLLECTION);
 }
 
 export async function getCollectionsWDesc() {
 	const { propertiesRaw } = await getDataSource();
 
-	return propertiesRaw.Collection.select!.options.filter(
-		({ name }) => name !== MENU_PAGES_COLLECTION,
-	).map(({ name, description }) => ({ name, description }));
+	return propertiesRaw
+		.Collection!.select!.options.filter(({ name }) => name !== MENU_PAGES_COLLECTION)
+		.map(({ name, description }) => ({ name, description }));
 }
 
 export type MenuIcon = { emoji?: string; image?: string };
@@ -81,7 +81,7 @@ export async function getMenu(): Promise<
 	};
 	const pages = await getAllPages();
 	const collections = await getCollections();
-	const collectionLinks = collections.map((name) => ({
+	const collectionLinks = collections!.map((name) => ({
 		title: name,
 		path: withTrailingSlash(getNavLink("/collections/" + slugify(name))),
 	}));

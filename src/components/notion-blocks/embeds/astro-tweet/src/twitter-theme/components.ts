@@ -11,7 +11,7 @@ export * from "./TweetInfoCreatedAt.astro";
 export * from "./TweetInfo.astro";
 export * from "./TweetLink.astro";
 export * from "./TweetMediaVideo.astro";
-export * from "./tweet-media.astro";
+export * from "./TweetMedia.astro";
 export * from "./TweetNotFound.astro";
 export * from "./TweetReplies.astro";
 export * from "./TweetSkeleton.astro";

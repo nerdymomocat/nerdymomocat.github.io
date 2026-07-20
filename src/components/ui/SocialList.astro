@@ -103,7 +103,7 @@ const socialLinks = mapSocialLinks(SOCIALS);
 				<hr class="mb-4" />
 				<p class="text-left font-bold">Find me on:</p>
 				<ul>
-					{socialLinks.map(({ link, name, friendlyName, isWebmention }) => (
+					{socialLinks.map(({ link, friendlyName }) => (
 						<li class="flex">
 							<p class="text-left">
 								{friendlyName}: {link}

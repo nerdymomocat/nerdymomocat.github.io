@@ -1,7 +1,6 @@
 ---
 import { getTweet } from "./api";
 import EmbeddedTweet from "./twitter-theme/EmbeddedTweet.astro";
-import TweetNotFound from "./twitter-theme/TweetNotFound.astro";
 import type { TwitterComponents } from "./twitter-theme/types";
 interface Props {
 	id: string;
@@ -13,14 +12,12 @@ interface Props {
 let TWEET_TOMBSTONE = "TweetTombstone";
 
 const { id, components, fetchOptions, onError } = Astro.props;
-let error;
 const tweet = id
 	? await getTweet(id, fetchOptions).catch((err) => {
 			if (onError) {
-				error = onError(err);
+				onError(err);
 			} else {
 				console.error(err);
-				error = err;
 			}
 		})
 	: undefined;
@@ -28,6 +25,6 @@ const tweet = id
 
 {
 	tweet && tweet.__typename != TWEET_TOMBSTONE ? (
-		<EmbeddedTweet tweet={tweet!} components={components} />
+		<EmbeddedTweet tweet={tweet!} {...(components ? { components } : {})} />
 	) : null
 }

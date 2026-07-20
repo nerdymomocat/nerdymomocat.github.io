@@ -10,7 +10,7 @@ const { tweet } = Astro.props;
 
 <p class={styles.root}>
 	{
-		tweet.entities.map((item, i) => {
+		tweet.entities.map((item) => {
 			switch (item.type) {
 				case "hashtag":
 				case "mention":

@@ -27,10 +27,11 @@ const { embed, postUrl, compact } = Astro.props;
 {
 	embed
 		? (() => {
+				const record = (embed as { record?: unknown }).record;
 				if (AppBskyEmbedRecordWithMedia.isView(embed)) {
 					return (
 						<div class="bsky-record-with-media">
-							<Astro.self embed={embed.media} postUrl={postUrl} compact={compact} />
+							<Astro.self embed={embed.media as EmbedView} postUrl={postUrl} compact={compact} />
 							<QuoteEmbed embed={embed.record} />
 						</div>
 					);
@@ -48,10 +49,10 @@ const { embed, postUrl, compact } = Astro.props;
 							<VideoThumbnail thumbnail={embed.thumbnail} aspectRatio={embed.aspectRatio} />
 						</a>
 					);
-				} else if (AppBskyGraphDefs.isStarterPackViewBasic(embed.record)) {
-					return <StarterPack record={embed.record} />;
-				} else if (AppBskyGraphDefs.isListView(embed.record)) {
-					return <List record={embed.record} />;
+				} else if (record && AppBskyGraphDefs.isStarterPackViewBasic(record)) {
+					return <StarterPack record={record as any} />;
+				} else if (record && AppBskyGraphDefs.isListView(record)) {
+					return <List record={record as any} />;
 				} else if (AppBskyEmbedRecord.isView(embed)) {
 					return <QuoteEmbed embed={embed} />;
 				} else {

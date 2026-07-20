@@ -37,6 +37,7 @@ const isStartOfChildBlocks =
 			</h2>
 			<ol class:list={["list-none", { "space-y-2": !isStartOfChildBlocks }]}>
 				{uniqueFootnotes.map((footnote) => {
+					const marker = numberToAlphabet(footnote.Index!) || footnote.Marker;
 					// Preview just the source cell (as a paragraph) for table-cell footnotes.
 					let previewBlock = footnote.SourceBlock;
 					if (
@@ -61,23 +62,21 @@ const isStartOfChildBlocks =
 					}
 					return (
 						<li id={`footnote-def-${footnote.Marker}`} class="flex items-baseline gap-2">
-							{footnote.SourceBlock ? (
+							{previewBlock ? (
 								<NBlocksPopover
 									block={previewBlock}
 									linkedTo={`#${footnote.SourceBlockId}`}
-									popoverSpanText={`[${numberToAlphabet(footnote.Index) || footnote.Marker}]`}
+									popoverSpanText={`[${marker}]`}
 									linkText="Jump to"
 									isInterlinkedBack={true}
 								/>
 							) : (
-								<span class="text-accent-2/60 shrink-0 font-mono text-sm">
-									[{numberToAlphabet(footnote.Index) || footnote.Marker}]
-								</span>
+								<span class="text-accent-2/60 shrink-0 font-mono text-sm">[{marker}]</span>
 							)}
 							<div class="flex-1">
 								<FootnoteContent
 									content={footnote.Content}
-									sourceBlockId={footnote.SourceBlockId}
+									sourceBlockId={footnote.SourceBlockId!}
 								/>
 							</div>
 						</li>

@@ -34,7 +34,7 @@ export const getStaticPaths = (async ({ paginate }) => {
 
 	const allTagsWithCounts = await getAllTagsWithCounts();
 
-	return collections.flatMap((collection) => {
+	return collections!.flatMap((collection) => {
 		let collectionPosts = posts.filter((post) => post.Collection === collection.name);
 		collectionPosts.sort((a, b) => (a.Pinned === b.Pinned ? 0 : a.Pinned ? -1 : 1));
 		const uniqueTags = getUniqueTags(collectionPosts);
@@ -103,7 +103,7 @@ const postsWithCacheInfo = page.data.map((post) => {
 		(linkedPageIds.length > 0 &&
 			linkedPageIds.some((pageId) => {
 				const linkedPost = allPostsMap[pageId];
-				return linkedPost && linkedPost.LastUpdatedTimeStamp > LAST_BUILD_TIME;
+				return linkedPost && linkedPost.LastUpdatedTimeStamp > LAST_BUILD_TIME!;
 			}));
 
 	const shouldUseCache = postLastUpdatedBeforeLastBuild && !linkedPostsUpdated;

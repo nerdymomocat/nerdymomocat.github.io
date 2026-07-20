@@ -14,99 +14,101 @@ export interface Props {
 
 const { block, urlMap, setId = true } = Astro.props;
 
-const urlString = (block.Bookmark || block.LinkPreview || block.Embed).Url;
+const bookmark = block.Bookmark || block.LinkPreview || block.Embed;
+const urlString = bookmark?.Url;
 const metascraper = createMetascraper([
 	metascraperDescription(),
 	metascraperImage(),
 	metascraperTitle(),
 ]);
 
-let url: URL;
-let metadata: Record<string, string>;
-let notDNSForbidden: boolean;
-notDNSForbidden = true;
-try {
-	let urlToUse = urlString;
-	if (!urlToUse.startsWith("http://") && !urlToUse.startsWith("https://")) {
-		urlToUse = "https://" + urlToUse;
-	}
-	url = new URL(urlToUse);
-	// Remove ONLY text fragments for metascraper, preserving normal anchors
-	const urlForMetascraper = url.toString().replace(/#:~:text=.*$/, "");
-
-	const html = urlMap[urlString];
-	if (html) {
-		metadata = await metascraper({ html, url: urlForMetascraper });
-		if (metadata && metadata.title == "Just a moment...") {
-			notDNSForbidden = false;
+let url: URL | null = null;
+let metadata: { title?: string; description?: string; image?: string } | null = null;
+let notDNSForbidden = true;
+if (urlString)
+	try {
+		let urlToUse = urlString;
+		if (!urlToUse.startsWith("http://") && !urlToUse.startsWith("https://")) {
+			urlToUse = "https://" + urlToUse;
 		}
+		url = new URL(urlToUse);
+		// Remove ONLY text fragments for metascraper, preserving normal anchors
+		const urlForMetascraper = url.toString().replace(/#:~:text=.*$/, "");
+
+		const html = urlMap[urlString];
+		if (html) {
+			metadata = await metascraper({ html, url: urlForMetascraper });
+			if (metadata && metadata.title == "Just a moment...") {
+				notDNSForbidden = false;
+			}
+		}
+	} catch (err) {
+		console.log(`Error in Bookmark for URL: ${urlString}`, err);
 	}
-} catch (err) {
-	console.log(`Error in Bookmark for URL: ${urlString}`, err);
-}
 ---
 
 <div class="bookmark no-rss" id={setId ? block.Id : undefined}>
 	{
-		url && notDNSForbidden ? (
-			<div class="bookmark-link-container">
-				<a href={url.toString()} target="_blank" rel="noopener noreferrer" class="bookmark-card">
-					<div class="bookmark-text">
-						<div class="bookmark-title">{metadata && metadata.title}</div>
-						<div class="bookmark-description">{metadata && metadata.description}</div>
-						<div class="bookmark-caption-container">
-							<div class="bookmark-icon-container">
-								<img
-									class="inline-block max-w-full"
-									loading="lazy"
-									src={`https://www.google.com/s2/favicons?domain=${url.hostname}`}
-									alt="title"
-									decoding="async"
-								/>
+		url &&
+			(notDNSForbidden ? (
+				<div class="bookmark-link-container">
+					<a href={url.toString()} target="_blank" rel="noopener noreferrer" class="bookmark-card">
+						<div class="bookmark-text">
+							<div class="bookmark-title">{metadata && metadata.title}</div>
+							<div class="bookmark-description">{metadata && metadata.description}</div>
+							<div class="bookmark-caption-container">
+								<div class="bookmark-icon-container">
+									<img
+										class="inline-block max-w-full"
+										loading="lazy"
+										src={`https://www.google.com/s2/favicons?domain=${url.hostname}`}
+										alt="title"
+										decoding="async"
+									/>
+								</div>
+								<div class="bookmark-link">{url.toString()}</div>
 							</div>
-							<div class="bookmark-link">{url.toString()}</div>
 						</div>
-					</div>
 
-					{/*
+						{/*
 					Metascraper can return an emoji as an image for Twitter profile bookmarks.
 					We don't want to display it, so we filter out images from twimg.com/emoji.
 					*/}
-					{metadata && metadata.image && !metadata.image.includes("twimg.com/emoji") && (
-						<div class="bookmark-image-container">
-							<img
-								class="absolute! h-full w-full object-contain object-right"
-								loading="lazy"
-								src={metadata.image}
-								alt="title"
-								decoding="async"
-							/>
-						</div>
-					)}
-				</a>
-			</div>
-		) : (
-			<div class="bookmark-link-container">
-				<a href={url.toString()} target="_blank" rel="noopener noreferrer" class="bookmark-card">
-					<div class="bookmark-text">
-						<div class="bookmark-caption-container">
-							<div class="bookmark-icon-container">
+						{metadata && metadata.image && !metadata.image.includes("twimg.com/emoji") && (
+							<div class="bookmark-image-container">
 								<img
-									class="inline-block max-w-full"
+									class="absolute! h-full w-full object-contain object-right"
 									loading="lazy"
-									src={`https://www.google.com/s2/favicons?domain=${url.hostname}`}
+									src={metadata.image}
 									alt="title"
 									decoding="async"
 								/>
 							</div>
-							<div class="bookmark-link">{url.toString()}</div>
+						)}
+					</a>
+				</div>
+			) : (
+				<div class="bookmark-link-container">
+					<a href={url.toString()} target="_blank" rel="noopener noreferrer" class="bookmark-card">
+						<div class="bookmark-text">
+							<div class="bookmark-caption-container">
+								<div class="bookmark-icon-container">
+									<img
+										class="inline-block max-w-full"
+										loading="lazy"
+										src={`https://www.google.com/s2/favicons?domain=${url.hostname}`}
+										alt="title"
+										decoding="async"
+									/>
+								</div>
+								<div class="bookmark-link">{url.toString()}</div>
+							</div>
 						</div>
-					</div>
-				</a>
-			</div>
-		)
+					</a>
+				</div>
+			))
 	}
-	<Caption richTexts={(block.Bookmark || block.LinkPreview || block.Embed).Caption} block={block} />
+	<Caption richTexts={bookmark?.Caption || []} block={block} />
 </div>
 
 <div class="rss-only hidden">

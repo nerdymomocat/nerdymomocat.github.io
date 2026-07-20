@@ -11,5 +11,5 @@ const { block, setId = true } = Astro.props;
 ---
 
 <p id={setId ? block.Id : undefined}>
-	<MentionPage pageId={block.LinkToPage.PageId} />
+	{block.LinkToPage && <MentionPage pageId={block.LinkToPage.PageId} />}
 </p>

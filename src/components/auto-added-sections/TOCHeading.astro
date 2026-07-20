@@ -13,7 +13,7 @@ const {
 
 const getVisualStyles = (depth: number) => {
 	const baseStyle = "toc-visual";
-	const styles = {
+	const styles: Record<number, string> = {
 		1: "w-4 bg-accent/25",
 		2: "mt-2 ml-1 w-[12px] bg-accent/25",
 		3: "mt-2 ml-2 w-2 bg-accent/25",

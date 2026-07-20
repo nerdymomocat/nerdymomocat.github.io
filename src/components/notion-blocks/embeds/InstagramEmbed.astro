@@ -4,7 +4,7 @@ export interface Props {
 	caption: string | undefined;
 }
 
-const { url, caption } = Astro.props;
+const { url } = Astro.props;
 const id = url.pathname.split("/")[2];
 
 //NOTE: I could not fix this, the min width kept changing to 326px no matter what I did.
@@ -130,7 +130,7 @@ const id = url.pathname.split("/")[2];
 	</blockquote>
 </div>
 
-<script async src="//www.instagram.com/embed.js"></script>
+<script is:inline async src="//www.instagram.com/embed.js"></script>
 
 <style>
 	.instagram-embed iframe {

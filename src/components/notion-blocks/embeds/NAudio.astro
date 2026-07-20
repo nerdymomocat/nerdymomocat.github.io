@@ -9,12 +9,13 @@ export interface Props {
 }
 
 const { block, setId = true } = Astro.props;
+const audio = block.NAudio!;
 
 let audioUrl = "";
-if (block.NAudio.External) {
-	audioUrl = block.NAudio.External?.Url;
-} else if (block.NAudio.File) {
-	audioUrl = filePath(new URL(block.NAudio.File.Url));
+if (audio.External) {
+	audioUrl = audio.External.Url;
+} else if (audio.File) {
+	audioUrl = filePath(new URL(audio.File.Url));
 }
 ---
 
@@ -26,5 +27,5 @@ if (block.NAudio.External) {
 			</audio>
 		)
 	}
-	<Caption richTexts={block.NAudio.Caption} block={block} />
+	<Caption richTexts={audio.Caption!} block={block} />
 </div>

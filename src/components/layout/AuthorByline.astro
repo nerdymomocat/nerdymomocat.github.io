@@ -31,8 +31,8 @@ if (authors !== undefined) {
 				name: siteInfo.author,
 				color: "default",
 				description: "",
-				url: AUTHORS_CONFIG.siteAuthorUrl || undefined,
-				photo: AUTHORS_CONFIG.siteAuthorPhoto || undefined,
+				...(AUTHORS_CONFIG.siteAuthorUrl ? { url: AUTHORS_CONFIG.siteAuthorUrl } : {}),
+				...(AUTHORS_CONFIG.siteAuthorPhoto ? { photo: AUTHORS_CONFIG.siteAuthorPhoto } : {}),
 			},
 		];
 	}

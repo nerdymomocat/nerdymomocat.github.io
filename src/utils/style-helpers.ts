@@ -4,7 +4,7 @@ export const getNotionColorToTailwindColor = (s: string, isTag: boolean = false)
 	const kebabCase = s.replaceAll("_", "-");
 
 	// Unified mapping of custom colors to Tailwind classes for text and background colors
-	const colorMap = {
+	const colorMap: Record<string, string | undefined> = {
 		// Text color classes
 		gray: "text-ngray-txt-light dark:text-ngray-txt-dark",
 		brown: "text-nbrown-txt-light dark:text-nbrown-txt-dark",
@@ -58,7 +58,7 @@ export const getNotionAnnotationBackgroundVars = (s: string) => {
 	// Keep mappings as explicit static strings so Tailwind can detect classes and vars reliably.
 	const kebabCase = s.replaceAll("_", "-");
 
-	const annotationBgMap = {
+	const annotationBgMap: Record<string, { className: string; style: string }> = {
 		"gray-background": {
 			className: "ann-bg-c",
 			style: "--abc: var(--color-ngray-bg-light); --abc-dark: var(--color-ngray-bg-dark);",
@@ -144,7 +144,7 @@ export const getIconTailwindFilterStyle = (url: string): string => {
 };
 
 export const getTextToAstroIcon = (text: string) => {
-	const textIconMap = {
+	const textIconMap: Record<string, string> = {
 		"🗓️": "mdi:calendar-blank",
 		download: "mdi:download-circle",
 		rss: "mdi:rss",
@@ -201,6 +201,7 @@ export const getTextToAstroIcon = (text: string) => {
 		"magnify-close": "mdi:magnify-close",
 		web: "mdi:web",
 		"open-in-new": "mdi:open-in-new",
+		"chevron-down": "mdi:chevron-down",
 	};
 	if (text in textIconMap) {
 		return textIconMap[text];
@@ -209,7 +210,7 @@ export const getTextToAstroIcon = (text: string) => {
 };
 
 export const getTextToSVGPath = (text: string) => {
-	const textSvgMap = {
+	const textSvgMap: Record<string, string> = {
 		"🗓️": "M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1",
 		download:
 			"M12 2c5.5 0 10 4.5 10 10s-4.5 10-10 10S2 17.5 2 12S6.5 2 12 2M8 17h8v-2H8zm8-7h-2.5V6h-3v4H8l4 4z",
@@ -273,6 +274,7 @@ export const getTextToSVGPath = (text: string) => {
 		web: "M16.36 14c.08-.66.14-1.32.14-2s-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2m-5.15 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95a8.03 8.03 0 0 1-4.33 3.56M14.34 14H9.66c-.1-.66-.16-1.32-.16-2s.06-1.35.16-2h4.68c.09.65.16 1.32.16 2s-.07 1.34-.16 2M12 19.96c-.83-1.2-1.5-2.53-1.91-3.96h3.82c-.41 1.43-1.08 2.76-1.91 3.96M8 8H5.08A7.92 7.92 0 0 1 9.4 4.44C8.8 5.55 8.35 6.75 8 8m-2.92 8H8c.35 1.25.8 2.45 1.4 3.56A8 8 0 0 1 5.08 16m-.82-2C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2s.06 1.34.14 2M12 4.03c.83 1.2 1.5 2.54 1.91 3.97h-3.82c.41-1.43 1.08-2.77 1.91-3.97M18.92 8h-2.95a15.7 15.7 0 0 0-1.38-3.56c1.84.63 3.37 1.9 4.33 3.56M12 2C6.47 2 2 6.5 2 12a10 10 0 0 0 10 10a10 10 0 0 0 10-10A10 10 0 0 0 12 2",
 		"open-in-new":
 			"M14 3v2h3.59l-9.83 9.83l1.41 1.41L19 6.41V10h2V3m-2 16H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7h-2z",
+		"chevron-down": "M7.41 8.58L12 13.17l4.59-4.59L18 10l-6 6l-6-6z",
 		search:
 			"M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5l-1.5 1.5l-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16A6.5 6.5 0 0 1 3 9.5A6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14S14 12 14 9.5S12 5 9.5 5",
 		"theme-dark":

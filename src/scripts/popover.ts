@@ -1,3 +1,19 @@
+interface FloatingUIDOMApi {
+	computePosition: (
+		reference: Element,
+		floating: HTMLElement,
+		options: { middleware: unknown[] },
+	) => Promise<{ x: number; y: number }>;
+	offset: (value: number) => unknown;
+	shift: (options: { padding: number }) => unknown;
+	flip: (options: { padding: number }) => unknown;
+	autoUpdate: (reference: Element, floating: HTMLElement, update: () => void) => () => void;
+}
+
+interface Window {
+	FloatingUIDOM: FloatingUIDOMApi;
+}
+
 window.addEventListener("load", function () {
 	// Load floating-ui core first, then dom
 	const coreScript = document.createElement("script");
@@ -40,12 +56,12 @@ function initPopovers() {
 		return "[data-popover-target]";
 	}
 
-	let openPopovers = [];
-	let cleanupAutoUpdate = new Map();
-	let hoverTimeouts = new Map();
+	let openPopovers: HTMLElement[] = [];
+	let cleanupAutoUpdate = new Map<HTMLElement, () => void>();
+	let hoverTimeouts = new Map<HTMLElement, ReturnType<typeof setTimeout>>();
 	// Popovers pending their final display:none after an exit fade. Tracked so a
 	// re-show (or re-hide) during the fade can cancel the deferred teardown.
-	let pendingHide = new Map();
+	let pendingHide = new Map<HTMLElement, ReturnType<typeof setTimeout>>();
 
 	// A popover that currently hosts another OPEN popover must not clip its
 	// overflow — otherwise the nested (absolutely-positioned) child is cropped to
@@ -67,7 +83,7 @@ function initPopovers() {
 		});
 	};
 
-	const getPopoverLevel = (el) => {
+	const getPopoverLevel = (el: Element | null) => {
 		let level = 0;
 		while (el && el.closest("[data-popover-target]")) {
 			level++;
@@ -84,7 +100,7 @@ function initPopovers() {
 		});
 	};
 
-	const hidePopover = (popoverEl) => {
+	const hidePopover = (popoverEl: HTMLElement) => {
 		if (!popoverEl) return;
 
 		// Cancel any teardown already scheduled for this popover so we don't
@@ -127,7 +143,7 @@ function initPopovers() {
 		pendingHide.set(popoverEl, timeoutId);
 	};
 
-	const addLeaveListeners = (triggerEl, popoverEl) => {
+	const addLeaveListeners = (triggerEl: HTMLElement, popoverEl: HTMLElement) => {
 		triggerEl.addEventListener("mouseleave", () => {
 			const timeoutId = setTimeout(() => {
 				hidePopover(popoverEl);
@@ -151,27 +167,30 @@ function initPopovers() {
 		});
 	};
 
-	const createPopover = (triggerEl) => {
+	const createPopover = (triggerEl: HTMLElement): HTMLElement | null => {
 		const popoverID = triggerEl.dataset.popoverTarget;
-		const template = document.getElementById(`template-${popoverID}`);
+		const template = document.getElementById(`template-${popoverID}`) as HTMLTemplateElement | null;
 		if (!template) return null;
-		const popoverEl = template.content.firstElementChild.cloneNode(true);
+		const firstElement = template.content.firstElementChild;
+		if (!firstElement) return null;
+		const popoverEl = firstElement.cloneNode(true) as HTMLElement;
 
 		// Remove data-margin-note from footnotes inside popovers so they use popover behavior instead
-		popoverEl.querySelectorAll("[data-margin-note]").forEach((footnote) => {
+		popoverEl.querySelectorAll<HTMLElement>("[data-margin-note]").forEach((footnote) => {
 			footnote.removeAttribute("data-margin-note");
 		});
 
-		triggerEl.parentNode.insertBefore(popoverEl, triggerEl.nextSibling);
+		triggerEl.parentNode?.insertBefore(popoverEl, triggerEl.nextSibling);
 		addLeaveListeners(triggerEl, popoverEl);
 		return popoverEl;
 	};
 
-	const showPopover = (triggerEl) => {
+	const showPopover = (triggerEl: HTMLElement) => {
 		const level = getPopoverLevel(triggerEl);
 		hideAllPopovers(level);
 
-		let popoverEl = document.getElementById(triggerEl.dataset.popoverTarget);
+		const popoverId = triggerEl.dataset.popoverTarget;
+		let popoverEl = popoverId ? (document.getElementById(popoverId) as HTMLElement | null) : null;
 
 		if (!popoverEl) {
 			popoverEl = createPopover(triggerEl);
@@ -212,11 +231,12 @@ function initPopovers() {
 		refreshPopoverClipping();
 	};
 
-	const handleHover = (event) => {
+	const handleHover = (event: MouseEvent | FocusEvent) => {
 		if (!canHoverQuery.matches) return; // Hover previews only for mouse/trackpad pointers
 
 		const selector = getPopoverSelector();
-		const triggerEl = event.target.closest(selector);
+		const triggerEl =
+			event.target instanceof HTMLElement ? event.target.closest<HTMLElement>(selector) : null;
 		if (triggerEl) {
 			showPopover(triggerEl);
 		}
@@ -225,9 +245,10 @@ function initPopovers() {
 	document.addEventListener("mouseover", handleHover);
 	document.addEventListener("focusin", handleHover);
 
-	document.addEventListener("click", (event) => {
+	document.addEventListener("click", (event: MouseEvent) => {
+		if (!(event.target instanceof HTMLElement)) return;
 		const selector = getPopoverSelector();
-		const triggerEl = event.target.closest(selector);
+		const triggerEl = event.target.closest<HTMLElement>(selector);
 
 		if (triggerEl) {
 			const href = triggerEl.dataset.href;
@@ -250,13 +271,13 @@ function initPopovers() {
 			}
 		}
 
-		const popoverLink = event.target.closest("[data-popover-link]");
+		const popoverLink = event.target.closest<HTMLElement>("[data-popover-link]");
 		if (popoverLink) {
 			hideAllPopovers(-1);
 			return;
 		}
 
-		const popoverCardLink = event.target.closest("[data-popover-card-link]");
+		const popoverCardLink = event.target.closest<HTMLElement>("[data-popover-card-link]");
 		if (popoverCardLink && !event.target.closest("a, button, input, select, textarea")) {
 			const href = popoverCardLink.dataset.href;
 			if (href) {
@@ -268,14 +289,15 @@ function initPopovers() {
 		}
 	});
 
-	document.addEventListener("keydown", (event) => {
+	document.addEventListener("keydown", (event: KeyboardEvent) => {
+		if (!(event.target instanceof HTMLElement)) return;
 		if (event.key === "Escape") {
 			hideAllPopovers(-1);
 			return;
 		}
 
 		if (event.key === "Enter" || event.key === " ") {
-			const popoverCardLink = event.target.closest("[data-popover-card-link]");
+			const popoverCardLink = event.target.closest<HTMLElement>("[data-popover-card-link]");
 			if (popoverCardLink && event.target === popoverCardLink) {
 				event.preventDefault();
 				const href = popoverCardLink.dataset.href;

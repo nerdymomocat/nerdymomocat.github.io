@@ -22,7 +22,7 @@ const printFootnoteTargetSelector = [
 	".notion-image-figure",
 ].join(",");
 
-function applyTheme(theme) {
+function applyTheme(theme: string) {
 	if (
 		theme === "dark" ||
 		(theme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches)
@@ -70,7 +70,7 @@ window.addEventListener("beforeprint", function () {
 		});
 	});
 
-	document.querySelectorAll(printableHiddenTableRowSelector).forEach(function (row) {
+	document.querySelectorAll<HTMLElement>(printableHiddenTableRowSelector).forEach(function (row) {
 		row.setAttribute(printRestoredDisplayAttribute, row.style.display);
 		row.style.display = "";
 	});
@@ -126,10 +126,12 @@ window.addEventListener("afterprint", function () {
 		panel.removeAttribute(printRevealedPanelAttribute);
 	});
 
-	document.querySelectorAll(`[${printRestoredDisplayAttribute}]`).forEach(function (row) {
-		row.style.display = row.getAttribute(printRestoredDisplayAttribute) || "";
-		row.removeAttribute(printRestoredDisplayAttribute);
-	});
+	document
+		.querySelectorAll<HTMLElement>(`[${printRestoredDisplayAttribute}]`)
+		.forEach(function (row) {
+			row.style.display = row.getAttribute(printRestoredDisplayAttribute) || "";
+			row.removeAttribute(printRestoredDisplayAttribute);
+		});
 
 	document.querySelectorAll(`[${printTabLabelAttribute}]`).forEach(function (label) {
 		label.remove();

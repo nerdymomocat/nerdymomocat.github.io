@@ -3,8 +3,8 @@ import fs from "fs/promises";
 import path from "node:path";
 import { parseDocument } from "htmlparser2";
 import { DomUtils } from "htmlparser2";
+import render from "dom-serializer";
 import { getAllPosts } from "../lib/notion/client";
-import { EXTERNAL_CONTENT_PATHS } from "../constants";
 import {
 	extractHeadingsFromHtml,
 	readExternalFolderVersion,
@@ -39,7 +39,7 @@ const externalRenderCacher = (): AstroIntegration => {
 						);
 						if (!postBody) continue;
 
-						const extractedHtml = DomUtils.getInnerHTML(postBody);
+						const extractedHtml = render(postBody.children);
 						const headings = extractHeadingsFromHtml(extractedHtml);
 						const version = readExternalFolderVersion(descriptor) || new Date().toISOString();
 						saveExternalRenderCache(descriptor, version, extractedHtml, headings);

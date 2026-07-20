@@ -27,14 +27,14 @@ import { prepareBibliography } from "./citations";
 import { joinPlainText } from "../utils/richtext-utils";
 
 const BASE_PATH = import.meta.env.BASE_URL;
-let downloadedImagesinSrc = null;
+let downloadedImagesinSrc: Record<string, { default: ImageMetadata }> | null = null;
 let interlinkedContentInPageCache: { [entryId: string]: InterlinkedContentInPage[] } | null = null;
 let interlinkedContentToPageCache: {
 	[entryId: string]: { entryId: string; block: Block }[];
 } | null = null;
 let firstImage = true;
 let track_current_page_id: string | null = null;
-let current_headings = null;
+let current_headings: unknown = null;
 
 function getDownloadedImagesInSrc() {
 	if (!downloadedImagesinSrc) {
@@ -50,7 +50,7 @@ export async function getNotionImage(url: URL): Promise<ImageMetadata | null> {
 	// Extract the second-to-last and last segments (matches generateFilePath logic)
 	const segments = url.pathname.split("/");
 	let dirName = segments.slice(-2)[0];
-	let filename = decodeURIComponent(segments.slice(-1)[0]);
+	let filename = decodeURIComponent(segments.slice(-1)[0] || "");
 
 	if (url.hostname.includes("unsplash")) {
 		if (url.searchParams.has("fm")) {
@@ -88,7 +88,7 @@ export function getImageComponentFormat(
 	return "webp";
 }
 
-export function setCurrentHeadings(headings) {
+export function setCurrentHeadings(headings: unknown) {
 	current_headings = headings;
 	return true;
 }
@@ -120,12 +120,12 @@ export function setTrackCurrentPageId(pageId: string) {
 
 export const filePath = (url: URL): string => {
 	const [dir, filename] = url.pathname.split("/").slice(-2);
-	return path.join(BASE_PATH, `/notion/${dir}/${decodeURIComponent(filename)}`);
+	return path.join(BASE_PATH, `/notion/${dir || ""}/${decodeURIComponent(filename || "")}`);
 };
 
 export const buildTimeFilePath = (url: URL): string => {
 	const [dir, filename] = url.pathname.split("/").slice(-2);
-	return `/notion/${dir}/${decodeURIComponent(filename)}`;
+	return `/notion/${dir || ""}/${decodeURIComponent(filename || "")}`;
 };
 
 export function getInterlinkedContentInPage(entryId: string) {
@@ -384,7 +384,7 @@ export const buildURLToHTMLMap = async (urls: URL[]): Promise<{ [key: string]: s
 
 					return html;
 				} catch (e) {
-					console.log(`Failed to fetch ${url.toString()}:`, e.message || e);
+					console.log(`Failed to fetch ${url.toString()}:`, e instanceof Error ? e.message : e);
 					return "";
 				} finally {
 					clearTimeout(timeout);
@@ -449,12 +449,12 @@ export const getAnchorLinkAndBlock = async (
 				block_linked.Heading3 ||
 				block_linked.Heading4)
 		) {
-			block_linked_id = buildHeadingId(
+			const heading =
 				block_linked.Heading1 ||
-					block_linked.Heading2 ||
-					block_linked.Heading3 ||
-					block_linked.Heading4,
-			);
+				block_linked.Heading2 ||
+				block_linked.Heading3 ||
+				block_linked.Heading4;
+			if (heading) block_linked_id = buildHeadingId(heading);
 			isBlockLinkedHeading = true;
 		}
 	}
@@ -534,12 +534,12 @@ export const getInterlinkedContentLink = async (
 				block_linked.Heading3 ||
 				block_linked.Heading4)
 		) {
-			block_linked_id = buildHeadingId(
+			const heading =
 				block_linked.Heading1 ||
-					block_linked.Heading2 ||
-					block_linked.Heading3 ||
-					block_linked.Heading4,
-			);
+				block_linked.Heading2 ||
+				block_linked.Heading3 ||
+				block_linked.Heading4;
+			if (heading) block_linked_id = buildHeadingId(heading);
 		}
 	}
 
@@ -733,7 +733,7 @@ export const parseYouTubeVideoIdTitle = async (url: URL): Promise<[string, strin
 	let id = "";
 
 	if (url.hostname === "youtu.be") {
-		id = url.pathname.split("/")[1];
+		id = url.pathname.split("/")[1] || "";
 	} else if (url.pathname === "/watch") {
 		id = url.searchParams.get("v") || "";
 	} else {
@@ -744,7 +744,7 @@ export const parseYouTubeVideoIdTitle = async (url: URL): Promise<[string, strin
 		}
 
 		if (elements[1] === "v" || elements[1] === "embed" || elements[1] === "live") {
-			id = elements[2];
+			id = elements[2] || "";
 		}
 	}
 
@@ -1033,7 +1033,9 @@ export function extractPageContent(
 		if (block.NumberedListItem?.Children) childBlocks.push(...block.NumberedListItem.Children);
 		if (block.ToDo?.Children) childBlocks.push(...block.ToDo.Children);
 		if (block.SyncedBlock?.Children) childBlocks.push(...block.SyncedBlock.Children);
-		if (block.Table?.Children) childBlocks.push(...block.Table.Children);
+		const tableChildren = (block.Table as (typeof block.Table & { Children?: Block[] }) | undefined)
+			?.Children;
+		if (tableChildren) childBlocks.push(...tableChildren);
 
 		// Recurse into children
 		childBlocks.forEach(processBlock);

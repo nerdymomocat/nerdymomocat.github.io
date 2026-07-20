@@ -11,7 +11,6 @@ import {
 	DATABASE_ID,
 	DATA_SOURCE_ID,
 	MENU_PAGES_COLLECTION,
-	OPTIMIZE_IMAGES,
 	LAST_BUILD_TIME,
 	HIDE_UNDERSCORE_SLUGS_IN_LISTS,
 	BUILD_FOLDER_PATHS,
@@ -120,9 +119,9 @@ let allAuthorsWithCountsCache:
 			count: number;
 			description: string;
 			color: string;
-			url?: string;
-			photo?: string;
-			bio?: string;
+			url?: string | undefined;
+			photo?: string | undefined;
+			bio?: string | undefined;
 	  }[]
 	| null = null;
 
@@ -265,7 +264,7 @@ const NOTION_CALENDAR_DATE_PREFIX_PATTERN = /^(\d{4}-\d{2}-\d{2})(?:T.*)?$/;
 function normalizeNotionCalendarDate(value?: string | null): string {
 	if (!value) return "";
 	const match = value.match(NOTION_CALENDAR_DATE_PREFIX_PATTERN);
-	return match ? match[1] : "";
+	return match?.[1] || "";
 }
 
 function normalizeNotionIconColor(color?: string): string {
@@ -287,12 +286,12 @@ async function getResolvedDataSourceId(): Promise<string> {
 	// Note: BibTeX cache is now initialized by citations-initializer integration at build:start
 
 	if (resolvedDataSourceId) {
-		return resolvedDataSourceId;
+		return resolvedDataSourceId!;
 	}
 
 	if (DATA_SOURCE_ID) {
 		resolvedDataSourceId = DATA_SOURCE_ID;
-		return resolvedDataSourceId;
+		return resolvedDataSourceId!;
 	}
 
 	if (!DATABASE_ID) {
@@ -331,9 +330,9 @@ async function getResolvedDataSourceId(): Promise<string> {
 		throw new Error(`No data sources found for database ID: ${DATABASE_ID}`);
 	}
 
-	resolvedDataSourceId = dataSources[0].id;
+	resolvedDataSourceId = dataSources[0]!.id;
 	console.log(`Using the first data source found: ${resolvedDataSourceId}`);
-	return resolvedDataSourceId;
+	return resolvedDataSourceId!;
 }
 
 // Generic function to save data to buildcache
@@ -664,7 +663,7 @@ function updateBlockIdPostIdMap(postId: string, blocks: Block[]) {
 	}
 
 	blocks.forEach((block) => {
-		blockIdPostIdMap[formatUUID(block.Id)] = formatUUID(postId);
+		if (blockIdPostIdMap) blockIdPostIdMap[formatUUID(block.Id)] = formatUUID(postId);
 	});
 
 	saveBuildcache("blockIdPostIdMap.json", blockIdPostIdMap);
@@ -700,7 +699,7 @@ export function createInterlinkedContentToThisEntry(
 						richText.InternalHref?.PageId &&
 						entryInterlinkedContentMap[richText.InternalHref.PageId]
 					) {
-						entryInterlinkedContentMap[richText.InternalHref.PageId].push({
+						entryInterlinkedContentMap[richText.InternalHref.PageId]?.push({
 							entryId: entryId,
 							block: interlinkedContent.block,
 						});
@@ -708,7 +707,7 @@ export function createInterlinkedContentToThisEntry(
 						richText.Mention?.Page?.PageId &&
 						entryInterlinkedContentMap[richText.Mention?.Page?.PageId]
 					) {
-						entryInterlinkedContentMap[richText.Mention.Page.PageId].push({
+						entryInterlinkedContentMap[richText.Mention.Page.PageId]?.push({
 							entryId: entryId,
 							block: interlinkedContent.block,
 						});
@@ -720,7 +719,7 @@ export function createInterlinkedContentToThisEntry(
 					interlinkedContent.link_to_pageid &&
 					entryInterlinkedContentMap[interlinkedContent.link_to_pageid]
 				) {
-					entryInterlinkedContentMap[interlinkedContent.link_to_pageid].push({
+					entryInterlinkedContentMap[interlinkedContent.link_to_pageid]?.push({
 						entryId: entryId,
 						block: interlinkedContent.block,
 					});
@@ -792,6 +791,7 @@ export async function getAllBlocksByBlockId(
 
 	for (let i = 0; i < allBlocks.length; i++) {
 		const block = allBlocks[i];
+		if (!block) continue;
 
 		if (block.Type === "table" && block.Table) {
 			block.Table.Rows = await _getTableRows(block.Id);
@@ -1069,12 +1069,13 @@ export async function getAllTagsWithCounts(): Promise<
 	filteredPosts.forEach((post) => {
 		post.Tags.forEach((tag) => {
 			const tagName = tag.name;
-			if (tagCounts[tag.name]) {
-				tagCounts[tag.name].count++;
+			const existingTag = tagCounts[tag.name];
+			if (existingTag) {
+				existingTag.count++;
 			} else {
 				tagCounts[tagName] = {
 					count: 1,
-					description: tagsNameWDesc[tag.name] ? tagsNameWDesc[tag.name] : "",
+					description: tagsNameWDesc[tag.name] || "",
 					color: tag.color,
 				};
 			}
@@ -1105,9 +1106,9 @@ export async function getAllTagsWithCounts(): Promise<
  * Remaining text after extraction = bio
  */
 export function parseAuthorDescription(description: string): {
-	url?: string;
-	photo?: string;
-	bio?: string;
+	url?: string | undefined;
+	photo?: string | undefined;
+	bio?: string | undefined;
 } {
 	if (!description) {
 		return {};
@@ -1126,7 +1127,7 @@ export function parseAuthorDescription(description: string): {
 	const urlRegex = new RegExp(`${urlStart}(.+?)${urlEnd}`);
 	const urlMatch = remaining.match(urlRegex);
 	if (urlMatch) {
-		url = urlMatch[1].trim();
+		url = urlMatch[1]?.trim();
 		remaining = remaining.replace(urlMatch[0], "");
 	}
 
@@ -1136,7 +1137,7 @@ export function parseAuthorDescription(description: string): {
 	const photoRegex = new RegExp(`${photoStart}(.+?)${photoEnd}`);
 	const photoMatch = remaining.match(photoRegex);
 	if (photoMatch) {
-		photo = photoMatch[1].trim();
+		photo = photoMatch[1]?.trim();
 		remaining = remaining.replace(photoMatch[0], "");
 	}
 
@@ -1217,9 +1218,9 @@ export async function getAllAuthorsWithCounts(): Promise<
 		count: number;
 		description: string;
 		color: string;
-		url?: string;
-		photo?: string;
-		bio?: string;
+		url?: string | undefined;
+		photo?: string | undefined;
+		bio?: string | undefined;
 	}[]
 > {
 	if (allAuthorsWithCountsCache) {
@@ -1264,9 +1265,9 @@ export async function getAllAuthorsWithCounts(): Promise<
 			count: number;
 			description: string;
 			color: string;
-			url?: string;
-			photo?: string;
-			bio?: string;
+			url?: string | undefined;
+			photo?: string | undefined;
+			bio?: string | undefined;
 		}
 	> = {};
 
@@ -1368,14 +1369,14 @@ export function generateFilePath(url: URL, isImageForAstro: boolean = false) {
 		}
 	}
 
-	const dir = path.join(BASE_DIR, dirName);
+	const dir = path.join(BASE_DIR, dirName || "");
 
 	if (!fs.existsSync(dir)) {
 		fs.mkdirSync(dir, { recursive: true });
 	}
 
 	// Get the file name and decode it
-	let filename = decodeURIComponent(segments.slice(-1)[0]);
+	let filename = decodeURIComponent(segments.slice(-1)[0] || "");
 
 	if (url.hostname.includes("unsplash") && url.searchParams.has("fm")) {
 		const ext = url.searchParams.get("fm");
@@ -1477,7 +1478,7 @@ export async function downloadFile(
 			}
 			resolve();
 		});
-		stream.on("error", function (err) {
+		stream.on("error", function (err: Error) {
 			console.error("Error reading stream:", err);
 			resolve();
 		});
@@ -1528,7 +1529,9 @@ async function ensureDownloaded(url: URL, isImageForAstro: boolean): Promise<voi
 export async function processFileBlocks(fileAttachedBlocks: Block[]) {
 	await Promise.all(
 		fileAttachedBlocks.map(async (block) => {
-			const fileDetails = (block.NImage || block.File || block.Video || block.NAudio).File;
+			const mediaBlock = block.NImage || block.File || block.Video || block.NAudio;
+			const fileDetails = mediaBlock?.File;
+			if (!fileDetails?.Url) return null;
 			const expiryTime = fileDetails.ExpiryTime;
 			let url = new URL(fileDetails.Url);
 
@@ -1542,16 +1545,17 @@ export async function processFileBlocks(fileAttachedBlocks: Block[]) {
 				: true;
 
 			if (shouldDownload) {
-				if (Date.parse(expiryTime) < Date.now()) {
+				if (expiryTime && Date.parse(expiryTime) < Date.now()) {
 					// If the file is expired, get the block again and extract the new URL
 					const updatedBlock = await getBlock(block.Id, true, true); // skipFileDownload = true to avoid circular call
 					if (!updatedBlock) {
 						return null;
 					}
-					url = new URL(
-						(updatedBlock.NImage || updatedBlock.File || updatedBlock.Video || updatedBlock.NAudio)
-							.File.Url,
-					);
+					const updatedMediaBlock =
+						updatedBlock.NImage || updatedBlock.File || updatedBlock.Video || updatedBlock.NAudio;
+					const updatedUrl = updatedMediaBlock?.File?.Url;
+					if (!updatedUrl) return null;
+					url = new URL(updatedUrl);
 				}
 
 				return downloadFile(url, isImage); // Download the file
@@ -1598,7 +1602,7 @@ async function ensureWorkspaceCustomEmojiCache(): Promise<void> {
 			do {
 				const response = await client.customEmojis.list({
 					page_size: 100,
-					start_cursor: startCursor,
+					...(startCursor ? { start_cursor: startCursor } : {}),
 				});
 
 				emojis.push(...response.results);
@@ -1659,7 +1663,7 @@ async function buildIconObject(
 	iconResponse:
 		| responses.DatabaseObject["icon"]
 		| responses.PageObject["icon"]
-		| responses.BlockObject["callout"]["icon"]
+		| NonNullable<responses.BlockObject["callout"]>["icon"]
 		| null
 		| undefined,
 	context: string,
@@ -1688,7 +1692,7 @@ async function buildIconObject(
 			Type: iconResponse.type,
 			Url: iconUrl,
 			Name: name,
-			Color: color,
+			...(color ? { Color: color as NonNullable<FileObject["Color"]> } : {}),
 		};
 	}
 
@@ -1720,7 +1724,8 @@ async function buildIconObject(
 	}
 
 	if (iconResponse.type === "custom_emoji" && "custom_emoji" in iconResponse) {
-		const resolvedUrl = await resolveCustomEmojiUrl(iconResponse.custom_emoji);
+		const customEmoji = iconResponse.custom_emoji as { id?: string; name?: string; url?: string };
+		const resolvedUrl = await resolveCustomEmojiUrl(customEmoji);
 
 		if (resolvedUrl) {
 			await ensureIconDownloaded(resolvedUrl, context);
@@ -1729,8 +1734,8 @@ async function buildIconObject(
 		return {
 			Type: iconResponse.type,
 			Url: resolvedUrl,
-			Id: iconResponse.custom_emoji?.id,
-			Name: iconResponse.custom_emoji?.name,
+			...(customEmoji.id ? { Id: customEmoji.id } : {}),
+			...(customEmoji.name ? { Name: customEmoji.name } : {}),
 		};
 	}
 
@@ -1805,7 +1810,7 @@ function getHtmlMetaContent(html: string, name: string): string | undefined {
 	for (const tag of metaTags) {
 		const attributes = Object.fromEntries(
 			Array.from(tag.matchAll(/([\w:-]+)\s*=\s*(["'])(.*?)\2/g), (match) => [
-				match[1].toLowerCase(),
+				match[1]?.toLowerCase() ?? "",
 				match[3],
 			]),
 		);
@@ -2351,7 +2356,7 @@ async function _getSyncedBlockChildren(
 
 function _validPageObject(pageObject: responses.PageObject): boolean {
 	const prop = pageObject.properties;
-	return !!prop.Page.title && prop.Page.title.length > 0;
+	return !!prop.Page?.title && prop.Page.title.length > 0;
 }
 
 async function _buildPost(pageObject: responses.PageObject): Promise<Post> {
@@ -2368,19 +2373,18 @@ async function _buildPost(pageObject: responses.PageObject): Promise<Post> {
 	}
 
 	let featuredImage: FileObject | null = null;
-	if (prop.FeaturedImage.files && prop.FeaturedImage.files.length > 0) {
-		if (prop.FeaturedImage.files[0].external) {
-			featuredImage = {
-				Type: prop.FeaturedImage.type,
-				Url: prop.FeaturedImage.files[0].external.url,
-			};
-		} else if (prop.FeaturedImage.files[0].file) {
-			featuredImage = {
-				Type: prop.FeaturedImage.type,
-				Url: prop.FeaturedImage.files[0].file.url,
-				ExpiryTime: prop.FeaturedImage.files[0].file.expiry_time,
-			};
-		}
+	const featuredImageFile = prop.FeaturedImage?.files?.[0];
+	if (featuredImageFile?.external) {
+		featuredImage = {
+			Type: prop.FeaturedImage?.type || "file",
+			Url: featuredImageFile.external.url,
+		};
+	} else if (featuredImageFile?.file) {
+		featuredImage = {
+			Type: prop.FeaturedImage?.type || "file",
+			Url: featuredImageFile.file.url,
+			ExpiryTime: featuredImageFile.file.expiry_time,
+		};
 	}
 
 	const externalUrl =
@@ -2437,9 +2441,7 @@ async function _buildPost(pageObject: responses.PageObject): Promise<Post> {
 	const post: Post = {
 		PageId: pageObject.id,
 		Title: prop.Page?.title ? prop.Page.title.map((richText) => richText.plain_text).join("") : "",
-		LastUpdatedTimeStamp: pageObject.last_edited_time
-			? new Date(pageObject.last_edited_time)
-			: null,
+		LastUpdatedTimeStamp: new Date(pageObject.last_edited_time),
 		Icon: icon,
 		Cover: cover,
 		Collection: prop.Collection?.select ? prop.Collection.select.name : "",
@@ -2486,7 +2488,7 @@ export async function _buildRichText(richTextObject: responses.RichTextObject): 
 		// Notion adds a `v=` query parameter to links copied from peek view.
 		// We need to remove it to parse the link correctly.
 		richTextObject.href = richTextObject.href.replace(/([&?])v=[^#]*/, "");
-		const [pagePart, blockPart] = richTextObject.href.split("#");
+		const [pagePart = "", blockPart] = richTextObject.href.split("#");
 		// The Notion page id is the last 32-hex-character run in the path. Matching
 		// it this way tolerates every internal-link shape Notion emits: the legacy
 		// `/<id>`, the newer `/p/<id>` (peek / "copy link"), and the full
@@ -2494,9 +2496,7 @@ export async function _buildRichText(richTextObject: responses.RichTextObject): 
 		// leading `/`, so a `/p/<id>` link produced a mangled page id and the
 		// link (and its hover popover) silently disappeared.
 		const pageIdMatches = pagePart.replace(/-/g, "").match(/[0-9a-fA-F]{32}/g);
-		const rawPageId = pageIdMatches
-			? pageIdMatches[pageIdMatches.length - 1]
-			: pagePart.substring(1);
+		const rawPageId = pageIdMatches?.[pageIdMatches.length - 1] || pagePart.substring(1);
 		const pageId = rawPageId.replace(/(.{8})(.{4})(.{4})(.{4})(.{12})/, "$1-$2-$3-$4-$5");
 		if (blockPart) {
 			const interlinkedContent: InterlinkedContent = {

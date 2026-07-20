@@ -15,23 +15,23 @@ export interface Props {
 }
 
 const { block, setId = true } = Astro.props;
+const video = block.Video!;
 
 let url: URL | null = null;
 let videoUrl = "";
-if (block.Video.External) {
-	videoUrl = block.Video.External?.Url;
+if (video.External) {
+	videoUrl = video.External.Url;
 	if (/^https?:\/\//.test(videoUrl)) {
 		url = new URL(videoUrl);
 	}
-} else if (block.Video.File) {
-	videoUrl = filePath(new URL(block.Video.File.Url));
+} else if (video.File) {
+	videoUrl = filePath(new URL(video.File.Url));
 }
 const isWide =
-	setId &&
-	resolveLeadingMarker(block.Video, block.Video?.Caption, SHORTCODES["wide-breakout"], "__wide");
-const plainTextCaption = joinPlainText(block.Video?.Caption || []);
+	setId && resolveLeadingMarker(video, video.Caption!, SHORTCODES["wide-breakout"], "__wide");
+const plainTextCaption = joinPlainText(video.Caption!);
 const isThisYoutubeURL = url ? isYouTubeURL(url) : false;
-const youtubeVidIdTitle = isThisYoutubeURL ? await parseYouTubeVideoIdTitle(url) : ["", ""];
+const youtubeVidIdTitle = isThisYoutubeURL ? await parseYouTubeVideoIdTitle(url!) : ["", ""];
 ---
 
 <div
@@ -42,7 +42,7 @@ const youtubeVidIdTitle = isThisYoutubeURL ? await parseYouTubeVideoIdTitle(url)
 		videoUrl &&
 			(url ? (
 				isThisYoutubeURL ? (
-					<YouTube title={youtubeVidIdTitle[1]} videoId={youtubeVidIdTitle[0]} />
+					<YouTube title={youtubeVidIdTitle[1]!} videoId={youtubeVidIdTitle[0]!} />
 				) : (
 					<EmbedGeneric url={url} caption={plainTextCaption} />
 				)
@@ -65,5 +65,5 @@ const youtubeVidIdTitle = isThisYoutubeURL ? await parseYouTubeVideoIdTitle(url)
 				</>
 			))
 	}
-	<Caption richTexts={block.Video.Caption} block={block} />
+	<Caption richTexts={video.Caption!} block={block} />
 </div>

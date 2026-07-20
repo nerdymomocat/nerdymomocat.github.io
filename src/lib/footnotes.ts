@@ -72,8 +72,8 @@ function findAllFootnoteMarkers(
 		let match: RegExpExecArray | null;
 
 		while ((match = pattern.exec(fullText)) !== null) {
-			const marker = match[1]; // e.g., "a" from "[^ft_a]"
-			const fullMarker = match[0]; // e.g., "[^ft_a]"
+			const marker = match[1]!; // e.g., "a" from "[^ft_a]"
+			const fullMarker = match[0]!; // e.g., "[^ft_a]"
 			const charStart = match.index;
 			const charEnd = charStart + fullMarker.length;
 
@@ -82,10 +82,10 @@ function findAllFootnoteMarkers(
 			let richTextIndex = -1;
 			let shouldSkip = false;
 			for (let i = 0; i < location.richTexts.length; i++) {
-				const len = location.richTexts[i].PlainText.length;
+				const richText = location.richTexts[i]!;
+				const len = richText.PlainText.length;
 				if (currentPos <= charStart && charStart < currentPos + len) {
 					richTextIndex = i;
-					const richText = location.richTexts[i];
 					// Skip if in code, equation, or mention
 					if (richText.Annotation.Code || richText.Equation || richText.Mention) {
 						shouldSkip = true;
@@ -218,8 +218,8 @@ function parseFootnoteDefinitionsFromRichText(
 	// Find all definition starts
 	while ((match = pattern.exec(definitionsText)) !== null) {
 		matches.push({
-			marker: match[1],
-			start: match.index + match[0].length, // After the "[^ft_a]: " part
+			marker: match[1]!,
+			start: match.index + match[0]!.length, // After the "[^ft_a]: " part
 			matchIndex: match.index, // Start of "\n\n[^ft_a]:"
 			end: -1, // Will be set later
 		});
@@ -229,9 +229,12 @@ function parseFootnoteDefinitionsFromRichText(
 	for (let i = 0; i < matches.length; i++) {
 		if (i < matches.length - 1) {
 			// End at the position where next footnote marker starts (before the \n\n)
-			matches[i].end = matches[i + 1].matchIndex;
+			const currentMatch = matches[i]!;
+			const nextMatch = matches[i + 1]!;
+			currentMatch.end = nextMatch.matchIndex;
 		} else {
-			matches[i].end = definitionsText.length;
+			const currentMatch = matches[i]!;
+			currentMatch.end = definitionsText.length;
 		}
 	}
 
@@ -375,7 +378,7 @@ function removeMarkerPrefix(richTexts: RichText[], prefixLength: number): RichTe
 	let remaining = prefixLength;
 
 	for (let i = 0; i < result.length && remaining > 0; i++) {
-		const richText = result[i];
+		const richText = result[i]!;
 		const length = richText.PlainText.length;
 
 		if (length <= remaining) {
@@ -448,7 +451,8 @@ function extractStartOfChildBlocksFootnotes(
 			return;
 		}
 
-		const blockText = joinPlainText(blockLocations[0].richTexts);
+		const firstLocation = blockLocations[0]!;
+		const blockText = joinPlainText(firstLocation.richTexts);
 
 		// Reset regex state before each exec
 		contentPattern.lastIndex = 0;
@@ -459,11 +463,11 @@ function extractStartOfChildBlocksFootnotes(
 			return;
 		}
 
-		const marker = match[1];
+		const marker = match[1]!;
 
 		// Remove the [^marker]: prefix from the block
-		const cleanedRichTexts = removeMarkerPrefix(blockLocations[0].richTexts, match[0].length);
-		blockLocations[0].setter(cleanedRichTexts);
+		const cleanedRichTexts = removeMarkerPrefix(firstLocation.richTexts, match[0]!.length);
+		firstLocation.setter(cleanedRichTexts);
 
 		// Create footnote with the entire block (and its descendants) as content
 		footnotes.push({
@@ -567,7 +571,7 @@ async function extractBlockCommentsFootnotes(
 				continue; // Not a footnote comment
 			}
 
-			const marker = match[1];
+			const marker = match[1]!;
 
 			// Convert Notion comment rich_text to our RichText format
 			const contentRichTexts = await Promise.all(richTextArray.map(_buildRichText));
@@ -692,7 +696,7 @@ function findMatchingClosingBrace(text: string, startPos: number): number {
  */
 function extractInlineLatexFootnotes(
 	block: Block,
-	config: FootnotesConfig,
+	_config: FootnotesConfig,
 ): FootnoteExtractionResult {
 	const locations = getAllRichTextLocations(block);
 	const footnotes: Footnote[] = [];
@@ -795,7 +799,7 @@ function extractInlineLatexFootnotes(
 				const unescaped = cloneRichText(rt);
 				unescaped.PlainText = rt.PlainText.replaceAll("\\{", "{").replaceAll("\\}", "}");
 				if (unescaped.Text) {
-					unescaped.Text.Content = rt.Text.Content.replaceAll("\\{", "{").replaceAll("\\}", "}");
+					unescaped.Text.Content = rt.Text!.Content.replaceAll("\\{", "{").replaceAll("\\}", "}");
 				}
 				return unescaped;
 			});

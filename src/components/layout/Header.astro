@@ -14,17 +14,19 @@ const url = new URL(Astro.request.url);
 const currentPath = normalizeNavPath(url.pathname);
 
 let customIconImage = null;
+const logo = siteInfo.logo;
+const logoUrl = logo && "Url" in logo ? logo.Url : null;
+const logoEmoji = logo && "Emoji" in logo ? logo.Emoji : null;
 const shouldUseLocalLogo =
-	siteInfo.logo &&
-	siteInfo.logo.Url &&
-	(siteInfo.logo.Type === "file" ||
-		siteInfo.logo.Type === "custom_emoji" ||
-		siteInfo.logo.Type === "icon" ||
-		isNotionHostedIconUrl(siteInfo.logo.Url));
+	logoUrl &&
+	(logo?.Type === "file" ||
+		logo?.Type === "custom_emoji" ||
+		logo?.Type === "icon" ||
+		isNotionHostedIconUrl(logoUrl));
 
 if (shouldUseLocalLogo) {
 	try {
-		customIconImage = await getNotionImage(new URL(siteInfo.logo.Url));
+		customIconImage = await getNotionImage(new URL(logoUrl));
 	} catch (err) {
 		console.log("Invalid DB custom icon URL");
 	}
@@ -41,10 +43,10 @@ const rss_path = getNavLink("/rss.xml");
 			aria-current={currentPath === "/" ? "page" : false}
 		>
 			{
-				siteInfo.logo && siteInfo.logo.Type === "emoji" ? (
+				logo?.Type === "emoji" ? (
 					<>
 						<span class="me-3 h-10 w-10 sm:absolute sm:start-[-4.5rem] sm:me-0 sm:h-15 sm:w-15">
-							{siteInfo.logo.Emoji}
+							{logoEmoji}
 						</span>
 						<span class="text-xl font-bold sm:text-2xl">{siteInfo.title}</span>
 					</>
@@ -60,7 +62,7 @@ const rss_path = getNavLink("/rss.xml");
 						/>
 						<span class="text-xl font-bold sm:text-2xl">{siteInfo.title}</span>
 					</>
-				) : siteInfo.logo && siteInfo.logo.Url ? (
+				) : logoUrl ? (
 					<>
 						<img
 							class="me-3 h-10 w-10 object-contain sm:absolute sm:start-[-4.5rem] sm:me-0 sm:h-15 sm:w-15"
@@ -68,7 +70,7 @@ const rss_path = getNavLink("/rss.xml");
 							fetchpriority="high"
 							width="60"
 							height="60"
-							src={siteInfo.logo.Url}
+							src={logoUrl}
 							alt="Site header image"
 						/>
 						<span class="text-xl font-bold sm:text-2xl">{siteInfo.title}</span>
@@ -142,32 +144,36 @@ const rss_path = getNavLink("/rss.xml");
 			super();
 
 			const mobileButtonEl = document.getElementById("toggle-navigation-menu");
+			if (!(mobileButtonEl instanceof HTMLElement)) return;
+			const mobileButton = mobileButtonEl;
 			let menuOpen = false;
 
 			function toggleMobileMenu() {
 				const headerEl = document.getElementById("main-header")!;
 				headerEl.classList.toggle("menu-open");
 				menuOpen = !menuOpen;
-				mobileButtonEl.setAttribute("aria-expanded", menuOpen.toString());
+				mobileButton.setAttribute("aria-expanded", menuOpen.toString());
 			}
 
-			mobileButtonEl.addEventListener("click", () => toggleMobileMenu());
+			mobileButton.addEventListener("click", () => toggleMobileMenu());
 		}
 	}
 
 	customElements.define("mobile-button", MobileNavBtn);
 
 	document.addEventListener("DOMContentLoaded", function () {
-		var toggleButton = document.getElementById("toggle-navigation-menu");
+		const toggleButton = document.getElementById("toggle-navigation-menu");
+		if (!(toggleButton instanceof HTMLElement)) return;
 
 		document.addEventListener("click", function (event) {
 			var navMenu = document.getElementById("navigation-menu");
 			var mainHeader = document.getElementById("main-header");
 
 			// Check if the click is on the toggle button or a descendant of it
-			var isClickInsideToggleButton = toggleButton.contains(event.target);
+			var isClickInsideToggleButton =
+				event.target instanceof Node && toggleButton.contains(event.target);
 
-			if (!isClickInsideToggleButton && event.target instanceof Node) {
+			if (!isClickInsideToggleButton && event.target instanceof Node && navMenu) {
 				var isClickInsideNav = navMenu.contains(event.target);
 
 				if (!isClickInsideNav && mainHeader) {

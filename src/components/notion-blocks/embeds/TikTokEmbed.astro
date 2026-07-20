@@ -4,7 +4,7 @@ export interface Props {
 	caption: string | undefined;
 }
 
-const { url, caption } = Astro.props;
+const { url } = Astro.props;
 const user = url.pathname.split("/")[1];
 const videoId = url.pathname.split("/")[3];
 //NOTE partytown does not seem to work with tiktok embed script
@@ -29,4 +29,4 @@ const videoId = url.pathname.split("/")[3];
 	}
 </style>
 
-<script src="https://www.tiktok.com/embed.js" defer></script>
+<script is:inline src="https://www.tiktok.com/embed.js" defer></script>

@@ -14,3 +14,4 @@ function initLightbox() {
 	// Store globally so margin-notes.ts can reload after creating dynamic content
 	window.lightboxInstance = lightbox;
 }
+declare const GLightbox: (options: { selector: string }) => { reload: () => void };

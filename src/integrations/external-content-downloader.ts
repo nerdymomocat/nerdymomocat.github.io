@@ -147,8 +147,7 @@ async function syncSource(
 		treeResponse = response;
 	} catch (error) {
 		logger.warn(
-			`[external-content] Failed to fetch tree for ${config.owner}/${config.repo}:`,
-			error,
+			`[external-content] Failed to fetch tree for ${config.owner}/${config.repo}: ${(error as Error).message}`,
 		);
 		return;
 	}
@@ -202,7 +201,9 @@ async function syncSource(
 					try {
 						await downloadFile(config.owner, config.repo, config.ref, item.path, dest);
 					} catch (err) {
-						logger.error(`[external-content] Failed to download ${item.path}:`, err);
+						logger.error(
+							`[external-content] Failed to download ${item.path}: ${(err as Error).message}`,
+						);
 						// Remove from manifest so we retry next time
 						delete newManifest[item.path];
 					}
@@ -362,7 +363,7 @@ export default function externalContentDownloader(): AstroIntegration {
 					logger.warn(`[external-content] Failed to sync: ${(error as Error).message}`);
 				}
 			},
-			"astro:dev:start": async ({ logger }) => {
+			"astro:dev:start": async ({ logger }: { logger: AstroIntegrationLogger }) => {
 				try {
 					await runExternalSync(logger);
 				} catch (error) {

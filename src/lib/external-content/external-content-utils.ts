@@ -25,7 +25,7 @@ export function toPublicUrl(
 	descriptor: Pick<ExternalContentDescriptor, "folderName">,
 ): string {
 	if (!relativePath) return relativePath;
-	const [pathPart, suffix] = relativePath.split(/(?=[?#])/);
+	const [pathPart = "", suffix] = relativePath.split(/(?=[?#])/);
 	const normalized = path.posix.normalize(pathPart.replace(/^.\//, ""));
 	const joined = path.posix.join("/external-posts", descriptor.folderName, normalized);
 	return suffix ? `${joined}${suffix}` : joined;
@@ -72,14 +72,14 @@ export function toDeployablePublicUrl(publicPath: string): string {
 
 export function extractHeadingsFromDocument(root: Document | Element): Heading[] {
 	const headingTags = new Set(["h1", "h2", "h3", "h4", "h5", "h6"]);
-	const headingElements = DomUtils.findAll(
-		(elem) => elem.type === "tag" && headingTags.has(elem.name),
+	const headingElements = (DomUtils.findAll as any)(
+		(elem: any) => elem.type === "tag" && headingTags.has(elem.name),
 		(root as Document).children || [root as Element],
 		true,
 	);
 
 	return headingElements
-		.map((elem) => {
+		.map((elem: any) => {
 			const depth = parseInt(elem.name.replace("h", ""), 10);
 			const text = DomUtils.textContent(elem).trim();
 			if (!text) return null;
@@ -107,7 +107,7 @@ export function ensureBlankLineAfterImports(source: string): string {
 	let sawImport = false;
 
 	while (idx < lines.length) {
-		const trimmed = lines[idx].trim();
+		const trimmed = lines[idx]?.trim() ?? "";
 		if (!trimmed) {
 			if (!sawImport) {
 				idx += 1;
@@ -125,7 +125,7 @@ export function ensureBlankLineAfterImports(source: string): string {
 
 	if (!sawImport) return source;
 	if (idx >= lines.length) return source;
-	if (lines[idx].trim() === "") return source;
+	if (lines[idx]?.trim() === "") return source;
 
 	lines.splice(idx, 0, "");
 	return lines.join("\n");

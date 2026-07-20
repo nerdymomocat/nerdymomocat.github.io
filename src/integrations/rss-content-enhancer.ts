@@ -2,9 +2,11 @@ import type { AstroIntegration } from "astro";
 import * as fs from "fs/promises";
 import * as path from "node:path";
 import sanitizeHtml from "sanitize-html";
-import { XMLParser, XMLBuilder } from "fast-xml-parser";
+import { XMLParser } from "fast-xml-parser";
+import XMLBuilder from "fast-xml-builder";
 import { parseDocument } from "htmlparser2";
 import { DomUtils } from "htmlparser2";
+import render from "dom-serializer";
 import { LAST_BUILD_TIME, BASE_PATH, BUILD_FOLDER_PATHS } from "../constants";
 
 const rssContentEnhancer = (): AstroIntegration => {
@@ -92,7 +94,7 @@ const rssContentEnhancer = (): AstroIntegration => {
 							);
 
 							if (mainElement) {
-								const mainContent = DomUtils.getInnerHTML(mainElement);
+								const mainContent = render(mainElement.children);
 
 								// Sanitize HTML and fix image paths
 								const cleanContent = sanitizeHtml(mainContent, {
@@ -207,11 +209,11 @@ const rssContentEnhancer = (): AstroIntegration => {
 										);
 									},
 									transformTags: {
-										details: (tagName, attribs) => ({
+										details: (_tagName, attribs) => ({
 											tagName: "div",
 											attribs: attribs,
 										}),
-										summary: (tagName, attribs) => ({
+										summary: (_tagName, attribs) => ({
 											tagName: "div",
 											attribs: attribs,
 										}),
@@ -245,7 +247,7 @@ const rssContentEnhancer = (): AstroIntegration => {
 										},
 										img: (tagName, attribs) => {
 											if (attribs.class?.includes("no-rss")) {
-												return false;
+												return false as any;
 											}
 											if (attribs.src?.startsWith("/")) {
 												return {
@@ -276,7 +278,7 @@ const rssContentEnhancer = (): AstroIntegration => {
 								fixFootnotesForRss(root);
 
 								// Serialize back to HTML
-								let cleanContentFinal = DomUtils.getInnerHTML(cleanContentDom);
+								let cleanContentFinal = render(cleanContentDom.children);
 								cleanContentFinal = cleanContentFinal.replace(/^\s*<div>\s*<article[^>]*>/i, "");
 								cleanContentFinal = cleanContentFinal.replace(
 									/<\/article>\s*<\/div>\s*<div><\/div>\s*$/i,
@@ -335,7 +337,7 @@ const rssContentEnhancer = (): AstroIntegration => {
 							link: rssData.rss.channel.link,
 							lastBuildDate: rssData.rss.channel.lastBuildDate,
 							...(rssData.rss.channel.author && { author: rssData.rss.channel.author }),
-							item: items.map((item) => ({
+							item: items.map((item: any) => ({
 								title: item.title,
 								link: item.link,
 								guid: {
@@ -383,7 +385,7 @@ export default rssContentEnhancer;
 
 // Helper functions
 
-function removeEmptyElementsFromDom(node) {
+function removeEmptyElementsFromDom(node: any) {
 	// Remove empty text nodes
 	if (node.type === "text") {
 		if (node.data.trim() === "") {
@@ -424,36 +426,37 @@ function removeEmptyElementsFromDom(node) {
 	return true; // Keep the node
 }
 
-function cleanupInterlinkedContentDom(node) {
+function cleanupInterlinkedContentDom(node: any) {
 	if (node.type === "tag" && node.name === "aside") {
 		// Process the 'Pages That Mention This Page' section
-		const sections = DomUtils.findAll(
-			(elem) =>
+		const sections = (DomUtils.findAll as any)(
+			(elem: any) =>
 				elem.type === "tag" &&
 				elem.name === "div" &&
-				DomUtils.findOne(
-					(child) =>
+				!!(DomUtils.findOne as any)(
+					(child: any) =>
 						child.type === "tag" &&
 						child.name === "span" &&
 						(DomUtils.textContent(child).trim() === "Pages That Mention This Page" ||
 							DomUtils.textContent(child).trim() === "Other Pages Mentioned On This Page"),
 					elem.children,
+					true,
 				),
 			node.children,
 		);
 
-		sections.forEach((section) => {
+		sections.forEach((section: any) => {
 			// Find all child divs within the section
-			const childDivs = DomUtils.findAll(
-				(child) => child.type === "tag" && child.name === "div",
+			const childDivs = (DomUtils.findAll as any)(
+				(child: any) => child.type === "tag" && child.name === "div",
 				section.children,
 				false,
 			);
 
-			childDivs.forEach((div) => {
+			childDivs.forEach((div: any) => {
 				// Find the first <a> element
-				const link = DomUtils.findOne(
-					(elem) => elem.type === "tag" && elem.name === "a",
+				const link = (DomUtils.findOne as any)(
+					(elem: any) => elem.type === "tag" && elem.name === "a",
 					div.children,
 					true,
 				);
@@ -471,7 +474,7 @@ function cleanupInterlinkedContentDom(node) {
 			});
 
 			// Remove any remaining text nodes or empty divs
-			section.children = section.children.filter((child) => {
+			section.children = section.children.filter((child: any) => {
 				if (child.type === "tag" && child.name === "div") {
 					return child.children.length > 0;
 				}
@@ -481,7 +484,7 @@ function cleanupInterlinkedContentDom(node) {
 
 		// Remove unnecessary <br /> and <hr /> tags
 		node.children = node.children.filter(
-			(child) =>
+			(child: any) =>
 				!(
 					(child.type === "tag" && child.name === "br") ||
 					(child.type === "tag" && child.name === "hr")
@@ -495,7 +498,7 @@ function cleanupInterlinkedContentDom(node) {
 	}
 }
 
-function fixFootnotesForRss(node) {
+function fixFootnotesForRss(node: any) {
 	// Strip footnote marker prefixes like [^ft_marker]:
 	stripFootnoteMarkers(node);
 
@@ -514,7 +517,7 @@ function fixFootnotesForRss(node) {
 	return node;
 }
 
-function stripFootnoteMarkers(node) {
+function stripFootnoteMarkers(node: any) {
 	if (node.type === "text") {
 		// Remove patterns like [^ft_marker]: from the start of text
 		node.data = node.data.replace(/^\[\^ft_[^\]]+\]:\s*/, "");
@@ -526,7 +529,7 @@ function stripFootnoteMarkers(node) {
 	}
 }
 
-function removeFootnoteBackLinks(node) {
+function removeFootnoteBackLinks(node: any) {
 	// Find sections with footnotes by looking for <section><hr><h2>Footnotes</h2><ol>
 	if (node.type === "tag" && node.name === "section" && node.children) {
 		// Check if this section contains the "Footnotes" heading
@@ -576,7 +579,7 @@ function removeFootnoteBackLinks(node) {
 	}
 }
 
-function trimLinksAndMoveSpacesOutside(node) {
+function trimLinksAndMoveSpacesOutside(node: any) {
 	if (node.type === "tag" && node.name === "a" && node.children) {
 		// For <a> tags, trim leading/trailing whitespace from text content
 		const firstChild = node.children[0];
@@ -634,7 +637,7 @@ function trimLinksAndMoveSpacesOutside(node) {
 	}
 }
 
-function consolidateAdjacentSpans(node) {
+function consolidateAdjacentSpans(node: any) {
 	if (!node.children || node.children.length === 0) {
 		return;
 	}
@@ -675,7 +678,7 @@ function consolidateAdjacentSpans(node) {
 					type: "tag",
 					name: "span",
 					attribs: {},
-					children: [],
+					children: [] as any[],
 					parent: node,
 				};
 
@@ -701,14 +704,14 @@ function consolidateAdjacentSpans(node) {
 	node.children = newChildren;
 
 	// Recurse into children
-	node.children.forEach((child) => {
+	node.children.forEach((child: any) => {
 		if (child.type === "tag") {
 			consolidateAdjacentSpans(child);
 		}
 	});
 }
 
-function normalizeSpacing(node) {
+function normalizeSpacing(node: any) {
 	if (!node.children || node.children.length === 0) {
 		return;
 	}
@@ -750,7 +753,7 @@ function normalizeSpacing(node) {
 	node.children = newChildren;
 
 	// Recurse into children
-	node.children.forEach((child) => {
+	node.children.forEach((child: any) => {
 		if (child.type === "tag") {
 			normalizeSpacing(child);
 		}
