@@ -1,11 +1,4 @@
 ---
-// Heavy inspiration taken from Astro Starlight -> https://github.com/withastro/starlight/blob/main/packages/starlight/components/Search.astro
-
-// NOTE: The Pagefind component-ui CSS (~7KB gzipped) is intentionally NOT imported
-// here. Importing it in this always-rendered header component would bundle it into
-// the render-blocking site-wide stylesheet on every page for a feature that is fully
-// lazy-loaded. It is imported inside search-runtime.ts instead, so it ships only with
-// the dynamically-imported search chunk when the user actually opens search.
 import Icon from "@/components/ui/Icon.astro";
 import noSearchMatchesImage from "@/assets/no-search-matches-cat-in-bag.svg";
 import { getAllPosts } from "@/lib/notion/client";
@@ -21,18 +14,15 @@ const pinnedPost = (await getAllPosts()).find((post) => post.Pinned && !post.Slu
 const pinnedIcon = pinnedPost?.Icon;
 const pinnedIconEmoji = pinnedIcon && "Emoji" in pinnedIcon ? pinnedIcon.Emoji : "";
 const pinnedIconUrl = pinnedIcon && "Url" in pinnedIcon ? pinnedIcon.Url : "";
-const pinnedIconDownloaded = pinnedIconUrl ? await getNotionImage(new URL(pinnedIconUrl)) : null;
-// Emit an optimized asset rather than the raw original `.src`: this fills a
-// pagefind template `<img src>` where a raster original would never be written
-// to the build and would 404. width:48 matches PagefindIconMetadata's variant.
-let pinnedIconImage = pinnedIconUrl;
-if (pinnedIconDownloaded) {
-	try {
+// Raw raster imports are not emitted to dist.
+let pinnedIconImage = "";
+
+try {
+	const pinnedIconDownloaded = pinnedIconUrl ? await getNotionImage(new URL(pinnedIconUrl)) : null;
+	if (pinnedIconDownloaded) {
 		pinnedIconImage = (await getImage({ src: pinnedIconDownloaded, width: 48 })).src;
-	} catch {
-		pinnedIconImage = pinnedIconDownloaded.src || pinnedIconUrl;
 	}
-}
+} catch {}
 ---
 
 <site-search
@@ -258,24 +248,18 @@ if (pinnedIconDownloaded) {
 		};
 
 		private onLoadingClose = () => {
-			// Placeholder dismissed (e.g. Esc) before the runtime was ready — cancel the pending open.
 			this.pendingOpen = false;
 		};
 
 		private openSearch(fromUrl: boolean) {
 			this.updateSearchPlaceholder();
-			// Runtime already loaded → open the real modal directly (with its normal entrance).
 			if (this.runtime) {
 				if (fromUrl) this.runtime.openFromUrl();
 				else this.runtime.open();
 				return;
 			}
 
-			// First open: pop the placeholder while the ~186KB runtime chunk downloads.
-			// But only if it isn't ready quickly — after the first download the chunk is
-			// HTTP-cached, so later pages (this is an MPA, so the element re-instantiates on
-			// every navigation) resolve the import in a few ms and never flash the spinner.
-			// The placeholder only appears on a genuine cold first load.
+			// Show a loader only for a cold runtime import.
 			this.pendingOpen = true;
 			const placeholderTimer = window.setTimeout(() => {
 				if (this.pendingOpen && this.loadingModal && !this.loadingModal.open) {
@@ -291,9 +275,7 @@ if (pinnedIconDownloaded) {
 				this.pendingOpen = false;
 				const handoff = this.loadingModal?.open ?? false;
 				if (handoff) {
-					// Suppress the real modal's entrance animation for this one frame so it
-					// snaps in exactly where the placeholder was — a seamless hand-off. Close
-					// the placeholder first so focus lands on the real input, not the button.
+					// Keep the placeholder-to-modal hand-off seamless.
 					this.dataset.searchHandoff = "";
 					this.loadingModal?.close();
 				}
@@ -321,8 +303,7 @@ if (pinnedIconDownloaded) {
 			if (!this.runtimePromise) {
 				this.runtimePromise = import("./search-runtime").then(async (module) => {
 					const runtime = module.createSearchRuntime(this);
-					// Wait until the popup stylesheet has applied before exposing the runtime,
-					// so the modal is only ever revealed fully styled (no flash of unstyled UI).
+					// Avoid a flash of unstyled search UI.
 					await module.stylesReady;
 					this.runtime = runtime;
 					return runtime;

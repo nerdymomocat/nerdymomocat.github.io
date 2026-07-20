@@ -1,19 +1,3 @@
-/**
- * Footnotes Extraction System
- *
- * This module contains ALL footnote extraction logic for Webtrotion.
- * It handles:
- * - End-of-block footnotes ([^ft_a]: content at end of RichText)
- * - Start-of-child-blocks footnotes (child blocks as footnote content)
- * - Block-comments footnotes (Notion comments as footnote content)
- * - Inline LaTeX footnote command (\footnote{content} with rich text support)
- *
- * Key principles:
- * - Preserve ALL RichText formatting (bold, italic, colors, etc.)
- * - Process at BUILD-TIME only (in client.ts)
- * - Components have ZERO logic, only render pre-processed data
- */
-
 import type {
 	Block,
 	RichText,
@@ -35,9 +19,6 @@ import {
 } from "../utils/richtext-utils";
 import crypto from "node:crypto";
 
-// ============================================================================
-// Configuration and Validation
-// ============================================================================
 function getActiveSource(
 	config: FootnotesConfig,
 ):
@@ -53,10 +34,6 @@ function getActiveSource(
 	if (source["inline-latex-footnote-command"]) return "inline-latex-footnote-command";
 	return null;
 }
-
-// ============================================================================
-// Marker Detection and Extraction
-// ============================================================================
 
 function findAllFootnoteMarkers(
 	locations: RichTextLocation[],
@@ -158,10 +135,6 @@ function splitRichTextWithMarkers(
 
 	return result;
 }
-
-// ============================================================================
-// End-of-Block Extraction
-// ============================================================================
 
 function extractFootnoteDefinitionsFromRichText(
 	richTexts: RichText[],
@@ -335,10 +308,6 @@ function extractEndOfBlockFootnotes(
 	return { footnotes, hasProcessedRichTexts: true, hasProcessedChildren: false };
 }
 
-// ============================================================================
-// Start-of-Child-Blocks Extraction
-// ============================================================================
-
 /**
  * Creates a regex pattern to match footnote content markers
  * Pattern: ^\[^ft_(\w+)\]:\s* matches [^ft_a]: at line start and captures "a"
@@ -504,10 +473,6 @@ function extractStartOfChildBlocksFootnotes(
 	};
 }
 
-// ============================================================================
-// Block-Comments Extraction
-// ============================================================================
-
 /**
  * Extracts footnotes from Notion block comments
  *
@@ -650,10 +615,6 @@ async function extractBlockCommentsFootnotes(
 		};
 	}
 }
-
-// ============================================================================
-// Inline LaTeX Footnote Command Extraction
-// ============================================================================
 
 /**
  * Finds the matching closing brace for an opening brace, handling escaped braces
@@ -871,10 +832,6 @@ function extractInlineLatexFootnotes(
 		hasProcessedChildren: false,
 	};
 }
-
-// ============================================================================
-// Main Entry Point
-// ============================================================================
 
 /**
  * Extract footnotes from a block with support for all footnote sources

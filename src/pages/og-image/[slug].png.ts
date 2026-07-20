@@ -30,8 +30,6 @@ import sharp from "sharp";
 import path from "node:path";
 import type { Database } from "@/lib/interfaces";
 
-// --- Helpers & Configuration ---
-
 const rgbToHex = (rgb: string) =>
 	"#" +
 	rgb
@@ -69,12 +67,21 @@ const getDataSourceCached = () => {
 	return dataSourcePromise;
 };
 
-// --- Image Processing ---
+type ImageResize = {
+	w: number;
+	h: number;
+	fit: "cover" | "inside";
+};
 
-const imageToDataUrl = async (filepath: string, resize?: { w: number; h: number }) => {
+const imageToDataUrl = async (filepath: string, resize?: ImageResize) => {
 	try {
 		let pipeline = sharp(filepath);
-		if (resize) pipeline = pipeline.resize(resize.w, resize.h);
+		if (resize) {
+			pipeline = pipeline.resize(resize.w, resize.h, {
+				fit: resize.fit,
+				withoutEnlargement: true,
+			});
+		}
 		const buffer = await pipeline.png().toBuffer();
 		return `data:image/png;base64,${buffer.toString("base64")}`;
 	} catch (err) {
@@ -83,7 +90,6 @@ const imageToDataUrl = async (filepath: string, resize?: { w: number; h: number 
 	}
 };
 
-// Prepare Logo
 let customIconURL = "";
 const logo = siteInfo.logo;
 const logoUrl = logo && "Url" in logo ? logo.Url : null;
@@ -106,12 +112,13 @@ const logo_src =
 	logo?.Type === "external" && !shouldUseLocalLogo
 		? logoUrl
 		: siteInfo.logo && customIconURL
-			? await imageToDataUrl(customIconURL, { w: 30, h: 30 })
+			? await imageToDataUrl(customIconURL, { w: 30, h: 30, fit: "inside" })
 			: null;
 
 const normalizeOgImageSrc = async (
 	urlStr: string | undefined,
 	mode: "featured" | "author" = "featured",
+	resize: ImageResize = { w: 1200, h: 630, fit: "inside" },
 ): Promise<string | undefined> => {
 	if (!urlStr) return undefined;
 	try {
@@ -126,16 +133,16 @@ const normalizeOgImageSrc = async (
 			}
 			const publicPath = generateFilePath(publicPathUrl, false);
 			if (fs.existsSync(publicPath)) {
-				return (await imageToDataUrl(publicPath)) || publicPath;
+				return (await imageToDataUrl(publicPath, resize)) || publicPath;
 			}
 			const savedPath = await downloadFile(url, false, false, true);
-			return savedPath ? (await imageToDataUrl(savedPath)) || savedPath : undefined;
+			return savedPath ? (await imageToDataUrl(savedPath, resize)) || savedPath : undefined;
 		}
 
-		// Author mode
-		if (isPngLike) return urlStr;
+		// Sharp needs a local data URL.
 		const savedPath = await downloadFile(url, false, false, true);
-		return savedPath ? (await imageToDataUrl(savedPath)) || savedPath : undefined;
+		if (!savedPath) return undefined;
+		return (await imageToDataUrl(savedPath, resize)) || undefined;
 	} catch (err) {
 		console.error("Error normalizing OG image src:", err);
 		return undefined;
@@ -150,8 +157,6 @@ const isImageUrl = (url?: string) => {
 		return false;
 	}
 };
-
-// --- Fonts ---
 
 async function getFontFromGoogle(name: string, weight: number): Promise<SatoriOptions["fonts"][0]> {
 	const validWeight = weight < 100 || weight > 900 || !Number.isFinite(weight) ? 400 : weight;
@@ -197,8 +202,6 @@ const getOgFontsCached = () => {
 	if (!ogFontsPromise) ogFontsPromise = getOgFonts();
 	return ogFontsPromise;
 };
-
-// --- Layout Builders ---
 
 const buildAuthorBlock = (author: string, size: number) => {
 	if (!author && !logo_src) return null;
@@ -477,8 +480,6 @@ const buildOgImage = ({
 	};
 };
 
-// --- Main Handler ---
-
 export async function GET(context: APIContext) {
 	const {
 		params: { slug },
@@ -501,7 +502,6 @@ export async function GET(context: APIContext) {
 		post = await getPostBySlug(keyStr!);
 	}
 
-	// Prepare Content
 	let title = siteInfo.title;
 	let desc = "";
 	let dateStr = " ";
@@ -512,7 +512,6 @@ export async function GET(context: APIContext) {
 	let needsImageNormalization = false;
 	let img: string | undefined = undefined;
 
-	// Determine Data based on Type
 	if (isPost) {
 		title = post?.Title
 			? post.Slug == HOME_PAGE_SLUG
@@ -535,7 +534,6 @@ export async function GET(context: APIContext) {
 		if (hasValidImg) needsImageNormalization = true;
 		desc = (OG_SETUP["excerpt"] && post?.Excerpt) || "";
 
-		// Layout Logic
 		if (OG_SETUP["columns"] == 1 && hasValidImg) layout = "bg";
 		else if (OG_SETUP["columns"] && hasValidImg) layout = "split";
 		else layout = "simple";
@@ -552,7 +550,6 @@ export async function GET(context: APIContext) {
 		desc = (props as any)?.description || "";
 		const photo = (props as any)?.photo;
 		if (photo && isImageUrl(photo)) needsImageNormalization = true;
-		// Author Page Layout: Always split if image exists, regardless of desc
 		layout = photo && isImageUrl(photo) ? "split" : "simple";
 		author = ""; // Author name is in title
 	} else if (type === "tagsindex") {
@@ -566,10 +563,7 @@ export async function GET(context: APIContext) {
 		title = "All posts in one place";
 	}
 
-	// Cache reuse behavior:
-	// - Post pages: reuse if the post wasn't edited after LAST_BUILD_TIME and image exists.
-	// - Collection/tag/author pages: reuse if the *data source* wasn't edited after LAST_BUILD_TIME and image exists.
-	// - Index pages: same data source check (and file exists).
+	// Reuse images whose source predates the last build.
 	const canConsiderReuse = !!LAST_BUILD_TIME && fs.existsSync(imagePath);
 	if (canConsiderReuse) {
 		if (isPost) {
@@ -602,10 +596,13 @@ export async function GET(context: APIContext) {
 		}
 	}
 
-	// Only resolve/normalize image sources when we actually need to (regeneration path).
 	if (needsImageNormalization) {
 		if (isPost) {
-			img = await normalizeOgImageSrc(featuredUrlStr);
+			img = await normalizeOgImageSrc(featuredUrlStr, "featured", {
+				w: 1200,
+				h: 630,
+				fit: layout === "bg" ? "cover" : "inside",
+			});
 		} else if (type === "authorpage") {
 			const photo = (props as any)?.photo;
 			if (photo && isImageUrl(photo)) {
@@ -617,10 +614,9 @@ export async function GET(context: APIContext) {
 	const fonts = await getOgFontsCached();
 	const ogOptions: SatoriOptions = { width: 1200, height: 630, fonts };
 
-	// Generate
 	const markup = buildOgImage({ title, date: dateStr, desc, img, author, layout });
 
-	// Fallback markup (always simple layout) in case of Satori failure with images
+	// Retry without an image if Satori rejects the markup.
 	const fallbackMarkup = buildOgImage({
 		title,
 		date: dateStr,

@@ -5,13 +5,6 @@ import { HIDE_UNDERSCORE_SLUGS_IN_LISTS } from "@/constants";
 import { getCollections, slugify } from "@/utils";
 import type { Post, FileObject, Emoji } from "@/lib/interfaces";
 
-// Static "go-to" index consumed by the search popup's "/" path-search mode.
-// It lists every navigable page — posts, pages, collection indexes and tag
-// pages — so the runtime can match on title AND path without touching the
-// Pagefind content index. Each entry is intentionally small:
-//   { t: title, u: url, k: kind, e?: excerpt, ie?: iconEmoji, im?: iconImage }
-// Pages render a generic bookmark glyph; posts carry their own Notion icon;
-// tags/collections carry none. Excerpt (when present) is shown as the subtext.
 type GotoKind = "page" | "post" | "tag" | "collection";
 interface GotoItem {
 	t: string;
@@ -30,21 +23,11 @@ const resolveIcon = async (
 	if ("Url" in icon && icon.Url) {
 		try {
 			const downloaded = await getNotionImage(new URL(icon.Url));
-			if (!downloaded) return { im: icon.Url };
-			// Reference an emitted asset, not the raw original `.src`. Raster
-			// originals (.png/.jpg) are never written to the build output, so
-			// `downloaded.src` would 404. Use the SAME width:48 params as
-			// PagefindIconMetadata so both resolve to the identical hashed
-			// variant — that component emits it into each post's HTML, which is
-			// what the image-cache cleaner scans, so the file is preserved in
-			// dist and this JSON reference stays valid.
-			try {
-				return { im: (await getImage({ src: downloaded, width: 48 })).src };
-			} catch {
-				return { im: downloaded.src || icon.Url };
-			}
+			if (!downloaded) return {};
+			// Raw raster imports are not emitted to dist.
+			return { im: (await getImage({ src: downloaded, width: 48 })).src };
 		} catch {
-			return { im: icon.Url };
+			return {};
 		}
 	}
 	return {};
@@ -65,8 +48,6 @@ export const GET = async () => {
 		return filtered.filter((entry) => !entry.IsExternal || !!entry.ExternalContent);
 	};
 
-	// Posts keep their own Notion icon (downloaded at build time); pages fall back
-	// to the generic bookmark glyph, so we only resolve icons for posts.
 	const postItems: GotoItem[] = await Promise.all(
 		filterEntries(posts).map(async (entry): Promise<GotoItem> => ({
 			t: entry.Title,

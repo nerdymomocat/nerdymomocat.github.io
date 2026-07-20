@@ -1,23 +1,4 @@
-/**
- * RichText Utilities
- *
- * Shared utility functions for manipulating Notion RichText objects.
- * These functions are used across footnotes, citations, and content extraction.
- *
- * Key principles:
- * - Preserve ALL formatting (bold, italic, colors, etc.)
- * - Perform safe splitting and cloning
- * - Optimize for performance (minimal allocations)
- */
-
 import type { Block, RichText, RichTextLocation } from "../lib/interfaces";
-
-// ============================================================================
-// Text Extraction Utilities
-// ============================================================================
-
-// Joins plain text from RichText array without adding separators
-// Spaces are already included in each RichText.PlainText from Notion
 export function joinPlainText(richTexts: RichText[]): string {
 	return richTexts.map((rt) => rt.PlainText).join("");
 }
@@ -74,10 +55,6 @@ export function resolveLeadingMarker(
 	return result;
 }
 
-// ============================================================================
-// RichText Cloning
-// ============================================================================
-
 /**
  * Deep clones a RichText object, preserving all annotation properties
  * CRITICAL: Must preserve Bold, Italic, Color, Code, etc.
@@ -111,10 +88,6 @@ export function cloneRichText(richText: RichText): RichText {
 		...(richText.InternalHref ? { InternalHref: { ...richText.InternalHref } } : {}),
 	};
 }
-
-// ============================================================================
-// RichText Splitting and Range Extraction
-// ============================================================================
 
 /**
  * Splits a RichText array at a specific character position
@@ -234,10 +207,6 @@ export function extractRichTextRange(
 
 	return result;
 }
-
-// ============================================================================
-// Block Utilities
-// ============================================================================
 
 /**
  * Gets all RichText array locations within a block

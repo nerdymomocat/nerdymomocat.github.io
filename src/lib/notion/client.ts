@@ -112,7 +112,6 @@ let workspaceCustomEmojiPromise: Promise<void> | null = null;
 let allTagsWithCountsCache:
 	{ name: string; count: number; description: string; color: string }[] | null = null;
 
-// Authors: Cache for authors with counts
 let allAuthorsWithCountsCache:
 	| {
 			name: string;
@@ -125,23 +124,14 @@ let allAuthorsWithCountsCache:
 	  }[]
 	| null = null;
 
-// Authors: Track if Authors property exists in database schema
 let authorsPropertyExistsCache: boolean | null = null;
 
-// Footnotes: Adjusted config (set once at module initialization, includes permission fallback)
 export let adjustedFootnotesConfig: any = null;
 
-// Footnotes: Track initialization promise to ensure it only runs once
 let initializationPromise: Promise<void> | null = null;
 
-// Citations: Module-level cache for BibTeX entries
-// Now loaded from cache created by citations-initializer integration
 let bibEntriesCache: Map<string, ParsedCitationEntry> | null = null;
 
-/**
- * Initialize footnotes config once at module load
- * This checks permissions and applies fallback if needed
- */
 async function initializeFootnotesConfig(): Promise<void> {
 	// Return existing promise if already initializing/initialized
 	if (initializationPromise) {
