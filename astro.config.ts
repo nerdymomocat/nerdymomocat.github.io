@@ -61,20 +61,17 @@ function modifyRedirectPaths(
 ): Record<string, string> {
 	const modifiedRedirects: Record<string, string> = {};
 
-	// Normalize basePath: ensure it starts with "/" and remove trailing slash.
 	if (!basePath.startsWith("/")) {
 		basePath = "/" + basePath;
 	}
 	basePath = basePath.replace(/\/+$/, ""); // remove trailing slashes
 
 	for (const [key, value] of Object.entries(redirects)) {
-		// If it's an external URL, leave it unchanged.
 		if (value.startsWith("http://") || value.startsWith("https://")) {
 			modifiedRedirects[key] = value;
 			continue;
 		}
 
-		// Ensure value starts with a slash.
 		let normalizedValue = value.startsWith("/") ? value : "/" + value;
 		modifiedRedirects[key] = path.posix.join(basePath, normalizedValue);
 	}
@@ -175,7 +172,6 @@ export default defineConfig({
 		CustomIconDownloader(),
 		CSSWriter(),
 		partytown({
-			// Adds dataLayer.push as a forwarding-event.
 			config: {
 				forward: ["dataLayer.push"],
 			},
@@ -202,9 +198,6 @@ export default defineConfig({
 				"custom-components": path.resolve("./src/components/custom-components"),
 				"@custom-components": path.resolve("./src/components/custom-components"),
 			},
-		},
-		optimizeDeps: {
-			exclude: ["@resvg/resvg-js"],
 		},
 	},
 });

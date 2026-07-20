@@ -1,21 +1,3 @@
-/**
- * Citations Extraction System
- *
- * This module contains ALL citation extraction logic for Webtrotion.
- * It handles:
- * - Fetching BibTeX files from GitHub, Dropbox, Google Drive
- * - Parsing BibTeX entries using citation-js
- * - Extracting citations from text ([@key], \cite{key}, #cite(key))
- * - Formatting citations as APA or IEEE
- * - Generating bibliographies
- *
- * Key principles:
- * - Preserve ALL RichText formatting (bold, italic, colors, etc.)
- * - Process at BUILD-TIME only (in client.ts)
- * - Components have ZERO logic, only render pre-processed data
- * - Cache BibTeX files with timestamp checking
- */
-
 import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
@@ -45,19 +27,6 @@ import { BUILD_FOLDER_PATHS, LAST_BUILD_TIME, BIBLIOGRAPHY_STYLE } from "../cons
 // Keep the existing simplified-ieee setting, backed by the public ACM SIG Proceedings CSL style.
 plugins.config.get("@csl").styles.add("simplified-ieee", acmSigProceedingsStyle);
 
-// ============================================================================
-// URL Normalization and Source Detection
-// ============================================================================
-
-/**
- * Converts a share link to a direct-download URL and provides timestamp checking info
- *
- * Supports:
- * - GitHub Gist: https://gist.github.com/user/id
- * - GitHub Repo: https://github.com/user/repo/blob/branch/path/file.bib
- * - Dropbox: https://www.dropbox.com/scl/fi/.../file.bib?dl=0
- * - Google Drive: https://drive.google.com/file/d/FILE_ID/view
- */
 export function get_bib_source_info(url: string): BibSourceInfo {
 	// GitHub Gist
 	const gistMatch = url.match(/gist\.github\.com\/([^\/]+)\/([a-f0-9]+)/);
@@ -114,14 +83,6 @@ export function get_bib_source_info(url: string): BibSourceInfo {
 	};
 }
 
-// ============================================================================
-// BibTeX File Fetching with Caching
-// ============================================================================
-
-/**
- * Gets last-updated timestamp for a GitHub source
- * Returns null if unavailable or on error
- */
 async function getGitHubLastUpdated(updatedUrl: string): Promise<string | null> {
 	try {
 		const response = await axios.get(updatedUrl, { timeout: 5000 });
@@ -214,10 +175,6 @@ export async function fetchBibTeXFile(url: string): Promise<string> {
 		throw error;
 	}
 }
-
-// ============================================================================
-// BibTeX Parsing and Formatting
-// ============================================================================
 
 function renderBibliography(data: any, template: "apa" | "simplified-ieee"): string {
 	return new Cite([data])

@@ -62,19 +62,11 @@ export async function getMenu(): Promise<
 		if ("Url" in icon && icon.Url) {
 			try {
 				const downloaded = await getNotionImage(new URL(icon.Url));
-				if (!downloaded) return { image: icon.Url };
-				// Emit an optimized asset instead of the raw original `.src`: this
-				// value is placed in a plain `data-page-icon-image` attribute (not an
-				// <Image>/<img>), so raster originals are never written to the build
-				// and would 404 in the search go-to nav. width:48 matches
-				// PagefindIconMetadata so both share one emitted variant.
-				try {
-					return { image: (await getImage({ src: downloaded, width: 48 })).src };
-				} catch {
-					return { image: downloaded.src || icon.Url };
-				}
+				if (!downloaded) return undefined;
+				// Raw raster imports are not emitted to dist.
+				return { image: (await getImage({ src: downloaded, width: 48 })).src };
 			} catch {
-				return { image: icon.Url };
+				return undefined;
 			}
 		}
 		return undefined;
@@ -89,7 +81,6 @@ export async function getMenu(): Promise<
 	const rankedPages = pages
 		.map((page) => ({
 			...page,
-			// Assign rank -1 to homePageSlug and 99 to pages with no rank
 			Rank:
 				page.Slug === HOME_PAGE_SLUG
 					? -1
