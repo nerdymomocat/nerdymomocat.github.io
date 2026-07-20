@@ -97,9 +97,22 @@ function collectMatchedTerms(resultData: PagefindResultData[]): string[] {
 // helpful cases (typos like "blockz"→"block", as-you-type, stemming) but drop the
 // noise: a query word is genuine when a matched term begins with it (exact / prefix /
 // inflected form present), or when Pagefind only had to shave off a small fraction of
-// the word. A query is genuine if any of its words is.
+// the word. A query is genuine only if ~80% of its words are — so one real word among
+// a pile of gibberish ("this com dfvfd sefegyhsrdzg") is treated as noise, while a
+// single typo in an otherwise-real multi-word query still passes.
 const MIN_TRUNCATED_PREFIX = 3;
 const MIN_TRUNCATED_RATIO = 0.67;
+const MIN_GENUINE_RATIO = 0.8;
+function isGenuineWord(word: string, matched: string[]): boolean {
+	if (matched.some((mark) => mark.startsWith(word))) return true;
+	let longestPrefix = 0;
+	for (const mark of matched) {
+		if (word.startsWith(mark) && mark.length > longestPrefix) longestPrefix = mark.length;
+	}
+	return (
+		longestPrefix >= MIN_TRUNCATED_PREFIX && longestPrefix / word.length >= MIN_TRUNCATED_RATIO
+	);
+}
 function isGenuineQuery(term: string, resultData: PagefindResultData[]): boolean {
 	const words = term
 		.split(/\s+/)
@@ -109,20 +122,8 @@ function isGenuineQuery(term: string, resultData: PagefindResultData[]): boolean
 	if (!resultData.length) return false;
 	const matched = collectMatchedTerms(resultData);
 	if (!matched.length) return false;
-	for (const word of words) {
-		if (matched.some((mark) => mark.startsWith(word))) return true;
-		let longestPrefix = 0;
-		for (const mark of matched) {
-			if (word.startsWith(mark) && mark.length > longestPrefix) longestPrefix = mark.length;
-		}
-		if (
-			longestPrefix >= MIN_TRUNCATED_PREFIX &&
-			longestPrefix / word.length >= MIN_TRUNCATED_RATIO
-		) {
-			return true;
-		}
-	}
-	return false;
+	const genuine = words.filter((word) => isGenuineWord(word, matched)).length;
+	return genuine / words.length >= MIN_GENUINE_RATIO;
 }
 
 class WebtrotionSearchNavigation extends HTMLElement {

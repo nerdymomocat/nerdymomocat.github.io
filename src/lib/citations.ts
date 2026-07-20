@@ -219,25 +219,47 @@ export async function fetchBibTeXFile(url: string): Promise<string> {
 // BibTeX Parsing and Formatting
 // ============================================================================
 
-/**
- * Formats a BibTeX entry using citation-js
- */
+function renderBibliography(data: any, template: "apa" | "simplified-ieee"): string {
+	return new Cite([data])
+		.format("bibliography", { format: "html", template, lang: "en-US" })
+		.replace(/<div[^>]*>|<\/div>/g, "")
+		.trim();
+}
+
+// Private-use sentinels wrapped around the raw title before rendering. citeproc passes
+// them through untouched (surviving its HTML-entity escaping and smart-quote/italic
+// transforms), so a single render + one replace links only the title in the source URL —
+// no second render, no matching against a stored title.
+const TITLE_START = "\uE000";
+const TITLE_END = "\uE001";
+
 function formatBibEntry(
 	entry: any,
 	template: "apa" | "simplified-ieee",
 	authors: string,
 	year: string,
+	url?: string,
 ): string {
 	try {
 		const entryForFormatting = { ...entry };
 		delete entryForFormatting.URL;
-		const cite = new Cite([entryForFormatting]);
-		const formatted = cite.format("bibliography", {
-			format: "html",
-			template,
-			lang: "en-US",
-		});
-		return formatted.replace(/<div[^>]*>|<\/div>/g, "").trim();
+		if (url && entryForFormatting.title) {
+			// Strip any pre-existing sentinels (e.g. icon-font glyphs in the title) so the
+			// only occurrences in the rendered output are the ones we inject here.
+			const rawTitle = String(entryForFormatting.title).replace(
+				new RegExp(`[${TITLE_START}${TITLE_END}]`, "g"),
+				"",
+			);
+			entryForFormatting.title = `${TITLE_START}${rawTitle}${TITLE_END}`;
+		}
+		const formatted = renderBibliography(entryForFormatting, template);
+		if (!url) return formatted;
+		const href = url.replace(/&/g, "&amp;").replace(/"/g, "&quot;");
+		return formatted.replace(
+			new RegExp(`${TITLE_START}([\\s\\S]*?)${TITLE_END}`),
+			(_match, title) =>
+				`<a href="${href}" target="_blank" rel="noopener noreferrer" class="text-link site-page-link decoration-solid">${title}</a>`,
+		);
 	} catch (error) {
 		console.warn(`Failed to format ${template.toUpperCase()} citation for ${entry.id}:`, error);
 		const title = entry.title || "Untitled";
@@ -289,8 +311,8 @@ function parseAndFormatBibTeXContent(content: string): Map<string, ParsedCitatio
 			}
 		}
 
-		const ieeeFormatted = formatBibEntry(entry, "simplified-ieee", authors, year);
-		const apaFormatted = formatBibEntry(entry, "apa", authors, year);
+		const ieeeFormatted = formatBibEntry(entry, "simplified-ieee", authors, year, url);
+		const apaFormatted = formatBibEntry(entry, "apa", authors, year, url);
 
 		entries.set(key, {
 			key,

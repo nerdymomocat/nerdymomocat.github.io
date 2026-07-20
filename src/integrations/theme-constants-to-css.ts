@@ -1575,7 +1575,6 @@ ${createCssVariables("dark")}
     --wt-preview-col: 22rem;
     --wt-preview-shift: calc(var(--wt-preview-col) / 2);
     --wt-modal-tx: 0px;
-    --wt-height-compact: min(32rem, calc(100vh - 5rem));
     --wt-height-results: min(40rem, calc(100vh - 4rem));
     --wt-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
     --wt-icon-default-tint: color-mix(in srgb, var(--color-accent-2) 62%, var(--pf-muted));
@@ -1601,7 +1600,7 @@ ${createCssVariables("dark")}
     margin: var(--pf-modal-top, 10dvh) auto;
     width: var(--wt-results-col);
     max-width: calc(100vw - 3rem);
-    height: var(--wt-height-compact);
+    height: var(--wt-height-results);
     max-height: calc(100vh - 4rem);
     border: 1px solid var(--webtrotion-search-rule);
     box-shadow: var(--pf-shadow);
@@ -1633,7 +1632,7 @@ ${createCssVariables("dark")}
   }
 
   site-search .search-loading-input {
-    @apply flex h-12 items-center gap-2 rounded-md px-3.5 text-base;
+    @apply flex h-12 items-center gap-2 rounded-md px-3.5 text-sm;
     border: 1px solid var(--pf-border);
     background: color-mix(in srgb, var(--color-bgColor) 94%, var(--color-textColor) 2%);
     color: color-mix(in srgb, var(--color-textColor) 42%, transparent);
@@ -1747,10 +1746,10 @@ ${createCssVariables("dark")}
   }
 
   site-search .pf-input {
-    @apply h-12! min-h-12! rounded-md px-10! text-base text-textColor;
+    @apply h-12! min-h-12! rounded-md px-10! text-sm text-textColor;
     border: 1px solid var(--pf-border) !important;
     background: color-mix(in srgb, var(--color-bgColor) 94%, var(--color-textColor) 2%) !important;
-    font: inherit;
+    font-family: inherit;
     box-shadow: inset 0 0 0 1px transparent;
   }
 
@@ -2358,12 +2357,12 @@ ${createCssVariables("dark")}
   }
 
   .webtrotion-search-preview-excerpt {
-    @apply mt-3 line-clamp-5 text-sm leading-normal;
+    @apply mt-3 line-clamp-8 text-sm leading-normal;
     overflow-wrap: anywhere;
   }
 
   .webtrotion-search-preview[data-preview-kind="subresult"] .webtrotion-search-preview-excerpt {
-    @apply line-clamp-6;
+    @apply line-clamp-none;
   }
 
   .webtrotion-search-preview-context {
@@ -2398,12 +2397,12 @@ ${createCssVariables("dark")}
   }
 
   .webtrotion-search-preview-sections p {
-    @apply mt-1 line-clamp-3 text-xs leading-snug;
+    @apply mt-1 line-clamp-4 text-xs leading-snug;
     color: var(--pf-muted);
   }
 
   .webtrotion-search-preview-related-sections p {
-    @apply line-clamp-2;
+    @apply line-clamp-3;
   }
 
   .webtrotion-search-skeleton,
@@ -2473,16 +2472,6 @@ ${createCssVariables("dark")}
     @apply inline-flex h-4.5 min-w-4.5 items-center justify-center rounded font-mono text-xs font-bold leading-none;
     border: 1px solid color-mix(in srgb, var(--color-textColor) 20%, transparent);
     background: color-mix(in srgb, var(--color-textColor) 4%, transparent);
-    color: color-mix(in srgb, var(--color-textColor) 82%, transparent);
-  }
-
-  .webtrotion-search-navigation-hints kbd.webtrotion-search-arrow-key {
-    @apply font-mono text-xs font-bold leading-none;
-  }
-
-  .webtrotion-search-navigation-hints kbd.webtrotion-search-symbol-key,
-  .webtrotion-search-navigation-hints kbd.webtrotion-search-platform-modifier {
-    @apply font-mono text-xs font-bold leading-none;
     color: color-mix(in srgb, var(--color-textColor) 82%, transparent);
   }
 
@@ -2583,7 +2572,7 @@ ${createCssVariables("dark")}
 
     .webtrotion-search-preview-slot:not([data-preview-collapsed])
       webtrotion-search-preview[data-preview-active] {
-      height: 34dvh;
+      height: 20dvh;
     }
 
     .webtrotion-search-preview-slot[data-preview-collapsed] webtrotion-search-preview {
@@ -2594,7 +2583,6 @@ ${createCssVariables("dark")}
   @media (max-width: 639.98px) {
     site-search {
       --wt-modal-top-m: max(2rem, 5dvh);
-      --wt-height-compact: 64dvh;
       --wt-height-results: 64dvh;
     }
 
@@ -2624,7 +2612,7 @@ ${createCssVariables("dark")}
     }
 
     site-search .pf-input {
-      @apply min-h-11 px-9 text-base;
+      @apply min-h-11 px-9 text-sm;
     }
 
     .webtrotion-search-filters {
@@ -2682,6 +2670,10 @@ ${createCssVariables("dark")}
       @apply animate-none;
       transition: opacity 160ms ease;
       transform: none !important;
+    }
+
+    .webtrotion-search-preview-slot webtrotion-search-preview {
+      transition: none;
     }
   }
 

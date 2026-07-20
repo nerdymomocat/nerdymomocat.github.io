@@ -54,19 +54,8 @@ const { citations } = Astro.props;
 						</button>
 
 						<div class="citation-entry">
-							{/* Formatted bibliography entry */}
-							{citation.Url ? (
-								<a
-									href={citation.Url}
-									target="_blank"
-									rel="noopener noreferrer"
-									class="text-link site-page-link decoration-solid"
-								>
-									<span set:html={citation.FormattedEntry} />
-								</a>
-							) : (
-								<span set:html={citation.FormattedEntry} />
-							)}
+							{/* Formatted bibliography entry (title links to the source URL) */}
+							<span set:html={citation.FormattedEntry} />
 
 							{/* Backlinks with symbols using NBlocksPopover */}
 							{citation.SourceBlocks && citation.SourceBlocks.length > 0 && (

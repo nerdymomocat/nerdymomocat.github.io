@@ -271,7 +271,7 @@ function renderCitationsMarkdown(citations: Citation[]): string {
 			? turndown.turndown(citation.FormattedEntry).trim()
 			: "";
 		const base = formatted || citation.Key || `Citation ${index + 1}`;
-		const urlSuffix = citation.Url ? ` (${citation.Url})` : "";
+		const urlSuffix = citation.Url && !formatted.includes(citation.Url) ? ` (${citation.Url})` : "";
 
 		if (BIBLIOGRAPHY_STYLE === "simplified-ieee") {
 			return `${index + 1}. ${base}${urlSuffix}`;
