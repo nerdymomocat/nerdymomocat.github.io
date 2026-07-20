@@ -71,10 +71,21 @@ const getDataSourceCached = () => {
 
 // --- Image Processing ---
 
-const imageToDataUrl = async (filepath: string, resize?: { w: number; h: number }) => {
+type ImageResize = {
+	w: number;
+	h: number;
+	fit: "cover" | "inside";
+};
+
+const imageToDataUrl = async (filepath: string, resize?: ImageResize) => {
 	try {
 		let pipeline = sharp(filepath);
-		if (resize) pipeline = pipeline.resize(resize.w, resize.h);
+		if (resize) {
+			pipeline = pipeline.resize(resize.w, resize.h, {
+				fit: resize.fit,
+				withoutEnlargement: true,
+			});
+		}
 		const buffer = await pipeline.png().toBuffer();
 		return `data:image/png;base64,${buffer.toString("base64")}`;
 	} catch (err) {
@@ -106,12 +117,13 @@ const logo_src =
 	logo?.Type === "external" && !shouldUseLocalLogo
 		? logoUrl
 		: siteInfo.logo && customIconURL
-			? await imageToDataUrl(customIconURL, { w: 30, h: 30 })
+			? await imageToDataUrl(customIconURL, { w: 30, h: 30, fit: "inside" })
 			: null;
 
 const normalizeOgImageSrc = async (
 	urlStr: string | undefined,
 	mode: "featured" | "author" = "featured",
+	resize: ImageResize = { w: 1200, h: 630, fit: "inside" },
 ): Promise<string | undefined> => {
 	if (!urlStr) return undefined;
 	try {
@@ -126,10 +138,10 @@ const normalizeOgImageSrc = async (
 			}
 			const publicPath = generateFilePath(publicPathUrl, false);
 			if (fs.existsSync(publicPath)) {
-				return (await imageToDataUrl(publicPath)) || publicPath;
+				return (await imageToDataUrl(publicPath, resize)) || publicPath;
 			}
 			const savedPath = await downloadFile(url, false, false, true);
-			return savedPath ? (await imageToDataUrl(savedPath)) || savedPath : undefined;
+			return savedPath ? (await imageToDataUrl(savedPath, resize)) || savedPath : undefined;
 		}
 
 		// Author mode
@@ -605,7 +617,11 @@ export async function GET(context: APIContext) {
 	// Only resolve/normalize image sources when we actually need to (regeneration path).
 	if (needsImageNormalization) {
 		if (isPost) {
-			img = await normalizeOgImageSrc(featuredUrlStr);
+			img = await normalizeOgImageSrc(featuredUrlStr, "featured", {
+				w: 1200,
+				h: 630,
+				fit: layout === "bg" ? "cover" : "inside",
+			});
 		} else if (type === "authorpage") {
 			const photo = (props as any)?.photo;
 			if (photo && isImageUrl(photo)) {
